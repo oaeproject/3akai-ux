@@ -105,14 +105,9 @@ body {
 @secondary-text-color: #827E7D;
 
 body, button, input, select, textarea,
-.btn > i, a.oae-plain-link,
+.btn > .fa, a.oae-plain-link,
 .popover-content, .popover-content button:not(.btn),
-h1 [class^="icon-"], h1 [class*=" icon-"],
-h2 [class^="icon-"], h2 [class*=" icon-"],
-h3 [class^="icon-"], h3 [class*=" icon-"],
-h4 [class^="icon-"], h4 [class*=" icon-"],
-h5 [class^="icon-"], h5 [class*=" icon-"],
-h6 [class^="icon-"], h6 [class*=" icon-"] {
+h1 .fa, h2 .fa, h3 .fa, h4 .fa, h5 .fa, h6 .fa {
     color: @text-color;
 }
 
@@ -202,8 +197,7 @@ a:hover, .btn-link:hover {
     background-color: @button-primary-gradient2-color;
 }
 
-.btn.btn-primary [class^=icon-],
-.btn.btn-primary [class*=" icon-"] {
+.btn.btn-primary .fa {
     color: @button-primary-text-color;
 }
 
@@ -326,18 +320,13 @@ a:hover, .btn-link:hover {
 /* Icon button hover color */
 @button-icon-hover-color: #555;
 
-[class^="icon-"], [class*=" icon-"],
-.btn.btn-link [class^="icon-"], .btn.btn-link [class*=" icon-"] {
+.fa, .btn.btn-link .fa {
    color: @button-icon-color;
 }
 
-[class^="icon-"].active, [class*=" icon-"].active,
-[class^="icon-"]:hover, [class*=" icon-"]:hover,
-[class^="icon-"]:focus, [class*=" icon-"]:focus,
-[class^="icon-"].selected, [class*=" icon-"].selected,
-.btn-link [class^="icon-"].active, .btn-link:hover [class*=" icon-"].active,
-.btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"],
-.btn-link:focus [class^="icon-"], .btn-link:focus [class*=" icon-"] {
+.fa.active, .fa:hover, .fa:focus, .fa.selected,
+.btn-link .fa.active, .btn-link:hover .fa, .btn-link:focus .fa,
+input[type="radio"]:checked+.fa {
     color: @button-icon-hover-color;
 }
 
@@ -390,22 +379,7 @@ a:hover, .btn-link:hover {
 /* Selected form field color */
 @form-selected-color: rgba(82, 168, 236, 0.8);
 
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="date"],
-input[type="month"],
-input[type="time"],
-input[type="week"],
-input[type="number"],
-input[type="email"],
-input[type="url"],
-input[type="search"],
-input[type="tel"],
-input[type="color"],
-.uneditable-input,
+.form-control,
 ul.as-selections,
 #recaptcha_image img {
     border-color: @form-border-color;
@@ -414,31 +388,12 @@ ul.as-selections,
             box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
-textarea:focus,
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="datetime"]:focus,
-input[type="datetime-local"]:focus,
-input[type="date"]:focus,
-input[type="month"]:focus,
-input[type="time"]:focus,
-input[type="week"]:focus,
-input[type="number"]:focus,
-input[type="email"]:focus,
-input[type="url"]:focus,
-input[type="search"]:focus,
-input[type="tel"]:focus,
-input[type="color"]:focus,
-.uneditable-input:focus,
+.form-control:focus,
 ul.as-selections.as-selections-focus {
     border-color: @form-selected-color;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
             box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
-}
-
-.recaptchatable #recaptcha_response_field {
-    border-color: @form-border-color !important;
 }
 
 
@@ -576,15 +531,15 @@ ul.as-selections.as-selections-focus {
     background-color: @lhnav-item-background-color;
 }
 
-.nav > li:hover,
-.nav > li > a:hover,
-.nav > li > a:focus,
-.nav > li > a:hover i,
-.nav > li > a:focus i,
-.nav > li > button:hover,
-.nav > li > button:focus,
-.nav > li > button:hover i,
-.nav > li > button:focus i {
+.nav > li:not(.nav-header):hover,
+.nav > li:not(.nav-header) > a:hover,
+.nav > li:not(.nav-header) > a:focus,
+.nav > li:not(.nav-header) > a:hover i,
+.nav > li:not(.nav-header) > a:focus i,
+.nav > li:not(.nav-header) > button:hover,
+.nav > li:not(.nav-header) > button:focus,
+.nav > li:not(.nav-header) > button:hover i,
+.nav > li:not(.nav-header) > button:focus i {
     color: @lhnav-item-text-hover-color;
     background-color: @lhnav-item-background-hover-color;
 }
@@ -642,101 +597,115 @@ ul.as-selections.as-selections-focus {
 }
 
 
-/****************************
- ** @section  Autosuggest **
- ****************************/
+/*********************
+ ** @section  Pills **
+ *********************/
 
-/* @subsection  Active item */
+/* @subsection  Active pill */
 
-/* Active item text color */
-@as-item-active-color: #2B3840;
-/* Active item border color */
-@as-item-active-border-color: #ACC3EC;
-/* Active item background gradient primary color */
-@as-item-active-gradient1-color: #DDEEFE;
-/* Active item background gradient secondary color */
-@as-item-active-gradient2-color: #BFE0F1;
+/* Active pill text color */
+@pill-active-color: #2B3840;
+/* Active pill border color */
+@pill-active-border-color: #ACC3EC;
+/* Active pill background gradient primary color */
+@pill-active-gradient1-color: #DDEEFE;
+/* Active pill background gradient secondary color */
+@pill-active-gradient2-color: #BFE0F1;
 
-/* Active item hover text color */
-@as-item-active-hover-color: #2B3840;
-/* Active item hover border color */
-@as-item-active-hover-border-color: #ACC3EC;
-/* Active item hover background gradient primary color */
-@as-item-active-hover-gradient1-color: #DDEEFE;
-/* Active item hover background gradient secondary color */
-@as-item-active-hover-gradient2-color: #BFE0F1;
+/* Active pill hover text color */
+@pill-active-hover-color: #2B3840;
+/* Active pill hover border color */
+@pill-active-hover-border-color: #ACC3EC;
+/* Active pill hover background gradient primary color */
+@pill-active-hover-gradient1-color: #DDEEFE;
+/* Active pill hover background gradient secondary color */
+@pill-active-hover-gradient2-color: #BFE0F1;
+
+.oae-pill.oae-pill-active {
+    .background-gradient-two(@pill-active-gradient1-color, @pill-active-gradient2-color);
+    border-color: @pill-active-border-color;
+    color: @pill-active-color;
+}
+
+.oae-pill.oae-pill-active:hover {
+    .background-gradient-two(@pill-active-hover-gradient1-color, @pill-active-hover-gradient2-color);
+    border-color: @pill-active-hover-border-color;
+    color: @pill-active-hover-color;
+}
+
+/* @subsection  Ghost pill */
+
+/* Ghost pill text color */
+@pill-ghost-color: #666;
+/* Ghost pill border color */
+@pill-ghost-border-color: #BBB;
+/* Ghost pill background gradient primary color */
+@pill-ghost-gradient1-color: #FFF;
+/* Ghost pill background gradient secondary color */
+@pill-ghost-gradient2-color: #FFF;
+
+/* Ghost pill hover text color */
+@pill-ghost-hover-color: #666;
+/* Ghost pill hover border color */
+@pill-ghost-hover-border-color: #BBB;
+
+/* The autosuggest plugin will add the `selected` class to a ghost item when the user
+   hits backspace or escape just after the ghost item. Suppress those styles unless the
+   item really is selected */
+
+.oae-pill.oae-pill-ghost {
+    .background-gradient-two(@pill-ghost-gradient1-color, @pill-ghost-gradient2-color);
+    border-color: @pill-ghost-border-color;
+    color: @pill-ghost-color;
+}
+
+.oae-pill.oae-pill-ghost:hover {
+    .background-gradient-two(@pill-ghost-gradient1-color, @pill-ghost-gradient2-color);
+    border-color: @pill-ghost-hover-border-color;
+    color: @pill-ghost-hover-color;
+}
+
+
+/*****************
+ ** Autosuggest **
+ *****************/
 
 ul.as-selections li.as-selection-item,
 ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected,
 ul.as-selections.as-selections-focus li.as-selection-item.selected {
-    .background-gradient-two(@as-item-active-gradient1-color, @as-item-active-gradient2-color);
-    color: @as-item-active-color;
-    border-color: @as-item-active-border-color;
+    .background-gradient-two(@pill-active-gradient1-color, @pill-active-gradient2-color);
+    border-color: @pill-active-border-color;
+    color: @pill-active-color;
 }
 
 ul.as-selections li.as-selection-item:hover,
 ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected:hover,
 ul.as-selections.as-selections-focus li.as-selection-item.selected:hover {
-    .background-gradient-two(@as-item-active-hover-gradient1-color, @as-item-active-hover-gradient2-color);
-    color: @as-item-active-hover-color;
-    border-color: @as-item-active-hover-border-color;
+    .background-gradient-two(@pill-active-hover-gradient1-color, @pill-active-hover-gradient2-color);
+    border-color: @pill-active-hover-border-color;
+    color: @pill-active-hover-color;
 }
 
 ul.as-selections li.as-selection-item a.as-close,
 ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close {
-    color: @as-item-active-border-color;
+    color: @pill-active-border-color;
 }
 
 ul.as-selections li.as-selection-item:hover a.as-close,
 ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected:hover a.as-close {
-    color: @as-item-active-hover-border-color;
+    color: @pill-active-hover-border-color;
 }
 
 ul.as-selections li.as-selection-item a.as-close:hover,
 ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close:hover {
-    color: @as-item-active-hover-color;
+    color: @pill-active-hover-color;
 }
 
 ul.as-list li.as-result-item.active {
-    .background-gradient-two(@as-item-active-gradient1-color, @as-item-active-gradient2-color);
+    .background-gradient-two(@pill-active-gradient1-color, @pill-active-gradient2-color);
 }
 
-/* @subsection  Inactive item */
-
-/* Inactive item text color */
-@as-item-blur-color: #666;
-/* Inactive item border color */
-@as-item-blur-border-color: #BBB;
-/* Inactive item background gradient primary color */
-@as-item-blur-gradient1-color: #F4F4F4;
-/* Inactive item background gradient secondary color */
-@as-item-blur-gradient2-color: #D5D5D5;
-
-ul.as-selections li.as-selection-item.blur {
-    .background-gradient-two(@as-item-blur-gradient1-color, @as-item-blur-gradient2-color);
-    color: @as-item-blur-color;
-    border-color: @as-item-blur-border-color;
-}
-
-ul.as-selections li.as-selection-item.blur a.as-close {
-    color: @as-item-blur-border-color;
-}
-
-/* @subsection  Ghost item */
-
-/* Ghost item text color */
-@as-item-ghost-color: #666;
-/* Ghost item border color */
-@as-item-ghost-border-color: #BBB;
-/* Ghost item background gradient primary color */
-@as-item-ghost-gradient1-color: #FFF;
-/* Ghost item background gradient secondary color */
-@as-item-ghost-gradient2-color: #FFF;
-
-/* Ghost item hover text color */
-@as-item-ghost-hover-color: #666;
-/* Ghost item hover border color */
-@as-item-ghost-hover-border-color: #BBB;
+/* Ghost item */
 
 /* The autosuggest plugin will add the `selected` class to a ghost item when the user
    hits backspace or escape just after the ghost item. Suppress those styles unless the
@@ -744,28 +713,28 @@ ul.as-selections li.as-selection-item.blur a.as-close {
 
 ul.as-selections li.as-selection-item.as-ghost-item,
 ul.as-selections li.as-selection-item.as-ghost-item.selected:not(.as-ghost-selected) {
-    .background-gradient-two(@as-item-ghost-gradient1-color, @as-item-ghost-gradient2-color);
-    color: @as-item-ghost-color;
-    border-color: @as-item-ghost-border-color;
+    .background-gradient-two(@pill-ghost-gradient1-color, @pill-ghost-gradient2-color);
+    border-color: @pill-ghost-border-color;
+    color: @pill-ghost-color;
 }
 
 ul.as-selections li.as-selection-item.as-ghost-item:hover,
 ul.as-selections li.as-selection-item.as-ghost-item.selected:not(.as-ghost-selected):hover {
-    .background-gradient-two(@as-item-ghost-gradient1-color, @as-item-ghost-gradient2-color);
-    color: @as-item-ghost-hover-color;
-    border-color: @as-item-ghost-hover-border-color;
+    .background-gradient-two(@pill-ghost-gradient1-color, @pill-ghost-gradient2-color);
+    border-color: @pill-ghost-hover-border-color;
+    color: @pill-ghost-hover-color;
 }
 
 ul.as-selections li.as-selection-item.as-ghost-item a.as-ghost-add i {
-    color: @as-item-ghost-border-color;
+    color: @pill-ghost-border-color;
 }
 
 ul.as-selections li.as-selection-item.as-ghost-item:hover a.as-ghost-add i {
-    color: @as-item-ghost-hover-border-color;
+    color: @pill-ghost-hover-border-color;
 }
 
 ul.as-selections li.as-selection-item.as-ghost-item a.as-ghost-add i:hover {
-    color: @as-item-ghost-hover-color;
+    color: @pill-ghost-hover-color;
 }
 
 
@@ -804,11 +773,11 @@ div.oae-thumbnail {
     background-color: @visibility-toggle-selected2-color;
 }
 
-.oae-large-options-container label.checked i.icon-ok {
+.oae-large-options-container label.checked i.fa-check {
     background-color: @visibility-toggle-selected1-color;
 }
 
-.oae-large-options-container label.checked i.icon-ok:before {
+.oae-large-options-container label.checked i.fa-check:before {
     color: @visibility-toggle-background-color;
 }
 
@@ -966,6 +935,7 @@ div.oae-thumbnail {
 .oae-clip .oae-clip-content,
 .oae-clip .oae-clip-content > button,
 .oae-clip .oae-clip-content ul li button,
+.oae-clip .oae-clip-content ul li a,
 .oae-clip .oae-clip-content i {
     color: @clip-primary-title-color;
 }
@@ -988,7 +958,8 @@ div.oae-thumbnail {
     color: @link-hover-color;
 }
 
-.oae-clip ul li button:hover {
+.oae-clip ul li button:hover,
+.oae-clip ul li a:hover {
     background-color: @clip-primary-gradient2-color;
 }
 

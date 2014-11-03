@@ -35,20 +35,20 @@
                         </div>
                         <div class="oae-clip-content">
                             <button type="button">
-                                ${renderThumbnail(oae.data.me, false, false, false)}
+                                ${renderThumbnail(oae.data.me, displayOptions)}
                                 <div>
                                     <div>
                                         <h1 class="oae-threedots">${oae.data.me.displayName|encodeForHTML}</h1>
-                                        <i class="icon-caret-down"></i>
+                                        <i class="fa fa-caret-down"></i>
                                         <small class="oae-threedots">${oae.data.me.tenant.displayName|encodeForHTML}</small>
                                     </div>
                                 </div>
                             </button>
                             <div>
                                 <ul>
-                                    <li><button class="oae-trigger-changepic"><i class="icon-camera"></i>__MSG__MY_PICTURE__</button></li>
-                                    <li><button class="oae-trigger-editprofile"><i class="icon-user"></i>__MSG__MY_PROFILE__</button></li>
-                                    <li><button class="oae-trigger-accountpreferences"><i class="icon-wrench"></i>__MSG__MY_ACCOUNT__</button></li>
+                                    <li><button class="oae-trigger-changepic"><i class="fa fa-camera"></i>__MSG__MY_PICTURE__</button></li>
+                                    <li><button class="oae-trigger-editprofile"><i class="fa fa-user"></i>__MSG__MY_PROFILE__</button></li>
+                                    <li><button class="oae-trigger-preferences"><i class="fa fa-wrench"></i>__MSG__MY_PREFERENCES__</button></li>
                                 </ul>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                         <div class="oae-clip-content">
                             <button type="button" class="oae-trigger-upload">
                                 <div>
-                                    <i class="icon-cloud-upload pull-left"></i>
+                                    <i class="fa fa-cloud-upload pull-left"></i>
                                     <h1>__MSG__UPLOAD__</h1>
                                 </div>
                             </button>
@@ -79,17 +79,18 @@
                         <div class="oae-clip-content">
                             <button type="button">
                                 <div>
-                                    <i class="icon-plus-sign pull-left"></i>
+                                    <i class="fa fa-plus-circle pull-left"></i>
                                     <h1>__MSG__CREATE__</h1>
-                                    <i class="icon-caret-down"></i>
+                                    <i class="fa fa-caret-down"></i>
                                 </div>
                             </button>
                             <div>
                                 <ul>
-                                    <li><button class="oae-trigger-creategroup"><i class="icon-group"></i>__MSG__GROUP__</button></li>
-                                    <li><button class="oae-trigger-createlink"><i class="icon-link"></i>__MSG__LINK__</button></li>
-                                    <li><button class="oae-trigger-createcollabdoc"><i class="icon-edit"></i>__MSG__DOCUMENT__</button></li>
-                                    <li><button class="oae-trigger-creatediscussion"><i class="icon-comments"></i>__MSG__DISCUSSION__</button></li>
+                                    <li><button class="oae-trigger-creategroup"><i class="fa fa-group"></i>__MSG__GROUP__</button></li>
+                                    <li><button class="oae-trigger-createfolder"><i class="fa fa-folder-open"></i>__MSG__FOLDER__</button></li>
+                                    <li><button class="oae-trigger-createlink"><i class="fa fa-link"></i>__MSG__LINK__</button></li>
+                                    <li><button class="oae-trigger-createcollabdoc"><i class="fa fa-pencil-square-o"></i>__MSG__DOCUMENT__</button></li>
+                                    <li><button class="oae-trigger-creatediscussion"><i class="fa fa-comments"></i>__MSG__DISCUSSION__</button></li>
                                 </ul>
                             </div>
                         </div>

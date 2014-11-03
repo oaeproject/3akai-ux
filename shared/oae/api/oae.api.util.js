@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI) {
+define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdown', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI, markdown) {
 
     /**
      * Initialize all utility functionality.
@@ -61,7 +61,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
     /**
-     * Generate a random ID. This ID generator does not guarantee global uniqueness.
+     * Generate a random id. This id generator does not guarantee global uniqueness.
      * The generated id will have the following format: `oae-<random number>-<random number>`
      *
      * @return {String}         Generated random ID
@@ -79,22 +79,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      */
     var profilePath = exports.profilePath = function(profilePath) {
         return profilePath === require('oae.core').data.me.profilePath ? '/me' : profilePath;
-    };
-
-    /**
-     * Add a cache busting parameter to a URL
-     *
-     * @param  {String}     url     The URL to add the cache busting parameter to
-     * @return {String}             The URL with a cache busting parameter added
-     */
-    var addCacheBust = exports.addCacheBust = function(url) {
-        var $url = $.url(url);
-        // If there are no params we'll get {:''}
-        // https://github.com/allmarkedup/purl/pull/56
-        if (_.isEmpty($url.param()) || $url.param()[''] === '') {
-            return url + '?oaeCacheBust=' + generateId();
-        }
-        return url + '&oaeCacheBust=' + generateId();
     };
 
     /**
@@ -150,7 +134,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
     // Variable that will cache all of the parsed Trimpath templates.
     // This avoids the same template being parsed over and over again
-    var templateCache = [];
+    var templateCache = {};
     // Variable that will be used to cache the OAE Trimpath macros for
     // common HTML structures across different pages. This is currently
     // only being used for rendering list view items
@@ -175,6 +159,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'encodeForURL': function(str) {
                 return security().encodeForURL(str);
             },
+            'encodeMarkdownForHTMLWithLinks': function(str) {
+                return security().encodeMarkdownForHTMLWithLinks(str);
+            },
             'profilePath': function(str) {
                 return profilePath(str);
             }
@@ -189,11 +176,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          */
         var init = function(callback) {
             // Load the activity summary and lists macros through the RequireJS Text plugin
-            require(['text!/shared/oae/macros/activity.html', 'text!/shared/oae/macros/list.html'], function(listMacro, activityMacro) {
+            require(['text!/shared/oae/macros/list.html'], function(listMacro) {
                 // Translate and cache the macros. We require the i18n API here to avoid creating
                 // a cyclic dependency
                 var i18nAPI = require('oae.api.i18n');
-                globalMacros.push(i18nAPI.translate(activityMacro));
                 globalMacros.push(i18nAPI.translate(listMacro));
                 callback();
             });
@@ -222,24 +208,21 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          *
          * 1) Thumbnail
          *
-         *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
+         *   `${renderThumbnail(entityData, [displayOptions])}`
          *
          * - `entityData` is a standard object representing a user, group or content item or a search result for a user, group
          *    or content item as returned by Hilary. Alternatively, a string representing the resourceType or resourceSubType
          *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous
          *    entity thumbnail.
-         * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default,
-         *    the visibility icon will be shown. However, users will not never show a visibility icon.
-         * - `large` (optional) determines whether or not a large default thumbnail icon should used. By default, a small icon will be used.
+         * - `displayOptions` (optional) is an object containing additional options that determine how the thumbnail is displayed and behaves
          *
          * 2) List item
          *
-         *   `${listItem(entityData, [metadata], [showCheckbox])}`
+         *   `${listItem(entityData, [displayOptions])}`
          *
          * - `entityData` is an object representing a user, group or content item or a search result for a user, group
          *    or content item
-         * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
-         * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
+         * - `displayOptions` (optional) is an object containing additional options that determine how the list item is displayed and behaves
          *
          * 3) Activity summary
          *
@@ -353,7 +336,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      *
      * @param  {String}     [title]       The notification title
      * @param  {String}     message       The notification message that will be shown underneath the title. The message should be sanitized by the caller to allow for HTML inside of the notification
-     * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://twitter.github.com/bootstrap/components.html#alerts. By default, the `success` type will be used
+     * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://getbootstrap.com/components/#alerts. By default, the `success` type will be used
      * @param  {String}     [id]          Unique identifier for the notification, in case a notification can be triggered twice due to some reason. If a second notification with the same id is triggered it will be ignored
      * @throws {Error}                    Error thrown when no message has been provided
      */
@@ -364,7 +347,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
         if (id) {
             if (_.contains(notificationIds, id)) {
-                // A notification with this ID has been triggered already, do not trigger another one
+                // A notification with this id has been triggered already, do not trigger another one
                 return;
             }
 
@@ -543,7 +526,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          *
          * In order for forms to have the appropriate validation styles, each label and control should be wrapped in an element with a `form-group` class.
          * The label should have a `control-label` class. All input fields should be accompanied by a label, mostly for accessibility purposes.
-         * More information on creating forms (including horizontal forms) can be found at http://twitter.github.com/bootstrap/base-css.html#forms
+         * More information on creating forms (including horizontal forms) can be found at http://getbootstrap.com/css/#forms
          *
          * Validation messages will by default be displayed underneath the input field. If a custom position for the validation needs to provided,
          * a placeholder element with the class `help` should be created inside of the `form-group` element.
@@ -564,11 +547,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * ```
          * <form id='form_id' role='main'>
          *      <div class='form-group'>
-         *          <label for='firstName' class='control-label'>__MSG__FIRSTNAME__</label>
+         *          <label for='firstName' class='control-label'>__MSG__FIRSTNAME_COLON__</label>
          *          <input type='text' maxlength='255' id='firstName' name='firstName' class='form-control required' placeholder='Hiroyuki'/>
          *      </div>
          *      <div class='form-group'>
-         *          <label for='lastName' class='control-label'>__MSG__LASTNAME__</label>
+         *          <label for='lastName' class='control-label'>__MSG__LASTNAME_COLON__</label>
          *          <span class="help"></span>
          *          <input type='text' maxlength='255' id='lastName' name='lastName' class='form-control required' placeholder='Sakai'/>
          *      </div>
@@ -688,9 +671,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             $form = $($form);
             // The Bootstrap `error` class will be set on the element that has the `form-group` class.
             // When clearing validation, we remove this `error` class. We also remove the actual error
-            // messages from the dom
+            // messages from the dom and remove the `has-error` class from the `form-group`.
             $form.find('.oae-error').remove();
             $form.find('.error').removeClass('error');
+            $form.find('.has-error').removeClass('has-error');
             // When a field is invalid, the aria-invalid attribute on the field will be set to true, and
             // the aria-describedby attribute will be set to point to the validation message. When clearing
             // validation, we remove both of these
@@ -729,7 +713,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      *
      * @param  {Element|String}     $element      jQuery element or jQuery selector for that element that represents the element that triggers the clickover. The clickover will be positioned relative to this element
      * @param  {Element|String}     $content      jQuery element or jQuery selector for the element that should be used as the content of the clickover
-     * @param  {Object}             [options]     JSON Object containing options to pass to the BootstrapX clickover component. It supports all of the standard options documented at http://twitter.github.com/bootstrap/javascript.html#popovers and http://www.leecarmichael.com/bootstrapx-clickover/examples.html#
+     * @param  {Object}             [options]     JSON Object containing options to pass to the BootstrapX clickover component. It supports all of the standard options documented at http://getbootstrap.com/javascript/#popovers and http://www.leecarmichael.com/bootstrapx-clickover/examples.html#
      * @return {Element}                          The root element of the generated clickover
      */
     var clickover = exports.clickover = function($trigger, $content, options) {
@@ -967,7 +951,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 // function that will render the thumbnail image, displayName and some metadata for each suggested item
                 if (!options.formatList) {
                     options.formatList = function(data, elem) {
-                        return elem.html(template().render($('#autosuggest-suggested-template', $autosuggestTemplates), {'data': data}));
+                        return elem.html(template().render($('#autosuggest-suggested-template', $autosuggestTemplates), {
+                            'data': data,
+                            'displayOptions': {
+                                'addVisibilityIcon': false,
+                                'addLink': false
+                            }
+                        }));
                     };
                 }
 
@@ -1024,7 +1014,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                     var originalData = $elem.data('originalData');
                     if (originalData.resourceType) {
                         // Prepend a thumbnail to the item to add to the list
-                        var $thumbnail = $('<div>').addClass('oae-thumbnail icon-oae-' + originalData.resourceType);
+                        var $thumbnail = $('<div>').addClass('oae-thumbnail fa fa-oae-' + originalData.resourceType);
                         if (originalData.thumbnailUrl) {
                             $thumbnail.append($('<div>')
                                 .css('background-image', 'url("' + originalData.thumbnailUrl + '")')
@@ -1111,12 +1101,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * Retrieve the selected items in an autosuggest field
          *
          * @param  {Element|String}     $element                            jQuery element or jQuery selector for the container in which the auto suggest was initialized. Note that this will *not* be the same element as the one used to setup the auto suggest
-         * @return {Object[]}           selectedItems                       Array of objects representing the selected autosuggest items
-         * @return {String}             selectedItems[i].id                 Resource id of the selected item
-         * @return {String}             selectedItems[i].displayName        Display name of the selected item
-         * @return {String}             selectedItems[i].resourceType       Resource type of the selected item (e.g. user, group, content)
-         * @return {String}             [selectedItems[i].thumbnailUrl]     Thumbnail URL for the selected item
-         * @return {String}             selectedItems[i].visibility         Visibility for the selected item (i.e. private, loggedin, public)
+         * @return {Object[]}                                               Array of objects representing the selected autosuggest items. Each item contains an `id` property with the resource id of the selected item, a `displayName` property with the display name of the selected item, a `resourceType` property with the resource type of the selected item (e.g. user, group, content), a `thumbnailUrl` property with the thumbnail URL for the selected item and a `visibility` property with the visibility for the selected item (i.e. private, loggedin, public)
          * @throws {Error}                                                  Error thrown when no source element has been provided
          */
         var getSelection = function($element) {
@@ -1187,7 +1172,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             if (!input) {
                 return '';
             } else {
-                return $.encoder.encodeForHTML(input);
+                return $.encoder.encodeForHTML(input.toString());
             }
         };
 
@@ -1206,7 +1191,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 // If no attribute name is provided, we provide a dummy attribute
                 // name as this is required by the jQuery plugin
                 attribute = attribute || 'tmp';
-                return $.encoder.encodeForHTMLAttribute(attribute, input, true);
+                return $.encoder.encodeForHTMLAttribute(attribute, input.toString(), true);
             }
         };
 
@@ -1223,7 +1208,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             } else {
 
                 // First sanitize the user's input
-                input = encodeForHTML(input);
+                input = encodeForHTML(input.toString());
 
                 // URLs starting with http://, https://, or ftp://
                 var URLPattern1 = /(\b(https?|ftp):\/\/[\-A-Z0-9+&@#\/%?=~_|!:,.;]*[\-A-Z0-9+&@#\/%=~_|])/gim;
@@ -1232,6 +1217,37 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
                 var URLPattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
                 input = input.replace(URLPattern2, '$1<a href="http://$2" target="_blank" title="$2">$2</a>');
+
+                return input;
+            }
+        };
+
+        /**
+         * Sanitizes markdown input in a manner that makes it safe for the input to be placed inside of an HTML tag.
+         * This sanitizer will also recognise bare URLs inside of the provided input and will convert these into links.
+         *
+         * @param  {String}     [input]         The markdown input string that should be sanitized. If this is not provided, an empty string will be returned
+         * @return {String}                     The sanitized HTML, ready to be put inside of an HTML tag with all URLs converted to markdown links
+         */
+        var encodeMarkdownForHTMLWithLinks = function(input) {
+            if (!input) {
+                return '';
+            } else {
+
+                // Convert the Markdown input string to HTML using marked.js. `gfm`
+                // automatically recognizes text beginning with http: or https: as a URL
+                // and converts it to a link. We also specify that the input should be sanitized.
+                // @see https://github.com/chjj/marked
+                input = markdown(input.toString(), {
+                    'gfm': true,
+                    'breaks': true,
+                    'sanitize': true
+                });
+
+                // Also recognize text beginning with "www." as a URL as long
+                // as it's not already within a link
+                var URLPattern = /(www\.[A-Z0-9.-]+(\b|$))(?![^<]*>|[^<>]*<\\\/a)/gim;
+                input = input.replace(URLPattern, '<a href="http://$1">$1</a>');
 
                 return input;
             }
@@ -1248,7 +1264,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             if (!input) {
                 return '';
             } else {
-                return $.encoder.encodeForURL(input);
+                return $.encoder.encodeForURL(input.toString());
             }
         };
 
@@ -1256,7 +1272,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'encodeForHTML': encodeForHTML,
             'encodeForHTMLAttribute': encodeForHTMLAttribute,
             'encodeForHTMLWithLinks': encodeForHTMLWithLinks,
-            'encodeForURL': encodeForURL
+            'encodeForURL': encodeForURL,
+            'encodeMarkdownForHTMLWithLinks': encodeMarkdownForHTMLWithLinks
         };
     };
 
@@ -1275,7 +1292,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * a page that requires login.
          */
         var login = function() {
-            window.location = '/';
+            window.location = '/?url=' + $.url().attr('relative');
         };
 
         /**
@@ -1315,7 +1332,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * that is currently undergoing maintenance
          */
         var maintenance = function() {
-            window.location = '/maintenance';
+            window.location = '/servermaintenance';
         };
 
         return {
@@ -1367,4 +1384,23 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         return (/safari/i).test(navigator.userAgent) && (/(iphone|ipad|ipod)/i).test(navigator.userAgent);
     };
 
+
+    /////////////////////////
+    // BROWSER WORKAROUNDS //
+    /////////////////////////
+
+    /**
+     * Return the appropriate events for form element modifications depending
+     * on the browser. IE9 Doesn't reliably trigger the `input` event when
+     * characters are removed, so for that browser alone, any of a set of
+     * other events must be substituted.
+     *
+     * TODO: Replace all calls to this function with the string `"change input"`
+     *       when IE9 support is removed.
+     *
+     * @return {String}   Event(s) that can fire when the content of an input field changes
+     */
+    var getFormChangeEventNames = exports.getFormChangeEventNames = function() {
+        return $('html').hasClass('ie-lt10') ? 'change keyup paste cut' : 'change input';
+    };
 });

@@ -69,12 +69,12 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     background-repeat: no-repeat;
 }
 
-.btn:not(.btn-link) > [class^="icon-"], .btn:not(.btn-link) > [class*=" icon-"] {
+.btn:not(.btn-link) > .fa {
     line-height: 1;
 }
 
 /* NAVIGATION LIST
- * @see http://twitter.github.com/bootstrap/components.html#navs */
+ * @see http://getbootstrap.com/components/#nav */
 
 .nav-list > li > a {
     padding-top: 8px;
@@ -93,12 +93,12 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     padding: 0 15px;
 }
 
-.nav-list [class^="icon-"], .nav-list [class*=" icon-"] {
+.nav-list .fa {
     display: inline-block;
     font-size: 1.5em;
     margin-right: 10px;
     position: relative;
-    top: 2px;
+    top: 8px;
     width: 20px;
 }
 
@@ -117,7 +117,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 }
 
 /* MEDIA OBJECTS
- * @see http://twitter.github.com/bootstrap/components.html#media */
+ * @see http://getbootstrap.com/components/#media */
 
 .media, .media .media {
     font-size: 13px;
@@ -131,29 +131,24 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 /* ICONS */
 
-[class^="icon-"], [class*=" icon-"] {
+.fa {
     font-size: 22px;
+    line-height: normal; /* replicate Font Awesome 3.x behavior for consistency */
 }
 
-.hide[class^="icon-"], .hide[class*=" icon-"] {
+.hide.fa {
     display: none;
 }
 
 /* FONTAWESOME ICON OVERRIDES
  * @see http://fontawesome.io */
 
-.btn > i.icon-remove.pull-left,
-.btn > i.icon-trash.pull-left {
+.btn > i.fa-share-square-o.pull-left {
     margin-top: 1px;
 }
 
-.btn > i.icon-minus-sign.pull-left,
-.btn > i.icon-share.pull-left {
-    margin-top: 2px;
-}
-
 /* DROPDOWN
- * @see http://twitter.github.com/bootstrap/components.html#dropdowns */
+ * @see http://getbootstrap.com/components/#dropdowns */
 
 .dropdown-menu {
     padding: 10px;
@@ -176,17 +171,19 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 }
 
 /* FORMS
- * http://twitter.github.com/bootstrap/base-css.html#forms */
+ * http://getbootstrap.com/css/#forms */
+
+.form-control {
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+    padding: 6px;
+}
 
 textarea,
 input[type="text"],
 input[type="password"] {
     min-height: 30px;
-}
-
-input[type="radio"],
-input[type="checkbox"] {
-    margin-top: 3px;
 }
 
 input[type="file"] {
@@ -202,40 +199,13 @@ input.search-query {
             border-radius: 3px;
 }
 
-select,
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="date"],
-input[type="month"],
-input[type="time"],
-input[type="week"],
-input[type="number"],
-input[type="email"],
-input[type="url"],
-input[type="search"],
-input[type="tel"],
-input[type="color"],
-.uneditable-input {
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
-}
-
 .form-group:last-child {
     margin-bottom: 0;
-}
-
-.form-control {
-    padding: 6px;
 }
 
 .form-horizontal input + .help-block,
 .form-horizontal select + .help-block,
 .form-horizontal textarea + .help-block,
-.form-horizontal .uneditable-input + .help-block,
 .form-horizontal .input-group + .help-block {
     margin-bottom: 0;
     margin-top: 3px;
@@ -267,10 +237,6 @@ input[type="color"],
 
 .radio, .checkbox {
     padding-left: 0;
-}
-
-select.form-control {
-    padding: 4px;
 }
 
 .radio input[type="radio"],
@@ -329,7 +295,7 @@ select.form-control {
 }
 
 /* MODAL DIALOGS
- * @see http://twitter.github.com/bootstrap/javascript.html#modals */
+ * @see http://getbootstrap.com/javascript/#modals */
 
 .modal-backdrop.in {
     opacity: 0.8;
@@ -409,7 +375,7 @@ select.form-control {
 
 /* CLICKOVER DIALOGS
  * @see https://github.com/lecar-red/bootstrapx-clickover
- * @see http://twitter.github.io/bootstrap/javascript.html#popovers */
+ * @see http://getbootstrap.com/javascript/#popovers */
 
 /* Bootstrap applies a pretty small default max-width, make the default a bit wider */
 .popover {
@@ -421,7 +387,7 @@ select.form-control {
 }
 
 /* NOTIFICATIONS
- * @see http://twitter.github.com/bootstrap/components.html#alerts
+ * @see http://getbootstrap.com/components/#alerts
  * @see http://nijikokun.github.io/bootstrap-notify */
 
 .alert {
@@ -473,7 +439,7 @@ select.form-control {
 }
 
 /* BADGES
- * @see http://twitter.github.com/bootstrap/components.html#labels-badges */
+ * @see http://getbootstrap.com/components/#badges */
 
 .badge {
     -webkit-border-radius: 3px;
@@ -667,9 +633,9 @@ ul.as-list li.as-result-item.active {
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
-    -webkit-box-shadow: 0 2px 4px #DBDBDB;
-       -moz-box-shadow: 0 2px 4px #DBDBDB;
-            box-shadow: 0 2px 4px #DBDBDB;
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+       -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     padding: 10px;
     min-height: 450px;
     clear: both;
@@ -699,4 +665,190 @@ ul.as-list li.as-result-item.active {
 
 .oae-main-content > .row {
     margin: 0 5px 0 -5px;
+}
+
+
+/*************************************
+ ** EXTERNAL AUTHENTICATION BUTTONS **
+ *************************************/
+
+.nav > li .btn-external-auth {
+    font-size: 14px;
+    text-align: left;
+    padding: 6px 15px;
+    white-space: normal;
+    width: 100%;
+    word-wrap: break-word;
+}
+
+.nav > li .btn-external-auth,
+.nav > li .btn-external-auth:active,
+.nav > li .btn-external-auth:focus,
+.nav > li .btn-external-auth:hover {
+    background-image: none;
+    filter: none;
+}
+
+.nav > li .btn-external-auth i {
+    float: left;
+    width: 30px;
+}
+
+.nav > li .btn-facebook,
+.nav > li .btn-facebook:active,
+.nav > li .btn-facebook:focus,
+.nav > li .btn-facebook:hover,
+.nav > li .btn-facebook i,
+.nav > li .btn-facebook i:hover,
+.nav > li .btn-twitter,
+.nav > li .btn-twitter:active,
+.nav > li .btn-twitter:focus,
+.nav > li .btn-twitter:hover,
+.nav > li .btn-twitter i,
+.nav > li .btn-twitter i:hover,
+.nav > li .btn-google,
+.nav > li .btn-google:active,
+.nav > li .btn-google:focus,
+.nav > li .btn-google:hover,
+.nav > li .btn-google i,
+.nav > li .btn-google i:hover {
+    color: #FFF;
+}
+
+/* Facebook authentication */
+
+.nav > li .btn-facebook {
+    background-color: #3F67AF;
+}
+.nav > li .btn-facebook:active,
+.nav > li .btn-facebook:focus,
+.nav > li .btn-facebook:hover {
+    background-color: #5D7BB9;
+}
+
+/* Google authentication */
+
+.nav > li .btn-google {
+    background-color: #DB322B;
+}
+.nav > li .btn-google:active,
+.nav > li .btn-google:focus,
+.nav > li .btn-google:hover {
+    background-color: #EA473E;
+}
+
+/* Twitter authentication */
+
+.nav > li .btn-twitter {
+    background-color: #2073B9;
+}
+.nav > li .btn-twitter:active,
+.nav > li .btn-twitter:focus,
+.nav > li .btn-twitter:hover {
+    background-color: #4491CD;
+}
+
+
+/**************
+ ** MARKDOWN **
+ **************/
+
+/**
+ * Adjust the styles for HTML content rendered by markdown parser
+ */
+
+.oae-markdown {
+    overflow-x: auto;
+    word-wrap: break-word;
+}
+
+.oae-markdown > *:first-child {
+    margin-top: 0;
+}
+
+.oae-markdown code {
+    background-color: #f5f5f5;
+    color: inherit;
+    display: inline-block;
+    white-space: pre-wrap;
+}
+
+.oae-markdown blockquote {
+    margin-top: 20px;
+}
+
+.oae-markdown blockquote p {
+    font-size: 1em;
+    font-weight: normal;
+    line-height: 1.4em;
+}
+
+.oae-markdown ul {
+    list-style-type: disc;
+}
+
+.oae-markdown ul ul,
+.oae-markdown ol ul {
+    list-style-type: circle;
+}
+
+.oae-markdown ul ul ul,
+.oae-markdown ol ul ul,
+.oae-markdown ul ol ul,
+.oae-markdown ol ol ul {
+    list-style-type: square;
+}
+
+.oae-markdown img {
+    max-width: 100%;
+}
+
+/**
+ * Reduce heading sizes for markdown headings that are embedded within
+ * a widget (e.g. in a comment) so they don't appear as headings for
+ * the entire page
+ */
+
+.oae-markdown-embedded h1 {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 1em 0 0.5em;
+}
+
+.oae-markdown-embedded h2 {
+    font-size: 1.05em;
+    font-weight: bold;
+    margin: 0.75em 0 0.5em;
+}
+
+.oae-markdown-embedded h3 {
+    font-size: 1em;
+    font-weight: bold;
+    margin: 0.75em 0 0.5em;
+}
+
+.oae-markdown-embedded h4 {
+    font-size: 1em;
+    font-style: italic;
+    margin: 0.75em 0 0.5em;
+}
+
+.oae-markdown-embedded h5,
+.oae-markdown-embedded h6 {
+    font-size: 1em;
+    font-style: normal;
+    font-weight: normal;
+    margin: 0.75em 0 0.5em;
+}
+
+.oae-markdown-embedded ol,
+.oae-markdown-embedded ul,
+.oae-markdown-embedded p {
+    margin: 10px 0 0 0;
+}
+
+.oae-markdown-embedded ol:first-child,
+.oae-markdown-embedded ul:first-child,
+.oae-markdown-embedded p:first-child {
+    margin-top: 0;
 }

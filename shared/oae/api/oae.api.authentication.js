@@ -18,9 +18,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     /**
      * Get the list of all enabled authentication strategies for the current tenant
      *
-     * @return {Object}        enabledStrategies                List of all enabled authentication strategies for the current tenant keyed by authentication strategy id
-     *         {String}        enabledStrategies[key].url       URL to which to POST to initiate the authentication process for the current strategy
-     *         {String}        [enabledStrategies[key].name]    Custom configured name for the current authentication strategy
+     * @return {Object}                List of all enabled authentication strategies for the current tenant keyed by authentication strategy id. Each enabled authentication strategy will contain a `url` property with the URL to which to POST to initiate the authentication process for that strategy and a `name` property with the custom configured name for that strategy
      */
     var getEnabledStrategies = exports.getEnabledStrategies = function() {
         var enabledStrategies = {};
@@ -79,7 +77,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
      *
      * @param  {String}         username              Username for the user logging in
      * @param  {String}         password              The user's password
-     * @param  {Function}       [callback]            Standard callback method
+     * @param  {Function}       [callback]            Standard callback function
      * @param  {Object}         [callback.err]        Error object containing error code and error message
      * @param  {User}           [callback.user]       User object representing the logged in user
      * @throws {Error}                                Error thrown when not all of the required parameters have been provided
@@ -115,7 +113,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
      *
      * @param  {String}         username              Username for the user logging in
      * @param  {String}         password              The user's password
-     * @param  {Function}       [callback]            Standard callback method
+     * @param  {Function}       [callback]            Standard callback function
      * @param  {Object}         [callback.err]        Error object containing error code and error message
      * @param  {User}           [callback.user]       User object representing the logged in user
      * @throws {Error}                                Error thrown when not all of the required parameters have been provided
@@ -147,33 +145,11 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     };
 
     /**
-     * Log out the currently signed in user
-     *
-     * @param  {Function}       [callback]            Standard callback method
-     * @param  {Object}         [callback.err]        Error object containing error code and error message
-     */
-    var logout = exports.logout = function(callback) {
-        // Set a default callback function in case no callback function has been provided
-        callback = callback || function() {};
-
-        $.ajax({
-            'url': '/api/auth/logout',
-            'type': 'POST',
-            'success': function() {
-                callback(null);
-            },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
-        });
-    };
-
-    /**
      * Change the password of the currently logged in user
      *
      * @param  {String}         currentPassword       The user's current password
      * @param  {String}         newPassword           The user's new password
-     * @param  {Function}       [callback]            Standard callback method
+     * @param  {Function}       [callback]            Standard callback function
      * @param  {Object}         [callback.err]        Error object containing error code and error message
      * @throws {Error}                                Error thrown when no new or current password has been provided
      */

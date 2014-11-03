@@ -46,15 +46,14 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
     };
 
     /**
-     * Utility function that will convert a passed in date to a valid Date object. If desired, this function
-     * will also adjust the date to the timezone set in the user's account preferences
+     * Utility function that will convert a passed in date to a valid Date object localized to
+     * the current user's browser timezone.
      *
      * @param  {Date|Number|String}    date        Javascript date object, milliseconds since epoch or date in ISO 8601 format that needs to be converted into a date object
-     * @param  {Boolean}               [localize]  Whether or not the date should be adjusted to the user's timezone. By default, the date will be adjusted to the user's timezone
      * @return {Date}                              Parsed date object, adjusted to the current user's timezone if desired
      * @api private
      */
-    var parseDate = function(date, localize) {
+    var parseDate = function(date) {
         // If a milliseconds since epoch has been provided, we convert it to a date
         if (_.isNumber(date)) {
             date = new Date(date);
@@ -63,53 +62,49 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
         } else if (_.isString(date)) {
             // If the provided date is an ISO 8601 formatted string, we convert it to
             // milliseconds since epoch using the native date parse function
-            if (parseInt(date, 10) !== +date) {
+            if (!/^\d+$/.test(date)) {
                 date = Date.parse(date);
             }
             // Convert the date into a date object
             date = new Date(parseInt(date, 10));
         }
 
-        // Adjust the date to the user's timezone
-        if (localize !== false) {
-            var locale = require('oae.core').data.me.locale;
-            if (locale) {
-                // The offset represents the number of hours offset between GMT and the user's timezone
-                var offset = locale.timezone.offset;
-                date.setTime(date.getTime() + (offset * 60 * 60 * 1000));
-            }
-        }
         return date;
     };
 
     /**
      * Function that will take a date and convert it into a localized date only string, conforming with
-     * the conventions for the user's current locale.
+     * the conventions for the user's current locale and taking the user's browser timezone into account.
      *
      * e.g. 2/20/2012
      *
      * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a localized date string
+     * @param  {Boolean}        [useShort]  Whether or not to use the short version (2/20/2012) or the long version (Monday, February 20, 2012). By default, the long version will be used
      * @return {String}                     Converted localized date
      * @throws {Error}                      Error thrown when no date has been provided
      */
-    var transformDate = exports.transformDate = function(date) {
+    var transformDate = exports.transformDate = function(date, useShort) {
         if (!date) {
             throw new Error('A date must be provided');
         }
-        // Make sure that we are working with a valid date adjusted to the user's timezone
+
         date = parseDate(date);
         // Convert the date to a localized date string
-        return Globalize.format(date, 'd');
+        if (useShort) {
+            return Globalize.format(date, 'd');
+        } else {
+            return Globalize.format(date, 'D');
+        }
     };
 
     /**
      * Function that will take a date and convert it into a localized date and time string, conforming with
-     * the conventions for the user's current locale.
+     * the conventions for the user's current locale and taking the user's browser timezone into account.
      *
      * e.g. 2/20/2012 3:35 PM or Monday, February 20, 2012 3:35 PM
      *
      * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a localized date string
-     * @param  {Boolean}        useShort    Whether or not to use the short version (2/20/2012 3:35 PM) or the long version (Monday, February 20, 2012 3:35 PM). By default, the long version will be used
+     * @param  {Boolean}        [useShort]  Whether or not to use the short version (2/20/2012 3:35 PM) or the long version (Monday, February 20, 2012 3:35 PM). By default, the long version will be used
      * @return {String}                     Converted localized date and time
      * @throws {Error}                      Error thrown when no date has been provided
      */
@@ -117,7 +112,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
         if (!date) {
             throw new Error('A date must be provided');
         }
-        // Make sure that we are working with a valid date adjusted to the user's timezone
+
         date = parseDate(date);
         // Convert the date to a localized date and time string
         if (useShort) {
@@ -134,7 +129,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
      * e.g. 10.000.000,442
      *
      * @param  {Number}        number           Number that needs to be converted into a localized number
-     * @param  {Number}        decimalPlaces    The maximum number of decimal places that should be used. If this is not provided, all of them will be returned
+     * @param  {Number}        [decimalPlaces]  The maximum number of decimal places that should be used. If this is not provided, all of them will be returned
      * @return {String}                         Converted localized number
      * @throws {Error}                          Error thrown when no number has been provided
      */
@@ -168,7 +163,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
             var $timeEl = $(this);
             // Convert the `datetime` attribute value to a valid value
             // @see http://html5doctor.com/the-time-element/
-            var date = parseDate($timeEl.attr('datetime'), false);
+            var date = parseDate($timeEl.attr('datetime'));
             $(this).attr('datetime', date.toISOString());
             // Set the element title to provide a tooltip with a more detailed date
             $timeEl.attr('title', transformDateTime(date, false));

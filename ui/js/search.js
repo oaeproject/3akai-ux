@@ -56,7 +56,8 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
             'scope': '_network'
         }, '#search-template', {
             'postRenderer': function(data) {
-                $('.oae-list-header-badge').text(data.total).show();
+                var nrResults = oae.api.l10n.transformNumber(data.total);
+                $('.oae-list-header-badge').text(nrResults).show();
             },
             'emptyListProcessor': function() {
                 oae.api.util.template().render($('#search-noresults-template'), {

@@ -13,13 +13,13 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $, _, i18nAPI) {
+define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], function(exports, $, _, i18nAPI, MimeTypes) {
 
     /**
      * Get a full content profile
      *
      * @param  {String}       contentId           Id of the content item we're trying to retrieve
-     * @param  {Function}     callback            Standard callback method
+     * @param  {Function}     callback            Standard callback function
      * @param  {Object}       callback.err        Error object containing error code and error message
      * @param  {Content}      callback.content    Content object representing the retrieved content
      * @throws {Error}                            Error thrown when no content id has been provided
@@ -45,7 +45,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
      *
      * @param  {String}       contentId           Id of the content item we're trying to retrieve
      * @param  {String}       revisionId          Id of the revision we're trying to retrieve
-     * @param  {Function}     callback            Standard callback method
+     * @param  {Function}     callback            Standard callback function
      * @param  {Object}       callback.err        Error object containing error code and error message
      * @param  {Content}      callback.content    Content object representing the retrieved content
      * @throws {Error}                            Error thrown when no content id has been provided
@@ -70,20 +70,21 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Create a new link.
+     * Create a new link
      *
-     * @param  {String}         displayName         Display title for the created content item
-     * @param  {String}         [description]       The content item's description
-     * @param  {String}         [visibility]        The content item's visibility. This can be public, loggedin or private
-     * @param  {String}         link                The URL that should be stored against this content item
-     * @param  {String[]}       [managers]          Array of user/group ids that should be added as managers to the content item
-     * @param  {String[]}       [viewers]           Array of user/group ids that should be added as viewers to the content item
-     * @param  {Function}       [callback]          Standard callback method
+     * @param  {String}         displayName         Display title for the created link
+     * @param  {String}         [description]       The link's description
+     * @param  {String}         [visibility]        The link's visibility. This can be public, loggedin or private
+     * @param  {String}         link                The URL that should be stored against this link
+     * @param  {String[]}       [managers]          Array of user/group ids that should be added as managers to the link
+     * @param  {String[]}       [viewers]           Array of user/group ids that should be added as viewers to the link
+     * @param  {String[]}       [folders]           Array of folder ids to which the link should be added
+     * @param  {Function}       [callback]          Standard callback function
      * @param  {Object}         [callback.err]      Error object containing error code and error message
-     * @param  {Content}        [callback.content]  Content object representing the created content
+     * @param  {Content}        [callback.content]  Content object representing the created link
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
-    var createLink = exports.createLink = function(displayName, description, visibility, link, managers, viewers, callback) {
+    var createLink = exports.createLink = function(displayName, description, visibility, link, managers, viewers, folders, callback) {
         if (!displayName) {
             throw new Error('A valid link name should be provided');
         } else if (!link) {
@@ -100,7 +101,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
             'visibility': visibility,
             'link': link,
             'managers': managers,
-            'viewers': viewers
+            'viewers': viewers,
+            'folders': folders
         };
 
         $.ajax({
@@ -117,21 +119,22 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Create a new file.
+     * Create a new file
      *
-     * @param  {String}             displayName         Display title for the created content item
-     * @param  {String}             [description]       The content item's description
-     * @param  {String}             [visibility]        The content item's visibility. This can be public, loggedin or private
+     * @param  {String}             displayName         Display title for the created file
+     * @param  {String}             [description]       The file's description
+     * @param  {String}             [visibility]        The file's visibility. This can be public, loggedin or private
      * @param  {Element|String}     $fileUploadField    jQuery element or selector for that jQuery element representing the file upload form field that has been used to initialise jQuery.fileupload
      * @param  {Object}             file                jQuery.fileUpload object that was returned when selecting the file that needed to be uploaded
-     * @param  {String[]}           [managers]          Array of user/group ids that should be added as managers to the content item
-     * @param  {String[]}           [viewers]           Array of user/group ids that should be added as viewers to the content item
-     * @param  {Function}           [callback]          Standard callback method
+     * @param  {String[]}           [managers]          Array of user/group ids that should be added as managers to the file
+     * @param  {String[]}           [viewers]           Array of user/group ids that should be added as viewers to the file
+     * @param  {String[]}           [folders]           Array of folder ids to which the file should be added
+     * @param  {Function}           [callback]          Standard callback function
      * @param  {Object}             [callback.err]      Error object containing error code and error message
-     * @param  {Content}            [callback.content]  Content object representing the created content
+     * @param  {Content}            [callback.content]  Content object representing the created file
      * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
-    var createFile = exports.createFile = function(displayName, description, visibility, $fileUploadField, file, managers, viewers, callback) {
+    var createFile = exports.createFile = function(displayName, description, visibility, $fileUploadField, file, managers, viewers, folders, callback) {
         if (!displayName) {
             throw new Error('A valid file name should be provided');
         } else if (!$fileUploadField) {
@@ -162,6 +165,12 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
             data.push({'name': 'viewers', 'value': viewer});
         });
 
+        // Add the folders as an array
+        folders = folders || [];
+        $.each(folders, function(index, folder) {
+            data.push({'name': 'folders', 'value': folder});
+        });
+
         $($fileUploadField).fileupload('send', {
             'files': [file],
             'formData': data,
@@ -183,11 +192,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Upload a new version of a file.
+     * Upload a new version of a file
      *
      * @param  {Element|String}     $fileUploadField    jQuery element or selector for that jQuery element representing the file upload form field that has been used to initialise jQuery.fileupload
      * @param  {Object}             file                jQuery.fileUpload object that was returned when selecting the file that needed to be uploaded
-     * @param  {Function}           [callback]          Standard callback method
+     * @param  {Function}           [callback]          Standard callback function
      * @param  {Object}             [callback.err]      Error object containing error code and error message
      * @param  {Content}            [callback.content]  Content object representing the updated content
      * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
@@ -222,19 +231,20 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Create a new collaborative document.
+     * Create a new collaborative document
      *
-     * @param  {String}       displayName         Display title for the created content item
-     * @param  {String}       [description]       The content item's description
-     * @param  {String}       [visibility]        The content item's visibility. This can be public, loggedin or private
-     * @param  {String[]}     [managers]          Array of user/group ids that should be added as managers to the content item
-     * @param  {String[]}     [viewers]           Array of user/group ids that should be added as viewers to the content item
-     * @param  {Function}     [callback]          Standard callback method
+     * @param  {String}       displayName         Display title for the created collaborative document
+     * @param  {String}       [description]       The collaborative document's description
+     * @param  {String}       [visibility]        The collaborative document's visibility. This can be public, loggedin or private
+     * @param  {String[]}     [managers]          Array of user/group ids that should be added as managers to the collaborative document
+     * @param  {String[]}     [viewers]           Array of user/group ids that should be added as viewers to the collaborative document
+     * @param  {String[]}     [folders]           Array of folder ids to which the collaborative document should be added
+     * @param  {Function}     [callback]          Standard callback function
      * @param  {Object}       [callback.err]      Error object containing error code and error message
-     * @param  {Content}      [callback.content]  Content object representing the created content
+     * @param  {Content}      [callback.content]  Content object representing the created collaborative document
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
-    var createCollabDoc = exports.createCollabDoc = function(displayName, description, visibility, managers, viewers, callback) {
+    var createCollabDoc = exports.createCollabDoc = function(displayName, description, visibility, managers, viewers, folders, callback) {
         if (!displayName) {
             throw new Error('A valid document name should be provided');
         }
@@ -248,7 +258,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
             'description': description,
             'visibility': visibility,
             'managers': managers,
-            'viewers': viewers
+            'viewers': viewers,
+            'folders': folders
         };
 
         $.ajax({
@@ -270,7 +281,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
      *
      * @param  {String}       contentId             Id of the content item we're restoring a revision of
      * @param  {String}       revisionId            Id of the revision that's being restored
-     * @param  {Function}     [callback]            Standard callback method
+     * @param  {Function}     [callback]            Standard callback function
      * @param  {Object}       [callback.err]        Error object containing error code and error message
      * @param  {Revision}     [callback.revision]   Revision object representing the restored revision
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
@@ -302,7 +313,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
      *
      * @param  {String}       contentId           Id of the content item we're trying to update
      * @param  {Object}       params              JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
-     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Function}     [callback]          Standard callback function
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      * @param  {Content}      [callback.data]     Content object representing the updated content
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
@@ -334,7 +345,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
      * Permanently delete a piece of content from the system
      *
      * @param  {String}        contentId             Id of the content item we're trying to delete
-     * @param  {Function}      [callback]            Standard callback method
+     * @param  {Function}      [callback]            Standard callback function
      * @param  {Object}        [callback.err]        Error object containing error code and error message
      * @throws {Error}                               Error thrown when no valid content id has been provided
      */
@@ -359,21 +370,21 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Get the viewers and managers of a content item.
+     * Get the viewers and managers of a content item
      *
      * @param  {String}          contentId                      Id of the content item we're trying to retrieve the members for
      * @param  {String}          [start]                        The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
      * @param  {Number}          [limit]                        The number of members to retrieve
-     * @param  {Function}        callback                       Standard callback method
+     * @param  {Function}        callback                       Standard callback function
      * @param  {Object}          callback.err                   Error object containing error code and error message
      * @param  {Object}          callback.members               Response object containing the content members and nextToken
      * @param  {User[]|Group[]}  callback.members.results       Array that contains an object for each member. Each object has a role property that contains the role of the member and a profile property that contains the principal profile of the member
      * @param  {String}          callback.members.nextToken     The value to provide in the `start` parameter to get the next set of results
-     * @throws {Error}                                          Error thrown when no content ID has been provided
+     * @throws {Error}                                          Error thrown when no content id has been provided
      */
     var getMembers = exports.getMembers = function(contentId, start, limit, callback) {
         if (!contentId) {
-            throw new Error('A content ID should be provided');
+            throw new Error('A content id should be provided');
         }
 
         var data = {
@@ -394,11 +405,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Change the members and managers of a content item.
+     * Change the members and managers of a content item
      *
      * @param  {String}       contentId           Id of the content item we're trying to update the members for
      * @param  {Object}       updatedMembers      JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
-     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Function}     [callback]          Standard callback function
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
@@ -406,7 +417,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
         if (!contentId) {
             throw new Error('A valid content id should be provided');
         } else if (!updatedMembers || _.keys(updatedMembers).length === 0) {
-            throw new Error('The updatedMembers hash should contain at least 1 update.');
+            throw new Error('The updatedMembers hash should contain at least 1 update');
         }
 
         // Set a default callback function in case no callback function has been provided
@@ -426,17 +437,17 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Share a content item.
+     * Share a content item
      *
      * @param  {String}       contentId           Id of the content item we're trying to share
      * @param  {String[]}     principals          Array of principal ids with who the content should be shared
-     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Function}     [callback]          Standard callback function
      * @param  {Object}       [callback.err]      Error object containing error code and error message
-     * @throws {Error}                            Error thrown when no content ID or Array of principal IDs has been provided
+     * @throws {Error}                            Error thrown when no content id or Array of principal ids has been provided
      */
     var shareContent = exports.shareContent = function(contentId, principals, callback) {
         if (!contentId) {
-            throw new Error('A content ID should be provided');
+            throw new Error('A content id should be provided');
         } else if (!principals.length) {
             throw new Error('A user or group to share with should be provided');
         }
@@ -462,21 +473,21 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Get the content library for a given principal.
+     * Get the content library for a given principal
      *
      * @param  {String}         principalId                     User or group id for who we want to retrieve the content library
      * @param  {String}         [start]                         The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
      * @param  {Number}         [limit]                         The number of content items to retrieve
-     * @param  {Function}       callback                        Standard callback method
+     * @param  {Function}       callback                        Standard callback function
      * @param  {Object}         callback.err                    Error object containing error code and error message
      * @param  {Object}         callback.content                Response object containing the content items in the requested library and nextToken
      * @param  {Content[]}      callback.content.results        Array of content items representing the content items present in the library
      * @param  {String}         callback.content.nextToken      The value to provide in the `start` parameter to get the next set of results
-     * @throws {Error}                                          Error thrown when no principal ID has been provided
+     * @throws {Error}                                          Error thrown when no principal id has been provided
      */
     var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {
         if (!principalId) {
-            throw new Error('A user or group ID should be provided');
+            throw new Error('A user or group id should be provided');
         }
 
         var data = {
@@ -497,19 +508,19 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Delete a piece of content from a content library.
+     * Delete a piece of content from a content library
      *
      * @param  {String}         principalId       User or group id for for the library from which we want to delete the content
      * @param  {String}         contentId         Id of the content item we're trying to delete from the library
-     * @param  {Function}       [callback]        Standard callback method
+     * @param  {Function}       [callback]        Standard callback function
      * @param  {Object}         [callback.err]    Error object containing error code and error message
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
     var deleteContentFromLibrary = exports.deleteContentFromLibrary = function(principalId, contentId, callback) {
         if (!principalId) {
-            throw new Error('A valid user or group ID should be provided');
+            throw new Error('A valid user or group id should be provided');
         } else if (!contentId) {
-            throw new Error('A valid content ID should be provided');
+            throw new Error('A valid content id should be provided');
         }
 
         // Set a default callback function in case no callback function has been provided
@@ -531,159 +542,16 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     // CONTENT UTILITIES //
     ///////////////////////
 
-    /*!
-     * Constant that holds regular expressions for the different mimeTypes that might be returned by the
-     * back-end, allowing for these mimeTypes to be transformed into a human readable mime type description.
-     */
-    var MIMETYPES = {
-        'archive': {
-            'description': '__MSG__ARCHIVE__',
-            'regex': [
-                'application/zip',
-                'application/x-zip*',
-                'application/x-tar'
-            ]
-        },
-        'audio': {
-            'description': '__MSG__AUDIO__',
-            'regex': [
-                'audio/*',
-                'kaltura/audio'
-            ]
-        },
-        'collabdoc': {
-            // The collabdoc type will be used for collaborative documents
-            'description': '__MSG__DOCUMENT__'
-        },
-        'css': {
-            'description': '__MSG__CSS_FILE__',
-            'regex': 'text/css'
-        },
-        'image': {
-            'description': '__MSG__IMAGE__',
-            'regex': 'image/*'
-        },
-        'flash': {
-            'description': '__MSG__FLASH_FILE__',
-            'regex': 'application/x-shockwave-flash'
-        },
-        'html': {
-            'description': '__MSG__HTML_DOCUMENT__',
-            'regex': 'text/html'
-        },
-        'link': {
-            // The link type will be used for added links
-            'description': '__MSG__LINK__'
-        },
-        'markdown': {
-            'description': '__MSG__MARKDOWN__',
-            'regex': 'text/x-markdown'
-        },
-        'other': {
-            // The other type will be used for all unrecognized mimeTypes
-            'description': '__MSG__OTHER_DOCUMENT__'
-        },
-        'pdf': {
-            'description': '__MSG__PDF_DOCUMENT__',
-            'regex': [
-                'application/pdf',
-                'application/x-download',
-                'application/x-pdf'
-            ]
-        },
-        'presentation': {
-            'description': '__MSG__PRESENTATION__',
-            'regex': [
-                'application/vnd.ms-powerpoint',
-                'application/vnd.oasis.opendocument.presentation',
-                'application/vnd.openxmlformats-officedocument.presentation*'
-            ]
-        },
-        'spreadsheet': {
-            'description': '__MSG__SPREADSHEET__',
-            'regex': [
-                'application/vnd.oasis.opendocument.spreadsheet',
-                'application/vnd.openxmlformats-officedocument.spreadsheet*',
-                'application/vnd.ms-excel'
-            ]
-        },
-        'text': {
-            'description': '__MSG__TEXT_DOCUMENT__',
-            'regex': [
-                'text/plain',
-                'text/rtf'
-            ]
-        },
-        'xml': {
-            'description': '__MSG__XML_DOCUMENT__',
-            'regex': 'text/xml'
-        },
-        'video': {
-            'description': '__MSG__VIDEO__',
-            'regex': [
-                'video/*',
-                'kaltura/video'
-            ]
-        },
-        'word': {
-            'description': '__MSG__WORD_DOCUMENT__',
-            'regex': [
-                'application/doc',
-                'application/msword',
-                'application/vnd.openxmlformats-officedocument.word*',
-                'application/vnd.oasis.opendocument.text'
-            ]
-        }
-    };
-
     /**
      * Get a human readable mimeType description for a content item.
-     * Unrecognized mimeTypes will default to the `other` type.
+     * Unrecognized mimeTypes will default to the `other` type
      *
      * @param  {Content}       contentObj       Content object for which to get the mimetype description
      * @return {String}                         Human readable mimeType description for the provided content item
      */
     var getMimeTypeDescription = exports.getMimeTypeDescription = function(contentObj) {
-        // The `oae:resourceSubType` property is used by the activity feed
-        var resourceSubType = contentObj.resourceSubType || contentObj['oae:resourceSubType'];
-        var mimeTypeObject = null;
-
-        // Only files will have an actual mimeType. For all of these, we will run through the available
-        // mimeType mappings and check if the content mimeType matches any of the regular expressions for
-        // the mimeType mapping.
-        if (resourceSubType === 'file') {
-            // The `oae:mimeType` property is used by the activity feed
-            var mimeType = contentObj.mime || contentObj['oae:mimeType'];
-            if (mimeType) {
-                $.each(MIMETYPES, function(mimeTypeMappingId, mimeTypeMapping) {
-                    // Some mimeType mappings might not have any regular expressions. No need to check for those.
-                    if (mimeTypeMapping.regex) {
-                        // When only a single regex is available for a mimeType mapping, a string can be provided
-                        // instead of an array. We ensure that the mimeType mapping regex is an array.
-                        var regex = mimeTypeMapping.regex;
-                        regex = _.isArray(regex) ? regex : [regex];
-                        // Parse the provided regular expressions into a single regular expression and match
-                        // on the content's mimeType
-                        var joinedRegex = new RegExp(regex.join('|'), 'i');
-                        if (mimeType.match(joinedRegex)) {
-                            mimeTypeObject = mimeTypeMapping;
-                            return false;
-                        }
-                    }
-                });
-            }
-        // Links and collaborative documents
-        } else {
-            mimeTypeObject = MIMETYPES[resourceSubType];
-        }
-
-        // If no mimeType mapping has matched the content's mimeType, we can default back
-        // to the `other` mimeType.
-        if (!mimeTypeObject) {
-            mimeTypeObject = MIMETYPES.other;
-        }
-
         // Return the mime type description, translated into the user's language
-        return i18nAPI.translate(mimeTypeObject.description);
+        var description = MimeTypes.getDescription(contentObj.resourceSubType, contentObj.mime);
+        return i18nAPI.translate(description);
     };
 });

@@ -104,9 +104,13 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
          * of the end of the page or the end of the scroll container. If it is, we load the next set of results.
          */
         var checkLoadNext = function() {
+            // If the body isn't visible yet, the page is still being loaded. Postpone
+            // checking whether or not the next set of results should be loaded
+            if (!$('body').is(':visible')) {
+                setTimeout(checkLoadNext, 100);
             // We only check if a new set of results should be loaded if a search
             // is not in progress and if the container has not been killed
-            if (canRequestMoreData && $listContainer) {
+            } else if (canRequestMoreData && ($listContainer && $listContainer.is(':visible'))) {
                 // In case we use the body
                 var threshold = 500;
                 var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
@@ -116,7 +120,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                     pixelsRemainingUntilBottom = options.scrollContainer.prop('scrollHeight') - options.scrollContainer.height() - options.scrollContainer.scrollTop();
                 }
                 // Check if this is close enough to the bottom to kick off a new item load
-                if (pixelsRemainingUntilBottom <= threshold && $listContainer.is(':visible')) {
+                if (pixelsRemainingUntilBottom <= threshold) {
                     loadResultList();
                 }
             }
@@ -134,11 +138,11 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
 
             // Make sure that no other requests are sent until the current request finishes
             canRequestMoreData = false;
-            // Get the last rendered element
-            var $lastElement = $listContainer.children('li').filter(':visible').filter(':last');
             // Only page once the initial search has been done
-            if ($lastElement.length !== 0 && initialSearchDone === true) {
-                parameters.start = nextToken || ($lastElement.index() + 1);
+            if (initialSearchDone === true) {
+                // Get the rendered list items
+                var listItems = $listContainer.children('li:not(.oae-list-actions)').filter(':visible');
+                parameters.start = nextToken || listItems.length;
             }
 
             // Get the data from the server
@@ -218,9 +222,13 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                 templateOutput = $.trim($tmp.html());
 
                 if (prepend) {
-                    // Prepend and fade in the results. The `prepend` function cannot be
-                    // used as the entire list would otherwise be faded in
-                    $(templateOutput).hide().prependTo($listContainer).fadeIn('slow');
+                    // Insert the item after the `oae-list-actions` element (if there is one)
+                    var $listActions = $listContainer.find('.oae-list-actions');
+                    if ($listActions.length) {
+                        $(templateOutput).hide().insertAfter($listActions).fadeIn('slow');
+                    } else {
+                        $(templateOutput).hide().prependTo($listContainer).fadeIn('slow');
+                    }
                 } else {
                     // Append the results
                     $listContainer.append(templateOutput);
@@ -240,10 +248,8 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                     // reaching the appropriate scroll position. However, we pause for a second, as to
                     // not to send too many requests at once
                     if (data.results.length === parameters.limit) {
-                        setTimeout(function() {
-                            canRequestMoreData = true;
-                            checkLoadNext();
-                        }, 1000);
+                        canRequestMoreData = true;
+                        checkLoadNext();
                     } else {
                         // Don't do any more searches when scrolling
                         canRequestMoreData = false;
@@ -338,6 +344,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
             $listContainer.html('');
             $loadingContainer.remove();
             canRequestMoreData = false;
+            nextToken = null;
             $listContainer = null;
         };
 
@@ -365,7 +372,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
          */
         var setUpLoadingImage = function() {
             // Create the loading animation element
-            var $loader = $('<i />').addClass('icon-spinner icon-spin');
+            var $loader = $('<i />').addClass('fa fa-spinner fa-spin');
             // Create a text element that will be used for accessibility purposes
             var $a11yHelper = $('<span />').text(oaeI18n.translate('__MSG__LOADING__')).addClass('sr-only');
             // Add the accessibility helper to the loading animation and add the loading
