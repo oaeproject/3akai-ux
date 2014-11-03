@@ -24,14 +24,17 @@
             <div id="error-content">
                 <div class="row oae-panel-primary">
                     <div class="col-md-offset-1 col-md-3">
-                        <h1>__MSG__404__<br/> <span>__MSG__PAGE_NOT_FOUND__</span></h1>
+                        <div id="error-code">__MSG__404__</div>
+                        <h1>__MSG__PAGE_NOT_FOUND__</h1>
                     </div>
                     <div class="col-md-8">
-                        <div id="error-quote-container" class="oae-panel-tertiary">
-                            <p id="error-quote">"__MSG__QUOTE_NOT_FOUND__"</p>
-                            <a href="/search" class="btn btn-primary">__MSG__SEARCH__</a> <span>__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__</span>
+                        <div id="error-quote-container">
+                            <div class="oae-panel-tertiary">
+                                <p id="error-quote">&quot;__MSG__QUOTE_NOT_FOUND__&quot;</p>
+                                <a href="/search" class="btn btn-primary">__MSG__SEARCH__</a> <span class="error-instruction">__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__</span>
+                            </div>
+                            <div id="error-quote-author">__MSG__QUOTED_NOT_FOUND__</div>
                         </div>
-                        <div>__MSG__QUOTED_NOT_FOUND__</div>
                     </div>
                 </div>
             </div>

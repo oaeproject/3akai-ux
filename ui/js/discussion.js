@@ -31,40 +31,18 @@ require(['jquery','oae.core'], function($, oae) {
      * is only used to load the discussion topic
      */
     var setUpNavigation = function() {
-        var lhNavActions = [];
-        // All logged in users that can see the content can comment
-        if (!oae.data.me.anon) {
-            lhNavActions.push({
-                'icon': 'icon-comments',
-                'title': oae.api.i18n.translate('__MSG__COMMENT__'),
-                'class': 'comments-focus-new-comment'
-            });
-        }
-        // Only offer share to users that are allowed to share the discussion
-        if (discussionProfile.canShare) {
-            lhNavActions.push({
-                'icon': 'icon-share',
-                'title': oae.api.i18n.translate('__MSG__SHARE__'),
-                'class': 'oae-trigger-share',
-                'data': {
-                    'data-id': discussionProfile.id,
-                    'data-resourcetype': discussionProfile.resourceType,
-                    'data-resourcesubtype': discussionProfile.resourceSubType
-                }
-            });
-        }
-
         var lhNavPages = [{
             'id': 'discussion',
-            'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
-            'icon': 'icon-comments',
+            'title': discussionProfile.displayName,
+            'icon': 'fa-comments',
+            'closeNav': true,
             'class': 'hide',
             'layout': [
                 {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'discussion',
+                            'name': 'discussion',
                             'settings': discussionProfile
                         }
                     ]
@@ -73,16 +51,16 @@ require(['jquery','oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'comments'
+                            'name': 'comments'
                         }
                     ]
                 }
             ]
         }];
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, [], baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, [], baseUrl]);
         });
     };
 
@@ -109,10 +87,8 @@ require(['jquery','oae.core'], function($, oae) {
 
             // Cache the discussion profile data
             discussionProfile = profile;
-            // Set the browser title
-            oae.api.util.setBrowserTitle(discussionProfile.displayName);
             // Render the entity information
-            setUpClips();
+            setUpClip();
             // Set up the page
             setUpNavigation();
             // Set up the context event exchange
@@ -144,15 +120,15 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * Render the discussion's clip, containing the thumbnail, display name as well as the
-     * discussion's admin options. Also render the share and comment actions clips.
+     * Render the discussion clip
      */
-    var setUpClips = function() {
-        oae.api.util.template().render($('#discussion-clip-template'), {'discussion': discussionProfile}, $('#discussion-clip-container'));
-        // Only show the actions to logged in users
-        if (!oae.data.me.anon) {
-            oae.api.util.template().render($('#discussion-actions-clip-template'), {'discussion': discussionProfile}, $('#discussion-actions-clip-container'));
-        }
+    var setUpClip = function() {
+        oae.api.util.template().render($('#discussion-clip-template'), {
+            'discussion': discussionProfile,
+            'displayOptions': {
+                'addLink': false
+            }
+        }, $('#discussion-clip-container'));
     };
 
     /**
@@ -160,7 +136,11 @@ require(['jquery','oae.core'], function($, oae) {
      * are made by a different user after the initial page load
      */
     var setUpPushNotifications = function() {
-        oae.api.push.subscribe(discussionId, 'activity', discussionProfile.signature, 'internal', false, function(activity) {
+        oae.api.push.subscribe(discussionId, 'activity', discussionProfile.signature, 'internal', false, false, function(activities) {
+            // The `activity` stream pushes out activities on routing so it's always
+            // safe to just pick the first item from the `activities` array
+            var activity = activities[0];
+
             var supportedActivities = ['discussion-update', 'discussion-update-visibility'];
             // Only respond to push notifications caused by other users
             if (activity.actor.id !== oae.data.me.id && _.contains(supportedActivities, activity['oae:activityType'])) {
@@ -168,9 +148,8 @@ require(['jquery','oae.core'], function($, oae) {
                 activity.object.canPost = discussionProfile.canPost;
                 activity.object.isManager = discussionProfile.isManager;
 
-                discussionProfile = activity.object;
-                setUpClips();
-                setUpTopic();
+                // Trigger an edit discussion event so the UI can update itself where appropriate
+                $(document).trigger('oae.editdiscussion.done', activity.object);
             }
         });
     };
@@ -181,7 +160,7 @@ require(['jquery','oae.core'], function($, oae) {
     ///////////////////
 
     /**
-     * Creates the widgetData object to send to the manageaccess widget that contains all
+     * Create the widgetData object to send to the manageaccess widget that contains all
      * variable values needed by the widget.
      *
      * @return {Object}    The widgetData to be passed into the manageaccess widget
@@ -203,6 +182,7 @@ require(['jquery','oae.core'], function($, oae) {
                 'loggedinDescription': oae.api.i18n.translate('__MSG__DISCUSSION_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(discussionProfile.tenant.displayName)}),
                 'publicDescription': oae.api.i18n.translate('__MSG__DISCUSSION_PUBLIC_DESCRIPTION__')
             },
+            'defaultRole': 'member',
             'roles': {
                 'member': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
                 'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')
@@ -216,18 +196,23 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * Triggers the manageaccess widget and passes in context data
+     * Trigger the manageaccess widget and pass in context data
      */
     $(document).on('click', '.discussion-trigger-manageaccess', function() {
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
     });
 
     /**
-     * Re-render the discussion's clip when the permissions have been updated.
+     * Trigger the manageaccess widget in `add members` view and pass in context data
      */
-    $(document).on('oae.manageaccess.done', function(ev) {
-        setUpClips();
+    $(document).on('click', '.discussion-trigger-manageaccess-add', function() {
+        $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
     });
+
+    /**
+     * Re-render the discussion's clip when the permissions have been updated
+     */
+    $(document).on('oae.manageaccess.done', setUpClip);
 
 
     /////////////////////
@@ -235,13 +220,36 @@ require(['jquery','oae.core'], function($, oae) {
     /////////////////////
 
     /**
-     * Re-render the discussion's clip. The discussion topic will be handled by the discussion widget.
+     * Refresh the discussion topic by emptying the existing discussion topic container and
+     * rendering a new one
      */
-    $(document).on('oae.editdiscussion.done', function(ev, data) {
-        discussionProfile = data;
-        setUpClips();
-    });
+    var refreshDiscussionTopic = function() {
+        // Empty the preview container
+        var $widgetContainer = $('#lhnavigation-widget-discussion');
+        $widgetContainer.empty();
 
+        // Insert the new updated discussion widget
+        oae.api.widget.insertWidget('discussion', null, $widgetContainer, null, discussionProfile);
+    };
+
+    /**
+     * Refresh the discussion profile by updating the clips and discussion topic
+     *
+     * @param  {Discussion}        updatedDiscussion          Discussion profile of the updated discussion item
+     */
+    var refreshDiscussionProfile = function(updatedDiscussion) {
+        // Cache the discussion profile data
+        discussionProfile = updatedDiscussion;
+        // Refresh the discussion topic
+        refreshDiscussionTopic();
+        // Refresh the clip
+        setUpClip();
+    };
+
+    // Catch the event sent out when the discussion has been updated
+    $(document).on('oae.editdiscussion.done', function(ev, updatedDiscussion) {
+        refreshDiscussionProfile(updatedDiscussion);
+    });
 
     getDiscussionProfile();
 

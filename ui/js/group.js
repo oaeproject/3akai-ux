@@ -45,8 +45,6 @@ require(['jquery', 'oae.core'], function($, oae) {
 
             // Cache the group profile data
             groupProfile = profile;
-            // Set the browser title
-            oae.api.util.setBrowserTitle(groupProfile.displayName);
             // Render the entity information
             setUpClip();
             // Set up the context event exchange
@@ -85,11 +83,15 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * Render the group's clip, containing the profile picture, display name as well as the
-     * group's admin options
+     * Render the group clip(s)
      */
     var setUpClip = function() {
-        oae.api.util.template().render($('#group-clip-template'), {'group': groupProfile}, $('#group-clip-container'));
+        oae.api.util.template().render($('#group-clip-template'), {
+            'group': groupProfile,
+            'displayOptions': {
+                'addLink': false
+            }
+        }, $('#group-clip-container'));
 
         // Only show the create and upload clips to group members
         if (groupProfile.isMember) {
@@ -108,29 +110,39 @@ require(['jquery', 'oae.core'], function($, oae) {
         var lhNavActions = [];
 
         // Add the upload and create clips for managers
-        if (groupProfile.isManager) {
+        if (groupProfile.isMember) {
             lhNavActions.push({
-                'icon': 'icon-cloud-upload',
+                'icon': 'fa-cloud-upload',
                 'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
+                'closeNav': true,
                 'class': 'oae-trigger-upload'
             },
             {
-                'icon': 'icon-plus-sign',
+                'icon': 'fa-plus-circle',
                 'title': oae.api.i18n.translate('__MSG__CREATE__'),
                 'children': [
                     {
-                        'icon': 'icon-link',
+                        'icon': 'fa-folder-open',
+                        'title': oae.api.i18n.translate('__MSG__FOLDER__'),
+                        'closeNav': true,
+                        'class': 'oae-trigger-createfolder'
+                    },
+                    {
+                        'icon': 'fa-link',
                         'title': oae.api.i18n.translate('__MSG__LINK__'),
+                        'closeNav': true,
                         'class': 'oae-trigger-createlink'
                     },
                     {
-                        'icon': 'icon-edit',
+                        'icon': 'fa-pencil-square-o',
                         'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
+                        'closeNav': true,
                         'class': 'oae-trigger-createcollabdoc'
                     },
                     {
-                        'icon': 'icon-comments',
+                        'icon': 'fa-comments',
                         'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
+                        'closeNav': true,
                         'class': 'oae-trigger-creatediscussion'
                     }
                 ]
@@ -140,7 +152,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Add the join clip when not a member and user can join
         if (!groupProfile.isMember && groupProfile.canJoin) {
             lhNavActions.push({
-                'icon': 'icon-pushpin',
+                'icon': 'fa-thumb-tack',
                 'title': oae.api.i18n.translate('__MSG__JOIN_GROUP__'),
                 'class': 'group-join'
             });
@@ -153,13 +165,14 @@ require(['jquery', 'oae.core'], function($, oae) {
             lhNavPages.push({
                 'id': 'activity',
                 'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
-                'icon': 'icon-dashboard',
+                'icon': 'fa-tachometer',
+                'closeNav': true,
                 'layout': [
                     {
                         'width': 'col-md-12',
                         'widgets': [
                             {
-                                'id': 'activity',
+                                'name': 'activity',
                                 'settings': {
                                     'context': groupProfile,
                                     'canManage': groupProfile.isManager
@@ -174,13 +187,14 @@ require(['jquery', 'oae.core'], function($, oae) {
         lhNavPages.push({
             'id': 'library',
             'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
-            'icon': 'icon-briefcase',
+            'icon': 'fa-briefcase',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'contentlibrary',
+                            'name': 'contentlibrary',
                             'settings': {
                                 'context': groupProfile,
                                 'canAdd': groupProfile.isMember,
@@ -194,13 +208,14 @@ require(['jquery', 'oae.core'], function($, oae) {
         {
             'id': 'discussions',
             'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
-            'icon': 'icon-comments',
+            'icon': 'fa-comments',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'discussionslibrary',
+                            'name': 'discussionslibrary',
                             'settings': {
                                 'context': groupProfile,
                                 'canAdd': groupProfile.isMember,
@@ -214,13 +229,14 @@ require(['jquery', 'oae.core'], function($, oae) {
         {
             'id': 'members',
             'title': oae.api.i18n.translate('__MSG__MEMBERS__'),
-            'icon': 'icon-user',
+            'icon': 'fa-user',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'members',
+                            'name': 'members',
                             'settings': {
                                 'context': groupProfile,
                                 'canManage': groupProfile.isManager
@@ -231,11 +247,9 @@ require(['jquery', 'oae.core'], function($, oae) {
             ]
         });
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
-        $('.oae-page').addClass('oae-anon-toggle');
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
-            $('.oae-page').addClass('oae-anon-toggle');
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
         });
     };
 
@@ -244,7 +258,11 @@ require(['jquery', 'oae.core'], function($, oae) {
      * are made by a different user after the initial page load
      */
     var setUpPushNotifications = function() {
-        oae.api.push.subscribe(groupId, 'activity', groupProfile.signature, 'internal', false, function(activity) {
+        oae.api.push.subscribe(groupId, 'activity', groupProfile.signature, 'internal', false, false, function(activities) {
+            // The `activity` stream pushes out activities on routing so it's always
+            // safe to just pick the first item from the `activities` array
+            var activity = activities[0];
+
             var supportedActivities = ['group-update', 'group-update-visibility'];
             // Only respond to push notifications caused by other users
             if (activity.actor.id !== oae.data.me.id && _.contains(supportedActivities, activity['oae:activityType'])) {
@@ -264,7 +282,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     ///////////////////
 
     /**
-     * Creates the widgetData object to send to the manageaccess widget that contains all
+     * Create the widgetData object to send to the manageaccess widget that contains all
      * variable values needed by the widget.
      *
      * @return {Object}    The widgetData to be passed into the manageaccess widget
@@ -286,6 +304,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'loggedinDescription': oae.api.i18n.translate('__MSG__GROUP_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(groupProfile.tenant.displayName)}),
                 'publicDescription': oae.api.i18n.translate('__MSG__GROUP_PUBLIC_DESCRIPTION_PRESENT__')
             },
+            'defaultRole': 'member',
             'roles': {
                 'member': oae.api.i18n.translate('__MSG__MEMBER__'),
                 'manager': oae.api.i18n.translate('__MSG__MANAGER__')
@@ -299,21 +318,21 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * Triggers the manageaccess widget and passes in context data
+     * Trigger the manageaccess widget and pass in context data
      */
     $(document).on('click', '.group-trigger-manageaccess', function() {
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
     });
 
     /**
-     * Triggers the manageaccess widget in `add members` view and passes in context data
+     * Trigger the manageaccess widget in `add members` view and pass in context data
      */
     $(document).on('click', '.group-trigger-manageaccess-add', function() {
         $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
     });
 
     /**
-     * Re-render the group's clip when the permissions have been updated.
+     * Re-render the group's clip when the permissions have been updated
      */
     $(document).on('oae.manageaccess.done', function(ev) {
         setUpClip();

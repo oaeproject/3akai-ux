@@ -15,9 +15,6 @@
 
 require(['jquery','oae.core', 'jquery.history'], function($, oae) {
 
-    // Set the browser title
-    oae.api.util.setBrowserTitle(oae.api.i18n.translate('__MSG__SEARCH__'));
-
     // Variable that will be used to keep track of the current
     // infinite scroll instance
     var infinityScroll = false;
@@ -35,6 +32,13 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
         var query = History.getState().data.query;
         $('.search-query').val(query);
 
+        // Set the browser title
+        var browserTitle = [oae.api.i18n.translate('__MSG__SEARCH__')];
+        if (query) {
+            browserTitle.push(query);
+        }
+        oae.api.util.setBrowserTitle(browserTitle);
+
         // Reset the type checkboxes to make sure that none of them stay checked incorrectly
         // when hitting the back and forward buttons
         $('#search-refine-type input[type="checkbox"]').prop('checked', false);
@@ -49,10 +53,11 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
             'limit': 12,
             'q': query,
             'resourceTypes': types,
-            'includeExternal': !oae.api.config.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate')
+            'scope': '_network'
         }, '#search-template', {
             'postRenderer': function(data) {
-                $('#search-total-results').text(data.total);
+                var nrResults = oae.api.l10n.transformNumber(data.total);
+                $('.oae-list-header-badge').text(nrResults).show();
             },
             'emptyListProcessor': function() {
                 oae.api.util.template().render($('#search-noresults-template'), {
@@ -112,6 +117,8 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
             'types': types,
             '_': Math.random()
         }, $('title').text(), url);
+
+        oae.api.util.template().render($('#search-list-header-template'), null, $('#search-list-header'));
     };
 
     /**

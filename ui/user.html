@@ -33,7 +33,7 @@
                         </div>
                         <div class="oae-clip-content">
                             <button type="button" disabled="disabled">
-                                ${renderThumbnail(user, false, false, false)}
+                                ${renderThumbnail(user, displayOptions)}
                                 <div>
                                     <div>
                                         <h1 class="oae-threedots">${user.displayName|encodeForHTML}</h1>
@@ -56,7 +56,7 @@
                             <div class="oae-clip-content">
                                 <button type="button" class="user-follow">
                                     <div>
-                                        <i class="icon-bookmark pull-left"></i>
+                                        <i class="fa fa-bookmark pull-left"></i>
                                         <h1>__MSG__FOLLOW__</h1>
                                     </div>
                                 </button>

@@ -33,16 +33,17 @@ define([
          * libraries are already included in the `oae.core` dependency and individual libraries will not be loaded
          * on the client when requested.
          */
+        'oae.api.admin',
         'oae.api.authentication',
         'oae.api.config',
         'oae.api.content',
         'oae.api.comment',
         'oae.api.discussion',
+        'oae.api.folder',
         'oae.api.follow',
         'oae.api.group',
         'oae.api.i18n',
         'oae.api.l10n',
-        'oae.api.profile',
         'oae.api.push',
         'oae.api.user',
         'oae.api.util',
@@ -57,7 +58,7 @@ define([
         'jquery.clip',
         'jquery.dnd-upload',
         'jquery.infinitescroll',
-        'jquery.list-options',
+        'jquery.list',
         'jquery.responsive',
         'jquery.update-picture',
 
@@ -77,6 +78,7 @@ define([
         'jquery.timeago',
         'jquery.validate',
         'jquery-ui',
+        'markdown',
         'sockjs',
         'tinycon',
         'underscore'

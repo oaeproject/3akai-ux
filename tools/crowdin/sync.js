@@ -54,7 +54,7 @@ var downloadCrowdinLibrary = function(callback) {
     } else {
         // Download the JAR file
         console.log('Downloading crowdin JAR file');
-        shelljs.exec(util.format('curl http://crowdin.net/downloads/crowdin-cli.jar > %s/crowdin-cli.jar', crowdinDir), {}, callback);
+        shelljs.exec(util.format('curl https://crowdin.net/downloads/crowdin-cli.jar > %s/crowdin-cli.jar', crowdinDir), {}, callback);
     }
 };
 
@@ -134,8 +134,16 @@ var removeEmptyBundles = function(bundles) {
 
     _.each(bundles, function(bundle) {
         var i18nKeys = propertiesParser.read(bundle);
+        // Verify if the bundle is empty by checking if there are any
+        // non-empty tranlations in the bundle
+        var isEmpty = true;
+        _.each(i18nKeys, function(translation) {
+            if (translation) {
+                isEmpty = false;
+            }
+        });
         // Remove empty bundles from the file system
-        if (_.keys(i18nKeys).length === 0) {
+        if (isEmpty) {
             bundlesToRemove.push(bundle);
             fs.unlinkSync(bundle);
             console.log('Removed empty bundle: ' + bundle);

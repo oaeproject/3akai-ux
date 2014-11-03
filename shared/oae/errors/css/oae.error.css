@@ -17,31 +17,36 @@
     margin-top: 2%;
 }
 
+#error-content {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 #error-content .row {
     margin: 100px auto;
     max-width: 900px;
     padding: 50px 0;
 }
 
-#error-content .row div:first-child {
-    margin-bottom: 50px;
+#error-content #error-code,
+#error-content h1  {
+    font-weight: 200;
+    text-align: center;
+}
+
+#error-content #error-code {
+    line-height: 0.7;
+    font-size: 100px;
 }
 
 #error-content h1 {
-    font-size: 100px;
-    font-weight: 200;
-    line-height: .4;
-    margin-top: 15px;
-}
-
-#error-content h1 span {
     font-size: 26px;
     font-style: italic;
+    margin-bottom: 20px;
 }
 
 #error-content #error-quote-container {
     max-width: 500px;
-    padding: 20px;
     position: relative;
 }
 
@@ -51,31 +56,54 @@
     line-height: 1.3;
 }
 
-#error-content #error-quote-container .btn + span {
+#error-content #error-quote-container #error-quote-author {
+    padding-left: 80px;
+    text-align: left;
+    margin-top: 6px;
+}
+
+#error-content #error-quote-container form {
+    display: inline;
+}
+
+#error-content #error-quote-container .error-instruction {
+    display: inline-block;
     font-size: 13px;
     font-style: italic;
     margin-left: 7px;
+    padding-top: 7px;
 }
 
 #error-content #error-quote-container + div {
-    margin: -30px 0 0 80px;
+    margin: -40px 0 0 80px;
 }
 
-#error-content #error-quote-container:after {
+#error-content #error-quote-container .oae-panel-tertiary:after {
     border-style: solid;
     border-width: 0 27px 27px 0;
     border-bottom-color: transparent;
     border-left-color: transparent;
-    bottom: -27px;
+    bottom: 0;
     content: "";
     left: 40px;
     position: absolute;
 }
 
-/* iPhone resolution */
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+@media (max-width: 991px) {
     #error-content .row {
-        margin: 10px auto;
-        padding: 10px 0;
+        margin: 40px auto;
+    }
+
+    #error-content #error-quote-container .oae-panel-tertiary {
+        text-align: center;
+    }
+
+    #error-content #error-quote-container {
+        margin: 0 auto;
+    }
+
+    #error-content #error-quote-container + div {
+        margin: -30px 0 0;
+        text-align: center;
     }
 }

@@ -81,7 +81,10 @@
 							} else {
 								settings.onProviderNotFound.call(container, resourceURL);
 							}
-						  }
+						  },
+						  error: function() {
+                              				settings.onError.call(container, resourceURL)
+                            			  }
 						}, settings.ajaxOptions || {});
 
 						$.ajax(ajaxopts);

@@ -25,16 +25,30 @@ require(['jquery','oae.core'], function($, oae) {
     var setUpSearch = function() {
         $(document).on('submit', '#index-search-form', function() {
             var query = $.trim($('#index-search-query', $(this)).val());
+            // Remove all hash characters from the search query. History.js expects to be in
+            // full control of the URL hash and adding one  into the URL ourself would interfere with that
+            // @see https://github.com/oaeproject/3akai-ux/issues/3872
+            query = query.replace(/#/g, '');
             window.location = '/search/' + oae.api.util.security().encodeForURL(query);
             return false;
         });
     };
 
     /**
-     * Set up the product video button when on desktop, render the video in the page for mobile
+     * Set up the product video and play it. On mobile devices the video won't automatically
+     * play because of restrictions.
      */
     var setUpProductVideo = function() {
-        oae.api.util.template().render($('#index-productvideo-template'), null, $('#index-video-container'));
+        $('#index-video-launch').on('click', function() {
+            oae.api.util.template().render($('#index-video-template'), null, $('#index-video-container'));
+        });
+    };
+
+    /**
+     * Add binding to various elements on the index page
+     */
+    var addBinding = function() {
+        $('#index-video-launch').on('click', playProductVideo);
     };
 
     setUpSearch();
