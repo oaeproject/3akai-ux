@@ -936,17 +936,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     // Get the query from the request URL on the Ajax object, as that is the only provided clue
                     // for finding out the search query
                     var query = $.url(this.url).param('q');
-                    var filteredResults = [];
                     $.each(data.results, function(index, result) {
-                        // Filter out the currently logged in user. If the user needs to be able to add to the own
-                        // library a ghost item should be used.
-                        if (require('oae.core').data.me.id !== result.id) {
-                            result.displayName = security().encodeForHTML(result.displayName);
-                            result.query = query;
-                            filteredResults.push(result);
-                        }
+                        result.displayName = security().encodeForHTML(result.displayName);
+                        result.query = query;
                     });
-                    data.results = filteredResults;
+
                     if (retrieveComplete) {
                         return retrieveComplete(data);
                     } else {

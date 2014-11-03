@@ -467,8 +467,6 @@ ul.as-selections {
     -webkit-border-radius: 4px;
        -moz-border-radius: 4px;
             border-radius: 4px;
-    padding: 4px;
-    width: 100%;
 }
 
 ul.as-selections li.as-original {
@@ -502,13 +500,13 @@ ul.as-selections li.as-selection-item {
     line-height: 30px;
     margin-bottom: 3px;
     margin-right: 5px;
-    max-width: 100%;
+    max-width: 300px;
     text-shadow: none;
     width: auto;
 }
 
 ul.as-selections li.as-selection-item span {
-    max-width: 75%;
+    max-width: 220px;
     width: auto;
 }
 
