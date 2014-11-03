@@ -111,7 +111,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     /**
      * Log out of an internal user using the local authentication strategy
      */
-    var localLogout = exports.localLogout = function(callback) {
+    var logout = exports.logout = function(callback) {
         $.ajax({
             'url': '/api/auth/logout',
             'type': 'POST',

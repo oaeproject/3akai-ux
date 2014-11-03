@@ -94,7 +94,6 @@ var adminUtil = (function() {
      * @param  {String}     host              The host name of the tenant
      * @param  {Function}   callback          Standard callback function
      * @param  {String}     callback.tenant   The profile of the tenant that was created
-     *
      * @return {String}     tenantID    The ID of the generated tenant
      */
     var createTenant = function(alias, displayName, host, callback) {

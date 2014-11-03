@@ -129,7 +129,7 @@ var userUtil = (function() {
             var done = null;
             var err = null;
 
-            mainUtil.callInternalAPI('authentication', 'localLogout', null, function(_err) {
+            mainUtil.callInternalAPI('authentication', 'logout', null, function(_err) {
                 if (_err) {
                     casper.echo('Could not log out. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
                     err = _err;

@@ -49,6 +49,7 @@ var contentUtil = (function() {
              * @param  {String}    contentId          The ID of the content item to retrieve
              * @param  {Object}    updatedMembers     JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
              * @param  {Content}   _contentProfile    Content object representing the content to update the members for
+             * @api private
              */
             var _updateMembers = function(contentId, members, _contentProfile) {
                 mainUtil.callInternalAPI('content', 'updateMembers', [contentId, members], function(_err) {
@@ -73,6 +74,7 @@ var contentUtil = (function() {
              *
              * @param  {String}    contentId    Id of the content item we're trying to update
              * @param  {Object}    params       JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
+             * @api private
              */
             var _updateContent = function(contentId, params) {
                 var updatedContent = null;
@@ -109,6 +111,7 @@ var contentUtil = (function() {
              * Retrieve the content profile and continue with updating the content metadata
              *
              * @param  {String}    contentId    The ID of the content item to retrieve
+             * @api private
              */
             var _getContent = function(contentId) {
                 var retrievedContent = null;
