@@ -28,6 +28,8 @@
     "grunt-cli": "latest",
     "grunt-contrib-clean": "latest",
     "grunt-contrib-copy": "latest",
+    "grunt-contrib-csslint": "latest",
+    "grunt-contrib-jshint": "latest",
     "grunt-contrib-qunit": "latest",
     "grunt-contrib-requirejs": "latest",
     "grunt-exec": "latest",
