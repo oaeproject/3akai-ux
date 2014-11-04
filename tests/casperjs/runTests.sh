@@ -5,21 +5,21 @@
 # Function to lint the source code
 LINTEXITCODE=0
 runLint() {
-    grunt lint
+    node_modules/.bin/grunt lint
     LINTEXITCODE=$?
 }
 
 # Function to run the QUnit test suite
 QUNITEXITCODE=0
 runQunitTests() {
-    grunt qunit:test.oae.com
+    node_modules/.bin/grunt qunit:test.oae.com
     QUNITEXITCODE=$?
 }
 
 # Function to run the CasperJS test suite
 CASPEREXITCODE=0
 runCasperJSTests() {
-    grunt ghost
+    node_modules/.bin/grunt ghost
     CASPEREXITCODE=$?
 }
 
