@@ -50,7 +50,7 @@ module.exports = function(grunt) {
         },
         'csslint': {
             'options': {
-                'import': 2
+                'ids': false        // ignore "Don't use IDs in CSS selectors" warning
             },
             'files': [
                 'admin/**/*.css',
