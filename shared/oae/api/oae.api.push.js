@@ -274,7 +274,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
                 } else {
                     // A copy of the activities is returned to the listener to avoid
                     // modifications by their post-processing messing up later deliveries
-                    var copiedMessage = copyMessage(message, activities);
+                    var copiedMessage = copyMessage(message, undefined);
                     var copiedActivities = copiedMessage.activities;
 
                     // Aggregate the activities within this message if required
