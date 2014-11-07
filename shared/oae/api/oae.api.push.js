@@ -306,12 +306,12 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
      * Create a copy of a push message and overlay an array of activities
      *
      * @param  {Object}         message         The message to copy
-     * @param  {Activity[]}     activities      The set of activities that should be overlayed on `message.activities`
+     * @param  {Activity[]}     [activities]    The set of activities that should be overlayed on `message.activities`
      * @return {Object}                         A deep copy of the message
      * @api private
      */
     var copyMessage = function(message, activities) {
-        return $.extend(true, {}, message, {'activities': activities});
+        return $.extend(true, {}, message, activities ? {'activities': activities} : {});
     };
 
     /**
