@@ -18,7 +18,6 @@ before_install:
 
   # Add PPA repos for miscellaneous dependencies
   - echo 'yes' | sudo add-apt-repository ppa:oae/deps
-  - echo 'yes' | sudo add-apt-repository ppa:coolwanglu/pdf2htmlex
   - sudo apt-get update
 
   # Install cassandra 1.2 manually
