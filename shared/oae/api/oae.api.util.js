@@ -282,6 +282,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 try {
                     templateCache[templateId] = TrimPath.parseTemplate(templateContent, templateId);
                 } catch (parseErr) {
+                    console.log(parseErr);
                     throw new Error('Parsing of template "' + templateId + '" failed: ' + parseErr);
                 }
             }
@@ -294,6 +295,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 // Filter out comments from the rendered template
                 renderedHTML = renderedHTML.replace(/<!--(?:.|\n)*?-->/gm, '');
             } catch (renderErr) {
+                console.log(renderErr);
                 throw new Error('Rendering of template "' + templateId + '" failed: ' + renderErr);
             }
 

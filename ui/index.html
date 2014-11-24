@@ -37,15 +37,13 @@
                 {/macro}
 
                 {macro renderIconTextBlock(block)}
-                    {if block.titleColor}
-                        {var iconColor = block.titleColor}
-                    {/if}
-                    <i class="fa ${block.icon}" style="{if iconColor} color: ${iconColor} {/if}"/>
-                    <div class="oae-markdown">${oae.api.util.security().encodeMarkdownForHTMLWithLinks(oae.api.i18n.translate(block.text['default']))}</div>
+                    {var iconColor = block.titleColor || '#FFF'}
+                    <i class="fa ${block.icon}" style="color: ${iconColor}"/>
+                    <div class="oae-markdown">${oae.api.util.security().encodeMarkdownForHTMLWithLinks(oae.api.i18n.translate(block.text))}</div>
                 {/macro}
 
                 {macro renderTextBlock(block)}
-                    <div class="oae-markdown">${oae.api.util.security().encodeMarkdownForHTMLWithLinks(oae.api.i18n.translate(block.text['default']))}</div>
+                    <div class="oae-markdown">${oae.api.util.security().encodeMarkdownForHTMLWithLinks(oae.api.i18n.translate(block.text))}</div>
                 {/macro}
 
                 {macro renderVideoBlock(block)}
@@ -67,39 +65,22 @@
                             {var currentWidth = parseInt(block[view], 10)}
                             ${totalWidth += currentWidth|eat}
 
-                            {if block.bgColor}
-                                {var backgroundColor = block.bgColor}
-                            {/if}
-                            {if block.textColor}
-                                {var textColor = block.textColor}
-                            {/if}
+                            {var backgroundColor = block.bgColor || 'transparent'}
+                            {var backgroundImage = block.imgUrl || block.videoPlaceholder}
+                            {var textColor = block.textColor || '#FFF'}
+                            {var minHeight = block.minHeight}
 
-                            {if block.minHeight}
-                                {var minHeight = block.minHeight}
-                            {else}
-                                {var minHeight = null}
-                            {/if}
-
-                            {if block.type === 'search'}
-                                <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="{if minHeight} height: ${minHeight}px; {/if} {if backgroundColor} background-color: ${backgroundColor}; {/if} {if textColor} color: ${textColor}; {/if}">
+                            <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="background-color: ${backgroundColor}; color: ${textColor}; {if backgroundImage} background-image: url(${backgroundImage}); {/if} {if minHeight} height: ${minHeight}px; {/if}">
+                                {if block.type === 'search'}
                                     ${renderSearchBlock()}
-                                </div>
-                            {elseif block.type === 'iconText'}
-                                <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="{if minHeight} height: ${minHeight}px; {/if} {if backgroundColor} background-color: ${backgroundColor}; {/if} {if textColor} color: ${textColor}; {/if}">
+                                {elseif block.type === 'iconText'}
                                     ${renderIconTextBlock(block)}
-                                </div>
-                            {elseif block.type === 'image'}
-                                <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="background-image: url(${block.imgUrl}); {if minHeight} height: ${minHeight}px; {/if} {if textColor} color: ${textColor}; {/if}">
-                                </div>
-                            {elseif block.type === 'text'}
-                                <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="{if minHeight} height: ${minHeight}px; {/if} {if backgroundColor} background-color: ${backgroundColor}; {/if} {if textColor} color: ${textColor}; {/if}">
+                                {elseif block.type === 'text'}
                                     ${renderTextBlock(block)}
-                                </div>
-                            {elseif block.type === 'video'}
-                                <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="background-image: url(${block.videoPlaceholder}); {if minHeight} height: ${minHeight}px; {/if} {if backgroundColor} background-color: ${backgroundColor}; {/if} {if textColor} color: ${textColor}; {/if}">
+                                {elseif block.type === 'video'}
                                     ${renderVideoBlock(block)}
-                                </div>
-                            {/if}
+                                {/if}
+                            </div>
 
                             {if totalWidth >= 12 || parseInt(block_index, 10) === blocks.length - 1}
                                 </div>
