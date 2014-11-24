@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jshint.js'], function(oae, util) {
+require(['oae.core', '/tests/qunit/js/util.js', 'jquery'], function(oae, util) {
 
     module("Clean JavaScript");
 
@@ -55,28 +55,6 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
     };
 
     /**
-     * Run a JavaScript file through JSHint
-     *
-     * @param  {String}     jsFile        The contents of a JavaScript file
-     */
-    var JSHintfile = function(jsFile) {
-        var result = JSHINT(jsFile, {
-            'eqeqeq': true, // use === and !== instead of == and !=
-            'sub': true     // ignore dot notation recommendations - ie ['userid'] should be .userid
-        });
-        if (result) {
-            ok(result, 'JSHint clean');
-        } else {
-            $.each(JSHINT.errors, function(i) {
-                var error = JSHINT.errors[i];
-                if (error) {
-                    ok(false, 'JSHint error on line ' + error.line + ' character ' + error.character + ': ' + error.reason + ', ' + error.evidence);
-                }
-            });
-        }
-    };
-
-    /**
      * Initialize the clean JavaScript test
      *
      * @param  {Object}   testData    The test data containing all files to be tested (html, css, js, properties)
@@ -84,7 +62,7 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
     var cleanJSTest = function(testData) {
 
         /**
-         * Test a JavaScript file for console and alert statements and run the file through JSHint
+         * Test a JavaScript file for console and alert statements
          *
          * @param  {String}    testTitle    The title of the test
          * @param  {String}    jsFile       The contents of a JavaScript file
@@ -93,7 +71,6 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
             test(testTitle, function() {
                 checkForConsoleLog(jsFile);
                 checkForAlert(jsFile);
-                JSHintfile(jsFile);
             });
         };
 
