@@ -32,7 +32,7 @@ require(['jquery','oae.core'], function($, oae) {
                 // after all Markdown content has been converted to HTML
                 $.each(blocks, function(blockIndex, block) {
                     if (block.titleColor) {
-                        $('.index-block-' + blockIndex + ' :header').css('color', block.titleColor);
+                        $('.index-block-' + blockIndex).filter(':header').css('color', block.titleColor);
                     }
                 });
 
@@ -92,7 +92,7 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var repositionPlayVideo = function() {
         // Reposition the play button for all videos
-        var $videos = $('.index-block-video.index-block-video');
+        var $videos = $('.index-block-video');
         if ($videos.length) {
             var visible = false;
             $videos.each(function(videoIndex, video) {

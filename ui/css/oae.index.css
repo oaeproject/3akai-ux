@@ -33,8 +33,8 @@
 #index-page-container .index-block {
     background-position: center;
     background-size: cover;
-    float: none;
     display: table-cell;
+    float: none;
     padding: 25px 25px;
     vertical-align: top;
 }
@@ -85,8 +85,8 @@
 #index-page-container .index-block-search-container .index-search-icon {
     height: 37px;
     margin-left: -27px;
-    padding: 0px;
     opacity: 0.6;
+    padding: 0px;
 }
 
 /* Text block */
