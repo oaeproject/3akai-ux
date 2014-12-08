@@ -14,11 +14,9 @@
  */
 
 /**
- * General utility functions
- *
- * @return  {Object}    Returns an object with referenced utility functions
+ * Admin utility functions
  */
-var adminUtil = function(alias) {
+var adminUtil = (function() {
 
     /**
      * Verify if a tenant has already been created.
@@ -26,21 +24,31 @@ var adminUtil = function(alias) {
      * @param  {String}     alias                   The alias of the tenant
      * @param  {Function}   callback                Standard callback function
      * @param  {Boolean}    callback.tenantExists   `true` if the tenant already exists
+     * @api private
      */
     var verifyTenantExists = function(alias, callback) {
-        tenants = casper.evaluate(function() {
-            return JSON.parse(__utils__.sendAJAX('/api/tenants', 'GET', null, false));
+        var tenantExists = null;
+        var err = null;
+
+        mainUtil.callInternalAPI('admin', 'getTenants', null, function(_err, tenants) {
+            if (_err) {
+                casper.echo('Could not retrieve the list of tenants. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                err = _err;
+            } else {
+                for (var i in tenants) {
+                    if (tenants[i].alias === alias) {
+                        tenantExists = true;
+                        break;
+                    }
+                }
+                tenantExists = tenantExists || false;
+            }
         });
 
-        var tenantExists = false;
-        for (var i in tenants) {
-            if (tenants[i].alias === alias) {
-                tenantExists = true;
-            }
-        }
-
-        casper.then(function() {
-            callback(tenantExists);
+        casper.waitFor(function() {
+            return tenantExists !== null || err !== null;
+        }, function() {
+            callback(err, tenantExists);
         });
     };
 
@@ -51,6 +59,7 @@ var adminUtil = function(alias) {
      * @param  {Object}     configToStore         The configuration to check
      * @param  {Function}   callback              Standard callback function
      * @param  {Boolean}    callback.configSet    Standard callback function
+     * @api private
      */
     var verifyConfigSet = function(alias, configToStore, callback) {
         storedConfig = casper.evaluate(function(alias) {
@@ -84,52 +93,47 @@ var adminUtil = function(alias) {
      * @param  {String}     displayName       The display name of the tenant
      * @param  {String}     host              The host name of the tenant
      * @param  {Function}   callback          Standard callback function
-     * @param  {String}     callback.alias    The alias of the tenant that was created
-     *
+     * @param  {String}     callback.tenant   The profile of the tenant that was created
      * @return {String}     tenantID    The ID of the generated tenant
      */
     var createTenant = function(alias, displayName, host, callback) {
-        verifyTenantExists(alias, function(exists) {
-            // If the test tenant already exists continue
-            if (exists) {
-                casper.echo('The test tenant already exists.');
+        casper.then(function() {
+            verifyTenantExists(alias, function(_err, exists) {
+                // If the test tenant already exists continue
+                if (exists) {
+                    casper.echo('The test tenant already exists.');
 
-                casper.then(function() {
-                    if (callback) {
-                        callback(alias);
-                    }
-                });
-            // If the test tenant doesn't exist yet create it and continue
-            } else {
-                var tenantID = '';
-                var rndString = mainUtil().generateRandomString();
-                alias = alias || rndString;
-                displayName = displayName || rndString + ' Tenant';
-                host = host || rndString + '.oae.com';
+                    casper.then(function() {
+                        if (callback) {
+                            return callback(null, alias);
+                        }
+                    });
+                // If the test tenant doesn't exist yet, create it and continue
+                } else {
+                    var tenant = null;
+                    var err = null;
+                    var rndString = mainUtil.generateRandomString();
+                    alias = alias || rndString;
+                    displayName = displayName || rndString + ' Tenant';
+                    host = host || rndString + '.oae.com';
 
-                data = casper.evaluate(function(alias, displayName, host) {
-                    return JSON.parse(__utils__.sendAJAX('/api/tenant/create', 'POST', {
-                        'alias': alias,
-                        'displayName': displayName,
-                        'host': host
-                    }, false));
-                }, alias, displayName, host);
+                    mainUtil.callInternalAPI('admin', 'createTenant', [alias, displayName, host], function(_err, _tenant) {
+                        if (_err) {
+                            casper.echo('Could not create tenant ' + displayName + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                            err = _err;
+                        } else {
+                            tenant = _tenant;
+                            casper.echo('Successfully created tenant ' + displayName + '.');
+                        }
+                    });
 
-                casper.then(function() {
-                    if (data) {
-                        casper.echo('Successfully created tenant ' + displayName + '.');
-                    } else {
-                        casper.echo('Could not create tenant ' + displayName + ', stopping test.', 'ERROR');
-                        casper.exit();
-                    }
-                });
-
-                casper.then(function() {
-                    if (callback) {
-                        callback(alias);
-                    }
-                });
-            }
+                    casper.waitFor(function() {
+                        return tenant !== null || err !== null;
+                    }, function() {
+                        return callback(err, tenant);
+                    });
+                }
+            });
         });
     };
 
@@ -141,21 +145,23 @@ var adminUtil = function(alias) {
      * @param  {Funcction}    callback          Standard callback function
      */
     var writeConfig = function(tenantID, config, callback) {
-        data = casper.evaluate(function(tenantID, config) {
-            return JSON.parse(__utils__.sendAJAX('/api/config/' + tenantID, 'POST', config, false));
-        }, tenantID, config);
-
         casper.then(function() {
-            verifyConfigSet(tenantID, config, function(configSet) {
-                if (configSet) {
-                    casper.echo('Successfully saved the tenant configuration.');
-                    if (callback) {
-                        callback();
+            data = casper.evaluate(function(tenantID, config) {
+                return JSON.parse(__utils__.sendAJAX('/api/config/' + tenantID, 'POST', config, false));
+            }, tenantID, config);
+
+            casper.then(function() {
+                verifyConfigSet(tenantID, config, function(configSet) {
+                    if (configSet) {
+                        casper.echo('Successfully saved the tenant configuration.');
+                        if (callback) {
+                            callback();
+                        }
+                    } else {
+                        casper.echo('Could not save the tenant configuration, stopping test.', 'ERROR');
+                        casper.exit();
                     }
-                } else {
-                    casper.echo('Could not save the tenant configuration, stopping test.', 'ERROR');
-                    casper.exit();
-                }
+                });
             });
         });
     };
@@ -164,4 +170,4 @@ var adminUtil = function(alias) {
         'createTenant': createTenant,
         'writeConfig': writeConfig
     };
-};
+})();

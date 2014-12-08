@@ -109,6 +109,22 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     };
 
     /**
+     * Log out of an internal user using the local authentication strategy
+     */
+    var logout = exports.logout = function(callback) {
+        $.ajax({
+            'url': '/api/auth/logout',
+            'type': 'POST',
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
      * Log in using the LDAP authentication strategy
      *
      * @param  {String}         username              Username for the user logging in
