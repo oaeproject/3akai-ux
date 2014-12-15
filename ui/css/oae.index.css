@@ -174,7 +174,7 @@
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 479px) {
     #index-container #index-slogan {
         font-size: 34px;
     }
