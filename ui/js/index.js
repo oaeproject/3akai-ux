@@ -20,6 +20,19 @@ require(['jquery','oae.core'], function($, oae) {
 
     /**
      * Render the configured tenant landing page
+     *
+     * An unconfigured tenant landing page will use the following i18n keys:
+     *
+     *  - __MSG__SUPPORTING_ACADEMIC_COLLABORATION__
+     *  - __MSG__A_POWERFULL_NEW_WAY_FOR_STUDENTS_AND_FACULTY_TO_CREATE_KNOWLEDGE_COLLABORATE_AND_CONNECT_WITH_THE_WORLD__
+     *  - __MSG__AUTHORING_EXPERIENCE__
+     *  - __MSG__RICH_COMPELLING_INTERACTIVE_CONTENT_AUTHORING__
+     *  - __MSG__CHANNELS_OF_COMMUNICATION__
+     *  - __MSG__PARTICIPATING_IN_DISCUSSIONS_AND_FEEDBACK_WITHIN_PERSONALIZED_NETWORKS__
+     *  - __MSG__ACCESS_TO_CONTENT__
+     *  - __MSG__EXPANDED_ACCESS_TO_LEARNING_AND_RESEARCH_MATERIALS_BETTER_CONNECTS_LIBRARY_SERVICES__
+     *
+     * We need to explicitly mention them here to prevent QUnit test failures on unused keys
      */
     var renderLandingPage = function() {
         $.ajax({
