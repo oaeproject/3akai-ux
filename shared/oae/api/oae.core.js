@@ -54,6 +54,7 @@ define([
          */
         'bootstrap.focus',
         'bootstrap.modal',
+        'bootstrap.popover',
         'jquery.browse-focus',
         'jquery.clip',
         'jquery.dnd-upload',
@@ -65,7 +66,6 @@ define([
         /*!
          * Third-party dependencies
          */
-        'bootstrap.clickover',
         'bootstrap.notify',
         'globalize',
         'jquery.encoder',

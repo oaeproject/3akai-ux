@@ -373,8 +373,7 @@ input.search-query {
     float: right;
 }
 
-/* CLICKOVER DIALOGS
- * @see https://github.com/lecar-red/bootstrapx-clickover
+/* POPOVER DIALOGS
  * @see http://getbootstrap.com/javascript/#popovers */
 
 /* Bootstrap applies a pretty small default max-width, make the default a bit wider */
