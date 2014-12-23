@@ -940,6 +940,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         result.displayName = security().encodeForHTML(result.displayName);
                         result.query = query;
                     });
+
                     if (retrieveComplete) {
                         return retrieveComplete(data);
                     } else {
@@ -1008,8 +1009,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 }
                 options.selectionAdded = function(elem) {
                     var $elem = $(elem);
-                    // Make sure that the item cannot overflow
-                    $elem.addClass('oae-threedots');
+                    // Wrap the element text in a 'oae-threedots' span element to prevent overflowing
+                    var text = $elem[0].lastChild.nodeValue;
+                    $elem[0].lastChild.remove();
+                    $elem.append($('<span>' + text + '</span>').addClass('pull-left oae-threedots'));
 
                     var originalData = $elem.data('originalData');
                     if (originalData.resourceType) {

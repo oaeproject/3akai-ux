@@ -491,8 +491,8 @@ ul.as-selections li.as-original input::-ms-clear {
 
 ul.as-selections li.as-selection-item {
     -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-             border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
@@ -500,8 +500,14 @@ ul.as-selections li.as-selection-item {
     line-height: 30px;
     margin-bottom: 3px;
     margin-right: 5px;
-    max-width: 400px;
+    max-width: 300px;
     text-shadow: none;
+    width: auto;
+}
+
+ul.as-selections li.as-selection-item span {
+    max-width: 220px;
+    width: auto;
 }
 
 ul.as-selections li.as-selection-item .oae-thumbnail {
