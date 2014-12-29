@@ -182,8 +182,7 @@
                         $("li.as-selection-item", selections_holder).removeClass("blur");
                         if($(this).val() != ""){
                             results_ul.css("width",selections_holder.outerWidth());
-                            results_holder.attr("aria-expanded","true").show();
-                            input.attr("aria-activedescendant",results_holder.find(".active").attr("id"));
+                            showResults();
                         }
                     }
                     if (interval) clearInterval(interval);
@@ -191,8 +190,7 @@
                         if(opts.showResultList){
                             if(opts.selectionLimit && $("li.as-selection-item", selections_holder).length >= opts.selectionLimit){
                                 results_ul.html('<li class="as-message">'+opts.limitText+'</li>');
-                                results_holder.attr("aria-expanded","true").show();
-                                input.attr("aria-activedescendant",results_holder.find(".active").attr("id"));
+                                showResults();
                             } else {
                                 keyChange();
                             }
@@ -208,8 +206,7 @@
                         $(this).val(opts.startText);
                     } else if(input_focus){
                         $("li.as-selection-item", selections_holder).addClass("blur").removeClass("selected");
-                        results_holder.attr("aria-expanded","false").hide();
-                        input.removeAttr("aria-activedescendant");
+                        hideResults();
                     }
                     if (interval) clearInterval(interval);
                 }).keydown(function(e) {
@@ -239,8 +236,7 @@
                                 }
                             }
                             if(input.val().length == 1){
-                                results_holder.attr("aria-expanded","false").hide();
-                                input.removeAttr("aria-activedescendant");
+                                hideResults();
                                 prev = "";
                                 abortRequest();
                             }
@@ -276,8 +272,7 @@
                             var active = $("li.active:first", results_holder);
                             if(active.length > 0){
                                 active.click();
-                                results_holder.attr("aria-expanded","false").hide();
-                                input.removeAttr("aria-activedescendant");
+                                hideResults();
                             }
                             if(opts.neverSubmit || active.length > 0){
                                 e.preventDefault();
@@ -288,8 +283,7 @@
                         case 16: // shift
                         case 20: // capslock
                             abortRequest();
-                            results_holder.attr("aria-expanded","false").hide();
-                            input.removeAttr("aria-activedescendant");
+                            hideResults();
                             break;
                     }
                 });
@@ -299,7 +293,7 @@
                     // and type some chinese character, `lastKeyPressCode` will still be [del].
                     // This might cause problem so we move the line to key events section;
                     // ignore if the following keys are pressed: [del] [shift] [capslock]
-                    // if( lastKeyPressCode == 46 || (lastKeyPressCode > 8 && lastKeyPressCode < 32) ){ input.removeAttr("aria-activedescendant"); return results_holder.attr("aria-expanded","false").hide(); }
+                    // if( lastKeyPressCode == 46 || (lastKeyPressCode > 8 && lastKeyPressCode < 32) ){ input.removeAttr("aria-activedescendant"); return hideResults(); }
                     var string = input.val().replace(/[\\]+|[\/]+/g,"");
                     if (string == prev) return;
                     prev = string;
@@ -308,8 +302,7 @@
                         processRequest(string);
                     } else {
                         selections_holder.removeClass("loading");
-                        results_holder.attr("aria-expanded","false").hide();
-                        input.removeAttr("aria-activedescendant");
+                        hideResults();
                     }
                 }
                 function processRequest(string){
@@ -324,8 +317,7 @@
                     if (!opts.matchCase){ query = query.toLowerCase(); }
                     query = query.replace("(", "\\(", "g").replace(")", "\\)", "g");
                     var matchCount = 0;
-                    results_holder.attr("aria-expanded","false").html(results_ul.html("")).hide();
-                    input.removeAttr("aria-activedescendant");
+                    hideResults();
                     var d_count = countValidItems(data);
                     for(var i=0;i<d_count;i++){
                         var num = i;
@@ -357,8 +349,7 @@
                                         prev = "";
                                         add_selected_item(data, number);
                                         opts.resultClick.call(this, raw_data);
-                                        results_holder.attr("aria-expanded","false").hide();
-                                        input.removeAttr("aria-activedescendant");
+                                        hideResults();
                                     }
                                     tab_press = false;
                                 }).mousedown(function(){ input_focus = false; }).mouseover(function(){
@@ -399,8 +390,7 @@
                         });
                     }
                     if (matchCount > 0 || !opts.showResultListWhenNoMatch) {
-                        results_holder.attr("aria-expanded","true").show();
-                        input.attr("aria-activedescendant",results_holder.find(".active").attr("id"));
+                        showResults();
                     }
                     opts.resultsComplete.call(this);
                 }
@@ -460,6 +450,16 @@
                         request.abort();
                         request = null;
                     }
+                }
+
+                function hideResults() {
+                    results_holder.attr("aria-expanded","false").hide();
+                    input.removeAttr("aria-activedescendant");                    
+                }
+                
+                function showResults() {
+                    results_holder.attr("aria-expanded","true").show();
+                    input.attr("aria-activedescendant",results_holder.find(".active").attr("id"));                    
                 }
 
             });
