@@ -293,7 +293,7 @@
                     // and type some chinese character, `lastKeyPressCode` will still be [del].
                     // This might cause problem so we move the line to key events section;
                     // ignore if the following keys are pressed: [del] [shift] [capslock]
-                    // if( lastKeyPressCode == 46 || (lastKeyPressCode > 8 && lastKeyPressCode < 32) ){ input.removeAttr("aria-activedescendant"); return hideResults(); }
+                    // if( lastKeyPressCode == 46 || (lastKeyPressCode > 8 && lastKeyPressCode < 32) ){ input.removeAttr("aria-activedescendant"); return results_holder.attr("aria-expanded","false").hide(); }
                     var string = input.val().replace(/[\\]+|[\/]+/g,"");
                     if (string == prev) return;
                     prev = string;
@@ -317,6 +317,7 @@
                     if (!opts.matchCase){ query = query.toLowerCase(); }
                     query = query.replace("(", "\\(", "g").replace(")", "\\)", "g");
                     var matchCount = 0;
+                    results_holder.html(results_ul.html(""));
                     hideResults();
                     var d_count = countValidItems(data);
                     for(var i=0;i<d_count;i++){
@@ -456,7 +457,7 @@
                     results_holder.attr("aria-expanded","false").hide();
                     input.removeAttr("aria-activedescendant");                    
                 }
-                
+
                 function showResults() {
                     results_holder.attr("aria-expanded","true").show();
                     input.attr("aria-activedescendant",results_holder.find(".active").attr("id"));                    
