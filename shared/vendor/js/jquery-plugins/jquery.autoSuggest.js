@@ -363,7 +363,7 @@
                                     tab_press = false;
                                 }).mousedown(function(){ input_focus = false; }).mouseover(function(){
                                     $("li", results_ul).removeClass("active");
-                                    input.attr("aria-aria-activedescendant", $(this).attr("id"))
+                                    input.attr("aria-activedescendant", $(this).attr("id"))
                                     $(this).addClass("active");
                                 }).data("data",{attributes: data[num], num: num_count});
                             var this_data = $.extend({},data[num]);
@@ -444,9 +444,9 @@
                         lis.removeClass("active");
                         start.addClass("active");
                         if (start.attr("id")) {
-                            input.attr("aria-aria-activedescendant", start.attr("id"))
+                            input.attr("aria-activedescendant", start.attr("id"))
                         } else {
-                            input.removeAttr("aria-aria-activedescendant");
+                            input.removeAttr("aria-activedescendant");
                         }
                         // Handle scrolling
                         if (opts.scroll && start.length && (start.position().top + start.height() > $(results_ul).height() || start.position().top < 0)){
