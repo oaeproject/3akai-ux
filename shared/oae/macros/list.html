@@ -145,7 +145,7 @@
                     ${renderThumbnail(entityData, displayOptions)}
                     <div class="oae-tile-metadata">
                         {if resourceType !== 'user'}
-                            <i class="fa fa-oae-${visibility}"></i>
+                            ${renderVisibilityIcon(visibility)}
                         {/if}
                         ${renderMetadata(entityData, displayOptions)}
                     </div>
@@ -271,7 +271,7 @@
             <div role="img" aria-label="${entityData.displayName|encodeForHTMLAttribute}" style="background-image: url('${thumbnailUrl}');"></div>
         {/if}
         {if displayOptions.addVisibilityIcon !== false && resourceType !== 'user'}
-            <i class="fa fa-oae-${visibility}"></i>
+            ${renderVisibilityIcon(visibility)}
         {/if}
         {if profilePath && displayOptions.addLink !== false}</a>{/if}
     </div>
@@ -359,4 +359,23 @@
         <input type="checkbox" class="{if type !== 'grid'} pull-left{/if}" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" data-resourceType="${resourceType}" data-resourceSubType="${resourceSubType}" />
         <label class="sr-only" for="oae-list-${type}-${entityData.id}">${entityData.displayName|encodeForHTML}</label>
     {/if}
+{/macro}
+
+<!--
+ * Render a visibility icon with support for screen readers
+ *
+ * @param  {String}     visibility      ["public" | "loggedin" | "private"]
+-->
+{macro renderVisibilityIcon(visibility)}
+    <i class="fa fa-oae-${visibility}">
+        <span class="sr-only">
+            {if visibility === "public"}
+                __MSG__VISIBILE_TO_ALL_USERS__
+            {elseif visibility === "loggedin"}
+                __MSG__VISIBILE_TO_ALL_USERS_LOGGED_INTO_THE_SYSTEM__
+            {elseif visibility === "private"}
+                __MSG__VISIBILE_ONLY_TO_SPECIFIED_USERS__
+            {/if}
+        </span>
+    </i>
 {/macro}
