@@ -235,12 +235,11 @@ i.fa.large:before {
  **/
 
 .oae-large-options-container {
-    margin-top: -35px;
     padding: 0 10px;
 }
 
 .oae-large-options-container > div {
-    padding: 35px 7px 0 7px;
+    padding: 0 7px;
 }
 
 .oae-large-options-container label {
