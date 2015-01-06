@@ -34,7 +34,7 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button type="button">
+                            <button type="button" aria-expanded="false" aria-controls="folder-clip-detail">
                                 ${renderThumbnail(folder, displayOptions)}
                                 <div>
                                     <div>
@@ -45,7 +45,7 @@
                                 </div>
                             </button>
                             <div>
-                                <ul>
+                                <ul id="folder-clip-detail" aria-hidden="true">
                                     {if folder.canManage}
                                         <li><button class="folder-trigger-manageaccess"><i class="fa fa-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
                                         <li><button class="folder-trigger-manageaccess-add"><i class="fa fa-share-square-o"></i>__MSG__SHARE__</button></li>

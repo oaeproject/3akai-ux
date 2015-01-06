@@ -34,7 +34,7 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button type="button">
+                            <button type="button" aria-expanded="false" aria-controls="group-clip-detail">
                                 ${renderThumbnail(group, displayOptions)}
                                 <div>
                                     <div>
@@ -45,7 +45,7 @@
                                 </div>
                             </button>
                             <div>
-                                <ul>
+                                <ul id="group-clip-detail" aria-hidden="true">
                                     {if group.isManager}
                                         <li><button class="oae-trigger-changepic"><i class="fa fa-camera"></i>__MSG__CHANGE_PICTURE__</button></li>
                                         <li><button class="group-trigger-manageaccess"><i class="fa fa-user"></i>__MSG__MANAGE_ACCESS__</button></li>

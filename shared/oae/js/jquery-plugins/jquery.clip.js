@@ -28,6 +28,14 @@ define(['jquery'], function (jQuery) {
          * @param  {Object}  $clip  jQuery-wrapped clip to toggle
          */
         var toggleClip = function($clip) {
+            // Toggle the ARIA attributes
+            if ($('button', $clip).attr('aria-expanded') === 'true') {
+                $('button', $clip).attr('aria-expanded', 'false');
+                $('ul', $clip).attr('aria-hidden', 'true');
+            } else {
+                $('button', $clip).attr('aria-expanded', 'true');
+                $('ul', $clip).attr('aria-hidden', 'false');
+            }
             // Toggle the clip options
             $('ul', $clip).toggle();
             // Toggle the caret icons

@@ -34,7 +34,7 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button type="button">
+                            <button type="button" aria-expanded="false" aria-controls="content-clip-detail">
                                 ${renderThumbnail(content, displayOptions)}
                                 <div>
                                     <div>
@@ -45,7 +45,7 @@
                                 </div>
                             </button>
                             <div>
-                                <ul>
+                                <ul id="content-clip-detail" aria-hidden="true">
                                     {if content.resourceSubType === 'file'}
                                         <li><a href="${content.downloadPath}"><i class="fa fa-cloud-download"></i>__MSG__DOWNLOAD__</a></li>
                                     {/if}
