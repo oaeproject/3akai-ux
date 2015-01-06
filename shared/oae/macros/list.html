@@ -105,7 +105,7 @@
 <!--
  * Render a list item representing a user, group or piece of content
  *
- * @param  {User|Group|Content|Discussion|Folder}   entityData                             Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
+ * @param  {User|Group|Content|Discussion|Folder}   entityData                             Standard object representing an OAE entity or a search result for an OAE entity
  * @param  {Object}                                 [displayOptions]                       Display options for the list item
  * @param  {String}                                 [displayOptions.metadata]              Line of metadata information that should be displayed underneath the entity name
  * @param  {Boolean}                                [displayOptions.showCheckbox]          Whether ot not the checkbox should be shown. By default, the checkbox will be hidden
@@ -280,11 +280,11 @@
 <!--
  * Render the entity title and some additional metadata
  *
- * @param  {User|Group|Content}     entityData                               Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
- * @param  {Object}                 [displayOptions]                         Display options for the metadata
- * @param  {String}                 [displayOptions.metadata]                Line of metadata information that should be displayed underneath the entity name
- * @param  {Boolean}                [displayOptions.addLink]                 Whether or not a link to the entity profile should be placed on the title. By default, a link will be set
- * @param  {String}                 [displayOptions.linkTarget]              The target of the link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
+ * @param  {User|Group|Content|Discussion|Folder}   entityData                          Standard object representing an OAE entity or a search result for an OAE entity
+ * @param  {Object}                                 [displayOptions]                    Display options for the metadata
+ * @param  {String}                                 [displayOptions.metadata]           Line of metadata information that should be displayed underneath the entity name
+ * @param  {Boolean}                                [displayOptions.addLink]            Whether or not a link to the entity profile should be placed on the title. By default, a link will be set
+ * @param  {String}                                 [displayOptions.linkTarget]         The target of the link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
 -->
 {macro renderMetadata(entityData, displayOptions)}
 
@@ -336,9 +336,9 @@
 <!--
  * Render a list item representing a user, group or piece of content
  *
- * @param  {User|Group|Content}     entityData      Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
- * @param  {String}                 type            Which type of view the checkbox is for. This can be `grid`, `details` or `compact`
- * @param  {Boolean}                [showCheckbox]  Whether ot not the checkbox should be shown. By default, the checkbox will be hidden
+ * @param  {User|Group|Content|Discussion|Folder}     entityData        Standard object representing an OAE entity or a search result for an OAE entity
+ * @param  {String}                                   type              Which type of view the checkbox is for. This can be `grid`, `details` or `compact`
+ * @param  {Boolean}                                  [showCheckbox]    Whether ot not the checkbox should be shown. By default, the checkbox will be hidden
 -->
 {macro renderCheckbox(entityData, type, showCheckbox)}
 
@@ -365,7 +365,7 @@
 <!--
  * Render a visibility icon with support for screen readers
  *
- * @param  {User|Group|Content|Discussion|Folder}     entityData     Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
+ * @param  {User|Group|Content|Discussion|Folder}     entityData     Standard object representing an OAE entity or a search result for an OAE entity
 -->
 {macro renderVisibilityIcon(entityData)}
 
