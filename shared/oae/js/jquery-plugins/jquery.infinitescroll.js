@@ -34,7 +34,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
      * @param  {Object}                            [options]                       Optional object containing additional configuraton options.
      * @param  {String|Element}                    [options.scrollContainer]       jQuery element or selector for that jQuery element that identifies the container on which the scrollposition should be watched to check when we are close enough to the bottom to load a new set of results. If this is not provided, the document body will be used.
      * @param  {String|Function}                   [options.initialContent]        HTML string that should be prepended to the list upon initialization. If a function is provided, the function will be called with no parameters and should return the HTML string to prepend.
-     * @param  {String         }                   [options.ariaLive]              `aria-live` attribute for container. Defaults to "assertive"
+     * @param  {String}                            [options.ariaLive]              `aria-live` attribute for container. Defaults to "assertive"
      * @param  {Function}                          [options.emptyListProcessor]    Function that will be executed when the rendered list doesn't have any elements.
      * @param  {Function}                          [options.postProcessor]         Function used to transform the search results before rendering the template. This function will be called with a data parameter containing the retrieved data and should return the processed data
      * @param  {Function}                          [options.postRenderer]          Function executed after the rendered HTML has been appended to the rendered list. The full retrieved server response will be passed into this function.
@@ -50,12 +50,12 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
 
         // Default values
         parameters = parameters || {};
-        options = $.extend({
-            'ariaLive': 'assertive'
-        }, options);
+        options = options || {};
 
         // Number of items to load per call to the server
         parameters.limit = parameters.limit || 10;
+        // aria-live attribute
+        options.ariaLive = options.ariaLive || 'assertive';
         // Make sure render is a jQuery object if a string has been provided
         if (_.isString(render)) {
             render = $(render);
