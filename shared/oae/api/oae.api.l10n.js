@@ -167,6 +167,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
             $(this).attr('datetime', date.toISOString());
             // Set the element title to provide a tooltip with a more detailed date
             $timeEl.attr('title', transformDateTime(date, false));
+            // Disable live updates for screen readers
+            $timeEl.attr('aria-live', 'off');
             // Apply timeago
             $timeEl.timeago();
         });
