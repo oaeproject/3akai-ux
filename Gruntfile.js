@@ -48,14 +48,29 @@ module.exports = function(grunt) {
             'files': '<config:lint.files>',
             'tasks': 'lint test'
         },
+        'csslint': {
+            'options': {
+                'ids': false        // ignore "Don't use IDs in CSS selectors" warning
+            },
+            'files': [
+                'admin/**/*.css',
+                'shared/oae/**/*.css',
+                'ui/**/*.css',
+                'node_modules/oae-*/**/*.css',
+                '!node_modules/oae-release-tools/**'
+            ]
+        },
         'jshint': {
             'options': {
                 'sub': true
             },
-            'globals': {
-                'exports': true,
-                'module': false
-            }
+            'files': [
+                'admin/**/*.js',
+                'shared/oae/**/*.js',
+                'ui/**/*.js',
+                'node_modules/oae-*/**/*.js',
+                '!node_modules/oae-release-tools/**'
+            ]
         },
         'clean': {
             'folder': '<%= target %>/'
@@ -279,6 +294,114 @@ module.exports = function(grunt) {
                 'version': '<%= target %>/optimized/hashes.json'
             }
         },
+        'replace': {
+            'url': 'URL pointing to a CDN that gets set by the cdn task',
+            'main': {
+                'src': [
+                    'target/optimized/ui/*.html',
+                    'target/optimized/ui/custom/*.html',
+                    'target/optimized/admin/*.html',
+                    'target/optimized/shared/oae/api/oae.bootstrap.*.js',
+                    'target/optimized/shared/oae/api/oae.core.*.js'
+                ],
+                'overwrite': true,
+                'replacements': [
+                    {
+                        'from': /(src)="\/(.+?)"/ig,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
+                        }
+                    },
+                    {
+                        'from': /(data-loadmodule)="\/(.+?)"/ig,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
+                        }
+                    },
+                    {
+                        'from': /(data-main)="\/(.+?)"/ig,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
+                        }
+                    },
+                    {
+                        'from': /(href)="\/(.+?)"/ig,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
+                        }
+                    },
+                    {
+                        // Replace the require base URL
+                        'from': /requirejs\.config\(\{baseUrl:"\/shared\/",/,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            // The URL of our CDN
+                            var cdn = grunt.config('replace').url;
+
+                            // Return the attribute with our CDN in it
+                            return util.format('requirejs.config({baseUrl:"%s/shared/",', cdn);
+                        }
+                    },
+                    {
+                        // We're loading in a globalize culture dynamically that can
+                        // be loaded from our CDN
+                        'from': /require\(\["\/shared\/vendor\/js\/l10n\/cultures\./,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            // The URL of our CDN
+                            var cdn = grunt.config('replace').url;
+
+                            // Return the attribute with our CDN in it
+                            return util.format('require(["%s/shared/vendor/js/l10n/cultures\.', cdn);
+                        }
+                    }
+                ]
+            },
+            'core-widgets': {
+                'src': [
+                    'target/optimized/node_modules/oae-core/**/*.html'
+                ],
+                'overwrite': true,
+                'replacements': [
+                    {
+                        // Replace the CSS paths in the oae-core widgets
+                        'from': /href="css\/([a-z]+?)\.([a-z0-9]+?).css"/,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            var cdn = grunt.config('replace').url;
+                            return util.format('href="%s/node_modules/oae-core/%s/css/%s.%s.css"', cdn, regexMatches[0], regexMatches[0], regexMatches[1]);
+                        }
+                    },
+                    {
+                        // Replace the JS paths in the oae-core widgets
+                        'from': /src="js\/([a-z]+?)\.([a-z0-9]+?).js"/,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            var cdn = grunt.config('replace').url;
+                            return util.format('src="%s/node_modules/oae-core/%s/js/%s.%s.js"', cdn, regexMatches[0], regexMatches[0], regexMatches[1]);
+                        }
+                    }
+                ]
+            },
+            'admin-widgets': {
+                'src': [
+                    'target/optimized/node_modules/oae-admin/**/*.html'
+                ],
+                'overwrite': true,
+                'replacements': [,
+                    {
+                        'from': /href="css\/([a-z]+?)\.([a-z0-9]+?).css"/,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            var cdn = grunt.config('replace').url;
+                            return util.format('href="%s/node_modules/oae-admin/%s/css/%s.%s.css"', cdn, regexMatches[0], regexMatches[0], regexMatches[1]);
+                        }
+                    },
+                    {
+                        'from': /src="js\/([a-z]+?)\.([a-z0-9]+?).js"/,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            var cdn = grunt.config('replace').url;
+                            return util.format('src="%s/node_modules/oae-admin/%s/js/%s.%s.js"', cdn, regexMatches[0], regexMatches[0], regexMatches[1]);
+                        }
+                    }
+                ]
+            }
+        },
         'git-describe': {
             'oae': {}
         },
@@ -294,12 +417,13 @@ module.exports = function(grunt) {
                     // Specify the files to be included in each test
                     'includes': [
                         'tests/casperjs/util/include/admin.js',
-                        'tests/casperjs/util/include/collabdocs.js',
                         'tests/casperjs/util/include/config.js',
                         'tests/casperjs/util/include/content.js',
                         'tests/casperjs/util/include/discussions.js',
+                        'tests/casperjs/util/include/folders.js',
                         'tests/casperjs/util/include/follow.js',
                         'tests/casperjs/util/include/groups.js',
+                        'tests/casperjs/util/include/ui.js',
                         'tests/casperjs/util/include/users.js',
                         'tests/casperjs/util/include/util.js'
                     ],
@@ -312,12 +436,15 @@ module.exports = function(grunt) {
         },
         'exec': {
             'runCasperTest': {
-                cmd: function(path) {
+                'cmd': function(path) {
                     var includes = grunt.config('ghost').dist.options.includes;
                     var pre = grunt.config('ghost').dist.options.pre;
 
                     return 'casperjs test --includes=' + includes + ' --pre=' + pre + ' ' + path;
                 }
+            },
+            'startDependencies': {
+                cmd: 'node tests/casperjs/startDependencies.js'
             }
         }
     });
@@ -325,12 +452,15 @@ module.exports = function(grunt) {
     // Load tasks from npm modules
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-csslint');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-git-describe');
     grunt.loadNpmTasks('grunt-ver');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-ghost');
     grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-text-replace');
 
     // Task to write the version to a file
     grunt.registerTask('writeVersion', function() {
@@ -503,6 +633,27 @@ module.exports = function(grunt) {
         grunt.log.writeln('Boots strapped'.green);
     });
 
+    // Task to update the paths so static assets are pulled from the CDN.
+    // The CDN URL can be provided as
+    //  - an environment variable: e.g., `CDN_URL="https://cdn.example.com" grunt cdn`
+    //  - a grunt parameter: e.g., `grunt cdn:https\://cdn.example.com`
+    // If no CDN is provided, this task will do nothing
+    grunt.registerTask('cdn', function(url) {
+        url = url || process.env['CDN_URL'];
+        if (url) {
+            // Pass the URL of the CDN to the replacement task
+            grunt.config.set('replace.url', url);
+
+            // Start replacing paths
+            grunt.task.run('replace:main');
+            grunt.task.run('replace:core-widgets');
+            grunt.task.run('replace:admin-widgets');
+        } else {
+            var msg = 'No cdn provided, not performing cdn task';
+            grunt.log.writeln(msg.yellow);
+        }
+    });
+
     // A task that will copy the release files to a directory of your choosing
     grunt.registerTask('copyReleaseArtifacts', function(outputDir) {
         if (!outputDir) {
@@ -543,6 +694,9 @@ module.exports = function(grunt) {
         // and give them the proper names so no config changes in Hilary need to occur
         grunt.task.run('copyReleaseArtifacts:' + outputDir);
     });
+    
+    // Lint tasks (JavaScript only for now, too many errors in css)
+    grunt.registerTask('lint', ['jshint' /*, 'csslint' */ ]);
 
     // Wrap the QUnit task
     grunt.renameTask('qunit', 'contrib-qunit');
@@ -561,8 +715,13 @@ module.exports = function(grunt) {
         grunt.task.run('contrib-qunit');
     });
 
+    // Task to run an individual CasperJS test
+    grunt.registerTask('startDependencies', function(path) {
+        grunt.task.run('exec:startDependencies');
+    });
+
     // Task to run the CasperJS and QUnit tests
-    grunt.registerTask('test', ['ghost', 'qunit']);
+    grunt.registerTask('test', ['startDependencies']);
 
     // Task to run an individual CasperJS test
     grunt.registerTask('test-file', function(path) {
@@ -575,9 +734,8 @@ module.exports = function(grunt) {
         grunt.task.run('exec:runCasperTest:' + path);
     });
 
-
     // Default task for production build
-    grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'touchBootstrap', 'hashFiles', 'writeVersion', 'configNginx']);
+    grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'touchBootstrap', 'hashFiles', 'cdn', 'writeVersion', 'configNginx']);
 };
 
 /**
@@ -632,4 +790,31 @@ var _hashFiles = function(options) {
     });
 
     return _.union(globs, options.extra);
+};
+
+
+/**
+ * Prepend the CDN url for those static assets that are not delivered by either
+ * the OAE APIs or other external hosts
+ *
+ * @param  {String}         cdn                 The url of the cdn to prepend before static asset urls
+ * @param  {String}         matchedWord         The full match. For example, `src="/shared/oae/css/oae.core.123456.css`
+ * @param  {Number}         index               The index where the match was found in the `fullText`
+ * @param  {String}         fullText            The full original text of the file
+ * @param  {String[]}       regexMatches        The matches that were made by the configured regex
+ * @return {String}                             The string that will replace `matchedWord`
+ * @api private
+ */
+var _cdnifyStaticAsset = function(cdn, matchedWord, index, fullText, regexMatches) {
+    // Get the name of the attribute (e.g., `src`, `data-main`, ...)
+    var attr = regexMatches[0];
+
+    // Do not replace anything that already points to an outside source
+    // e.g., do not cdnify src="//www.youtube" or href="https://foo.com/asset.jpg"
+    if (regexMatches[1].indexOf('/') === 0 || regexMatches[1].indexOf('api') === 0) {
+        return matchedWord;
+    }
+
+    // Return the attribute with our CDN in it
+    return util.format('%s="%s/%s"', attr, cdn, regexMatches[1]);
 };

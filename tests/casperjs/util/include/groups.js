@@ -15,44 +15,71 @@
 
 /**
  * Utility functions for groups
- *
- * @return  {Object}    Returns an object with referenced group utility functions
  */
-var groupUtil = function() {
+var groupUtil = (function() {
 
     /**
-     * Creates a group
+     * Create a group
      *
-     * @param  {String[]}   [members]                Array of user/group ids that should be added as members to the group
-     * @param  {String[]}   [managers]               Array of user/group ids that should be added as managers to the group
-     * @param  {Function}   callback                 Standard callback function
-     * @param  {Group}      callback.groupProfile    Group object representing the created group
+     * @param  {String}            [displayName]            The displayName for this group
+     * @param  {String}            [description]            The description for this group
+     * @param  {String}            [visibility]             The visibility for this group
+     * @param  {String}            [joinable]               Whether or not this group is joinable
+     * @param  {String[]}          [managers]               An array of userIds that should be made managers
+     * @param  {String[]}          [members]                An array of userIds that should be made members
+     * @param  {Function}          callback                 Standard callback method
+     * @param  {Object}            [callback.err]           Error object containing error code and error message
+     * @param  {Group}             [callback.group]         A Group object representing the created group
      */
-    var createGroup = function(members, managers, callback) {
-        var rndString = mainUtil().generateRandomString();
-        var groupProfile = casper.evaluate(function(rndString, members, managers) {
-            return JSON.parse(__utils__.sendAJAX('/api/group/create', 'POST', {
-                'displayName': 'group-' + rndString,
-                'description': '',
-                'visibility': 'public',
-                'joinable': 'yes',
-                'members': members,
-                'managers': managers
-            }, false));
-        }, rndString, members, managers);
-
+    var createGroup = function(displayName, description, visibility, joinable, managers, members, callback) {
         casper.then(function() {
-            if (!groupProfile) {
-                casper.echo('Could not create group-' + rndString + '.', 'ERROR');
-            }
+            var groupProfile = null;
+            var err = null;
+            displayName = displayName || 'group-' + mainUtil.generateRandomString();
+            description = description || 'Test group description';
+            visibility = visibility || 'public';
+            joinable = joinable || 'yes';
+            managers = managers || [];
+            members = members || [];
+
+            mainUtil.callInternalAPI('group', 'createGroup', [displayName, description, visibility, joinable, managers, members], function(_err, _groupProfile) {
+                if (_err) {
+                    casper.echo('Could not create ' + displayName + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                    err = _err;
+                    return;
+                } else {
+                    groupProfile = _groupProfile;
+                }
+            });
+
+            casper.waitFor(function() {
+                return groupProfile !== null || err !== null;
+            }, function() {
+                return callback(err, groupProfile);
+            });
+        });
+    };
+
+    /**
+     * Update a group's metadata
+     *
+     * @param  {String}      groupId        Id of the group we're trying to update
+     * @param  {Object}      params         JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
+     * @param  {Function}    callback       Standard callback method
+     */
+    var updateGroup = function(groupId, params, callback) {
+        var data = null;
+        casper.then(function() {
+            data = casper.evaluate(function(groupId, params) {
+                return JSON.parse(__utils__.sendAJAX('/api/group/' + groupId, 'POST', params, false));
+            }, groupId, params);
         });
 
-        casper.then(function() {
-            callback(groupProfile);
-        });
+        casper.then(callback);
     };
 
     return {
-        'createGroup': createGroup
+        'createGroup': createGroup,
+        'updateGroup': updateGroup
     };
-};
+})();

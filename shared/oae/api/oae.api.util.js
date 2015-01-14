@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI) {
+define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdown', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI, markdown) {
 
     /**
      * Initialize all utility functionality.
@@ -61,7 +61,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
     /**
-     * Generate a random ID. This ID generator does not guarantee global uniqueness.
+     * Generate a random id. This id generator does not guarantee global uniqueness.
      * The generated id will have the following format: `oae-<random number>-<random number>`
      *
      * @return {String}         Generated random ID
@@ -79,22 +79,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      */
     var profilePath = exports.profilePath = function(profilePath) {
         return profilePath === require('oae.core').data.me.profilePath ? '/me' : profilePath;
-    };
-
-    /**
-     * Add a cache busting parameter to a URL
-     *
-     * @param  {String}     url     The URL to add the cache busting parameter to
-     * @return {String}             The URL with a cache busting parameter added
-     */
-    var addCacheBust = exports.addCacheBust = function(url) {
-        var $url = $.url(url);
-        // If there are no params we'll get {:''}
-        // https://github.com/allmarkedup/purl/pull/56
-        if (_.isEmpty($url.param()) || $url.param()[''] === '') {
-            return url + '?oaeCacheBust=' + generateId();
-        }
-        return url + '&oaeCacheBust=' + generateId();
     };
 
     /**
@@ -174,6 +158,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             },
             'encodeForURL': function(str) {
                 return security().encodeForURL(str);
+            },
+            'encodeMarkdownForHTMLWithLinks': function(str) {
+                return security().encodeMarkdownForHTMLWithLinks(str);
             },
             'profilePath': function(str) {
                 return profilePath(str);
@@ -360,7 +347,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
         if (id) {
             if (_.contains(notificationIds, id)) {
-                // A notification with this ID has been triggered already, do not trigger another one
+                // A notification with this id has been triggered already, do not trigger another one
                 return;
             }
 
@@ -1236,6 +1223,38 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         };
 
         /**
+         * Sanitizes markdown input in a manner that makes it safe for the input to be placed inside of an HTML tag.
+         * This sanitizer will also recognise bare URLs, including path elements, but not query parameters, inside 
+         * the provided input and will convert these into links.
+         *
+         * @param  {String}     [input]         The markdown input string that should be sanitized. If this is not provided, an empty string will be returned
+         * @return {String}                     The sanitized HTML, ready to be put inside of an HTML tag with all URLs converted to markdown links
+         */
+        var encodeMarkdownForHTMLWithLinks = function(input) {
+            if (!input) {
+                return '';
+            } else {
+
+                // Convert the Markdown input string to HTML using marked.js. `gfm`
+                // automatically recognizes text beginning with http: or https: as a URL
+                // and converts it to a link. We also specify that the input should be sanitized.
+                // @see https://github.com/chjj/marked
+                input = markdown(input.toString(), {
+                    'gfm': true,
+                    'breaks': true,
+                    'sanitize': true
+                });
+
+                // Also recognize text beginning with "www." as a URL as long
+                // as it's not already within a link
+                var URLPattern = /(^|\s|>)(www\.[A-Z0-9.\-\/]+(\b|$))(?![^<]*>|[^<>]*<\\\/a)/gim;
+                input = input.replace(URLPattern, '$1<a href="http://$2">$2</a>');
+
+                return input;
+            }
+        };
+
+        /**
          * Sanitizes user input in a manner that it makes safe for the input to be used
          * as a URL fragment
          *
@@ -1254,7 +1273,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'encodeForHTML': encodeForHTML,
             'encodeForHTMLAttribute': encodeForHTMLAttribute,
             'encodeForHTMLWithLinks': encodeForHTMLWithLinks,
-            'encodeForURL': encodeForURL
+            'encodeForURL': encodeForURL,
+            'encodeMarkdownForHTMLWithLinks': encodeMarkdownForHTMLWithLinks
         };
     };
 

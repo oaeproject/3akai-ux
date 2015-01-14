@@ -83,7 +83,7 @@ a.oae-plain-link:hover {
  ************/
 
 /**
- * Panels that can be used to show HTML content on top of a background
+ * Panels can be used to show HTML content on top of a background
  * color or background image. Three different panels can be used
  *  - `oae-panel-primary`: Panel that contains content that should really stand out
  *  - `oae-panel-secondary`: Panel that contains the secondary content
@@ -95,6 +95,23 @@ a.oae-plain-link:hover {
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
+}
+
+/***********
+ ** PILLS **
+ ***********/
+
+/**
+ * Pills can be used to provide different selection styles to an item.
+ * Three different types of pills can be used
+ *  - `oae-pill-active`: A pill that should be styled as a selected item
+ *  - `oae-pill-blur`: A pill that should be styled as a disabled item
+ *  - `oae-pill-ghost`: A pill that should be styled as an unselected item that can be selected
+ *   e.g. <li class="oae-pill oae-pill-active">...</li>
+ */
+
+.oae-pill.oae-pill-ghost {
+    border: 1px dashed;
 }
 
 
@@ -338,6 +355,7 @@ i.fa.large:before {
  *   `fa-oae-group` should be added to the `oae-thumbnail` div for groups,
  *   `fa-oae-discussion` should be added to the `oae-thumbnail` div for discussions,
  *   `fa-oae-content` should be added to the `oae-thumbnail` div for generic content,
+ *   `fa-oae-folder` should be added to the `oae-thumbnail` div for folders,
  *   `fa-oae-file` should be added to the `oae-thumbnail` div for uploaded files,
  *   `fa-oae-link` should be added to the `oae-thumbnail` div for links and
  *   `fa-oae-collabdoc` should be added to the `oae-thumbnail` div for collaborative documents.
@@ -413,12 +431,22 @@ div.oae-thumbnail.fa-oae-file:before {
     content: "\f016";
 }
 
+div.oae-thumbnail.fa-oae-folder:before {
+    content: "\f07c";
+    margin-left: 2px;
+}
+
 div.oae-thumbnail.fa-oae-link:before {
     content: "\f0c1";
 }
 
 div.oae-thumbnail.fa-oae-collabdoc:before {
     content: "\f044";
+}
+
+div.oae-thumbnail.fa-oae-folder:before {
+    content: "\f07c";
+    margin-left: 2px;
 }
 
 div.oae-thumbnail.fa-oae-discussion:before {
@@ -480,7 +508,7 @@ div.oae-thumbnail i.fa {
  *                          <li><button><i class="fa fa-user"></i>Action 1</button></li>
  *                          <li><button><i class="fa fa-envelope"></i>Action 2</button></li>
  *                          <li><button type="button"><i class="fa fa-wrench"></i>Action 3</button></li>
- *                          <li><a href="#somelink"><i class="fa fa-download"></i>Action 4</a></li>
+ *                          <li><a href="#somelink"><i class="fa fa-cloud-download"></i>Action 4</a></li>
  *                      </ul>
  *                  </div>
  *              </div>
@@ -644,7 +672,7 @@ div.oae-thumbnail i.fa {
     line-height: 1.3;
     margin: 0;
     font-weight: 600;
-    max-width: 300px;
+    max-width: 250px;
     min-height: 21px;
     word-wrap: nowrap;
 }
@@ -786,7 +814,7 @@ div.oae-thumbnail i.fa {
  *                  <ul class="nav nav-list lhnavigation-collapsed hide">
  *                      <li class="clearfix">
  *                          <button type="button" class="btn btn-link" title="__MSG__GROUP__">
- *                              <i class="fa fa-users pull-left"></i>
+ *                              <i class="fa fa-group pull-left"></i>
  *                              <div>__MSG__GROUP__</div>
  *                          </button>
  *                      </li>
@@ -853,12 +881,13 @@ div.oae-thumbnail i.fa {
 .oae-lhnavigation > ul.nav > li button {
     padding: 0 12px 5px;
     text-align: left;
+    white-space: normal;
     width: 100%;
 }
 
 .oae-lhnavigation > ul.nav > li a div,
 .oae-lhnavigation > ul.nav > li button div {
-    padding-top: 8px;
+    padding: 8px 0 0 30px;
 }
 
 .oae-lhnavigation > ul.nav > li {
@@ -1206,27 +1235,14 @@ div.oae-thumbnail i.fa {
     float: right;
 }
 
-/* Actions can be either an icon, an icon with spin or a button with an icon. Style them consistently, and
-   if removing or modifying something, be sure to test with different permutations of a regular icon (e.g.,
-   `fa-check` class), an icon with spin (e.g., `fa-spinner fa-spin` classes) and a button icon */
-.oae-listitem > div.oae-listitem-actions > i.fa,
-.oae-listitem > div.oae-listitem-actions > .btn,
-.oae-listitem > div.oae-listitem-actions > .btn i.fa {
+.oae-listitem > div.oae-listitem-actions > *:not(.hide) {
     border-width: 0;
     display: inline-block;
-    font-size: 18px;
     height: 100%;
 }
 
-.oae-listitem > div.oae-listitem-actions > i.fa.hide,
-.oae-listitem > div.oae-listitem-actions > .btn.hide,
-.oae-listitem > div.oae-listitem-actions > .btn > i.fa.hide {
-    display: none;
-}
-
-/* Add horizontal spacing, and the top-bottom padding makes the height of icons
-   consistent with the additional height browsers give to buttons (.btn) */
-.oae-listitem > div.oae-listitem-actions > i {
+.oae-listitem > div.oae-listitem-actions i.fa {
+    font-size: 18px;
     padding: 4px;
 }
 
@@ -1247,13 +1263,6 @@ div.oae-thumbnail i.fa {
 .oae-list-compact-item > .oae-listitem > div.oae-listitem-actions .form-group {
     display: inline-block;
     margin-top: 1px;
-}
-
-/* Action icon adjustments */
-
-/* The remove icon is comically large compared to the others. Reduce its size */
-.oae-list-compact-item > .oae-listitem > div.oae-listitem-actions i.fa.fa-times {
-    font-size: 16px;
 }
 
 /* IE9 specific fallback for flexbox */

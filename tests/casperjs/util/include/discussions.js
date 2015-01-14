@@ -15,65 +15,70 @@
 
 /**
  * Utility functions for discussions
- *
- * @return  {Object}    Returns an object with referenced discussions utility functions
  */
-var discussionUtil = function() {
+var discussionUtil = (function() {
 
     /**
      * Creates a discussion
      *
-     * @param  {String[]}     [managers]                    Array of user/group ids that should be added as managers to the discussion
-     * @param  {String[]}     [viewers]                     Array of user/group ids that should be added as viewers to the discussion
-     * @param  {Function}     callback                      Standard callback function
-     * @param  {Discussion}   callback.discussionProfile    Discussion object representing the created discussion
+     * @param  {String}         [displayName]             Topic for the discussion
+     * @param  {String}         [description]             The discussion's description
+     * @param  {String}         [visibility]              The discussion's visibility. This can be public, loggedin or private
+     * @param  {String[]}       [managers]                Array of user/group ids that should be added as managers to the discussion
+     * @param  {String[]}       [members]                 Array of user/group ids that should be added as members to the discussion
+     * @param  {Function}       callback                  Standard callback method
+     * @param  {Object}         [callback.err]            Error object containing error code and error message
+     * @param  {Discussion}     [callback.discussion]     Discussion object representing the created discussion
      */
-    var createDiscussion = function(managers, viewers, callback) {
-        var rndString = mainUtil().generateRandomString();
-        var discussionProfile = casper.evaluate(function(rndString) {
-            return JSON.parse(__utils__.sendAJAX('/api/discussion/create', 'POST', {
-                'displayName': 'Discussion ' + rndString,
-                'description': 'Talk about all the things!',
-                'visibility': 'public'
-            }, false));
-        }, rndString);
-
+    var createDiscussion = function(displayName, description, visibility, managers, members, callback) {
         casper.then(function() {
-            if (!discussionProfile) {
-                casper.echo('Could not create discussion \'Discussion' + rndString + '\'.', 'ERROR');
-                return callback(null);
-            }
+            var discussion = null;
+            var err = null;
+
+            // Default parameters
+            displayName = displayName || 'Discussion ' + mainUtil.generateRandomString();
+            description = description || 'Talk about all the things!';
+            visibility = visibility || 'public';
+            managers = managers || [];
+            members = members || [];
+
+            mainUtil.callInternalAPI('discussion', 'createDiscussion', [displayName, description, visibility, managers, members], function(_err, _discussion) {
+                if (_err) {
+                    casper.echo('Could not create discussion \'' + displayName + '\'. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                    err = _err;
+                }
+                discussion = _discussion;
+            });
+
+            // Wait for the discussion to be created or failing to be created before continuing
+            casper.waitFor(function() {
+                return discussion !== null || err !== null;
+            }, function() {
+                return callback(err, discussion);
+            });
+        });
+    };
+
+    /**
+     * Update a discussion's metadata
+     *
+     * @param  {String}      discussionId   Id of the discussion we're trying to update
+     * @param  {Object}      params         JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
+     * @param  {Function}    callback       Standard callback method
+     */
+    var updateDiscussion = function(discussionId, params, callback) {
+        var data = null;
+        casper.then(function() {
+            data = casper.evaluate(function(discussionId, params) {
+                return JSON.parse(__utils__.sendAJAX('/api/discussion/' + discussionId, 'POST', params, false));
+            }, discussionId, params);
         });
 
-        casper.then(function() {
-            // Add managers and viewers if required
-            if (managers || viewers) {
-                managers = managers || [];
-                viewers = viewers || [];
-
-                var members = {};
-                for (var m = 0; m < managers.length; m++) {
-                    members[managers[m]] = 'manager';
-                }
-
-                for (var v = 0; v < viewers.length; v++) {
-                    members[viewers[v]] = 'viewer';
-                }
-
-                casper.evaluate(function(discussionId, members) {
-                    return JSON.parse(__utils__.sendAJAX('/api/discussion/'+ discussionId + '/members', 'POST', members, false));
-                }, discussionProfile.id, members);
-
-                casper.then(function() {
-                    return callback(discussionProfile);
-                });
-            } else {
-                return callback(discussionProfile);
-            }
-        });
+        casper.then(callback);
     };
 
     return {
-        'createDiscussion': createDiscussion
+        'createDiscussion': createDiscussion,
+        'updateDiscussion': updateDiscussion
     };
-};
+})();

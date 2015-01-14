@@ -66,10 +66,12 @@
     display: inline;
 }
 
-#error-content #error-quote-container span {
+#error-content #error-quote-container .error-instruction {
+    display: inline-block;
     font-size: 13px;
     font-style: italic;
     margin-left: 7px;
+    padding-top: 7px;
 }
 
 #error-content #error-quote-container + div {
@@ -85,13 +87,6 @@
     content: "";
     left: 40px;
     position: absolute;
-}
-
-@media (max-width: 480px) {
-    #error-content #error-quote-container .btn + span {
-        display: block;
-        margin-top: 7px;
-    }
 }
 
 @media (max-width: 991px) {

@@ -107,7 +107,13 @@
                             }
                 });
                 var input = $(this);
-                input.attr("autocomplete","off").addClass("as-input").attr("id",x_id);
+                input.addClass("as-input").attr({
+                    "autocomplete": "off",
+                    "aria-autocomplete": "inline",
+                    "aria-owns": "as-results-"+ x,
+                    "id": x_id,
+                    "role": "combobox"
+                });
                 if (opts.usePlaceholder) {
                     input.attr('placeholder', opts.startText);
                 } else {
@@ -119,7 +125,7 @@
                 input.wrap('<ul class="as-selections" id="as-selections-'+x+'"></ul>').wrap('<li class="as-original" id="as-original-'+x+'"></li>');
                 var selections_holder = $("#as-selections-"+x);
                 var org_li = $("#as-original-"+x);
-                var results_holder = $('<div class="as-results" id="as-results-'+x+'"></div>').hide();
+                var results_holder = $('<div class="as-results" id="as-results-'+x+'" role="listbox" aria-expanded="false"></div>').hide();
                 var results_ul =  $('<ul class="as-list"></ul>');
                 var values_input = $('<input type="hidden" class="as-values" name="as_values_'+x+'" id="as-values-'+x+'" />');
                 var prefill_value = "";
@@ -176,7 +182,7 @@
                         $("li.as-selection-item", selections_holder).removeClass("blur");
                         if($(this).val() != ""){
                             results_ul.css("width",selections_holder.outerWidth());
-                            results_holder.show();
+                            showResults();
                         }
                     }
                     if (interval) clearInterval(interval);
@@ -184,7 +190,7 @@
                         if(opts.showResultList){
                             if(opts.selectionLimit && $("li.as-selection-item", selections_holder).length >= opts.selectionLimit){
                                 results_ul.html('<li class="as-message">'+opts.limitText+'</li>');
-                                results_holder.show();
+                                showResults();
                             } else {
                                 keyChange();
                             }
@@ -200,7 +206,7 @@
                         $(this).val(opts.startText);
                     } else if(input_focus){
                         $("li.as-selection-item", selections_holder).addClass("blur").removeClass("selected");
-                        results_holder.hide();
+                        hideResults();
                     }
                     if (interval) clearInterval(interval);
                 }).keydown(function(e) {
@@ -230,7 +236,7 @@
                                 }
                             }
                             if(input.val().length == 1){
-                                results_holder.hide();
+                                hideResults();
                                 prev = "";
                                 abortRequest();
                             }
@@ -266,7 +272,7 @@
                             var active = $("li.active:first", results_holder);
                             if(active.length > 0){
                                 active.click();
-                                results_holder.hide();
+                                hideResults();
                             }
                             if(opts.neverSubmit || active.length > 0){
                                 e.preventDefault();
@@ -277,7 +283,7 @@
                         case 16: // shift
                         case 20: // capslock
                             abortRequest();
-                            results_holder.hide();
+                            hideResults();
                             break;
                     }
                 });
@@ -287,7 +293,7 @@
                     // and type some chinese character, `lastKeyPressCode` will still be [del].
                     // This might cause problem so we move the line to key events section;
                     // ignore if the following keys are pressed: [del] [shift] [capslock]
-                    // if( lastKeyPressCode == 46 || (lastKeyPressCode > 8 && lastKeyPressCode < 32) ){ return results_holder.hide(); }
+                    // if( lastKeyPressCode == 46 || (lastKeyPressCode > 8 && lastKeyPressCode < 32) ){ input.removeAttr("aria-activedescendant"); return results_holder.attr("aria-expanded","false").hide(); }
                     var string = input.val().replace(/[\\]+|[\/]+/g,"");
                     if (string == prev) return;
                     prev = string;
@@ -296,7 +302,7 @@
                         processRequest(string);
                     } else {
                         selections_holder.removeClass("loading");
-                        results_holder.hide();
+                        hideResults();
                     }
                 }
                 function processRequest(string){
@@ -311,7 +317,8 @@
                     if (!opts.matchCase){ query = query.toLowerCase(); }
                     query = query.replace("(", "\\(", "g").replace(")", "\\)", "g");
                     var matchCount = 0;
-                    results_holder.html(results_ul.html("")).hide();
+                    results_holder.html(results_ul.html(""));
+                    hideResults();
                     var d_count = countValidItems(data);
                     for(var i=0;i<d_count;i++){
                         var num = i;
@@ -334,7 +341,7 @@
                             }
                         }
                         if(forward){
-                            var formatted = $('<li class="as-result-item" id="as-result-item-'+num+'"></li>').click(function(){
+                            var formatted = $('<li class="as-result-item" id="as-result-item-'+num+'" role="option"></li>').click(function(){
                                     var raw_data = $(this).data("data");
                                     var number = raw_data.num;
                                     if($("#as-selection-"+number, selections_holder).length <= 0 && !tab_press){
@@ -343,11 +350,12 @@
                                         prev = "";
                                         add_selected_item(data, number);
                                         opts.resultClick.call(this, raw_data);
-                                        results_holder.hide();
+                                        hideResults();
                                     }
                                     tab_press = false;
                                 }).mousedown(function(){ input_focus = false; }).mouseover(function(){
                                     $("li", results_ul).removeClass("active");
+                                    input.attr("aria-activedescendant", $(this).attr("id"))
                                     $(this).addClass("active");
                                 }).data("data",{attributes: data[num], num: num_count});
                             var this_data = $.extend({},data[num]);
@@ -383,7 +391,7 @@
                         });
                     }
                     if (matchCount > 0 || !opts.showResultListWhenNoMatch) {
-                        results_holder.show();
+                        showResults();
                     }
                     opts.resultsComplete.call(this);
                 }
@@ -426,6 +434,11 @@
                         }
                         lis.removeClass("active");
                         start.addClass("active");
+                        if (start.attr("id")) {
+                            input.attr("aria-activedescendant", start.attr("id"))
+                        } else {
+                            input.removeAttr("aria-activedescendant");
+                        }
                         // Handle scrolling
                         if (opts.scroll && start.length && (start.position().top + start.height() > $(results_ul).height() || start.position().top < 0)){
                             $(results_ul).scrollTop($(results_ul).scrollTop() + (start.position().top));
@@ -438,6 +451,16 @@
                         request.abort();
                         request = null;
                     }
+                }
+
+                function hideResults() {
+                    results_holder.attr("aria-expanded","false").hide();
+                    input.removeAttr("aria-activedescendant");                    
+                }
+
+                function showResults() {
+                    results_holder.attr("aria-expanded","true").show();
+                    input.attr("aria-activedescendant",results_holder.find(".active").attr("id"));                    
                 }
 
             });

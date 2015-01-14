@@ -18,7 +18,6 @@ before_install:
 
   # Add PPA repos for miscellaneous dependencies
   - echo 'yes' | sudo add-apt-repository ppa:oae/deps
-  - echo 'yes' | sudo add-apt-repository ppa:coolwanglu/pdf2htmlex
   - sudo apt-get update
 
   # Install cassandra 1.2 manually
@@ -28,7 +27,7 @@ before_install:
   - sudo service cassandra status
 
   # Install nginx
-  - sudo apt-get install nginx
+  - sudo apt-get install nginx=1.7.6-1+precise1
 
   # Turn off unneeded services to free some memory
   - sudo service mysql stop
@@ -70,7 +69,6 @@ before_install:
   - git clone --depth 1 --branch master git://github.com/oaeproject/Hilary.git ./Hilary
   - cd ./Hilary
   - npm install --production
-  - node app.js | node_modules/.bin/bunyan -l error &
 
   # Configure 3akai-ux/nginx
   - cd ~/build/oaeproject/3akai-ux
@@ -79,10 +77,7 @@ before_install:
   - grunt configNginx
   - sudo cp ./target/optimized/nginx/nginx.conf /etc/nginx/nginx.conf
   - sudo mkdir /usr/share/nginx/logs
-  - sudo service nginx start
-
-  # Wait for Hilary to have started up to start the tests in "script" phase
-  - ./tools/travis/checkHilaryStart.sh
+  - sudo service nginx restart
 
 addons:
   hosts:
@@ -95,7 +90,7 @@ services:
   - redis-server
 
 script:
-  - grunt test --qunit-host test.oae.com
+  - grunt test
 
 after_success:
   # Package and upload to Amazon S3
@@ -110,4 +105,7 @@ after_failure:
 notifications:
   email:
     - oae-team@collab.sakaiproject.org
-  irc: "irc.freenode.org#oae"
+  irc:
+    channels:
+      - "irc.freenode.org#oae"
+    skip_join: true

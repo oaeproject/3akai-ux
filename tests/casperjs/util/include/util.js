@@ -15,15 +15,55 @@
 
 /**
  * General utility functions
- *
- * @return  {Object}    Returns an object with referenced utility functions
  */
-var mainUtil = function() {
+var mainUtil = (function() {
+
+    /**
+     * Utility function that calls an internal OAE UI API function
+     *
+     * @param  {String}     api                 Name of the API to which the function that needs to be called belongs
+     * @param  {String}     apiFunction         The name of the API function that needs to be called
+     * @param  {Object[]}   [params]            The parameters that need to be passed into the API function
+     * @param  {Function}   callback            Standard callback function
+     * @param  {Object}     callback.err        Error object containing error code and error message as returned by the OAE UI API function
+     * @param  {Object}     callback.data       The response data as returned by the OAE UI API function
+     * @api private
+     */
+    var callInternalAPI = function(api, apiFunction, params, callback) {
+        // Before continuing we need to make sure that the internal API has loaded.
+        // The last thing the UI does before it's initialized is showing the body
+        casper.waitFor(function() {
+            return casper.evaluate(function() {
+                return $('body').is(':visible');
+            });
+        }, function() {
+            var rndString = mainUtil.generateRandomString();
+
+            // Bind the event called when the API call finishes
+            casper.on(rndString + '.finished', function(data) {
+                return callback(data.err, data.data);
+            });
+
+            // Execute the internal API call
+            casper.evaluate(function(rndString, api, apiFunction, params) {
+                // Add the internal callback function
+                params = params || [];
+                params.push(function(err, data) {
+                    window.callPhantom({
+                        'cbId': rndString,
+                        'err': err,
+                        'data': data
+                    });
+                });
+                require('oae.api.' + api)[apiFunction].apply(this, params);
+            }, rndString, api, apiFunction, params);
+        });
+    };
 
     /**
      * Generates a random 10 character sequence of upper and lowercase letters.
      *
-     * @return {String}   Random 10 character sequence of upper and lowercase letters
+     * @return {String}    Random 10 character sequence of upper and lowercase letters
      */
     var generateRandomString = function() {
         var rndString = '';
@@ -35,6 +75,7 @@ var mainUtil = function() {
     };
 
     return {
+        'callInternalAPI': callInternalAPI,
         'generateRandomString': generateRandomString
     };
-};
+})();

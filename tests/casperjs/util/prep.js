@@ -16,10 +16,30 @@
 casper.test.begin('Prepare environment for tests', function(test) {
 
     // Override default waitTimeout before test fails
-    casper.options.waitTimeout = configUtil().waitTimeout;
+    casper.options.waitTimeout = configUtil.waitTimeout;
 
     // Set the default size of the viewport
     casper.options.viewportSize = {'width': 1200, 'height': 800};
+
+    /**
+     * Log any JavaScript errors in the page
+     *
+     * @param  {String}    msg    The error in the page
+     */
+    casper.on('page.error', function(msg) {
+        casper.echo('JavaScript error caught in the page: ' + msg, 'COMMENT');
+    });
+
+    /**
+     * Catch remote callbacks and execute an event when the callback data has a callback ID
+     *
+     * @param  {Object}    data    Data sent back from within the callback
+     */
+    casper.on('remote.callback', function(data) {
+        if (data && data.cbId) {
+            casper.emit(data.cbId + '.finished', data);
+        }
+    });
 
     /**
      * A function to be executed when a waitFor* function execution time exceeds the value of the waitTimeout option,
@@ -30,41 +50,15 @@ casper.test.begin('Prepare environment for tests', function(test) {
      */
     casper.options.onWaitTimeout = function(waitTimeout) {
         // Log out of the system
-        casper.evaluate(function() {
-            require('oae.core').api.authentication.logout(function() {
-                window.location = '/';
-            });
-        });
+        userUtil.doLogOut();
 
         // Finish the current test to skip to the next one
-        casper.wait(configUtil().modalWaitTime, function() {
+        casper.wait(configUtil.modalWaitTime, function() {
             test.fail('Test timed out after ' + waitTimeout + ' ms');
             test.done();
         });
     };
 
-    // Set up test tenant
-    casper.start(configUtil().adminUI, function() {
-        casper.waitForSelector('#adminlogin-local', function() {
-            casper.then(function() {
-                userUtil().doAdminLogIn(configUtil().adminUsername, configUtil().adminPassword);
-            });
+    test.done();
 
-            casper.then(function() {
-                adminUtil().createTenant(configUtil().tenantAlias, configUtil().tenantDisplayname, configUtil().tenantHost, function() {
-                    adminUtil().writeConfig(configUtil().tenantAlias, {
-                        'oae-principals/recaptcha/enabled': false,
-                        'oae-principals/termsAndConditions/enabled': true,
-                        'oae-principals/termsAndConditions/text/default': '![OAE](/shared/oae/img/oae-logo.png) Default terms and conditions'
-                    }, function() {
-                        userUtil().doAdminLogOut();
-                    });
-                });
-            });
-        });
-    });
-
-    casper.run(function() {
-        test.done();
-    });
 });
