@@ -26,9 +26,9 @@
 {macro listHeader(title, _showSearch, _actions, _showViewOptions)}
     {var showSearch = (_showSearch !== false)}
     {var actions = _actions || []}
+    {var actionsId = oae.api.util.generateId()}
     {var showViewOptions = (_showViewOptions !== false)}
     {var showActionsToggle = (actions.length > 0 || showViewOptions)}
-    {var actionsId = oae.api.util.generateId()}
 
     <div class="oae-list-header">
         <div class="row">
