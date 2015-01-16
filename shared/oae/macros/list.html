@@ -26,6 +26,7 @@
 {macro listHeader(title, _showSearch, _actions, _showViewOptions)}
     {var showSearch = (_showSearch !== false)}
     {var actions = _actions || []}
+    {var actionsId = oae.api.util.generateId()}
     {var showViewOptions = (_showViewOptions !== false)}
     {var showActionsToggle = (actions.length > 0 || showViewOptions)}
 
@@ -38,7 +39,7 @@
                 </button>
 
                 {if showActionsToggle}
-                    <button class="oae-list-header-toggle btn">
+                    <button class="oae-list-header-toggle btn" aria-expanded="false" aria-controls="${actionsId}">
                 {else}
                     <div class="oae-list-header-toggle">
                 {/if}
@@ -70,7 +71,7 @@
             {/if}
         </div>
         {if showActionsToggle}
-            <div class="oae-list-header-actions clearfix hide">
+            <div class="oae-list-header-actions clearfix hide" id="${actionsId}" aria-hidden="true">
                 {if actions.length > 0}
                     {var selectAllId = oae.api.util.generateId()}
                     <input type="checkbox" id="${selectAllId}" class="oae-list-selectall" />
