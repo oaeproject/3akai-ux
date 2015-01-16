@@ -90,8 +90,7 @@ services:
   - redis-server
 
 script:
-#  - grunt test
-  - /bin/true
+  - grunt test
 
 after_success:
   # Package and upload to Amazon S3
