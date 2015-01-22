@@ -114,6 +114,7 @@
  * @param  {String}                                 [displayOptions.additionalClasses]     Additional CSS classes separated by spaces to apply to the generated list items
  * @param  {Boolean}                                [displayOptions.addLink]               Whether or not a link to the entity profile should be placed on the list item. By default, a link will be set
  * @param  {String}                                 [displayOptions.linkTarget]            The target of the list item link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
+ * @param  {Boolean}                                [displayOptions.hideThumbnailLink]     Whether or not to hide the link from screen readers (e.g., because the thumbnail is adjacent to a text link and, therefore, redundant for screen readers). By default, the link will be visible to screen readers
 -->
 {macro listItem(entityData, displayOptions)}
     {if entityData}
@@ -202,7 +203,7 @@
  * @param  {Boolean}                                        [displayOptions.addVisibilityIcon]     Whether or not the visibility icon should be shown. By default, the visibility icon will be shown. However, users will never show a visibility icon
  * @param  {Boolean}                                        [displayOptions.largeDefault]          Whether or not a large default thumbnail icon should used. By default, a small icon will be used
  * @param  {Boolean}                                        [displayOptions.addLink]               Whether or not a link to the entity profile should be placed on the image. By default, a link will be set
- * @param  {Boolean}                                        [displayOptions.hideLink]              Whether or not to hide the link from screen readers (e.g., because the thumbnail is adjacent to a text link and, therefore, redundant for screen readers). By default, the link will be visible to screen readers
+ * @param  {Boolean}                                        [displayOptions.hideThumbnailLink]     Whether or not to hide the link from screen readers (e.g., because the thumbnail is adjacent to a text link and, therefore, redundant for screen readers). By default, the link will be visible to screen readers
  * @param  {String}                                         [displayOptions.customImage]           URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
  * @param  {String}                                         [displayOptions.linkTarget]            The target of the thumbnail link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
 -->
@@ -267,7 +268,7 @@
     {/if}
 
     <div class="oae-thumbnail {if displayOptions.largeDefault} oae-thumbnail-large {/if} fa fa-oae-${resourceSubType} fa-oae-${resourceType}" data-id="${resourceId}">
-        {if profilePath && displayOptions.addLink !== false}<a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if} {if displayOptions.hideLink === true} aria-hidden="true"{/if}>{/if}
+        {if profilePath && displayOptions.addLink !== false}<a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if} {if displayOptions.hideThumbnailLink === true} aria-hidden="true"{/if}>{/if}
         {if thumbnailUrl}
             <div role="img" style="background-image: url('${thumbnailUrl}');"></div>
         {/if}
