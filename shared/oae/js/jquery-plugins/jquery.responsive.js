@@ -36,6 +36,15 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
          * Toggle the left hand navigation between its expanded and collapsed state
          */
         var toggleLhNav = function() {
+            // Toggle ARIA attributes, adding them if necessary
+            if ($('#oae-lhnavigation').attr('aria-hidden') === 'true') {
+                $('#oae-lhnavigation').attr('aria-hidden', 'false');
+                $('button[aria-controls="oae-lhnavigation"]').attr('aria-expanded', 'true');
+            } else {
+                $('#oae-lhnavigation').attr('aria-hidden', 'true');
+                $('button[aria-controls="oae-lhnavigation"]').attr('aria-expanded', 'false');
+            }
+
             $('.oae-lhnavigation').toggleClass('oae-lhnav-expanded');
         };
 
