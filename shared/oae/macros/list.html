@@ -62,7 +62,7 @@
             {if showSearch}
                 {var searchQueryId = oae.api.util.generateId()}
                 <div class="col-xs-12 col-sm-4 oae-list-header-search">
-                    <form class="form-search" role="search">
+                    <form action="." class="form-search" role="search">
                         <label for="${searchQueryId}" class="control-label sr-only">__MSG__NARROW_BY_KEYWORD__</label>
                         <input type="text" id="${searchQueryId}" class="oae-list-header-search-query form-control pull-right search-query" name="search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
                         <button type="submit" class="sr-only">__MSG__SEARCH__</button>
