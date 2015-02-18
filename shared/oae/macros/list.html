@@ -145,10 +145,10 @@
                     ${displayOptions.largeDefault = true|eat}
                     ${renderThumbnail(entityData, displayOptions)}
                     <div class="oae-tile-metadata">
+                        ${renderMetadata(entityData, displayOptions)}
                         {if resourceType !== 'user'}
                             ${renderVisibilityIcon(entityData)}
                         {/if}
-                        ${renderMetadata(entityData, displayOptions)}
                     </div>
                 </div>
                 ${renderCheckbox(entityData, 'grid', displayOptions.showCheckbox)}

@@ -1035,17 +1035,18 @@ div.oae-thumbnail i.fa {
 /* Tile metadata */
 
 .oae-tile > .oae-tile-metadata {
-    position: absolute;
     bottom: 0;
-    right: 0;
     left: 0;
     padding: 7px;
+    position: absolute;
+    right: 0;
 }
 
 /* The visibility icon of the tile should be aligned to the right */
 .oae-tile > .oae-tile-metadata > i {
-    float: right;
-    margin-left: 1px;
+   position: absolute;
+   bottom: 7px;
+   right: 5px;
 }
 
 .oae-tile h3,
@@ -1054,11 +1055,8 @@ div.oae-thumbnail i.fa {
     font-weight: 600;
     line-height: 20px;
     margin: 0;
-    max-height: 65px;
-}
-
-.oae-tile i + h3 {
-    margin-right: 25px;
+    max-height: 45px;
+    margin-bottom: 5px;
 }
 
 .oae-tile small {
@@ -1066,6 +1064,7 @@ div.oae-thumbnail i.fa {
     font-weight: normal;
     line-height: 1.5;
     text-transform: uppercase;
+    margin-right: 25px;
 }
 
 
