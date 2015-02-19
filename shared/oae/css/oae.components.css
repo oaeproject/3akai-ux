@@ -1062,8 +1062,12 @@ div.oae-thumbnail i.fa {
     font-size: 12px;
     font-weight: normal;
     line-height: 1.5;
-    margin-right: 25px;
     text-transform: uppercase;
+}
+
+/* Add space for the visibility icon */
+.oae-tile .oae-thumbnail:not(.fa-oae-user) + .oae-tile-metadata small {
+    margin-right: 25px;
 }
 
 
