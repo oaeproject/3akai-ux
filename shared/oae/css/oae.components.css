@@ -1044,9 +1044,9 @@ div.oae-thumbnail i.fa {
 
 /* The visibility icon of the tile should be aligned to the right */
 .oae-tile > .oae-tile-metadata > i {
-   position: absolute;
-   bottom: 7px;
-   right: 5px;
+    position: absolute;
+    bottom: 7px;
+    right: 5px;
 }
 
 .oae-tile h3,
@@ -1054,17 +1054,16 @@ div.oae-thumbnail i.fa {
     font-size: 14px;
     font-weight: 600;
     line-height: 20px;
-    margin: 0;
+    margin: 0 0 5px;
     max-height: 45px;
-    margin-bottom: 5px;
 }
 
 .oae-tile small {
     font-size: 12px;
     font-weight: normal;
     line-height: 1.5;
-    text-transform: uppercase;
     margin-right: 25px;
+    text-transform: uppercase;
 }
 
 
