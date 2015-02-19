@@ -21,7 +21,7 @@
     // Element collection
     this.options  = $.extend(true, {}, $.fn.notify.defaults, options);
     this.$element = $(element);
-    this.$note    = $('<div class="alert"></div>');
+    this.$note    = $('<div class="alert" role="alert"></div>');
     if (this.options.closable) {
         this.$note.addClass('alert-dismissable');
     }

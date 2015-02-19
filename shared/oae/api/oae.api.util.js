@@ -1224,7 +1224,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
         /**
          * Sanitizes markdown input in a manner that makes it safe for the input to be placed inside of an HTML tag.
-         * This sanitizer will also recognise bare URLs inside of the provided input and will convert these into links.
+         * This sanitizer will also recognise bare URLs, including path elements, but not query parameters, inside 
+         * the provided input and will convert these into links.
          *
          * @param  {String}     [input]         The markdown input string that should be sanitized. If this is not provided, an empty string will be returned
          * @return {String}                     The sanitized HTML, ready to be put inside of an HTML tag with all URLs converted to markdown links
@@ -1246,8 +1247,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
                 // Also recognize text beginning with "www." as a URL as long
                 // as it's not already within a link
-                var URLPattern = /(www\.[A-Z0-9.\-]+(\b|$))(?![^<]*>|[^<>]*<\\\/a)/gim;
-                input = input.replace(URLPattern, '<a href="http://$1">$1</a>');
+                var URLPattern = /(^|\s|>)(www\.[A-Z0-9.\-\/]+(\b|$))(?![^<]*>|[^<>]*<\\\/a)/gim;
+                input = input.replace(URLPattern, '$1<a href="http://$2">$2</a>');
 
                 return input;
             }
