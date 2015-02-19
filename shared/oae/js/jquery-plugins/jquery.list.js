@@ -31,6 +31,15 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
                 $listHeaderActions.slideDown(200);
             }
 
+            // Toggle ARIA attributes, adding them if necessary
+            if ($(this).attr('aria-expanded') === 'true') {
+                $(this).attr('aria-expanded', 'false');
+                $listHeaderActions.attr('aria-hidden', 'true');
+            } else {
+                $(this).attr('aria-expanded', 'true');
+                $listHeaderActions.attr('aria-hidden', 'false');
+            }
+
             // Toggle the caret icon in the list header
             $(this).find('i').toggleClass('fa-caret-down fa-caret-up');
         });

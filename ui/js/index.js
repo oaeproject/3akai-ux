@@ -45,7 +45,7 @@ require(['jquery','oae.core'], function($, oae) {
                 // after all Markdown content has been converted to HTML
                 $.each(blocks, function(blockIndex, block) {
                     if (block.titleColor) {
-                        $('.index-block-' + blockIndex).filter(':header').css('color', block.titleColor);
+                        $('.index-block-' + blockIndex).find(':header').css('color', block.titleColor);
                     }
                 });
 
