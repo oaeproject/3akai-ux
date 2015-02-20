@@ -307,7 +307,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // collabdocs have a special editor role
         if (contentProfile.resourceSubType === 'collabdoc') {
             widgetData.roles.editor = oae.api.i18n.translate('__MSG__CAN_EDIT__');
-            widgetData.defaultRole = 'editor';
+            widgetData.defaultRole = 'manager';
         }
         return widgetData;
     };
