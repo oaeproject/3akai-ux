@@ -20,4 +20,3 @@ target/
 tools/crowdin/*.jar
 tools/crowdin/*.yaml
 
-node_modules/oae-core/.DS_Store
