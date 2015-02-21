@@ -193,5 +193,4 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
             }
         });
     };
-
 });
