@@ -68,6 +68,7 @@ define([
         'bootstrap.clickover',
         'bootstrap.notify',
         'globalize',
+        'jquery.dotdot',
         'jquery.encoder',
         'jquery.fileSize',
         'jquery.form',

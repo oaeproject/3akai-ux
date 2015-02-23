@@ -145,10 +145,10 @@
                     ${displayOptions.largeDefault = true|eat}
                     ${renderThumbnail(entityData, displayOptions)}
                     <div class="oae-tile-metadata">
+                        ${renderMetadata(entityData, displayOptions)}
                         {if resourceType !== 'user'}
                             ${renderVisibilityIcon(entityData)}
                         {/if}
-                        ${renderMetadata(entityData, displayOptions)}
                     </div>
                 </div>
                 ${renderCheckbox(entityData, 'grid', displayOptions.showCheckbox)}
@@ -324,9 +324,9 @@
     {/if}
 
     {if profilePath && displayOptions.addLink !== false}
-        <h3 class="oae-threedots"><a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>${entityData.displayName|encodeForHTML}</a></h3>
+        <h3><a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>${entityData.displayName|encodeForHTML}</a></h3>
     {else}
-        <h3 class="oae-threedots"><span class="jeditable-field oae-threedots" rel="tooltip" data-placement="right" data-original-title="__MSG__CLICK_TO_RENAME__" tabindex="0">${entityData.displayName|encodeForHTML}</span></h3>
+        <h3><span class="jeditable-field oae-threedots" rel="tooltip" data-placement="right" data-original-title="__MSG__CLICK_TO_RENAME__" tabindex="0">${entityData.displayName|encodeForHTML}</span></h3>
     {/if}
 
     {if metadata}
