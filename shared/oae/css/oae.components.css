@@ -50,10 +50,16 @@ a.oae-plain-link:hover {
  * Style that can be used to fake focus on an element. This can for example
  * be used when a hidden element needs to provide visual feedback on a different element.
  */
+
 .oae-focus {
     outline: thin dotted #333;
-    outline: 5px auto -webkit-focus-ring-color;
     outline-offset: -2px;
+}
+
+a.oae-focus,
+.btn.oae-focus,
+input.oae-focus {
+    outline: 5px auto -webkit-focus-ring-color;
 }
 
 
