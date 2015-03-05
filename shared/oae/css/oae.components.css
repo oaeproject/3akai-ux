@@ -57,8 +57,8 @@ a.oae-plain-link:hover {
 }
 
 a.oae-focus,
-.btn.oae-focus,
-input.oae-focus {
+input.oae-focus,
+.btn.oae-focus {
     outline: 5px auto -webkit-focus-ring-color;
 }
 
