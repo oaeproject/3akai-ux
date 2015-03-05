@@ -143,6 +143,7 @@
                 <div class="oae-tile">
                     ${displayOptions.addVisibilityIcon = false|eat}
                     ${displayOptions.largeDefault = true|eat}
+                    ${displayOptions.threedotTitle = false|eat}
                     ${renderThumbnail(entityData, displayOptions)}
                     <div class="oae-tile-metadata">
                         ${renderMetadata(entityData, displayOptions)}
@@ -161,6 +162,7 @@
                     <div class="oae-listitem-primary-thumbnail">
                         ${displayOptions.addVisibilityIcon = true|eat}
                         ${displayOptions.largeDefault = false|eat}
+                        ${displayOptions.threedotTitle = true|eat}
                         ${renderThumbnail(entityData, displayOptions)}
                     </div>
                     {if displayOptions.listItemActions}
@@ -286,6 +288,7 @@
  * @param  {String}                                 [displayOptions.metadata]           Line of metadata information that should be displayed underneath the entity name
  * @param  {Boolean}                                [displayOptions.addLink]            Whether or not a link to the entity profile should be placed on the title. By default, a link will be set
  * @param  {String}                                 [displayOptions.linkTarget]         The target of the link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
+ * @param  {Boolean}                                [displayOptions.threedotTitle]      Whether or not the metadata title should be threedotted. By default, threedotting will be applied to the metadata title
 -->
 {macro renderMetadata(entityData, displayOptions)}
 
@@ -324,9 +327,9 @@
     {/if}
 
     {if profilePath && displayOptions.addLink !== false}
-        <h3><a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>${entityData.displayName|encodeForHTML}</a></h3>
+        <h3 {if displayOptions.threedotTitle !== false} class="oae-threedots"{/if}><a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>${entityData.displayName|encodeForHTML}</a></h3>
     {else}
-        <h3><span class="jeditable-field oae-threedots" rel="tooltip" data-placement="right" data-original-title="__MSG__CLICK_TO_RENAME__" tabindex="0">${entityData.displayName|encodeForHTML}</span></h3>
+        <h3 {if displayOptions.threedotTitle !== false} class="oae-threedots"{/if}><span class="jeditable-field oae-threedots" rel="tooltip" data-placement="right" data-original-title="__MSG__CLICK_TO_RENAME__" tabindex="0">${entityData.displayName|encodeForHTML}</span></h3>
     {/if}
 
     {if metadata}
