@@ -258,10 +258,6 @@ input.search-query {
 /* JEDITABLE
  * @see http://www.appelsiini.net/projects/jeditable */
 
-.modal .jeditable-field form {
-    margin: 0;
-}
-
 .modal .jeditable-field form input {
     background: transparent;
     border: none;
