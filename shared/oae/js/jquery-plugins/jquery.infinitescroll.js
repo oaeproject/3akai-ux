@@ -100,30 +100,39 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
         };
 
         /**
+         * Helper function that postpones doing something until the body is visible
+         */
+        var whenVisible = function(callback) {
+            if (!$('body').is(':visible')) {
+                setTimeout(whenVisible, 100, callback);
+            } else {
+                callback();
+            }
+        }
+
+        /**
          * Function that checks whether the current scroll position is within a certain distance
          * of the end of the page or the end of the scroll container. If it is, we load the next set of results.
          */
         var checkLoadNext = function() {
-            // If the body isn't visible yet, the page is still being loaded. Postpone
-            // checking whether or not the next set of results should be loaded
-            if (!$('body').is(':visible')) {
-                setTimeout(checkLoadNext, 100);
-            // We only check if a new set of results should be loaded if a search
-            // is not in progress and if the container has not been killed
-            } else if (canRequestMoreData && ($listContainer && $listContainer.is(':visible'))) {
-                // In case we use the body
-                var threshold = 500;
-                var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
-                // In case we use a scroll container
-                if (options.scrollContainer) {
-                    threshold = 200;
-                    pixelsRemainingUntilBottom = options.scrollContainer.prop('scrollHeight') - options.scrollContainer.height() - options.scrollContainer.scrollTop();
+            whenVisible(function() {
+                // We only check if a new set of results should be loaded if a search
+                // is not in progress and if the container has not been killed
+                if (canRequestMoreData && ($listContainer && $listContainer.is(':visible'))) {
+                    // In case we use the body
+                    var threshold = 500;
+                    var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
+                    // In case we use a scroll container
+                    if (options.scrollContainer) {
+                        threshold = 200;
+                        pixelsRemainingUntilBottom = options.scrollContainer.prop('scrollHeight') - options.scrollContainer.height() - options.scrollContainer.scrollTop();
+                    }
+                    // Check if this is close enough to the bottom to kick off a new item load
+                    if (pixelsRemainingUntilBottom <= threshold) {
+                        loadResultList();
+                    }
                 }
-                // Check if this is close enough to the bottom to kick off a new item load
-                if (pixelsRemainingUntilBottom <= threshold) {
-                    loadResultList();
-                }
-            }
+            });
         };
 
         ////////////////////
@@ -264,9 +273,9 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                 // Apply timeago to the `oae-timeago` elements in the output container
                 oaeL10n.timeAgo($listContainer);
 
-                // Apply multi-line threedotting to the tile titles
-                $('.oae-tile h3').dotdotdot({
-                    watch: 'window'
+                // Apply multi-line threedotting to the tile titles when the body becomes visible
+                whenVisible(function() {
+                    $('.oae-tile h3').dotdotdot({'watch': 'window'});
                 });
             }
         };
