@@ -259,7 +259,7 @@ input.search-query {
  * @see http://www.appelsiini.net/projects/jeditable */
 
 .modal .jeditable-field form {
-    margin: 0 0 0 -1px;
+    margin: 0;
 }
 
 .modal .jeditable-field form input {
