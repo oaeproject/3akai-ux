@@ -20,10 +20,10 @@
 /* FULL-WIDTH LAYOUT */
 
 body {
+    min-width: 400px;
     padding-left: 30px;
     padding-right: 30px;
-    min-width: 400px;
-    display: none;
+    visibility: hidden;
 }
 
 @media (max-width : 480px) {
