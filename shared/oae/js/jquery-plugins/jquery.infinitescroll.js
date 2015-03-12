@@ -104,13 +104,9 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
          * of the end of the page or the end of the scroll container. If it is, we load the next set of results.
          */
         var checkLoadNext = function() {
-            // If the body isn't visible yet, the page is still being loaded. Postpone
-            // checking whether or not the next set of results should be loaded
-            if (!$('body').is(':visible')) {
-                setTimeout(checkLoadNext, 100);
             // We only check if a new set of results should be loaded if a search
             // is not in progress and if the container has not been killed
-            } else if (canRequestMoreData && ($listContainer && $listContainer.is(':visible'))) {
+            if (canRequestMoreData && ($listContainer && $listContainer.is(':visible'))) {
                 // In case we use the body
                 var threshold = 500;
                 var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
@@ -265,9 +261,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                 oaeL10n.timeAgo($listContainer);
 
                 // Apply multi-line threedotting to the tile titles
-                $('.oae-tile h3').dotdotdot({
-                    watch: 'window'
-                });
+                $('.oae-tile h3').dotdotdot({'watch': 'window'});
             }
         };
 
