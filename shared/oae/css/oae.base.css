@@ -264,6 +264,7 @@ input.search-query {
     margin-top: -4px;
     outline: none;
     padding: 0;
+    width: 100%;
 }
 
 .modal .jeditable-field form input::-ms-clear {
