@@ -37,12 +37,12 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
         }
 
         // Google authentication. This will only be enabled when no Google Apps domain has been configured.
-        if (configAPI.getValue('oae-authentication', 'google', 'enabled') && !configAPI.getValue('oae-authentication', 'google', 'hostedDomain')) {
+        if (configAPI.getValue('oae-authentication', 'google', 'enabled') && !configAPI.getValue('oae-authentication', 'google', 'domains')) {
             enabledStrategies['google'] = {'url': '/api/auth/google'};
         }
 
         // Google Apps authentication
-        if (configAPI.getValue('oae-authentication', 'google', 'enabled') && configAPI.getValue('oae-authentication', 'google', 'hostedDomain')) {
+        if (configAPI.getValue('oae-authentication', 'google', 'enabled') && configAPI.getValue('oae-authentication', 'google', 'domains')) {
             enabledStrategies['googleApps'] = {'url': '/api/auth/google'};
         }
 
