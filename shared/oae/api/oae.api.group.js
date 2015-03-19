@@ -280,4 +280,32 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
             }
         });
     };
+
+    /**
+     * Delete a group as the currently authenticated user.
+     *
+     * @param  {String}     groupId             The id of the group to delete
+     * @param  {Function}   [callback]          Standard callback function
+     * @param  {Object}     [callback.err]      Error object containing the error code and error message
+     * @throws {Error}                          Error thrown when no group id has been provided
+     */
+    var deleteGroup = exports.deleteGroup = function(groupId, callback) {
+        if (!groupId) {
+            throw new Error('A valid group id should be provided');
+        }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/group/' + groupId,
+            'type': 'DELETE',
+            'success': function(data) {
+                callback();
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    }
 });
