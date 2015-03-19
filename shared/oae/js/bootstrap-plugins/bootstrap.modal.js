@@ -37,4 +37,12 @@ define(['jquery', 'bootstrap'], function($) {
             $('#' + this.$element.attr('id') + ' [data-dismiss="modal"]').removeAttr('disabled', 'disabled');
         }
     });
+
+    /**
+     * Apply multi-line threedotting to the tile titles when a modal has finished
+     * loading, as the tiles might have loaded before the modal was visible
+     */
+    $(document).on('shown.bs.modal', '.modal', function (event) {
+        $('.oae-tile h3').dotdotdot({'watch': 'window'});
+    });
 });
