@@ -51,7 +51,7 @@ casper.test.begin('Page - Content', function(test) {
     var verifyFileClipButtonsAsNonManager = function(anon) {
         test.assertSelectorHasText('#content-clip-container .oae-clip a', 'Download', 'The `Download` button is available on a file');
         test.assertExists('#content-clip-container .oae-clip button.oae-trigger-aboutcontent', 'The `About` button is available on a file');
-        test.assertExists('#content-clip-container .oae-clip button.oae-trigger-contentshared', 'The `Shared with` button is available on a file');
+        test.assertExists('#content-clip-container .oae-clip button.oae-trigger-sharedwith', 'The `Shared with` button is available on a file');
         if (anon) {
             test.assertDoesntExist('#content-clip-container .oae-clip button.oae-trigger-share', 'The `Share` button is not available on a file for anonymous users');
             test.assertDoesntExist('#content-clip-container .oae-clip button.oae-trigger-addtofolder', 'The `Add to folder` button is not available on a file for anonymous users');
@@ -96,7 +96,7 @@ casper.test.begin('Page - Content', function(test) {
      */
     var verifyLinkClipButtonsAsNonManager = function(anon) {
         test.assertExists('#content-clip-container .oae-clip button.oae-trigger-aboutcontent', 'The `About` button is available on a link');
-        test.assertExists('#content-clip-container .oae-clip button.oae-trigger-contentshared', 'The `Shared with` button is available on a link');
+        test.assertExists('#content-clip-container .oae-clip button.oae-trigger-sharedwith', 'The `Shared with` button is available on a link');
         if (anon) {
             test.assertDoesntExist('#content-clip-container .oae-clip button.oae-trigger-share', 'The `Share` button is not available on a link for anonymous users');
             test.assertDoesntExist('#content-clip-container .oae-clip button.oae-trigger-addtofolder', 'The `Add to folder` button is not available on a link for anonymous users');
@@ -142,7 +142,7 @@ casper.test.begin('Page - Content', function(test) {
      * @param  {Boolean}    anon    Whether or not the user is anonymous
      */
     var verifyCollabdocClipButtonsAsNonManager = function(anon) {
-        test.assertExists('#content-clip-container .oae-clip button.oae-trigger-contentshared', 'The `Shared with` button is available on a collaborative document');
+        test.assertExists('#content-clip-container .oae-clip button.oae-trigger-sharedwith', 'The `Shared with` button is available on a collaborative document');
         test.assertExists('#content-clip-container .oae-clip button.oae-trigger-aboutcontent', 'The `About` button is available on a collaborative document');
         if (anon) {
             test.assertDoesntExist('#content-clip-container .oae-clip button.oae-trigger-share', 'The `Share` button is not available on a collaborative document for anonymous users');
