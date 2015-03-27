@@ -149,8 +149,8 @@ require(['jquery', 'oae.core'], function($, oae) {
             });
         }
 
-        // Add the join clip when not a member and user can join
-        if (!groupProfile.isMember && groupProfile.canJoin) {
+        // Add the join option when a user can join the group
+        if (groupProfile.canJoin) {
             lhNavActions.push({
                 'icon': 'fa-thumb-tack',
                 'title': oae.api.i18n.translate('__MSG__JOIN_GROUP__'),
@@ -160,29 +160,40 @@ require(['jquery', 'oae.core'], function($, oae) {
 
         // Structure that will be used to construct the left hand navigation pages
         var lhNavPages = [];
-        // Only show the recent activity to group members
-        if (groupProfile.isMember) {
-            lhNavPages.push({
-                'id': 'activity',
-                'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
-                'icon': 'fa-tachometer',
-                'closeNav': true,
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'name': 'activity',
-                                'settings': {
-                                    'context': groupProfile,
-                                    'canManage': groupProfile.isManager
-                                }
+
+        // Show the activity and about widgets on the main page
+        lhNavPages.push({
+            'id': 'activity',
+            'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
+            'icon': 'fa-tachometer',
+            'closeNav': true,
+            'layout': [
+                {
+                    'width': 'col-md-8',
+                    'widgets': [
+                        {
+                            'name': 'activity',
+                            'settings': {
+                                'context': groupProfile,
+                                'canManage': groupProfile.isManager
                             }
-                        ]
-                    }
-                ]
-            });
-        }
+                        }
+                    ]
+                },
+                {
+                    'width': 'col-md-4',
+                    'widgets': [
+                        {
+                            'name': 'about',
+                            'settings': {
+                                'context': groupProfile,
+                                'canManage': groupProfile.isManager
+                            }
+                        }
+                    ]
+                }
+            ]
+        });
 
         lhNavPages.push({
             'id': 'library',
@@ -338,7 +349,6 @@ require(['jquery', 'oae.core'], function($, oae) {
         setUpClip();
     });
 
-
     ////////////////////////////
     // CHANGE PROFILE PICTURE //
     ////////////////////////////
@@ -401,6 +411,9 @@ require(['jquery', 'oae.core'], function($, oae) {
     $(document).on('oae.editgroup.done', function(ev, data) {
         groupProfile = data;
         setUpClip();
+
+        // Transfer the new profile to the about widget
+        $(document).trigger('oae.about.profile-update', groupProfile);
     });
 
     getGroupProfile();

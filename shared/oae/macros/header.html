@@ -1,0 +1,19 @@
+<!--
+ * Rendering a configurable header with optional controls
+-->
+{macro header(title, action)}
+    <div class="oae-header">
+        <div class="row">
+            <div class="oae-header-title col-xs-12 col-sm-10">
+                <h2>${title}</h2>
+            </div>
+            {if action}
+                <div class="oae-header-action hidden-xs col-sm-2">
+                    <button class="${action.toggle}">
+                        <i class="fa ${action.icon}"></i>
+                    </button>
+                </div>
+            {/if}
+        </div>
+    </div>
+{/macro}

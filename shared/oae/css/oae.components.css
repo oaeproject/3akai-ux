@@ -367,6 +367,9 @@ i.fa.large:before {
  *   `fa-oae-collabdoc` should be added to the `oae-thumbnail` div for collaborative documents.
  *   Even when an image is provided, the entity icon class can still be added as
  *   it will be used when the image cannot be downloaded.
+ * - For medium thumbnails (between 50px and 100px width and height), the `oae-thumbnail-medium`
+ *   class should be added to the `oae-thumbnail` container. It will cause the default thumbnail
+ *   to be larger.
  * - For large thumbnails (> 100px width/height), the `oae-thumbnail-large` class
  *   should be added to the `oae-thumbnail` container. It will cause the default
  *   thumbnail to be larger.
@@ -425,6 +428,11 @@ div.oae-thumbnail.fa-oae-user div {
     background-position: center;
 }
 
+div.oae-thumbnail.oae-thumbnail-medium:before {
+    font-size: 30px;
+    margin-top: -15px;
+}
+
 div.oae-thumbnail.oae-thumbnail-large:before {
     font-size: 50px;
     margin-top: -25px;
@@ -466,15 +474,6 @@ div.oae-thumbnail.fa-oae-group:before {
 div.oae-thumbnail.fa-oae-user:before {
     content: "\f007";
 }
-
-/* Visibility icon positioning */
-
-div.oae-thumbnail i.fa {
-    position: absolute;
-    bottom: -8px;
-    right: -8px;
-}
-
 
 /***********
  ** CLIPS **
@@ -1009,7 +1008,6 @@ div.oae-thumbnail i.fa {
 .oae-tile,
 .oae-list.oae-list-grid > li.oae-list-actions {
     position: relative;
-    overflow: hidden;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
             border-radius: 3px;
@@ -1426,6 +1424,58 @@ ul.oae-list > li:first-child .oae-listitem {
     margin-top: 0;
 }
 
+/************
+ ** HEADER **
+ ************/
+
+/**
+ * The generic header is shown as the header for any group of content, providing a title and an
+ * optional action that can be performed.
+ *
+ * The HTML for a header is abstracted into a globally available TrimPath template that can be used
+ * when rendering headers:
+ *
+ *  `${header(title, action)}`
+ *
+ * An explanation of the parameters for the header macro can be found in `shared/oae/macros/header.html`.
+ */
+
+.oae-header {
+    border-bottom: 1px solid #EEE;
+    margin-bottom: 20px;
+}
+
+.oae-header > div {
+    line-height: 30px;
+    margin: 0;
+    clear: both;
+}
+
+.oae-header > div:first-child > * {
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+.oae-header .oae-header-title > h2 {
+    margin: 8px 0 0;
+    font-size: 20px;
+    line-height: 1.2;
+}
+
+.oae-header .oae-header-action {
+    text-align: right;
+}
+
+.oae-header .oae-header-action > button {
+    background: none;
+    border: none;
+    bottom: -7px;
+    position: relative;
+}
+
+.oae-header .oae-header-action > button > i {
+    color: #333333;
+}
 
 /*****************
  ** LIST HEADER **
@@ -1433,7 +1483,8 @@ ul.oae-list > li:first-child .oae-listitem {
 
 /**
  * The list header is shown as the header for a group of list items, providing a title for the list, as well
- * as possibly a list search form, list actions, view mode switching, etc.
+ * as possibly a list search form, list actions, view mode switching, etc. It extends the generic `oae-header`
+ * component to add features such as expandable actions, view options and optional search box.
  *
  * The HTML for a list header has been abstracted into a globally available TrimPath template that can be
  * used when rendering list items:
@@ -1447,22 +1498,6 @@ ul.oae-list > li:first-child .oae-listitem {
  * `shared/oae/js/jquery-plugins/jquery.list.js` module on the page as well.
  */
 
-.oae-list-header {
-    border-bottom: 1px solid #EEE;
-    margin-bottom: 20px;
-}
-
-.oae-list-header > div {
-    line-height: 30px;
-    margin: 0;
-    clear: both;
-}
-
-.oae-list-header > div:first-child > * {
-    margin-bottom: 10px;
-    padding: 0;
-}
-
 .oae-list-header .oae-list-header-toggle,
 .oae-list-header .btn.oae-list-header-toggle,
 .oae-list-header .btn.oae-list-header-toggle:disabled,
@@ -1472,18 +1507,12 @@ ul.oae-list > li:first-child .oae-listitem {
     background: none;
     border: none;
     filter: none;
-    padding: 1px 0;
+    padding: 0;
     text-align: left;
     white-space: normal;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
-}
-
-.oae-list-header .oae-list-header-toggle h2 {
-    margin: 8px 0 0;
-    font-size: 20px;
-    line-height: 1.2;
 }
 
 .oae-list-header .oae-list-header-toggle h2 .badge {
