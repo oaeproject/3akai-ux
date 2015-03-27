@@ -475,6 +475,12 @@ div.oae-thumbnail.fa-oae-user:before {
     content: "\f007";
 }
 
+div.oae-thumbnail i.fa {
+    position: absolute;
+    bottom: -8px;
+    right: -8px;
+}
+
 /***********
  ** CLIPS **
 ***********/
