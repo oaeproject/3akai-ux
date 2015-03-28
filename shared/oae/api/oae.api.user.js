@@ -206,4 +206,58 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
             }
         });
     };
+
+    /**
+     * Verify an email token
+     *
+     * @param  {String}         token               The token that verifies the email address
+     * @param  {Function}       [callback]          Standard callback function
+     * @param  {Object}         [callback.err]      Error object containing error code and error message
+     */
+    var verifyEmail = exports.verifyEmail = function(token, callback) {
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        // Get the current user to construct the endpoint url
+        var userId = require('oae.core').data.me.id;
+
+        $.ajax({
+            'url': '/api/user/' + userId + '/email/verify',
+            'type': 'POST',
+            'data': {
+                'token': token
+            },
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Resend an email verification token
+     *
+     * @param  {Function}       [callback]          Standard callback function
+     * @param  {Object}         [callback.err]      Error object containing error code and error message
+     */
+    var resendEmailToken = exports.resendEmailToken = function(callback) {
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        // Get the current user to construct the endpoint url
+        var userId = require('oae.core').data.me.id;
+
+        $.ajax({
+            'url': '/api/user/' + userId + '/email/resend',
+            'type': 'POST',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
 });
