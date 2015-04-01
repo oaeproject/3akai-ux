@@ -1473,14 +1473,8 @@ ul.oae-list > li:first-child .oae-listitem {
 }
 
 .oae-header .oae-header-action > button {
-    background: none;
-    border: none;
-    bottom: -7px;
+    bottom: -5px;
     position: relative;
-}
-
-.oae-header .oae-header-action > button > i {
-    color: #333333;
 }
 
 /*****************

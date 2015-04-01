@@ -36,7 +36,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
      * @param  {String|Function}                   [options.initialContent]        HTML string that should be prepended to the list upon initialization. If a function is provided, the function will be called with no parameters and should return the HTML string to prepend.
      * @param  {Function}                          [options.emptyListProcessor]    Function that will be executed when the rendered list doesn't have any elements.
      * @param  {Function}                          [options.postProcessor]         Function used to transform the search results before rendering the template. This function will be called with a data parameter containing the retrieved data and should return the processed data
-     * @param  {Function}                          [options.postRenderer]          Function executed after the rendered HTML has been appended to the rendered list. The full retrieved server response will be passed into this function.
+     * @param  {Function}                          [options.postRenderer]          Function executed after the rendered HTML has been appended to the rendered list. The full retrieved server response will be passed into this function as the first parameter as well as jQuery object containing the template that was added to the document.
      * @throws {Error}                                                             Error thrown when not all of the required parameters have been provided
      */
     $.fn.infiniteScroll = function(source, parameters, render, options) {
@@ -215,24 +215,23 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                 });
 
                 // Bring the filtered html back to templateOutput
-                templateOutput = $.trim($tmp.html());
-
+                var $templateOutput = $($.trim($tmp.html()));
                 if (prepend) {
                     // Insert the item after the `oae-list-actions` element (if there is one)
                     var $listActions = $listContainer.find('.oae-list-actions');
                     if ($listActions.length) {
-                        $(templateOutput).hide().insertAfter($listActions).fadeIn('slow');
+                        $templateOutput.hide().insertAfter($listActions).fadeIn('slow');
                     } else {
-                        $(templateOutput).hide().prependTo($listContainer).fadeIn('slow');
+                        $templateOutput.hide().prependTo($listContainer).fadeIn('slow');
                     }
                 } else {
                     // Append the results
-                    $listContainer.append(templateOutput);
+                    $templateOutput.appendTo($listContainer);
                 }
 
                 // Call the post renderer if it has been provided
                 if (options.postRenderer) {
-                    options.postRenderer(data);
+                    options.postRenderer(data, $templateOutput);
                 }
 
                 // We only check whether or not more items should be fetched when the results where not

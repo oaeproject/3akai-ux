@@ -169,7 +169,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             'closeNav': true,
             'layout': [
                 {
-                    'width': 'col-md-8',
+                    'width': 'col-md-9',
                     'widgets': [
                         {
                             'name': 'activity',
@@ -181,7 +181,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     ]
                 },
                 {
-                    'width': 'col-md-4',
+                    'width': 'col-md-3',
                     'widgets': [
                         {
                             'name': 'about',

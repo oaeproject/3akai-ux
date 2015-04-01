@@ -9,7 +9,7 @@
             </div>
             {if action}
                 <div class="oae-header-action hidden-xs col-sm-2">
-                    <button class="${action.toggle}">
+                    <button class="btn btn-link ${action.trigger}" ${%_.map(action.data, function(value, key) { return 'data-' + key + '="' + value + '"'; }).join(' ')%}>
                         <i class="fa ${action.icon}"></i>
                     </button>
                 </div>
