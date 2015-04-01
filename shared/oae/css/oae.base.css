@@ -596,6 +596,18 @@ ul.as-list li.as-result-item.active {
     background-size: cover;
 }
 
+/* MAIN ACTION DIV */
+
+.oae-main-action {
+    margin: 35px 0 0 0;
+}
+
+@media (max-width: 480px) {
+    .oae-main-action {
+        margin-top: 15px;
+    }
+}
+
 /* MAIN CONTENT DIV */
 
 .oae-main-content {

@@ -175,13 +175,25 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * @api private
          */
         var init = function(callback) {
-            // Load the activity summary and lists macros through the RequireJS Text plugin
-            require(['text!/shared/oae/macros/list.html', 'text!/shared/oae/macros/header.html'], function(listMacro, headerMacro) {
+            // List all macro files available in /shared/oae/macros to this list to have them
+            // available for JST templates
+            var macroFiles = ['header.html', 'list.html'];
+
+            // Load all macros using the `require` command
+            var macros = _.map(macroFiles, function(macroFile) {
+                return 'text!/shared/oae/macros/' + macroFile;
+            });
+            require(macros, function() {
                 // Translate and cache the macros. We require the i18n API here to avoid creating
                 // a cyclic dependency
                 var i18nAPI = require('oae.api.i18n');
-                globalMacros.push(i18nAPI.translate(listMacro));
-                globalMacros.push(i18nAPI.translate(headerMacro));
+
+                // All loaded macros will come back as the arguments of the callback. Dynamically
+                // add them all to the global macros list
+                _.chain(arguments).toArray().each(function(macro) {
+                    globalMacros.push(macro);
+                });
+
                 callback();
             });
         };

@@ -23,79 +23,111 @@
         <div data-widget="topnavigation"><!-- --></div>
 
         <!-- BODY -->
-        <main class="oae-main-content" role="main">
+        <main role="main">
 
-            <!-- CLIPS -->
-            <div class="oae-clip-container">
-                <div id="search-clip-container">
-                    <div class="oae-clip">
-                        <div class="oae-clip-fold">
-                            <div class="oae-clip-fold-inner"></div>
-                            <div class="oae-clip-fold-outer"></div>
-                        </div>
-                        <div class="clearfix oae-clip-content">
-                            <form action="." id="search-form" class="form-search form-horizontal" role="search" aria-label="__MSG__SEARCH__">
-                                <div class="form-group">
-                                    <input type="text" id="search-query" class="form-control search-query form-control pull-left" title="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__" autofocus />
-                                    <button type="submit" id="search-search-icon" class="btn btn-link pull-left" title="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__">
-                                        <i class="fa fa-search"><span class="sr-only">__MSG__SEARCH__</span></i>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+            <div class="oae-main-action">
+                <form action="." id="search-form" class="form-search form-horizontal" role="search" aria-label="__MSG__SEARCH__">
+                    <div class="form-group">
+                        <input type="text" id="search-query" class="form-control search-query form-control pull-left" title="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__" autofocus />
+                        <button type="submit" id="search-search-icon" class="btn btn-link pull-left" title="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__">
+                            <i class="fa fa-search"><span class="sr-only">__MSG__SEARCH__</span></i>
+                        </button>
                     </div>
-                </div>
+                </form>
             </div>
 
-            <!-- CONTENT -->
-            <div>
-                <div id="search-content-container" class="row">
-                    <div class="oae-lhnavigation">
-                        <ul id="search-refine-type" class="nav nav-list">
-                            <li class="nav-header">__MSG__REFINE_SEARCH_BY_TYPE_COLON__</li>
-                            <li>
-                                <label class="checkbox"><input type="checkbox" data-type="user" />__MSG__PEOPLE__</label>
-                            </li>
-                            <li>
-                                <label class="checkbox"><input type="checkbox" data-type="group" />__MSG__GROUPS__</label>
-                            </li>
-                            <li>
-                                <label class="checkbox"><input type="checkbox" data-type="content" />__MSG__CONTENT__</label>
-                            </li>
-                            <li>
-                                <label class="checkbox"><input type="checkbox" data-type="folder" />__MSG__FOLDERS__</label>
-                            </li>
-                            <li>
-                                <label class="checkbox"><input type="checkbox" data-type="discussion" />__MSG__DISCUSSIONS__</label>
-                            </li>
-                        </ul>
+            <div class="oae-main-content">
+                <!-- EVERYWHERE / MY STUFF ONLY -->
+                <div id="search-scope" class="oae-switchtab-container">
+                    <div class="oae-switchtab-control">
+                        <button class="oae-switchtab-switch" data-switchtab-id="all" data-switchtab-path="/search/all">
+                            <span class="oae-switchtab-switch-icon fa fa-globe"></span>
+                            <span class="oae-switchtab-switch-label">__MSG__EVERYWHERE__</span>
+                        </button>
+                        <button class="oae-switchtab-switch" data-switchtab-id="my" data-switchtab-path="/search/my">
+                            <span class="oae-switchtab-switch-icon fa fa-lock"></span>
+                            <span class="oae-switchtab-switch-label">__MSG__MY_STUFF_ONLY__</span>
+                        </button>
                     </div>
-                    <div class="clearfix oae-page">
-                        <div class="oae-list-container">
-                            <div id="search-list-header"><!-- --></div>
-                            <ul class="oae-list oae-list-grid"><!-- --></ul>
+                </div>
 
-                            <div id="search-list-header-template"><!--
-                                ${listHeader('__MSG__SEARCH_RESULTS__', false, null, false)}
-                            --></div>
+                <!-- CONTENT -->
+                <div>
+                    <div id="search-content-container" class="row">
+                        <div id="search-lhnavigation" class="oae-lhnavigation"><!-- --></div>
+                        <div class="clearfix oae-page">
+                            <div class="oae-list-container">
+                                <div id="search-list-header"><!-- --></div>
+                                <ul class="oae-list oae-list-grid"><!-- --></ul>
 
-                            <div id="search-noresults-template"><!--
-                                <div class="alert alert-info">
-                                    {if query}
-                                        {var query = oae.api.util.security().encodeForHTML(query)}
-                                        __MSG__SEARCH_QUERY_EMPTY__
-                                    {else}
-                                        __MSG__SEARCH_EMPTY__
-                                    {/if}
-                                </div>
-                            --></div>
+                                <div id="search-list-header-template"><!--
+                                    ${listHeader('__MSG__SEARCH_RESULTS__', false, null, false)}
+                                --></div>
 
-                            <div id="search-template"><!--
-                                {for result in results}
-                                    ${listItem(result)}
-                                {/for}
-                            --></div>
+                                <div id="search-noresults-template"><!--
+                                    <div class="alert alert-info">
+                                        {if query}
+                                            {var query = oae.api.util.security().encodeForHTML(query)}
+                                            __MSG__SEARCH_QUERY_EMPTY__
+                                        {else}
+                                            __MSG__SEARCH_EMPTY__
+                                        {/if}
+                                    </div>
+                                --></div>
+
+                                <div id="search-template"><!--
+                                    {for result in results}
+                                        ${listItem(result)}
+                                    {/for}
+                                --></div>
+                            </div>
                         </div>
+
+                        <div id="search-lhnavigation-template"><!--
+                            {var tenant = oae.data.me.tenant}
+                            <ul id="search-refine-type" class="nav nav-list">
+                                <li class="nav-header">__MSG__REFINE_YOUR_SEARCH_COLON__</li>
+                                <li class="search-refine-type-user">
+                                    <label class="checkbox">
+                                        <input type="checkbox" data-type="user" />
+                                        <span>__MSG__PEOPLE__</span>
+                                    </label>
+                                </li>
+                                <li class="search-refine-type-group">
+                                    <label class="checkbox">
+                                        <input type="checkbox" data-type="group" />
+                                        <span>__MSG__GROUPS__</span>
+                                    </label>
+                                </li>
+                                <li class="search-refine-type-content">
+                                    <label class="checkbox">
+                                        <input type="checkbox" data-type="content" />
+                                        <span>__MSG__CONTENT__</span>
+                                    </label>
+                                </li>
+                                <li class="search-refine-type-folder">
+                                    <label class="checkbox">
+                                        <input type="checkbox" data-type="folder" />
+                                        <span>__MSG__FOLDERS__</span>
+                                    </label>
+                                </li>
+                                <li class="search-refine-type-discussion">
+                                    <label class="checkbox">
+                                        <input type="checkbox" data-type="discussion" />
+                                        <span>__MSG__DISCUSSIONS__</span>
+                                    </label>
+                                </li>
+                            </ul>
+                            <ul id="search-refine-tenant" class="nav nav-list">
+                                <li class="nav-header">__MSG__SEARCH_ONLY_WITHIN_COLON__</li>
+                                <li class="search-refine-tenant-${tenant.alias|encodeForHTMLAttribute}">
+                                    <label class="checkbox">
+                                        <input type="checkbox" data-tenant="${tenant.alias|encodeForHTMLAttribute}" />
+                                        <span>${tenant.displayName|encodeForHTML}</span>
+                                    </label>
+                                </li>
+                            </ul>
+                        --></div>
                     </div>
                 </div>
             </div>
