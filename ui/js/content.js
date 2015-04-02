@@ -294,19 +294,19 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             'contextProfile': contentProfile,
             'messages': getManageAccessMessages(),
             'defaultRole': 'viewer',
-            'roles': {
-                'viewer': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
-                'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')
-            },
+            'roles': [
+                {'id': 'viewer', 'name': oae.api.i18n.translate('__MSG__CAN_VIEW__')},
+                {'id': 'manager', 'name': oae.api.i18n.translate('__MSG__CAN_MANAGE__')}
+            ],
             'api': {
                 'getMembersURL': '/api/content/'+ contentProfile.id + '/members',
                 'setMembers': oae.api.content.updateMembers,
                 'setVisibility': oae.api.content.updateContent
             }
         };
-        // collabdocs have a special editor role
+        // Collabdocs have a special editor role
         if (contentProfile.resourceSubType === 'collabdoc') {
-            widgetData.roles.editor = oae.api.i18n.translate('__MSG__CAN_EDIT__');
+            widgetData.roles.splice(1, 0, {'id': 'editor', 'name': oae.api.i18n.translate('__MSG__CAN_EDIT__')});
             widgetData.defaultRole = 'manager';
         }
         return widgetData;
