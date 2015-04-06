@@ -184,7 +184,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     'width': 'col-md-3',
                     'widgets': [
                         {
-                            'name': 'about',
+                            'name': 'groupprofile',
                             'settings': {
                                 'context': groupProfile,
                                 'canManage': groupProfile.isManager
@@ -413,7 +413,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         setUpClip();
 
         // Transfer the new profile to the about widget
-        $(document).trigger('oae.about.profile-update', groupProfile);
+        $(document).trigger('oae.context.update', groupProfile);
     });
 
     getGroupProfile();

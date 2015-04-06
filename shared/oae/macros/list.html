@@ -207,7 +207,7 @@
  * @param  {String}                                         [displayOptions.customImage]        URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
  * @param  {String}                                         [displayOptions.flyover]            The content to put in a fly-over when the mouse hovers over the thumbnail image
  * @param  {String}                                         [displayOptions.linkTarget]         The target of the thumbnail link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
- * @param  {String}                                         [displayOptions.size]               If specified, this content will suffix a class `oae-thumbnail-<size>`. Core CSS has support for "medium" and "large", and by default the `oae-thumbnail` is styled with what we would consider "small". "large" is recommend for thumbnails larger than 100px, while "medium" is recommended for larger than 50px
+ * @param  {String}                                         [displayOptions.size]               If specified, this content will suffix a class `oae-thumbnail-<size>`. Core CSS has support for "small", "medium" and "large". By default it is "small". "large" is recommended for thumbnails larger than 100px, while "medium" is recommended for larger than 50px
 -->
 {macro renderThumbnail(entityData, displayOptions)}
     <!-- If only a string, representing the resourceType, has been passed in. The eval block

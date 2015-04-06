@@ -1,5 +1,11 @@
 <!--
  * Rendering a configurable header with optional controls
+ *
+ * @param  {String}     title           The title of the header
+ * @param  {Object}     action          An object describing the action available in the header
+ * @param  {String}     action.icon     The font-awesome icon class name of the action. E.g., fa-pencil
+ * @param  {String}     action.label    The label of the action
+ * @param  {String}     action.trigger  The UI trigger to invoke when the action is clicked
 -->
 {macro header(title, action)}
     <div class="oae-header">
@@ -9,8 +15,10 @@
             </div>
             {if action}
                 <div class="oae-header-action hidden-xs col-sm-2">
-                    <button class="btn btn-link ${action.trigger}" ${%_.map(action.data, function(value, key) { return 'data-' + key + '="' + value + '"'; }).join(' ')%}>
-                        <i class="fa ${action.icon}"></i>
+                    <button class="btn btn-link ${action.trigger}" title="${action.label}" ${%_.map(action.data, function(value, key) { return 'data-' + key + '="' + value + '"'; }).join(' ')%}>
+                        <i class="fa ${action.icon}">
+                            <span class='sr-only'>${action.label}</span>
+                        </i>
                     </button>
                 </div>
             {/if}
