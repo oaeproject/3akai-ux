@@ -224,6 +224,7 @@ i.fa.large:before {
 
 .oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch > span {
     color: inherit;
+    margin-left: 5px;
     position: relative;
 }
 
@@ -239,8 +240,7 @@ i.fa.large:before {
 
 /* Icon generally takes up the most vertical baseline space, so shift it down to help align it with
    the label content */
-.oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch-icon,
-.oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch-icon:hover {
+.oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch-icon {
     top: 1px;
 }
 
@@ -248,7 +248,6 @@ i.fa.large:before {
    left */
 .oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch-label {
     bottom: 1px;
-    margin-left: 5px;
 }
 
 /* Highlight the active "switch" by giving it a background */
