@@ -263,7 +263,7 @@ i.fa.large:before {
 }
 
 /* Free up some horizontal button spacing to try and fit as much text as possible */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     .oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch > span:first-child {
         margin-left: 5px;
     }

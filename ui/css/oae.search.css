@@ -46,8 +46,8 @@
     margin-top: -33px;
 }
 
+/* Anonymous only ever has "Everywhere", so don't show the switches at all */
 .anon #search-scope {
-    /* Anonymous only ever has "Everywhere" */
     display: none;
 }
 
