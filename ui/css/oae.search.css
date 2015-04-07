@@ -51,16 +51,6 @@
     display: none;
 }
 
-/* IE9 Switchtab Compatibility :( */
-
-.ie-lt10 #search-scope .oae-switchtab-control .oae-switchtab-switch:first-child {
-    margin-left: -69px;
-}
-
-.ie-lt10 #search-scope .oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch:last-child {
-    margin-right: -69px;
-}
-
 /* Search container */
 
 #search-content-container {

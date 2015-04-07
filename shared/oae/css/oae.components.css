@@ -214,7 +214,7 @@ i.fa.large:before {
     border: 0;
     color: #DDD;
     min-width: 170px;
-    padding: 8px 25px;
+    padding: 8px 0;
 }
 
 .oae-switchtab-container .oae-switchtab-control,
@@ -222,30 +222,55 @@ i.fa.large:before {
     border-radius: 3px;
 }
 
+.oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch > span {
+    color: inherit;
+    position: relative;
+}
+
+/* Give the first (left-most) element space on the left side to make the button bigger */
+.oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch > span:first-child {
+    margin-left: 35px;
+}
+
+/* Give the last (right-most) element space on the right side to make the button bigger */
+.oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch > span:last-child {
+    margin-right: 35px;
+}
+
+/* Icon generally takes up the most vertical baseline space, so shift it down to help align it with
+   the label content */
 .oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch-icon,
 .oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch-icon:hover {
-    color: inherit;
-    margin-top: 1px;
-    /* Pull it off the baseline so its disproportionate height doesn't
-       wreck vertical text positioning */
-    position: absolute;
+    top: 1px;
 }
 
+/* Shift the text up one pixel to help align it to larger button. Also give it some space on the
+   left */
 .oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch-label {
-    /* Avoid from overlapping with the oae-switchtab-switch-icon that we
-       pulled off the baseline */
-    margin-left: 25px;
+    bottom: 1px;
+    margin-left: 5px;
 }
 
-/* Highlight the active "switch" */
-
+/* Highlight the active "switch" by giving it a background */
 .oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch.oae-switchtab-active {
     background-color: #EEE;
     color: #333;
 }
 
+/* Highlight the active "switch"'s icon with a color, how nice! */
 .oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch.oae-switchtab-active .oae-switchtab-switch-icon {
     color: #3481BE;
+}
+
+/* Free up some horizontal button spacing to try and fit as much text as possible */
+@media (max-width: 480px) {
+    .oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch > span:first-child {
+        margin-left: 5px;
+    }
+
+    .oae-switchtab-container .oae-switchtab-control .oae-switchtab-switch > span:last-child {
+        margin-right: 5px;
+    }
 }
 
 
