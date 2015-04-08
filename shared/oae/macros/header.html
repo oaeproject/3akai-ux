@@ -1,8 +1,9 @@
 <!--
- * Rendering a configurable header with optional controls
+ * Render a configurable header with optional controls
  *
  * @param  {String}     title           The title of the header
  * @param  {Object}     action          An object describing the action available in the header
+ * @param  {Object}     action.data     Additional data attributes to apply to the option (e.g., `{'editgroup-focus': '#editgroup-description'}` would result in an attribute `data-editgroup-focus="#editgroup-description"`)
  * @param  {String}     action.icon     The font-awesome icon class name of the action. E.g., fa-pencil
  * @param  {String}     action.label    The label of the action
  * @param  {String}     action.trigger  The UI trigger to invoke when the action is clicked

@@ -77,8 +77,8 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
  * @see http://getbootstrap.com/components/#nav */
 
 .nav-list > li > a {
-    padding-top: 8px;
     padding-bottom: 8px;
+    padding-top: 8px;
 }
 
 .nav > li > a:active {
@@ -186,9 +186,9 @@ input[type="file"] {
 }
 
 input.search-query {
+    border-radius: 3px;
     font-family: inherit;
     padding: 3px 5px;
-    border-radius: 3px;
 }
 
 .form-group:last-child {
@@ -291,8 +291,8 @@ input.search-query {
 }
 
 .modal {
-    border-radius: 4px;
     border: none;
+    border-radius: 4px;
     box-shadow: 0 0 6px #000;
 }
 
@@ -598,8 +598,8 @@ ul.as-list li.as-result-item.active {
     background-color: #FFF;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    padding: 10px;
     min-height: 450px;
+    padding: 10px;
     clear: both;
 }
 
