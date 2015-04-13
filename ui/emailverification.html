@@ -17,10 +17,25 @@
         <link rel="stylesheet" type="text/css" href="/ui/css/oae.emailverification.css" />
     </head>
     <body>
+        <!-- HEADER -->
+        <div data-widget="topnavigation"><!-- --></div>
+
+        <div id="error-signin-template"><!--
+            {if singleInstitutionalAuth}
+                <form action="${singleInstitutionalAuth.url}" method="POST">
+                    <input type="hidden" name="redirectUrl" value="${redirectUrl|encodeForHTMLAttribute}" />
+                    <button type="submit" class="btn btn-primary">__MSG__SIGN_IN__</button>
+                </form>
+            {else}
+                <button id="error-signin-dropdown" class="btn btn-primary">__MSG__SIGN_IN__</button>
+            {/if}
+            <span class="error-instruction">__MSG__EMAIL_CONFIRMATION_SIGN_IN__</span>
+        --></div>
 
         <!-- BODY -->
         <main class="oae-main-content" role="main">
             <h1>__MSG__EMAIL_CONFIRMATION__</h1>
+            <p id="error-signin-container"><!-- --></p>
             <div id="emailverification-success" class="hide">__MSG__EMAIL_CONFIRMATION_SUCCESS__</div>
             <div id="emailverification-failure" class="hide">__MSG__EMAIL_CONFIRMATION_FAILURE__</div>
         </main>
