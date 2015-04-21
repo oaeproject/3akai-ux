@@ -441,7 +441,6 @@ require(['jquery', 'oae.core'], function($, oae) {
     });
 
 
-
     setUpGroupProfile();
 
 });
