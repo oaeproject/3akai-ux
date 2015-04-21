@@ -34,13 +34,16 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Get the group's basic profile and set up the screen. If the group
      * can't be found or is private to the current user, the appropriate
      * error page will be shown
+     *
+     * @param  {Function}   [callback]  Invoked when the group has been successfully retrieved and updated in context. If unsuccessful, the user gets redirected to an error page, therefore the callback is never invoked
      */
-    var getGroupProfile = function() {
+    var getGroupProfile = function(callback) {
+        callback = callback || function() {};
         oae.api.group.getGroup(groupId, function(err, profile) {
             if (err && err.code === 404) {
-                oae.api.util.redirect().notfound();
+                return oae.api.util.redirect().notfound();
             } else if (err && err.code === 401) {
-                oae.api.util.redirect().accessdenied();
+                return oae.api.util.redirect().accessdenied();
             }
 
             // Cache the group profile data
@@ -60,6 +63,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 setUpPushNotifications();
             }
 
+            return callback();
         });
     };
 
@@ -169,7 +173,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             'closeNav': true,
             'layout': [
                 {
-                    'width': 'col-md-9',
+                    'width': 'col-md-8 col-lg-9',
                     'widgets': [
                         {
                             'name': 'activity',
@@ -181,7 +185,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     ]
                 },
                 {
-                    'width': 'col-md-3',
+                    'width': 'hidden-xs hidden-sm col-md-4 col-lg-3',
                     'widgets': [
                         {
                             'name': 'groupprofile',
@@ -347,6 +351,13 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     $(document).on('oae.manageaccess.done', function(ev) {
         setUpClip();
+
+        // When group members have changed, details relative to the user's access will have changed
+        // as well. Because of this we need to invoke a context update. If a user removed their own
+        // access to a private group, they will be redirected to an access denied page
+        getGroupProfile(function() {
+            $(document).trigger('oae.context.update', groupProfile);
+        });
     });
 
     ////////////////////////////
@@ -412,9 +423,11 @@ require(['jquery', 'oae.core'], function($, oae) {
         groupProfile = data;
         setUpClip();
 
-        // Transfer the new profile to the about widget
+        // Transfer the new profile to the groupprofile widget
         $(document).trigger('oae.context.update', groupProfile);
     });
+
+
 
     getGroupProfile();
 
