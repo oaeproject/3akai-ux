@@ -31,14 +31,13 @@ require(['jquery', 'oae.core'], function($, oae) {
     //////////////////////////////////
 
     /**
-     * Get the group's basic profile and set up the screen. If the group
-     * can't be found or is private to the current user, the appropriate
-     * error page will be shown
+     * Get the group's full profile and apply it to the current context (i.e. `groupProfile`). If an
+     * error occurrs getting the group profile, the user will be redirected to the appropriate error
+     * page
      *
-     * @param  {Function}   [callback]  Invoked when the group has been successfully retrieved and updated in context. If unsuccessful, the user gets redirected to an error page, therefore the callback is never invoked
+     * @param  {Function}   callback    Invoked when the group profile has been successfully fetched and applied to the context
      */
     var getGroupProfile = function(callback) {
-        callback = callback || function() {};
         oae.api.group.getGroup(groupId, function(err, profile) {
             if (err && err.code === 404) {
                 return oae.api.util.redirect().notfound();
@@ -46,8 +45,20 @@ require(['jquery', 'oae.core'], function($, oae) {
                 return oae.api.util.redirect().accessdenied();
             }
 
-            // Cache the group profile data
             groupProfile = profile;
+            return callback();
+        });
+    };
+
+
+    /**
+     * Get the group's basic profile and set up the screen. If the group
+     * can't be found or is private to the current user, the appropriate
+     * error page will be shown
+     */
+    var setUpGroupProfile = function() {
+        // Fetch and cache the most recent group profile information
+        getGroupProfile(function() {
             // Render the entity information
             setUpClip();
             // Set up the context event exchange
@@ -62,8 +73,6 @@ require(['jquery', 'oae.core'], function($, oae) {
                 // Set up the group push notifications to update this group profile on the fly
                 setUpPushNotifications();
             }
-
-            return callback();
         });
     };
 
@@ -100,8 +109,10 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Only show the create and upload clips to group members
         if (groupProfile.isMember) {
             $('#group-member-actions').show();
+            $('#group-join-actions').hide();
         // Show the join clip to non-members when the group is joinable
         } else if (!groupProfile.isMember && groupProfile.canJoin) {
+            $('#group-member-actions').hide();
             $('#group-join-actions').show();
         }
     };
@@ -350,12 +361,14 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Re-render the group's clip when the permissions have been updated
      */
     $(document).on('oae.manageaccess.done', function(ev) {
-        setUpClip();
-
-        // When group members have changed, details relative to the user's access will have changed
-        // as well. Because of this we need to invoke a context update. If a user removed their own
-        // access to a private group, they will be redirected to an access denied page
+        // Fetch and cache the most up-to-date group profile information
         getGroupProfile(function() {
+            // Update the entity clip state
+            setUpClip();
+
+            // When group members have changed, details relative to the user's access will have changed
+            // as well. Because of this we need to invoke a context update. If a user removed their own
+            // access to a private group, they will be redirected to an access denied page
             $(document).trigger('oae.context.update', groupProfile);
         });
     });
@@ -429,6 +442,6 @@ require(['jquery', 'oae.core'], function($, oae) {
 
 
 
-    getGroupProfile();
+    setUpGroupProfile();
 
 });
