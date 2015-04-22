@@ -65,12 +65,14 @@
                             {var currentWidth = parseInt(block[view], 10)}
                             ${totalWidth += currentWidth|eat}
 
+                            {var horizontalAlign = block.horizontalAlign || 'center'}
+                            {var verticalAlign = block.verticalAlign || 'middle'}
                             {var backgroundColor = block.bgColor || 'transparent'}
                             {var backgroundImage = block.imgUrl || block.videoPlaceholder}
                             {var textColor = block.textColor || '#FFF'}
                             {var minHeight = block.minHeight}
 
-                            <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="background-color: ${backgroundColor}; color: ${textColor}; {if backgroundImage} background-image: url(${backgroundImage}); {/if} {if minHeight} height: ${minHeight}px; {/if}">
+                            <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="text-align: ${horizontalAlign}; vertical-align: ${verticalAlign}; background-color: ${backgroundColor}; color: ${textColor}; {if backgroundImage} background-image: url(${backgroundImage}); {/if} {if minHeight} height: ${minHeight}px; {/if}">
                                 {if block.type === 'search'}
                                     ${renderSearchBlock()}
                                 {elseif block.type === 'iconText'}

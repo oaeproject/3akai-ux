@@ -91,12 +91,6 @@
 
 /* Text block */
 
-@media (max-width: 767px) {
-    #index-page-container .index-block-text-container {
-        text-align: center;
-    }
-}
-
 #index-page-container .index-block h1,
 #index-page-container .index-block h2,
 #index-page-container .index-block h3,
@@ -131,7 +125,6 @@
 
 #index-page-container .index-block-iconText-container {
     padding-top: 30px;
-    text-align: center;
 }
 
 /* Image block */
