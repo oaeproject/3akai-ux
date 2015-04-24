@@ -167,7 +167,7 @@ casper.test.begin('Page - Content', function(test) {
 
             contentUtil.createFile(null, null, null, null, null, [user2.id], function(err, contentProfile) {
                 contentUtil.createLink(null, null, null, null, null, [user2.id], null, function(err, linkProfile) {
-                    contentUtil.createCollabDoc(null, null, null, null, [user2.id], null, function(err, collabdocProfile) {
+                    contentUtil.createCollabDoc(null, null, null, null, [user2.id], null, null, function(err, collabdocProfile) {
                         ///////////
                         // FILES //
                         ///////////
