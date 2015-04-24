@@ -331,10 +331,10 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'publicDescription': oae.api.i18n.translate('__MSG__GROUP_PUBLIC_DESCRIPTION_PRESENT__')
             },
             'defaultRole': 'member',
-            'roles': {
-                'member': oae.api.i18n.translate('__MSG__MEMBER__'),
-                'manager': oae.api.i18n.translate('__MSG__MANAGER__')
-            },
+            'roles': [
+                {'id': 'member', 'name': oae.api.i18n.translate('__MSG__MEMBER__')},
+                {'id': 'manager', 'name': oae.api.i18n.translate('__MSG__MANAGER__')}
+            ],
             'api': {
                 'getMembersURL': '/api/group/' + groupProfile.id + '/members',
                 'setMembers': oae.api.group.updateMembers,
