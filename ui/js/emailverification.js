@@ -29,7 +29,12 @@ require(['jquery','oae.core'], function($, oae) {
         // in dropdown in the top navigation should be opened when clicking the Sign In button
         var enabledStrategies = oae.api.authentication.getEnabledStrategies();
         var singleInstitutionalAuth = null;
-        if (_.keys(enabledStrategies).length === 1 && _.contains(['cas', 'googleApps', 'shibboleth'], _.keys(enabledStrategies)[0])) {
+        var externalStrategies = [
+            oae.api.authentication.STRATEGY_CAS,
+            oae.api.authentication.STRATEGY_GOOGLE_APPS,
+            oae.api.authentication.STRATEGY_SHIBBOLETH
+        ];
+        if (_.keys(enabledStrategies).length === 1 && _.contains(externalStrategies, _.keys(enabledStrategies)[0])) {
             singleInstitutionalAuth = _.values(enabledStrategies)[0];
         }
 
