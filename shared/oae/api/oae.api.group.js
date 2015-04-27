@@ -307,5 +307,5 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
                 callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
-    }
+    };
 });
