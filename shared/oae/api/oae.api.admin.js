@@ -292,6 +292,34 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
+     * Delete a user
+     *
+     * @param  {String}         userId              User id of the user to delete
+     * @param  {Function}       [callback]          Standard callback function
+     * @param  {Object}         [callback.err]      Error object containing error code and error message
+     * @throws {Error}                              Error thrown when not all of the required parameters have been provided
+     */
+    var deleteUser = exports.deleteUser = function(userId, callback) {
+        if (!userId) {
+            throw new Error('A valid user id should be provided');
+        }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/user/' + userId,
+            'type': 'DELETE',
+            'success': function() {
+                callback();
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
      * Change the password of the specified user
      *
      * @param  {String}         userId                The is of the user to change the password for
