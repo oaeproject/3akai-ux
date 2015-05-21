@@ -118,8 +118,8 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
                                         $('html').addClass('anon');
                                     }
 
-                                    // Set up the terms and conditions widget
-                                    setUpTermsAndConditions();
+                                    // Show the user details or Terms and Conditions widget
+                                    setupUserDetails();
 
                                     // The APIs have now fully initialized. All javascript that
                                     // depends on the initialized core APIs can now execute
@@ -150,19 +150,31 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
         };
 
 
-        //////////////////////////
-        // Terms and Conditions //
-        //////////////////////////
+        /////////////////////////////////////////
+        // User details & Terms and Conditions //
+        /////////////////////////////////////////
 
         /**
-         * Trigger the Terms and Conditions widget if the Terms and Conditions
-         * need to be accepted before using the system.
+         * Trigger the user details widgets if the user needs to provide additional profile information
+         * or has to accept the Terms and Conditions
          */
-        var setUpTermsAndConditions = function() {
-            if (oae.data.me.needsToAcceptTC) {
-                // Insert the terms and conditions widget in settings mode
+        var setupUserDetails = function() {
+            if (oae.data.me.anon) {
+                return;
+            }
+
+            var needsToProvideDisplayName = (!oae.data.me.displayName || oae.data.me.displayName.indexOf('http://') !== -1);
+            var needsToProvideEmail = !oae.data.me.email;
+
+            // Show the Terms and Conditions widget if there is no additional information required
+            if (oae.data.me.needsToAcceptTC && !needsToProvideDisplayName && !needsToProvideEmail) {
                 var termsandconditionsId = oae.api.util.generateId();
                 oae.api.widget.insertWidget('termsandconditions', termsandconditionsId, null, true);
+
+            // Show the user details widget if there is additional information required
+            } else if (needsToProvideDisplayName || needsToProvideEmail) {
+                var userDetailsId = oae.api.util.generateId();
+                oae.api.widget.insertWidget('userdetails', userDetailsId, null, true);
             }
         };
 
