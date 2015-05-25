@@ -292,7 +292,10 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Delete a user
+     * Delete a user. The user will be marked as deleted but will still be accessible in the system
+     * in lists such as members listings. The user can then be restored using the
+     * `POST /api/user/:userId/restore` endpoint, however this functionality is not currently
+     * exposed in the 3akai-ux JS API
      *
      * @param  {String}         userId              User id of the user to delete
      * @param  {Function}       [callback]          Standard callback function
