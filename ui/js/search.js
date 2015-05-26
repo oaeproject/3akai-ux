@@ -22,6 +22,14 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
     var $switchtab = null;
     var currSwitchtabId = null;
 
+    /**
+     * Get the search query data in the current state
+     *
+     * @return {Object}     queryData           The query data from the current state
+     * @return {String}     queryData.q         The full-text search query
+     * @return {String[]}   queryData.types     The resource types for which to search
+     * @return {String}     queryData.tenant    The tenant alias in which to search
+     */
     var _queryData = function() {
         var params = $.url(History.getState().cleanUrl).param();
         var q = params.q;
@@ -40,6 +48,11 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
         return data;
     };
 
+    /**
+     * Convert the given query data object into a url-encoded querystring string
+     *
+     * @return {String}     The query string (including the '?'), or an empty string if the data object is empty
+     */
     var _queryString = function(obj) {
         var params = [];
         $.each(obj, function(key, val) {
