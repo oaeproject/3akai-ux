@@ -159,22 +159,27 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
          * or has to accept the Terms and Conditions
          */
         var setupUserDetails = function() {
+            // Anonymous users can be ignored as the don't have any user details
             if (oae.data.me.anon) {
+                return;
+
+            // Ignore global admins for now
+            } else if (oae.data.me.tenant.alias === 'admin') {
                 return;
             }
 
-            var needsToProvideDisplayName = (!oae.data.me.displayName || oae.data.me.displayName.indexOf('http://') !== -1);
+            var needsToProvideDisplayName = !oae.api.util.validation().isValidDisplayName(oae.data.me.displayName);
             var needsToProvideEmail = !oae.data.me.email;
 
-            // Show the Terms and Conditions widget if there is no additional information required
-            if (oae.data.me.needsToAcceptTC && !needsToProvideDisplayName && !needsToProvideEmail) {
-                var termsandconditionsId = oae.api.util.generateId();
-                oae.api.widget.insertWidget('termsandconditions', termsandconditionsId, null, true);
-
             // Show the user details widget if there is additional information required
-            } else if (needsToProvideDisplayName || needsToProvideEmail) {
+            if (needsToProvideDisplayName || needsToProvideEmail) {
                 var userDetailsId = oae.api.util.generateId();
                 oae.api.widget.insertWidget('userdetails', userDetailsId, null, true);
+
+            // Show the Terms and Conditions widget if the user needs to accept it
+            } else if (oae.data.me.needsToAcceptTC) {
+                var termsandconditionsId = oae.api.util.generateId();
+                oae.api.widget.insertWidget('termsandconditions', termsandconditionsId, null, true);
             }
         };
 
