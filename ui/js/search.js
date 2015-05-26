@@ -80,10 +80,17 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
                 .addClass('search-' + switchtabId);
         }
 
+        var title = ['__MSG__SEARCH__'];
         var queryData = _queryData();
 
-        // Get the current search query from the History.js data object
+        // Apply the search value to the search text field
         $('.search-query').val(queryData.q);
+        if (queryData.q) {
+            title.push(queryData.q);
+        }
+
+        // Set the browser title
+        oae.api.util.setBrowserTitle(title);
 
         // Reset the type checkboxes to make sure that none of them stay checked incorrectly
         // when hitting the back and forward buttons
@@ -166,7 +173,7 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
         // Append the query string, if any
         path += _queryString(params);
 
-        History.pushState({}, History.getState().title, path);
+        History.pushState({}, null, path);
 
         return false;
     };
@@ -204,7 +211,7 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
                 queryString += '&';
             }
             queryString += 'q=' + topLevelSearch;
-            History.replaceState({}, $('title').text(), path.join('/') + '?' + queryString);
+            History.replaceState({}, null, path.join('/') + '?' + queryString);
         } else if (topLevelSearch !== 'all' && oae.data.me.anon) {
             // When the user is anonymous, they can only go to /search/all, so send them there
             // instead with the search query
@@ -213,7 +220,7 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
             if (queryString) {
                 path += '?' + queryString;
             }
-            History.replaceState({}, $('title').text(), path);
+            History.replaceState({}, null, path);
         }
 
         // Initialize the switchtab component
