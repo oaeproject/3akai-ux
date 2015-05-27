@@ -118,8 +118,9 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
                                         $('html').addClass('anon');
                                     }
 
-                                    // Show the user details or Terms and Conditions widget
-                                    setupUserDetails();
+                                    // Check if any widgets need to be shown before the user can start
+                                    // using the system
+                                    setupPreUseActions();
 
                                     // The APIs have now fully initialized. All javascript that
                                     // depends on the initialized core APIs can now execute
@@ -150,20 +151,22 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
         };
 
 
-        /////////////////////////////////////////
-        // User details & Terms and Conditions //
-        /////////////////////////////////////////
+        /////////////////////
+        // Pre-use actions //
+        /////////////////////
 
         /**
-         * Trigger the user details widgets if the user needs to provide additional profile information
-         * or has to accept the Terms and Conditions
+         * Trigger the user details widgets if the user needs to provide a valid display name
+         * or email address. If the user needs to accept the Terms and Conditions, the Terms
+         * and Conditions widget will be triggered.
          */
-        var setupUserDetails = function() {
-            // Anonymous users can be ignored as the don't have any user details
+        var setupPreUseActions = function() {
+            // Anonymous users can be ignored as the don't need to perform any
+            // pre-use actions
             if (oae.data.me.anon) {
                 return;
 
-            // Ignore global admins for now
+            // Global admins don't need to perform any pre-use actions either
             } else if (oae.data.me.tenant.alias === 'admin') {
                 return;
             }
@@ -171,15 +174,13 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
             var needsToProvideDisplayName = !oae.api.util.validation().isValidDisplayName(oae.data.me.displayName);
             var needsToProvideEmail = !oae.data.me.email;
 
-            // Show the user details widget if there is additional information required
+            // Show the user details widget if a valid name or email address need to be provided
             if (needsToProvideDisplayName || needsToProvideEmail) {
-                var userDetailsId = oae.api.util.generateId();
-                oae.api.widget.insertWidget('userdetails', userDetailsId, null, true);
+                oae.api.widget.insertWidget('userdetails');
 
-            // Show the Terms and Conditions widget if the user needs to accept it
+            // Show the Terms and Conditions widget if the user needs to accept the Terms and Conditions
             } else if (oae.data.me.needsToAcceptTC) {
-                var termsandconditionsId = oae.api.util.generateId();
-                oae.api.widget.insertWidget('termsandconditions', termsandconditionsId, null, true);
+                oae.api.widget.insertWidget('termsandconditions');
             }
         };
 

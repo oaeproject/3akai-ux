@@ -686,8 +686,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
         /**
          * Check whether a provided string is a valid display name
          *
-         * @param  {String}  displayName The name to check
-         * @return {Boolean}             `true` if the provided name is a valid display name, `false` otherwise
+         * @param  {String}             displayName     The name to check
          */
         var isValidDisplayName = function(displayName) {
             // Empty names are not allowed
@@ -696,8 +695,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             }
 
             // Display names that contain `http://` or `https://` are indicative of Shibboleth
-            // not releasing an attribute that could be used as the  display name. We don't
-            // consider these to be valid
+            // not releasing an attribute that could be used as the display name. This is not
+            // considered to be valid
             if (/https?:\/\//i.test(displayName)) {
                 return false;
             }
