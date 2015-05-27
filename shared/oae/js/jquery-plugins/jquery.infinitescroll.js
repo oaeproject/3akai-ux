@@ -199,7 +199,6 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                 // Render the template and put it in the container
                 hideLoadingContainer();
                 var templateOutput = '';
-                console.log('render: %s', JSON.stringify(data, null, 2));
                 if (_.isFunction(render)) {
                     templateOutput = render(data.results);
                 } else {
