@@ -148,7 +148,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                 'success': function(data) {
                     initialSearchDone = true;
                     nextToken = data.nextToken;
-                    processList(data);
+                    processList(data, {'update': true});
                 },
                 'error': function() {
                     hideLoadingContainer();
@@ -163,14 +163,16 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
          * the infinite scroll. The plugin expects an array of items to come back from
          * the postProcessor as well.
          *
-         * @param  {Object}      data         List of items to add to the infinite scroll list
-         * @param  {Boolean}     [prepend]    `true` when we want to prepend the new items to the list, `false` when we want to append the new items to the list
+         * @param  {Object}      data           List of items to add to the infinite scroll list
+         * @param  {Objet}      [opts]          Optional arguments
+         * @param  {Boolean}    [opts.prepend]  `true` when we want to prepend the new items to the list, otherwise items are appended
+         * @param  {Boolean}    [opts.update]   `true` when we want to update existing items in place (identified by attribute `data-id`), otherwise existing items are removed then re-added with the updated version
          */
-        var processList = function(data, prepend) {
+        var processList = function(data, opts) {
             if (options.postProcessor) {
                 data = options.postProcessor(data);
             }
-            renderList(data, prepend);
+            renderList(data, opts);
         };
 
         /**
@@ -178,10 +180,16 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
          * to be wrapped in a `results` object, and have an `id` parameter for each of the results.
          * Results that are already in the list will not be re-rendered.
          *
-         * @param  {Object}     data         Post-processed server response
-         * @param  {Boolean}    [prepend]    `true` when we want to prepend the new items to the list, `false` when we want to append the new items to the list
+         * @param  {Object}     data            Post-processed server response
+         * @param  {Objet}      [opts]          Optional arguments
+         * @param  {Boolean}    [opts.prepend]  `true` when we want to prepend the new items to the list, otherwise items are appended
+         * @param  {Boolean}    [opts.update]   `true` when we want to update existing items in place (identified by attribute `data-id`), otherwise existing items are removed then re-added with the updated version
          */
-        var renderList = function(data, prepend) {
+        var renderList = function(data, opts) {
+            opts = opts || {};
+            opts.prepend = (opts.prepend === true) ? true : false;
+            opts.update = (opts.update === true) ? true : false;
+
             // Check if the infinite scroll instance still exists. It's possible that
             // the instance was killed in between the time that a request was fired and
             // the response was received. If that's the cause, there's nothing else we
@@ -191,32 +199,39 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                 // Render the template and put it in the container
                 hideLoadingContainer();
                 var templateOutput = '';
+                console.log('render: %s', JSON.stringify(data, null, 2));
                 if (_.isFunction(render)) {
                     templateOutput = render(data.results);
                 } else {
                     templateOutput = oaeUtil.template().render(render, data);
                 }
 
-                // Filter out items that are already in the list. When appending results, we
-                // skip the new results that already have an element with the same data-id attribute
-                // in the list. When prepending results, we always add the new ones and remove the existing
-                // elements with the same data-id attribute
+                // When appending results, we update the existing elements with the ones being
+                // rendered. When prepending results, we always push the new ones in and remove the
+                // existing elements with the same data-id attribute
                 var $tmp = $('<div>').html(templateOutput);
                 $tmp.children().each(function(index, newListItem) {
                     var id = $(newListItem).attr('data-id');
-                    var $existing = $('li[data-id="' + id + '"]', $listContainer);
                     if (id) {
-                        if (prepend) {
-                            $existing.remove();
-                        } else if ($existing.length > 0) {
-                            $(newListItem).remove();
+                        var $existing = $('li[data-id="' + id + '"]', $listContainer);
+                        if ($existing.length > 0) {
+                            if (opts.update) {
+                                // Remove the item from the new template and replace the existing item
+                                // with it
+                                $(newListItem).remove();
+                                $existing.replaceWith(newListItem);
+                            } else {
+                                // Remove the existing item. The item will be re-added in the new
+                                // template
+                                $existing.remove();
+                            }
                         }
                     }
                 });
 
                 // Bring the filtered html back to templateOutput
                 var $templateOutput = $($.trim($tmp.html()));
-                if (prepend) {
+                if (opts.prepend) {
                     // Insert the item after the `oae-list-actions` element (if there is one)
                     var $listActions = $listContainer.find('.oae-list-actions');
                     if ($listActions.length) {
@@ -237,7 +252,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                 // We only check whether or not more items should be fetched when the results where not
                 // prepended. When they were prepended, this indicates an in-memory user action which should
                 // be independent of the main list infinite scrolling
-                if (!prepend) {
+                if (!opts.prepend) {
                     // Determine if the number of returned results is the same as the number of requested
                     // results. If this is the case, we can assume that more results should be fetched when
                     // reaching the appropriate scroll position. However, we pause for a second, as to
@@ -283,17 +298,20 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
         ///////////////////////
 
         /**
-         * Function called to prepend items to the list. This will be used when UI caching needs
-         * to be used
+         * Function called to prepend or update items in the list. This is useful when the existing
+         * UI state needs to be updated due to list items being updated or created
          *
-         * @param  {Object}       items       Object containing the array of items to be prepended (e.g. `{'results': [<items]}`)
+         * @param  {Object}     items           Object containing the array of items to be updated (e.g. `{'results': [<items>]}`)
+         * @param  {Object[]}   items.results   The array of items to be added or updated
+         * @param  {Boolean}    [update]        When `true`, indicates that prepended items with an existing id will be updated in place. Otherwise, duplicate items will be removed and re-prepended to the list
          */
-        var prependItems = function(items) {
+        var prependItems = function(items, update) {
             // In case the list was previously empty, we need to remove the "no results" message
             if ($('li', $listContainer).length === 0) {
                 $listContainer.empty();
             }
-            processList(items, true);
+
+            processList(items, {'prepend': true, 'update': update});
         };
 
         /**
