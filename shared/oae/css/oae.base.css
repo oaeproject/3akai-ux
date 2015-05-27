@@ -340,6 +340,10 @@ input.search-query {
     margin: 0;
 }
 
+.modal-body .alert:last-child {
+    margin-bottom: 0;
+}
+
 .modal-footer {
     background-color: transparent;
     border-top: none;
