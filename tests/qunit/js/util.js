@@ -375,6 +375,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/macros/list.html': null,
                 '/ui/content.html': null,
                 '/ui/discussion.html': null,
+                '/ui/emailverification.html': null,
                 '/ui/folder.html': null,
                 '/ui/group.html': null,
                 '/ui/index.html': null,
@@ -419,6 +420,12 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/css/oae.base.css': null,
                 '/shared/oae/css/oae.components.css': null,
                 '/shared/oae/css/oae.core.css': null,
+                '/shared/oae/css/oae.discussion.css': null,
+                '/shared/oae/css/oae.emailverification.css': null,
+                '/shared/oae/css/oae.folder.css': null,
+                '/shared/oae/css/oae.group.css': null,
+                '/shared/oae/css/oae.index.css': null,
+                '/shared/oae/css/oae.search.css': null,
                 '/shared/oae/css/oae.skin.static.css': null
             }
         };

@@ -15,6 +15,15 @@
 
 define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) {
 
+    var STRATEGY_CAS = exports.STRATEGY_CAS = 'cas';
+    var STRATEGY_FACEBOOK = exports.STRATEGY_FACEBOOK = 'facebook';
+    var STRATEGY_GOOGLE = exports.STRATEGY_GOOGLE = 'google';
+    var STRATEGY_GOOGLE_APPS = exports.STRATEGY_GOOGLE_APPS = 'googleApps';
+    var STRATEGY_LDAP = exports.STRATEGY_LDAP = 'ldap';
+    var STRATEGY_LOCAL = exports.STRATEGY_LOCAL = 'local';
+    var STRATEGY_SHIBBOLETH = exports.STRATEGY_SHIBBOLETH = 'shibboleth';
+    var STRATEGY_TWITTER = exports.STRATEGY_TWITTER = 'twitter';
+
     /**
      * Get the list of all enabled authentication strategies for the current tenant
      *
@@ -24,49 +33,49 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
         var enabledStrategies = {};
 
         // CAS authentication
-        if (configAPI.getValue('oae-authentication', 'cas', 'enabled')) {
-            enabledStrategies['cas'] = {
-                'name': configAPI.getValue('oae-authentication', 'cas', 'name'),
+        if (configAPI.getValue('oae-authentication', STRATEGY_CAS, 'enabled')) {
+            enabledStrategies[STRATEGY_CAS] = {
+                'name': configAPI.getValue('oae-authentication', STRATEGY_CAS, 'name'),
                 'url': '/api/auth/cas'
             };
         }
 
         // Facebook authentication
-        if (configAPI.getValue('oae-authentication', 'facebook', 'enabled')) {
-            enabledStrategies['facebook'] = {'url': '/api/auth/facebook'};
+        if (configAPI.getValue('oae-authentication', STRATEGY_FACEBOOK, 'enabled')) {
+            enabledStrategies[STRATEGY_FACEBOOK] = {'url': '/api/auth/facebook'};
         }
 
         // Google authentication. This will only be enabled when no Google Apps domain has been configured.
-        if (configAPI.getValue('oae-authentication', 'google', 'enabled') && !configAPI.getValue('oae-authentication', 'google', 'domains')) {
-            enabledStrategies['google'] = {'url': '/api/auth/google'};
+        if (configAPI.getValue('oae-authentication', STRATEGY_GOOGLE, 'enabled') && !configAPI.getValue('oae-authentication', STRATEGY_GOOGLE, 'domains')) {
+            enabledStrategies[STRATEGY_GOOGLE] = {'url': '/api/auth/google'};
         }
 
         // Google Apps authentication
-        if (configAPI.getValue('oae-authentication', 'google', 'enabled') && configAPI.getValue('oae-authentication', 'google', 'domains')) {
-            enabledStrategies['googleApps'] = {'url': '/api/auth/google'};
+        if (configAPI.getValue('oae-authentication', STRATEGY_GOOGLE, 'enabled') && configAPI.getValue('oae-authentication', STRATEGY_GOOGLE, 'domains')) {
+            enabledStrategies[STRATEGY_GOOGLE_APPS] = {'url': '/api/auth/google'};
         }
 
         // LDAP authentication
-        if (configAPI.getValue('oae-authentication', 'ldap', 'enabled')) {
-            enabledStrategies['ldap'] = {'url': '/api/auth/ldap'};
+        if (configAPI.getValue('oae-authentication', STRATEGY_LDAP, 'enabled')) {
+            enabledStrategies[STRATEGY_LDAP] = {'url': '/api/auth/ldap'};
         }
 
         // Shibboleth authentication
-        if (configAPI.getValue('oae-authentication', 'shibboleth', 'enabled')) {
-            enabledStrategies['shibboleth'] = {
-                'name': configAPI.getValue('oae-authentication', 'shibboleth', 'name'),
+        if (configAPI.getValue('oae-authentication', STRATEGY_SHIBBOLETH, 'enabled')) {
+            enabledStrategies[STRATEGY_SHIBBOLETH] = {
+                'name': configAPI.getValue('oae-authentication', STRATEGY_SHIBBOLETH, 'name'),
                 'url': '/api/auth/shibboleth'
             };
         }
 
         // Twitter authentication
-        if (configAPI.getValue('oae-authentication', 'twitter', 'enabled')) {
-            enabledStrategies['twitter'] = {'url': '/api/auth/twitter'};
+        if (configAPI.getValue('oae-authentication', STRATEGY_TWITTER, 'enabled')) {
+            enabledStrategies[STRATEGY_TWITTER] = {'url': '/api/auth/twitter'};
         }
 
         // Local authentication
-        if (configAPI.getValue('oae-authentication', 'local', 'enabled')) {
-            enabledStrategies['local'] = {'url': '/api/auth/login'};
+        if (configAPI.getValue('oae-authentication', STRATEGY_LOCAL, 'enabled')) {
+            enabledStrategies[STRATEGY_LOCAL] = {'url': '/api/auth/login'};
         }
 
         return enabledStrategies;
