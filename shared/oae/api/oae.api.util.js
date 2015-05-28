@@ -973,7 +973,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     var toExclude = [];
 
                     $.each(data.results, function(index, result) {
-                        if (_.indexOf(options.exclude, result.id) !== -1) {
+                        if (_.contains(options.exclude, result.id)) {
                             toExclude.push(index);
                         } else {
                             result.displayName = security().encodeForHTML(result.displayName);
@@ -982,9 +982,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     });
                     
                     // Remove excluded items
-                    while (toExclude.length > 0) {
-                        data.results.splice(_.last(toExclude), 1);
-                        toExclude.pop();
+                    while (_.isEmpty(toExclude)) {
+                        // Remove from end of array to preserve indices
+                        data.results.splice(toExclude.pop(), 1);
                     }
 
                     if (retrieveComplete) {
