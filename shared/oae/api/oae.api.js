@@ -180,7 +180,7 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
 
             // Show the Terms and Conditions widget if the user needs to accept the Terms and Conditions
             } else if (oae.data.me.needsToAcceptTC) {
-                oae.api.widget.insertWidget('termsandconditions');
+                oae.api.widget.insertWidget('termsandconditions', null, null, true);
             }
         };
 

@@ -687,6 +687,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * Check whether a provided string is a valid display name
          *
          * @param  {String}             displayName     The name to check
+         * @return {Boolean}                            `true` when the display name is valid, `false` otherwise
          */
         var isValidDisplayName = function(displayName) {
             // Empty names are not allowed
