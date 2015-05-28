@@ -77,8 +77,8 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
  * @see http://getbootstrap.com/components/#nav */
 
 .nav-list > li > a {
-    padding-top: 8px;
     padding-bottom: 8px;
+    padding-top: 8px;
 }
 
 .nav > li > a:active {
@@ -151,14 +151,10 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
  * @see http://getbootstrap.com/components/#dropdowns */
 
 .dropdown-menu {
-    padding: 10px;
     border: none;
-    -webkit-border-radius: 5px;
-       -moz-border-radius: 5px;
-            border-radius: 5px;
-    -webkit-box-shadow: 0 0 4px 0 #777;
-       -moz-box-shadow: 0 0 4px 0 #777;
-            box-shadow: 0 0 4px 0 #777;
+    border-radius: 5px;
+    box-shadow: 0 0 4px 0 #777;
+    padding: 10px;
 }
 
 .dropdown-menu, .dropdown-menu label, .dropdown-menu input, .dropdown-menu button, .dropdown-menu select, .dropdown-menu textarea {
@@ -174,9 +170,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
  * http://getbootstrap.com/css/#forms */
 
 .form-control {
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
+    border-radius: 4px;
     padding: 6px;
 }
 
@@ -192,11 +186,9 @@ input[type="file"] {
 }
 
 input.search-query {
+    border-radius: 3px;
     font-family: inherit;
     padding: 3px 5px;
-    -webkit-border-radius: 3px;
-       -moz-border-radius: 3px;
-            border-radius: 3px;
 }
 
 .form-group:last-child {
@@ -299,13 +291,9 @@ input.search-query {
 }
 
 .modal {
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
     border: none;
-    -webkit-box-shadow: 0 0 6px #000;
-       -moz-box-shadow: 0 0 6px #000;
-            box-shadow: 0 0 6px #000;
+    border-radius: 4px;
+    box-shadow: 0 0 6px #000;
 }
 
 .modal-dialog {
@@ -350,6 +338,10 @@ input.search-query {
 .modal-body form,
 .modal-body label h4 {
     margin: 0;
+}
+
+.modal-body .alert:last-child {
+    margin-bottom: 0;
 }
 
 .modal-footer {
@@ -397,14 +389,10 @@ input.search-query {
 }
 
 .notifications .alert {
-    padding: 20px 40px 20px 30px;
+    border-radius: 0 0 4px 4px;
     border-top: none;
-    -webkit-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
-       -moz-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
-            box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
-    -webkit-border-radius: 0 0 4px 4px;
-       -moz-border-radius: 0 0 4px 4px;
-            border-radius: 0 0 4px 4px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
+    padding: 20px 40px 20px 30px;
 }
 
 /* BOOTSTRAP NOTIFY OVERRIDES
@@ -438,9 +426,7 @@ input.search-query {
  * @see http://getbootstrap.com/components/#badges */
 
 .badge {
-    -webkit-border-radius: 3px;
-       -moz-border-radius: 3px;
-            border-radius: 3px;
+    border-radius: 3px;
     font-weight: 600;
     line-height: 0.8;
     padding: 5px 6px;
@@ -460,9 +446,7 @@ input.search-query {
  *****************/
 
 ul.as-selections {
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
+    border-radius: 4px;
 }
 
 ul.as-selections li.as-original {
@@ -473,9 +457,7 @@ ul.as-selections li.as-original {
 ul.as-selections li.as-original input,
 ul.as-selections li.as-original input:focus {
     border-color: none;
-    -webkit-box-shadow: none;
-       -moz-box-shadow: none;
-            box-shadow: none;
+    box-shadow: none;
     padding-left: 5px;
     padding-top: 8px;
     width: 150px;
@@ -486,18 +468,18 @@ ul.as-selections li.as-original input::-ms-clear {
 }
 
 ul.as-selections li.as-selection-item {
-    -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-             border-radius: 3px;
-    -webkit-box-shadow: none;
-       -moz-box-shadow: none;
-            box-shadow: none;
+    border-radius: 3px;
+    box-shadow: none;
     font-family: inherit;
     line-height: 30px;
     margin-bottom: 3px;
     margin-right: 5px;
-    max-width: 400px;
     text-shadow: none;
+}
+
+ul.as-selections li.as-selection-item span {
+    max-width: 220px;
+    width: auto;
 }
 
 ul.as-selections li.as-selection-item .oae-thumbnail {
@@ -560,9 +542,7 @@ ul.as-list li.as-result-item {
 }
 
 ul.as-list, ul.as-list li.as-result-item {
-    -webkit-border-radius: 0;
-       -moz-border-radius: 0;
-            border-radius: 0;
+    border-radius: 0;
 }
 
 ul.as-list li.as-result-item em {
@@ -575,9 +555,7 @@ ul.as-list li.as-result-item em {
 ul.as-list li.as-result-item .oae-listitem {
     background-color: transparent;
     border: none;
-    -webkit-box-shadow: none;
-       -moz-box-shadow: none;
-            box-shadow: none;
+    box-shadow: none;
     margin-bottom: 0;
     padding: 0;
 }
@@ -626,14 +604,10 @@ ul.as-list li.as-result-item.active {
 
 .oae-main-content {
     background-color: #FFF;
-    -webkit-border-radius: 5px;
-       -moz-border-radius: 5px;
-            border-radius: 5px;
-    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-       -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     min-height: 450px;
+    padding: 10px;
     clear: both;
 }
 
