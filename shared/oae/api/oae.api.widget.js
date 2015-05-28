@@ -393,7 +393,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
             // We transform the translated HTML into a jQuery object. However, as this will actually load all of the
             // images in the widget HTML straight away, and the images will still have relative URLs that need conversion,
             // we replace all `img` tags to temporary `imgtmp` tags
-            widgetHTML = widgetHTML.replace(/<img/ig, '<imgtmp').trim();
+            widgetHTML = widgetHTML.trim().replace(/<img/ig, '<imgtmp');
             var $widgetEl = $(widgetHTML);
 
             // Extract all images and rewrite their path
