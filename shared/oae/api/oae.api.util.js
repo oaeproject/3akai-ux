@@ -683,10 +683,33 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             $form.find('*[aria-describedby]').removeAttr('aria-describedby');
         };
 
+        /**
+         * Check whether a provided string is a valid display name
+         *
+         * @param  {String}             displayName     The name to check
+         * @return {Boolean}                            `true` when the display name is valid, `false` otherwise
+         */
+        var isValidDisplayName = function(displayName) {
+            // Empty names are not allowed
+            if (!displayName) {
+                return false;
+            }
+
+            // Display names that contain `http://` or `https://` are indicative of Shibboleth
+            // not releasing an attribute that could be used as the display name. This is not
+            // considered to be valid
+            if (/https?:\/\//i.test(displayName)) {
+                return false;
+            }
+
+            return true;
+        };
+
         return {
+            'clear': clear,
             'init': init,
-            'validate': validate,
-            'clear': clear
+            'isValidDisplayName': isValidDisplayName,
+            'validate': validate
         };
     };
 
