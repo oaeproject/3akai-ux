@@ -37,12 +37,12 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
         }
 
         // Google authentication. This will only be enabled when no Google Apps domain has been configured.
-        if (configAPI.getValue('oae-authentication', 'google', 'enabled') && !configAPI.getValue('oae-authentication', 'google', 'hostedDomain')) {
+        if (configAPI.getValue('oae-authentication', 'google', 'enabled') && !configAPI.getValue('oae-authentication', 'google', 'domains')) {
             enabledStrategies['google'] = {'url': '/api/auth/google'};
         }
 
         // Google Apps authentication
-        if (configAPI.getValue('oae-authentication', 'google', 'enabled') && configAPI.getValue('oae-authentication', 'google', 'hostedDomain')) {
+        if (configAPI.getValue('oae-authentication', 'google', 'enabled') && configAPI.getValue('oae-authentication', 'google', 'domains')) {
             enabledStrategies['googleApps'] = {'url': '/api/auth/google'};
         }
 
@@ -99,6 +99,22 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
                 'username': username,
                 'password': password
             },
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Log out of an internal user using the local authentication strategy
+     */
+    var logout = exports.logout = function(callback) {
+        $.ajax({
+            'url': '/api/auth/logout',
+            'type': 'POST',
             'success': function() {
                 callback(null);
             },

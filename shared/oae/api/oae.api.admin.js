@@ -16,6 +16,71 @@
 define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
 
+    /////////////
+    // TENANTS //
+    /////////////
+
+    /**
+     * Create a new tenant
+     *
+     * @param  {String}                alias                               The alias of the tenant to create
+     * @param  {String}                displayName                         The display name of the tenant to create
+     * @param  {String}                host                                The host name of the tenant to create
+     * @param  {Function}              [callback]                          Standard callback method
+     * @param  {Object}                [callback.err]                      Error object containing error code and error message
+     * @param  {Tenant}                [callback.response]                 A Tenant object representing the created tenant
+     */
+    var createTenant = exports.createTenant = function(alias, displayName, host, callback) {
+        if (!alias) {
+            throw new Error('A tenant alias should be provided');
+        } else if (!displayName) {
+            throw new Error('A display name should be provided');
+        } else if (!host) {
+            throw new Error('A host should be provided');
+        }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        // Create the tenant
+        $.ajax({
+            'url': '/api/tenant/create',
+            'type': 'POST',
+            'data': {
+                'alias': alias,
+                'displayName': displayName,
+                'host': host
+            },
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Get all created tenants
+     *
+     * @param  {Function}    callback             Standard callback method
+     * @param  {Object}      callback.err         Error object containing error code and error message
+     * @param  {Object}      callback.response    Object containing all available tenants in the system
+     */
+    var getTenants = exports.getTenants = function(callback) {
+        $.ajax({
+            'url': '/api/tenants',
+            'type': 'GET',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+
     /////////////////////
     // USER MANAGEMENT //
     /////////////////////
@@ -219,6 +284,37 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'data': params,
             'success': function(data) {
                 callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
+     * Delete a user. The user will be marked as deleted but will still be accessible in the system
+     * in lists such as members listings. The user can then be restored using the
+     * `POST /api/user/:userId/restore` endpoint, however this functionality is not currently
+     * exposed in the 3akai-ux JS API
+     *
+     * @param  {String}         userId              User id of the user to delete
+     * @param  {Function}       [callback]          Standard callback function
+     * @param  {Object}         [callback.err]      Error object containing error code and error message
+     * @throws {Error}                              Error thrown when not all of the required parameters have been provided
+     */
+    var deleteUser = exports.deleteUser = function(userId, callback) {
+        if (!userId) {
+            throw new Error('A valid user id should be provided');
+        }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/user/' + userId,
+            'type': 'DELETE',
+            'success': function() {
+                callback();
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});

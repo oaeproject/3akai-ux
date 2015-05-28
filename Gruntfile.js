@@ -48,14 +48,29 @@ module.exports = function(grunt) {
             'files': '<config:lint.files>',
             'tasks': 'lint test'
         },
+        'csslint': {
+            'options': {
+                'ids': false        // ignore "Don't use IDs in CSS selectors" warning
+            },
+            'files': [
+                'admin/**/*.css',
+                'shared/oae/**/*.css',
+                'ui/**/*.css',
+                'node_modules/oae-*/**/*.css',
+                '!node_modules/oae-release-tools/**'
+            ]
+        },
         'jshint': {
             'options': {
                 'sub': true
             },
-            'globals': {
-                'exports': true,
-                'module': false
-            }
+            'files': [
+                'admin/**/*.js',
+                'shared/oae/**/*.js',
+                'ui/**/*.js',
+                'node_modules/oae-*/**/*.js',
+                '!node_modules/oae-release-tools/**'
+            ]
         },
         'clean': {
             'folder': '<%= target %>/'
@@ -402,13 +417,13 @@ module.exports = function(grunt) {
                     // Specify the files to be included in each test
                     'includes': [
                         'tests/casperjs/util/include/admin.js',
-                        'tests/casperjs/util/include/collabdocs.js',
                         'tests/casperjs/util/include/config.js',
                         'tests/casperjs/util/include/content.js',
                         'tests/casperjs/util/include/discussions.js',
                         'tests/casperjs/util/include/folders.js',
                         'tests/casperjs/util/include/follow.js',
                         'tests/casperjs/util/include/groups.js',
+                        'tests/casperjs/util/include/ui.js',
                         'tests/casperjs/util/include/users.js',
                         'tests/casperjs/util/include/util.js'
                     ],
@@ -421,12 +436,15 @@ module.exports = function(grunt) {
         },
         'exec': {
             'runCasperTest': {
-                cmd: function(path) {
+                'cmd': function(path) {
                     var includes = grunt.config('ghost').dist.options.includes;
                     var pre = grunt.config('ghost').dist.options.pre;
 
                     return 'casperjs test --includes=' + includes + ' --pre=' + pre + ' ' + path;
                 }
+            },
+            'startDependencies': {
+                cmd: 'node tests/casperjs/startDependencies.js'
             }
         }
     });
@@ -434,6 +452,8 @@ module.exports = function(grunt) {
     // Load tasks from npm modules
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-csslint');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-git-describe');
     grunt.loadNpmTasks('grunt-ver');
@@ -674,6 +694,9 @@ module.exports = function(grunt) {
         // and give them the proper names so no config changes in Hilary need to occur
         grunt.task.run('copyReleaseArtifacts:' + outputDir);
     });
+    
+    // Lint tasks (JavaScript only for now, too many errors in css)
+    grunt.registerTask('lint', ['jshint' /*, 'csslint' */ ]);
 
     // Wrap the QUnit task
     grunt.renameTask('qunit', 'contrib-qunit');
@@ -692,8 +715,13 @@ module.exports = function(grunt) {
         grunt.task.run('contrib-qunit');
     });
 
+    // Task to run an individual CasperJS test
+    grunt.registerTask('startDependencies', function(path) {
+        grunt.task.run('exec:startDependencies');
+    });
+
     // Task to run the CasperJS and QUnit tests
-    grunt.registerTask('test', ['ghost', 'qunit']);
+    grunt.registerTask('test', ['startDependencies']);
 
     // Task to run an individual CasperJS test
     grunt.registerTask('test-file', function(path) {
@@ -705,7 +733,6 @@ module.exports = function(grunt) {
 
         grunt.task.run('exec:runCasperTest:' + path);
     });
-
 
     // Default task for production build
     grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'touchBootstrap', 'hashFiles', 'cdn', 'writeVersion', 'configNginx']);

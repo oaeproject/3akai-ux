@@ -50,10 +50,16 @@ a.oae-plain-link:hover {
  * Style that can be used to fake focus on an element. This can for example
  * be used when a hidden element needs to provide visual feedback on a different element.
  */
+
 .oae-focus {
     outline: thin dotted #333;
-    outline: 5px auto -webkit-focus-ring-color;
     outline-offset: -2px;
+}
+
+a.oae-focus,
+input.oae-focus,
+.btn.oae-focus {
+    outline: 5px auto -webkit-focus-ring-color;
 }
 
 
@@ -91,10 +97,8 @@ a.oae-plain-link:hover {
  *   e.g. <div class="oae-panel-primary">...</div>
  */
 .oae-panel-primary, .oae-panel-secondary, .oae-panel-tertiary {
+    border-radius: 5px;
     padding: 15px;
-    -webkit-border-radius: 5px;
-       -moz-border-radius: 5px;
-            border-radius: 5px;
 }
 
 /***********
@@ -148,9 +152,7 @@ i.fa-oae-public {
 i.fa-oae-private:before,
 i.fa-oae-loggedin:before,
 i.fa-oae-public:before {
-    -webkit-border-radius: 500px;
-       -moz-border-radius: 500px;
-            border-radius: 500px;
+    border-radius: 500px;
     color: #313131;
     display: inline-block;
     font-size: 15px;
@@ -286,9 +288,7 @@ i.fa.large:before {
 }
 
 .oae-large-options-container label.checked i.fa-check {
-    -webkit-border-radius: 100px;
-       -moz-border-radius: 100px;
-            border-radius: 100px;
+    border-radius: 100px;
     display: block;
     height: 35px;
     margin: 0 auto;
@@ -361,6 +361,9 @@ i.fa.large:before {
  *   `fa-oae-collabdoc` should be added to the `oae-thumbnail` div for collaborative documents.
  *   Even when an image is provided, the entity icon class can still be added as
  *   it will be used when the image cannot be downloaded.
+ * - For medium thumbnails (between 50px and 100px width and height), the `oae-thumbnail-medium`
+ *   class should be added to the `oae-thumbnail` container. It will cause the default thumbnail
+ *   to be larger.
  * - For large thumbnails (> 100px width/height), the `oae-thumbnail-large` class
  *   should be added to the `oae-thumbnail` container. It will cause the default
  *   thumbnail to be larger.
@@ -374,14 +377,12 @@ i.fa.large:before {
 
 div.oae-thumbnail {
     border: 1px solid;
-    width: 100%;
-    height: 100%;
-    text-align: center;
+    border-radius: 4px;
     display: inline-block;
+    height: 100%;
     position: relative;
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
+    text-align: center;
+    width: 100%;
 }
 
 div.oae-thumbnail:before {
@@ -393,9 +394,7 @@ div.oae-thumbnail:before {
 
 div.oae-thumbnail a,
 div.oae-thumbnail div {
-    -webkit-border-radius: 3px;
-       -moz-border-radius: 3px;
-            border-radius: 3px;
+    border-radius: 3px;
     height: 100%;
     left: 0;
     position: absolute;
@@ -417,6 +416,11 @@ div.oae-thumbnail div {
 div.oae-thumbnail.fa-oae-group div,
 div.oae-thumbnail.fa-oae-user div {
     background-position: center;
+}
+
+div.oae-thumbnail.oae-thumbnail-medium:before {
+    font-size: 30px;
+    margin-top: -15px;
 }
 
 div.oae-thumbnail.oae-thumbnail-large:before {
@@ -461,14 +465,11 @@ div.oae-thumbnail.fa-oae-user:before {
     content: "\f007";
 }
 
-/* Visibility icon positioning */
-
 div.oae-thumbnail i.fa {
     position: absolute;
     bottom: -8px;
     right: -8px;
 }
-
 
 /***********
  ** CLIPS **
@@ -591,9 +592,7 @@ div.oae-thumbnail i.fa {
 }
 
 .oae-clip .oae-clip-fold .oae-clip-fold-inner {
-    -webkit-border-radius: 50px 50px 0 0;
-       -moz-border-radius: 50px 50px 0 0;
-            border-radius: 50px 50px 0 0;
+    border-radius: 50px 50px 0 0;
     float: left;
     height: 6px;
     margin-left: -1px;
@@ -620,15 +619,11 @@ div.oae-thumbnail i.fa {
 /* Clip content */
 
 .oae-clip .oae-clip-content {
-    -webkit-border-radius: 6px 0 6px 6px;
-       -moz-border-radius: 6px 0 6px 6px;
-            border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
 }
 
 .oae-clip.oae-clip-flipped .oae-clip-content {
-    -webkit-border-radius: 0 6px 6px;
-       -moz-border-radius: 0 6px 6px;
-            border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px;
 }
 
 .oae-clip .oae-clip-content > button {
@@ -730,9 +725,7 @@ div.oae-thumbnail i.fa {
 
 .oae-clip .oae-clip-content > div > ul li button,
 .oae-clip .oae-clip-content > div > ul li a {
-    -webkit-border-radius: 6px;
-       -moz-border-radius: 6px;
-            border-radius: 6px;
+    border-radius: 6px;
     display: block;
     font-size: 11px;
     line-height: 23px;
@@ -1002,11 +995,8 @@ div.oae-thumbnail i.fa {
 
 .oae-tile,
 .oae-list.oae-list-grid > li.oae-list-actions {
+    border-radius: 3px;
     position: relative;
-    overflow: hidden;
-    -webkit-border-radius: 3px;
-       -moz-border-radius: 3px;
-            border-radius: 3px;
 }
 
 /* Default thumbnail picture positioning */
@@ -1014,9 +1004,7 @@ div.oae-thumbnail i.fa {
 .oae-tile .oae-thumbnail,
 .oae-tile .oae-thumbnail a,
 .oae-tile .oae-thumbnail img {
-    -webkit-border-radius: 0;
-       -moz-border-radius: 0;
-            border-radius: 0;
+    border-radius: 0;
 }
 
 .oae-tile .oae-thumbnail:before {
@@ -1035,25 +1023,27 @@ div.oae-thumbnail i.fa {
 /* Tile metadata */
 
 .oae-tile > .oae-tile-metadata {
-    position: absolute;
     bottom: 0;
-    right: 0;
     left: 0;
     padding: 7px;
+    position: absolute;
+    right: 0;
 }
 
 /* The visibility icon of the tile should be aligned to the right */
 .oae-tile > .oae-tile-metadata > i {
-    float: right;
-    margin-left: 1px;
+    position: absolute;
+    bottom: 7px;
+    right: 5px;
 }
 
 .oae-tile h3,
 .oae-tile h3 a {
     font-size: 14px;
     font-weight: 600;
-    line-height: 1.4;
-    margin: 0;
+    line-height: 18px;
+    margin: 0 0 5px;
+    max-height: 45px;
 }
 
 .oae-tile small {
@@ -1061,6 +1051,11 @@ div.oae-thumbnail i.fa {
     font-weight: normal;
     line-height: 1.5;
     text-transform: uppercase;
+}
+
+/* Add space for the visibility icon */
+.oae-tile .oae-thumbnail:not(.fa-oae-user) + .oae-tile-metadata small {
+    margin-right: 25px;
 }
 
 
@@ -1119,12 +1114,10 @@ div.oae-thumbnail i.fa {
  */
 
 .oae-listitem {
-    padding: 10px;
-    margin-bottom: 10px;
     border: 1px solid;
-    -webkit-border-radius: 3px;
-       -moz-border-radius: 3px;
-            border-radius: 3px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    padding: 10px;
 }
 
 .modal .well li .oae-listitem {
@@ -1350,10 +1343,8 @@ ul.oae-list {
 }
 
 ul.oae-list > li {
+    border-radius: 3px;
     list-style: none;
-    -webkit-border-radius: 3px;
-       -moz-border-radius: 3px;
-            border-radius: 3px;
 }
 
 ul.oae-list:not(.oae-list-grid) > li > .oae-list-grid-item,
@@ -1413,6 +1404,52 @@ ul.oae-list > li:first-child .oae-listitem {
     margin-top: 0;
 }
 
+/************
+ ** HEADER **
+ ************/
+
+/**
+ * The generic header is shown as the header for any group of content, providing a title and an
+ * optional action that can be performed.
+ *
+ * The HTML for a header is abstracted into a globally available TrimPath template that can be used
+ * when rendering headers:
+ *
+ *  `${header(title, action)}`
+ *
+ * An explanation of the parameters for the header macro can be found in `shared/oae/macros/header.html`.
+ */
+
+.oae-header {
+    border-bottom: 1px solid #EEE;
+    margin-bottom: 20px;
+}
+
+.oae-header > div {
+    line-height: 30px;
+    margin: 0;
+    clear: both;
+}
+
+.oae-header > div:first-child > * {
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+.oae-header .oae-header-title > h2 {
+    margin: 8px 0 0;
+    font-size: 20px;
+    line-height: 1.2;
+}
+
+.oae-header .oae-header-action {
+    text-align: right;
+}
+
+.oae-header .oae-header-action > button {
+    bottom: -5px;
+    position: relative;
+}
 
 /*****************
  ** LIST HEADER **
@@ -1420,7 +1457,8 @@ ul.oae-list > li:first-child .oae-listitem {
 
 /**
  * The list header is shown as the header for a group of list items, providing a title for the list, as well
- * as possibly a list search form, list actions, view mode switching, etc.
+ * as possibly a list search form, list actions, view mode switching, etc. It extends the generic `oae-header`
+ * component to add features such as expandable actions, view options and optional search box.
  *
  * The HTML for a list header has been abstracted into a globally available TrimPath template that can be
  * used when rendering list items:
@@ -1434,22 +1472,6 @@ ul.oae-list > li:first-child .oae-listitem {
  * `shared/oae/js/jquery-plugins/jquery.list.js` module on the page as well.
  */
 
-.oae-list-header {
-    border-bottom: 1px solid #EEE;
-    margin-bottom: 20px;
-}
-
-.oae-list-header > div {
-    line-height: 30px;
-    margin: 0;
-    clear: both;
-}
-
-.oae-list-header > div:first-child > * {
-    margin-bottom: 10px;
-    padding: 0;
-}
-
 .oae-list-header .oae-list-header-toggle,
 .oae-list-header .btn.oae-list-header-toggle,
 .oae-list-header .btn.oae-list-header-toggle:disabled,
@@ -1458,19 +1480,11 @@ ul.oae-list > li:first-child .oae-listitem {
 .oae-list-header .btn.oae-list-header-toggle:focus {
     background: none;
     border: none;
+    box-shadow: none;
     filter: none;
-    padding: 1px 0;
+    padding: 0;
     text-align: left;
     white-space: normal;
-    -webkit-box-shadow: none;
-       -moz-box-shadow: none;
-            box-shadow: none;
-}
-
-.oae-list-header .oae-list-header-toggle h2 {
-    margin: 8px 0 0;
-    font-size: 20px;
-    line-height: 1.2;
 }
 
 .oae-list-header .oae-list-header-toggle h2 .badge {
@@ -1579,19 +1593,15 @@ ul.oae-list > li:first-child .oae-listitem {
 ul.oae-list.oae-list-grid > li.oae-list-actions {
     border-style: solid;
     border-width: 1px;
-    -webkit-box-shadow: none;
-       -moz-box-shadow: none;
-            box-shadow: none;
+    box-shadow: none;
 }
 
 ul.oae-list.oae-list-grid li.oae-list-actions div.oae-thumbnail {
     background: none;
     border-width: 1px;
     border-style: dashed;
+    box-shadow: none;
     filter: none;
-    -webkit-box-shadow: none;
-       -moz-box-shadow: none;
-            box-shadow: none;
     height: 138px;
     margin: 5px;
     width: 138px;

@@ -197,7 +197,8 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                 // If we are on the global admin tenant, we load the full list of available tenants for rendering
                 // the tenant view and the footer
                 if (currentContext.isGlobalAdminServer) {
-                    getTenants(function() {
+                    oae.api.admin.getTenants(function(err, tenants) {
+                        allTenants = tenants;
                         // Check if we're currently on a user admin on the global admin tenant. In that
                         // case, the URL should be /tenant/<tenantAlias>
                         var tenantAlias = $.url().segment(2);
@@ -210,23 +211,6 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                 } else {
                     callback();
                 }
-            }
-        });
-    };
-
-    /**
-     * Get all of the available tenants and cache them. This can only be run on the global admin tenant,
-     * as there is no endpoint that allows for fetching the full list of available tenants from a user
-     * tenant
-     *
-     * @param  {Function}    callback        Standard callback function
-     */
-    var getTenants = function(callback) {
-        $.ajax({
-            url: '/api/tenants',
-            success: function(data) {
-                allTenants = data;
-                callback();
             }
         });
     };

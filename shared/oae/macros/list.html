@@ -26,10 +26,11 @@
 {macro listHeader(title, _showSearch, _actions, _showViewOptions)}
     {var showSearch = (_showSearch !== false)}
     {var actions = _actions || []}
+    {var actionsId = oae.api.util.generateId()}
     {var showViewOptions = (_showViewOptions !== false)}
     {var showActionsToggle = (actions.length > 0 || showViewOptions)}
 
-    <div class="oae-list-header">
+    <div class="oae-header oae-list-header">
         <div class="row">
             <div class="col-xs-12{if showSearch} col-sm-8{/if}">
                 <button type="button" class="oae-lhnavigation-toggle btn btn-link pull-left hidden-md hidden-lg">
@@ -38,9 +39,9 @@
                 </button>
 
                 {if showActionsToggle}
-                    <button class="oae-list-header-toggle btn">
+                    <button class="oae-header-title oae-list-header-toggle btn" aria-expanded="false" aria-controls="${actionsId}">
                 {else}
-                    <div class="oae-list-header-toggle">
+                    <div class="oae-header-title oae-list-header-toggle">
                 {/if}
 
                     <h2>
@@ -61,7 +62,7 @@
             {if showSearch}
                 {var searchQueryId = oae.api.util.generateId()}
                 <div class="col-xs-12 col-sm-4 oae-list-header-search">
-                    <form class="form-search" role="search">
+                    <form action="." class="form-search" role="search">
                         <label for="${searchQueryId}" class="control-label sr-only">__MSG__NARROW_BY_KEYWORD__</label>
                         <input type="text" id="${searchQueryId}" class="oae-list-header-search-query form-control pull-right search-query" name="search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
                         <button type="submit" class="sr-only">__MSG__SEARCH__</button>
@@ -70,7 +71,7 @@
             {/if}
         </div>
         {if showActionsToggle}
-            <div class="oae-list-header-actions clearfix hide">
+            <div class="oae-list-header-actions clearfix hide" id="${actionsId}" aria-hidden="true">
                 {if actions.length > 0}
                     {var selectAllId = oae.api.util.generateId()}
                     <input type="checkbox" id="${selectAllId}" class="oae-list-selectall" />
@@ -105,15 +106,15 @@
 <!--
  * Render a list item representing a user, group or piece of content
  *
- * @param  {User|Group|Content}     entityData                             Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
- * @param  {Object}                 [displayOptions]                       Display options for the list item
- * @param  {String}                 [displayOptions.metadata]              Line of metadata information that should be displayed underneath the entity name
- * @param  {Boolean}                [displayOptions.showCheckbox]          Whether ot not the checkbox should be shown. By default, the checkbox will be hidden
- * @param  {String}                 [displayOptions.customImage]           URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
- * @param  {Function}               [displayOptions.listItemActions]       Macro that renders list item actions
- * @param  {String}                 [displayOptions.additionalClasses]     Additional CSS classes separated by spaces to apply to the generated list items
- * @param  {Boolean}                [displayOptions.addLink]               Whether or not a link to the entity profile should be placed on the list item. By default, a link will be set
- * @param  {String}                 [displayOptions.linkTarget]            The target of the list item link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
+ * @param  {User|Group|Content|Discussion|Folder}   entityData                             Standard object representing an OAE entity or a search result for an OAE entity
+ * @param  {Object}                                 [displayOptions]                       Display options for the list item
+ * @param  {String}                                 [displayOptions.metadata]              Line of metadata information that should be displayed underneath the entity name
+ * @param  {Boolean}                                [displayOptions.showCheckbox]          Whether ot not the checkbox should be shown. By default, the checkbox will be hidden
+ * @param  {String}                                 [displayOptions.customImage]           URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
+ * @param  {Function}                               [displayOptions.listItemActions]       Macro that renders list item actions
+ * @param  {String}                                 [displayOptions.additionalClasses]     Additional CSS classes separated by spaces to apply to the generated list items
+ * @param  {Boolean}                                [displayOptions.addLink]               Whether or not a link to the entity profile should be placed on the list item. By default, a link will be set
+ * @param  {String}                                 [displayOptions.linkTarget]            The target of the list item link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
 -->
 {macro listItem(entityData, displayOptions)}
     {if entityData}
@@ -141,13 +142,14 @@
             <div class="oae-list-grid-item">
                 <div class="oae-tile">
                     ${displayOptions.addVisibilityIcon = false|eat}
-                    ${displayOptions.largeDefault = true|eat}
+                    ${displayOptions.size = "large"|eat}
+                    ${displayOptions.threedotTitle = false|eat}
                     ${renderThumbnail(entityData, displayOptions)}
                     <div class="oae-tile-metadata">
-                        {if resourceType !== 'user'}
-                            <i class="fa fa-oae-${visibility}"></i>
-                        {/if}
                         ${renderMetadata(entityData, displayOptions)}
+                        {if resourceType !== 'user'}
+                            ${renderVisibilityIcon(entityData)}
+                        {/if}
                     </div>
                 </div>
                 ${renderCheckbox(entityData, 'grid', displayOptions.showCheckbox)}
@@ -159,7 +161,8 @@
                     ${renderCheckbox(entityData, 'details', displayOptions.showCheckbox)}
                     <div class="oae-listitem-primary-thumbnail">
                         ${displayOptions.addVisibilityIcon = true|eat}
-                        ${displayOptions.largeDefault = false|eat}
+                        ${displayOptions.size = "small"|eat}
+                        ${displayOptions.threedotTitle = true|eat}
                         ${renderThumbnail(entityData, displayOptions)}
                     </div>
                     {if displayOptions.listItemActions}
@@ -197,13 +200,14 @@
 <!--
  * Render an entity thumbnail.
  *
- * @param  {User|Group|Content|Folder|Discussion|String}    entityData                             Standard object representing an OAE entity or a search result for an OAE entity. Alternatively, a string representing the resourceType or resourceSubType (i.e., 'user', 'group', 'content', `folder`, 'file', 'link', 'collabdoc', `discussions`) can be passed in for an empty/anonymous entity thumbnail
- * @param  {Object}                                         [displayOptions]                       Display options for the thumbnail
- * @param  {Boolean}                                        [displayOptions.addVisibilityIcon]     Whether or not the visibility icon should be shown. By default, the visibility icon will be shown. However, users will never show a visibility icon
- * @param  {Boolean}                                        [displayOptions.largeDefault]          Whether or not a large default thumbnail icon should used. By default, a small icon will be used
- * @param  {Boolean}                                        [displayOptions.addLink]               Whether or not a link to the entity profile should be placed on the image. By default, a link will be set
- * @param  {String}                                         [displayOptions.customImage]           URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
- * @param  {String}                                         [displayOptions.linkTarget]            The target of the thumbnail link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
+ * @param  {User|Group|Content|Folder|Discussion|String}    entityData                          Standard object representing an OAE entity or a search result for an OAE entity. Alternatively, a string representing the resourceType or resourceSubType (i.e., 'user', 'group', 'content', `folder`, 'file', 'link', 'collabdoc', `discussions`) can be passed in for an empty/anonymous entity thumbnail
+ * @param  {Object}                                         [displayOptions]                    Display options for the thumbnail
+ * @param  {Boolean}                                        [displayOptions.addLink]            Whether or not a link to the entity profile should be placed on the image. By default, a link will be set
+ * @param  {Boolean}                                        [displayOptions.addVisibilityIcon]  Whether or not the visibility icon should be shown, this does not apply to users who never have a visibility icon. By default, a visibility icon is shown for all resources other than users
+ * @param  {String}                                         [displayOptions.customImage]        URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
+ * @param  {String}                                         [displayOptions.flyover]            The content to put in a fly-over when the mouse hovers over the thumbnail image
+ * @param  {String}                                         [displayOptions.linkTarget]         The target of the thumbnail link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
+ * @param  {String}                                         [displayOptions.size]               If specified, this content will suffix a class `oae-thumbnail-<size>`. Core CSS has support for "small", "medium" and "large". By default it is "small". "large" is recommended for thumbnails larger than 100px, while "medium" is recommended for larger than 50px
 -->
 {macro renderThumbnail(entityData, displayOptions)}
     <!-- If only a string, representing the resourceType, has been passed in. The eval block
@@ -265,26 +269,31 @@
         {var visibility = entityData['oae:visibility']}
     {/if}
 
-    <div class="oae-thumbnail {if displayOptions.largeDefault} oae-thumbnail-large {/if} fa fa-oae-${resourceSubType} fa-oae-${resourceType}" data-id="${resourceId}">
-        {if profilePath && displayOptions.addLink !== false}<a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>{/if}
+    <div class="oae-thumbnail {if displayOptions.size} oae-thumbnail-${displayOptions.size}{/if} fa fa-oae-${resourceSubType} fa-oae-${resourceType}" data-id="${resourceId}">
+        {if profilePath && displayOptions.addLink !== false}
+            <a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>
+        {/if}
         {if thumbnailUrl}
             <div role="img" aria-label="${entityData.displayName|encodeForHTMLAttribute}" style="background-image: url('${thumbnailUrl}');"></div>
         {/if}
         {if displayOptions.addVisibilityIcon !== false && resourceType !== 'user'}
-            <i class="fa fa-oae-${visibility}"></i>
+            ${renderVisibilityIcon(entityData)}
         {/if}
-        {if profilePath && displayOptions.addLink !== false}</a>{/if}
+        {if profilePath && displayOptions.addLink !== false}
+            </a>
+        {/if}
     </div>
 {/macro}
 
 <!--
  * Render the entity title and some additional metadata
  *
- * @param  {User|Group|Content}     entityData                               Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
- * @param  {Object}                 [displayOptions]                         Display options for the metadata
- * @param  {String}                 [displayOptions.metadata]                Line of metadata information that should be displayed underneath the entity name
- * @param  {Boolean}                [displayOptions.addLink]                 Whether or not a link to the entity profile should be placed on the title. By default, a link will be set
- * @param  {String}                 [displayOptions.linkTarget]              The target of the link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
+ * @param  {User|Group|Content|Discussion|Folder}   entityData                          Standard object representing an OAE entity or a search result for an OAE entity
+ * @param  {Object}                                 [displayOptions]                    Display options for the metadata
+ * @param  {String}                                 [displayOptions.metadata]           Line of metadata information that should be displayed underneath the entity name
+ * @param  {Boolean}                                [displayOptions.addLink]            Whether or not a link to the entity profile should be placed on the title. By default, a link will be set
+ * @param  {String}                                 [displayOptions.linkTarget]         The target of the link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
+ * @param  {Boolean}                                [displayOptions.threedotTitle]      Whether or not the metadata title should be threedotted. By default, threedotting will be applied to the metadata title
 -->
 {macro renderMetadata(entityData, displayOptions)}
 
@@ -323,9 +332,9 @@
     {/if}
 
     {if profilePath && displayOptions.addLink !== false}
-        <h3 class="oae-threedots"><a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>${entityData.displayName|encodeForHTML}</a></h3>
+        <h3 {if displayOptions.threedotTitle !== false} class="oae-threedots"{/if}><a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>${entityData.displayName|encodeForHTML}</a></h3>
     {else}
-        <h3 class="oae-threedots"><span class="jeditable-field oae-threedots" rel="tooltip" data-placement="right" data-original-title="__MSG__CLICK_TO_RENAME__" tabindex="0">${entityData.displayName|encodeForHTML}</span></h3>
+        <h3 {if displayOptions.threedotTitle !== false} class="oae-threedots"{/if}><span class="jeditable-field oae-threedots" rel="tooltip" data-placement="right" data-original-title="__MSG__CLICK_TO_RENAME__" tabindex="0">${entityData.displayName|encodeForHTML}</span></h3>
     {/if}
 
     {if metadata}
@@ -336,11 +345,12 @@
 <!--
  * Render a list item representing a user, group or piece of content
  *
- * @param  {User|Group|Content}     entityData      Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
- * @param  {String}                 type            Which type of view the checkbox is for. This can be `grid`, `details` or `compact`
- * @param  {Boolean}                [showCheckbox]  Whether ot not the checkbox should be shown. By default, the checkbox will be hidden
+ * @param  {User|Group|Content|Discussion|Folder}     entityData        Standard object representing an OAE entity or a search result for an OAE entity
+ * @param  {String}                                   type              Which type of view the checkbox is for. This can be `grid`, `details` or `compact`
+ * @param  {Boolean}                                  [showCheckbox]    Whether ot not the checkbox should be shown. By default, the checkbox will be hidden
 -->
 {macro renderCheckbox(entityData, type, showCheckbox)}
+
     {if entityData.resourceType}
         {var resourceType = entityData.resourceType}
     {elseif entityData.objectType}
@@ -359,4 +369,92 @@
         <input type="checkbox" class="{if type !== 'grid'} pull-left{/if}" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" data-resourceType="${resourceType}" data-resourceSubType="${resourceSubType}" />
         <label class="sr-only" for="oae-list-${type}-${entityData.id}">${entityData.displayName|encodeForHTML}</label>
     {/if}
+{/macro}
+
+<!--
+ * Render a visibility icon with support for screen readers
+ *
+ * @param  {User|Group|Content|Discussion|Folder}     entityData     Standard object representing an OAE entity or a search result for an OAE entity
+-->
+{macro renderVisibilityIcon(entityData)}
+
+    {if entityData.resourceType}
+        {var resourceType = entityData.resourceType}
+    {elseif entityData.objectType}
+        {var resourceType = entityData.objectType}
+    {/if}
+
+    {if entityData.resourceSubType}
+        {var resourceSubType = entityData.resourceSubType}
+    {elseif entityData['oae:resourceSubType']}
+        {var resourceSubType = entityData['oae:resourceSubType']}
+    {/if}
+
+    {if entityData.tenant}
+        {var tenant = entityData.tenant.displayName}
+    {elseif entityData['oae:tenant']}
+        {var tenant = entityData['oae:tenant'].displayName}
+    {/if}
+
+    {if entityData.visibility}
+        {var visibility = entityData.visibility}
+    {elseif entityData['oae:visibility']}
+        {var visibility = entityData['oae:visibility']}
+    {/if}
+
+    <i class="fa fa-oae-${visibility}">
+        <span class="sr-only">
+            {if resourceType === "content"}
+                {if resourceSubType === "collabdoc"}
+                    {if visibility === "public"}
+                        __MSG__DOCUMENT_PUBLIC_DESCRIPTION__
+                    {elseif visibility === "loggedin"}
+                        __MSG__DOCUMENT_LOGGEDIN_DESCRIPTION__
+                    {elseif visibility === "private"}
+                        __MSG__DOCUMENT_PRIVATE_DESCRIPTION__
+                    {/if}
+                {elseif resourceSubType === "file"}
+                    {if visibility === "public"}
+                        __MSG__FILE_PUBLIC_DESCRIPTION__
+                    {elseif visibility === "loggedin"}
+                        __MSG__FILE_LOGGEDIN_DESCRIPTION__
+                    {elseif visibility === "private"}
+                        __MSG__FILE_PRIVATE_DESCRIPTION__
+                    {/if}
+                {elseif resourceSubType === "link"}
+                    {if visibility === "public"}
+                        __MSG__LINK_PUBLIC_DESCRIPTION__
+                    {elseif visibility === "loggedin"}
+                        __MSG__LINK_LOGGEDIN_DESCRIPTION__
+                    {elseif visibility === "private"}
+                        __MSG__LINK_PRIVATE_DESCRIPTION__
+                    {/if}
+                {/if}
+            {elseif resourceType === "discussion"}
+                {if visibility === "public"}
+                    __MSG__DISCUSSION_PUBLIC_DESCRIPTION__
+                {elseif visibility === "loggedin"}
+                    __MSG__DISCUSSION_LOGGEDIN_DESCRIPTION__
+                {elseif visibility === "private"}
+                    __MSG__DISCUSSION_PRIVATE_DESCRIPTION__
+                {/if}
+            {elseif resourceType === "folder"}
+                {if visibility === "public"}
+                    __MSG__FOLDER_PUBLIC_DESCRIPTION__
+                {elseif visibility === "loggedin"}
+                    __MSG__FOLDER_LOGGEDIN_DESCRIPTION__
+                {elseif visibility === "private"}
+                    __MSG__FOLDER_PRIVATE_DESCRIPTION__
+                {/if}
+            {elseif resourceType === "group"}
+                {if visibility === "public"}
+                    __MSG__GROUP_PUBLIC_DESCRIPTION_PRESENT__
+                {elseif visibility === "loggedin"}
+                    __MSG__GROUP_LOGGEDIN_DESCRIPTION__
+                {elseif visibility === "private"}
+                    __MSG__GROUP_PRIVATE_DESCRIPTION_PRESENT__
+                {/if}
+            {/if}
+        </span>
+    </i>
 {/macro}
