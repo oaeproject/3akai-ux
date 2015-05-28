@@ -36,17 +36,25 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
          * Toggle the left hand navigation between its expanded and collapsed state
          */
         var toggleLhNav = function() {
-            // Toggle ARIA attributes, adding them if necessary
-            if ($('#oae-lhnavigation').attr('aria-hidden') === 'true') {
-                $('#oae-lhnavigation').attr('aria-hidden', 'false');
+            // Show lhnav to screen readers immediately. Hide only
+            // when transition ends (below)
+            if ($('.oae-lhnavigation').attr('aria-hidden') === 'true') {
+                $('.oae-lhnavigation').attr('aria-hidden', 'false');
                 $('button[aria-controls="oae-lhnavigation"]').attr('aria-expanded', 'true');
-            } else {
-                $('#oae-lhnavigation').attr('aria-hidden', 'true');
-                $('button[aria-controls="oae-lhnavigation"]').attr('aria-expanded', 'false');
             }
-
             $('.oae-lhnavigation').toggleClass('oae-lhnav-expanded');
         };
+
+        /**
+         * Hide lhnav only after transition ends. Can't rely on `$.one()` 
+         * because of multiple (vendor-prefixed) events 
+         */
+        $('.oae-lhnavigation + .oae-page').on('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function() {
+            if (!isLhNavExpanded()) {
+                $('.oae-lhnavigation').attr('aria-hidden', 'true');
+                $('button[aria-controls="oae-lhnavigation"]').attr('aria-expanded', 'false');
+            }
+        });
 
         /**
          * Close the left hand navigation when the user selects items that are marked with
