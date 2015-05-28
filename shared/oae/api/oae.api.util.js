@@ -176,11 +176,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          */
         var init = function(callback) {
             // Load the activity summary and lists macros through the RequireJS Text plugin
-            require(['text!/shared/oae/macros/list.html'], function(listMacro) {
+            require(['text!/shared/oae/macros/list.html', 'text!/shared/oae/macros/header.html'], function(listMacro, headerMacro) {
                 // Translate and cache the macros. We require the i18n API here to avoid creating
                 // a cyclic dependency
                 var i18nAPI = require('oae.api.i18n');
                 globalMacros.push(i18nAPI.translate(listMacro));
+                globalMacros.push(i18nAPI.translate(headerMacro));
                 callback();
             });
         };
@@ -682,10 +683,33 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             $form.find('*[aria-describedby]').removeAttr('aria-describedby');
         };
 
+        /**
+         * Check whether a provided string is a valid display name
+         *
+         * @param  {String}             displayName     The name to check
+         * @return {Boolean}                            `true` when the display name is valid, `false` otherwise
+         */
+        var isValidDisplayName = function(displayName) {
+            // Empty names are not allowed
+            if (!displayName) {
+                return false;
+            }
+
+            // Display names that contain `http://` or `https://` are indicative of Shibboleth
+            // not releasing an attribute that could be used as the display name. This is not
+            // considered to be valid
+            if (/https?:\/\//i.test(displayName)) {
+                return false;
+            }
+
+            return true;
+        };
+
         return {
+            'clear': clear,
             'init': init,
-            'validate': validate,
-            'clear': clear
+            'isValidDisplayName': isValidDisplayName,
+            'validate': validate
         };
     };
 
@@ -940,6 +964,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         result.displayName = security().encodeForHTML(result.displayName);
                         result.query = query;
                     });
+
                     if (retrieveComplete) {
                         return retrieveComplete(data);
                     } else {
@@ -1008,8 +1033,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 }
                 options.selectionAdded = function(elem) {
                     var $elem = $(elem);
-                    // Make sure that the item cannot overflow
-                    $elem.addClass('oae-threedots');
+                    // Wrap the element text in a 'oae-threedots' span element to prevent overflowing
+                    var text = $elem[0].lastChild.nodeValue;
+                    $elem[0].lastChild.remove();
+                    $elem.append($('<span>' + text + '</span>').addClass('pull-left oae-threedots'));
 
                     var originalData = $elem.data('originalData');
                     if (originalData.resourceType) {
@@ -1224,7 +1251,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
         /**
          * Sanitizes markdown input in a manner that makes it safe for the input to be placed inside of an HTML tag.
-         * This sanitizer will also recognise bare URLs, including path elements, but not query parameters, inside 
+         * This sanitizer will also recognise bare URLs, including path elements, but not query parameters, inside
          * the provided input and will convert these into links.
          *
          * @param  {String}     [input]         The markdown input string that should be sanitized. If this is not provided, an empty string will be returned

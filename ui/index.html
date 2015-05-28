@@ -26,9 +26,9 @@
             <div id="index-page-container" class="row"><!-- --></div>
             <div id="index-page-template"><!--
                 {macro renderSearchBlock()}
-                    <form class="index-search-form" role="search" aria-label="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__">
+                    <form action="." class="index-search-form" role="search" aria-label="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__">
                         <div class="form-group">
-                            <input type="text" class="form-control search-query form-control pull-left index-search-query" title="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__" placeholder="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__"/>
+                            <input type="text" class="form-control search-query form-control pull-left index-search-query" title="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__" placeholder="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__" name="index-search-${oae.api.util.generateId()}"/>
                             <button type="submit" class="btn btn-link pull-left index-search-icon">
                                 <i class="fa fa-search"><span class="sr-only">__MSG__SEARCH__</span></i>
                             </button>
@@ -65,12 +65,14 @@
                             {var currentWidth = parseInt(block[view], 10)}
                             ${totalWidth += currentWidth|eat}
 
+                            {var horizontalAlign = block.horizontalAlign || 'center'}
+                            {var verticalAlign = block.verticalAlign || 'middle'}
                             {var backgroundColor = block.bgColor || 'transparent'}
                             {var backgroundImage = block.imgUrl || block.videoPlaceholder}
                             {var textColor = block.textColor || '#FFF'}
                             {var minHeight = block.minHeight}
 
-                            <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="background-color: ${backgroundColor}; color: ${textColor}; {if backgroundImage} background-image: url(${backgroundImage}); {/if} {if minHeight} height: ${minHeight}px; {/if}">
+                            <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="text-align: ${horizontalAlign}; vertical-align: ${verticalAlign}; background-color: ${backgroundColor}; color: ${textColor}; {if backgroundImage} background-image: url(${backgroundImage}); {/if} {if minHeight} height: ${minHeight}px; {/if}">
                                 {if block.type === 'search'}
                                     ${renderSearchBlock()}
                                 {elseif block.type === 'iconText'}

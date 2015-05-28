@@ -183,10 +183,10 @@ require(['jquery','oae.core'], function($, oae) {
                 'publicDescription': oae.api.i18n.translate('__MSG__DISCUSSION_PUBLIC_DESCRIPTION__')
             },
             'defaultRole': 'member',
-            'roles': {
-                'member': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
-                'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')
-            },
+            'roles': [
+                {'id': 'member', 'name': oae.api.i18n.translate('__MSG__CAN_VIEW__')},
+                {'id': 'manager', 'name': oae.api.i18n.translate('__MSG__CAN_MANAGE__')}
+            ],
             'api': {
                 'getMembersURL': '/api/discussion/'+ discussionProfile.id + '/members',
                 'setMembers': oae.api.discussion.updateMembers,
