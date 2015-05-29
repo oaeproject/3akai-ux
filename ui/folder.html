@@ -34,7 +34,7 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button type="button">
+                            <button type="button" aria-expanded="false" aria-controls="folder-clip-detail">
                                 ${renderThumbnail(folder, displayOptions)}
                                 <div>
                                     <div>
@@ -45,7 +45,7 @@
                                 </div>
                             </button>
                             <div>
-                                <ul>
+                                <ul id="folder-clip-detail" aria-hidden="true">
                                     {if folder.canManage}
                                         <li><button class="folder-trigger-manageaccess"><i class="fa fa-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
                                         <li><button class="folder-trigger-manageaccess-add"><i class="fa fa-share-square-o"></i>__MSG__SHARE__</button></li>
@@ -53,7 +53,7 @@
                                         <li><button class="oae-trigger-deletefolder"><i class="fa fa-trash-o"></i>__MSG__DELETE__</button></li>
                                     {else}
                                         <li><button class="oae-trigger-aboutfolder"><i class="fa fa-info-circle"></i>__MSG__ABOUT__</button></li>
-                                        <li><button class="oae-trigger-foldershared"><i class="fa fa-group"></i>__MSG__SHARED_WITH__</button></li>
+                                        <li><button class="oae-trigger-sharedwith"><i class="fa fa-group"></i>__MSG__SHARED_WITH__</button></li>
                                         {if folder.canShare}
                                             <li><button class="oae-trigger-share" data-id="${folder.id}" data-resourceType="${folder.resourceType}"><i class="fa fa-share-square-o"></i>__MSG__SHARE__</button></li>
                                         {/if}
@@ -87,7 +87,7 @@
                                 <div class="oae-clip-fold-outer"></div>
                             </div>
                             <div class="oae-clip-content">
-                                <button>
+                                <button type="button" aria-expanded="false" aria-controls="folder-secondary-clip-detail">
                                     <div>
                                         <i class="fa fa-plus-circle pull-left"></i>
                                         <h1>__MSG__CREATE__</h1>
@@ -95,7 +95,7 @@
                                     </div>
                                 </button>
                                 <div>
-                                    <ul>
+                                    <ul id="folder-secondary-clip-detail" aria-hidden="true">
                                         <li><button class="oae-trigger-createlink"><i class="fa fa-link"></i>__MSG__LINK__</button></li>
                                         <li><button class="oae-trigger-createcollabdoc"><i class="fa fa-pencil-square-o"></i>__MSG__DOCUMENT__</button></li>
                                     </ul>

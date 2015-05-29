@@ -30,6 +30,7 @@ requirejs.config({
         'globalize': 'vendor/js/l10n/globalize',
         'jquery.autosize': 'vendor/js/jquery-plugins/jquery.autosize',
         'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest',
+        'jquery.dotdot': 'vendor/js/jquery-plugins/jquery.dotdotdot',
         'jquery.encoder': 'vendor/js/jquery-plugins/jquery.encoder',
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
         'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',

@@ -234,10 +234,10 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 'publicDescription': oae.api.i18n.translate('__MSG__FOLDER_PUBLIC_DESCRIPTION__')
             },
             'defaultRole': 'viewer',
-            'roles': {
-                'viewer': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
-                'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')
-            },
+            'roles': [
+                {'id': 'viewer', 'name': oae.api.i18n.translate('__MSG__CAN_VIEW__')},
+                {'id': 'manager', 'name': oae.api.i18n.translate('__MSG__CAN_MANAGE__')}
+            ],
             'api': {
                 'getMembersURL': '/api/folder/'+ folderProfile.id + '/members',
                 'setMembers': oae.api.folder.updateMembers,
