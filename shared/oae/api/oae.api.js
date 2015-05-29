@@ -167,7 +167,7 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
                 return;
 
             // Global admins don't need to perform any pre-use actions either
-            } else if (oae.data.me.tenant.alias === 'admin') {
+            } else if (oae.data.me.isGlobalAdmin) {
                 return;
             }
 
