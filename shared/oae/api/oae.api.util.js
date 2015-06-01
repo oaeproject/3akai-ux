@@ -701,6 +701,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             if (/https?:\/\//i.test(displayName)) {
                 return false;
             }
+            
+            // Display names that contain `@` are also considered invalid
+            if (/@/.test(displayName)) {
+                return false;
+            }
 
             return true;
         };
