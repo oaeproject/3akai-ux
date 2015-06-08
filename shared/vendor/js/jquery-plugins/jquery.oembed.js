@@ -6,6 +6,8 @@
  *
  * Orignal Author: Richard Chamorro
  * Forked by Andrew Mee to Provide a slightly different kind of embedding experience
+ *
+ * Patched by Apereo OAE with https://github.com/nfl/jquery-oembed-all/pull/22
  */
 (function ($) {
     $.fn.oembed = function (url, options, embedAction) {
