@@ -589,8 +589,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             if (options.submitHandler && $.isFunction(options.submitHandler)) {
                 submitCallback = options.submitHandler;
             }
+            
+            // Register common custom validation methods
+            $.validator.addMethod('displayname', isValidDisplayName, require('oae.api.i18n').translate('__MSG__NAMES_CANNOT_INCLUDE_URLS_OR_AT_SIGNS__'));
 
-            // Register the custom validation methods
+            // Register additional custom validation methods
             if (options.methods) {
                 $.each(options.methods, function(key, value) {
                     $.validator.addMethod(key, value.method, value.text);
