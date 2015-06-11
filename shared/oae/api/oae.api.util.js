@@ -695,10 +695,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 return false;
             }
 
-            // Display names that contain `http://` or `https://` are indicative of Shibboleth
+            // Display names that contain `http://`, `https://`, or `@` are indicative of Shibboleth
             // not releasing an attribute that could be used as the display name. This is not
             // considered to be valid
             if (/https?:\/\//i.test(displayName)) {
+                return false;
+            } else if (/@/.test(displayName)) {
                 return false;
             }
 
