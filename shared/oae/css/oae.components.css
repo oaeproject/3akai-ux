@@ -387,9 +387,7 @@ div.oae-thumbnail {
 
 div.oae-thumbnail:before {
     display: inline-block;
-    font-size: 18px;
-    margin-top: -9px;
-    padding-top: 50%;
+    position: relative;
 }
 
 div.oae-thumbnail a,
@@ -418,14 +416,19 @@ div.oae-thumbnail.fa-oae-user div {
     background-position: center;
 }
 
+div.oae-thumbnail.oae-thumbnail-small:before {
+    font-size: 18px;
+    top: 0;
+}
+
 div.oae-thumbnail.oae-thumbnail-medium:before {
     font-size: 30px;
-    margin-top: -15px;
+    top: 8px;
 }
 
 div.oae-thumbnail.oae-thumbnail-large:before {
     font-size: 50px;
-    margin-top: -25px;
+    top: 32px;
 }
 
 /* Default entity thumbnails */
@@ -1005,15 +1008,6 @@ div.oae-thumbnail i.fa {
 .oae-tile .oae-thumbnail a,
 .oae-tile .oae-thumbnail img {
     border-radius: 0;
-}
-
-.oae-tile .oae-thumbnail:before {
-    margin-top: -30px;
-}
-
-.oae-tile .oae-thumbnail.oae-thumbnail-large:before {
-    margin-top: -48px;
-    padding-top: 80px;
 }
 
 .oae-tile .oae-thumbnail img {
