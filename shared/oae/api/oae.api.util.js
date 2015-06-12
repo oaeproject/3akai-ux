@@ -974,7 +974,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     data.results = _.chain(data.results)
                         // Remove any results in the exclusion list
                         .filter(function(result) {
-                            console.log('checking id: %s', result.id);
                             return !_.contains(options.exclude, result.id);
                         })
                         // Enhance the results for the autosuggest template
