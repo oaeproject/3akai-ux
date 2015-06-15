@@ -16,6 +16,32 @@
 define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) {
 
     /**
+     * Get a user's login ids
+     *
+     * @param  {String}     userId              The id of the user to return the login ids for
+     * @param  {Function}   callback            Standard callback function
+     * @param  {Object}     callback.err        Error object containing error code and error message
+     * @param  {Object}     callback.loginIds   Hash object containing the user's login ids
+     * @throws {Error}                          Error thrown when not all of the required parameters have been provided
+     */
+    var getAuthLoginIds = exports.getAuthLoginIds = function(userId, callback) {
+        if (!userId) {
+            throw new Error('A valid user id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/auth/loginIds/' + userId,
+            'type': 'GET',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
      * Get the list of all enabled authentication strategies for the current tenant
      *
      * @return {Object}                List of all enabled authentication strategies for the current tenant keyed by authentication strategy id. Each enabled authentication strategy will contain a `url` property with the URL to which to POST to initiate the authentication process for that strategy and a `name` property with the custom configured name for that strategy
