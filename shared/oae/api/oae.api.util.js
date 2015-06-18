@@ -695,10 +695,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 return false;
             }
 
-            // Display names that contain `http://` or `https://` are indicative of Shibboleth
+            // Display names that contain `http://`, `https://`, or `@` are indicative of Shibboleth
             // not releasing an attribute that could be used as the display name. This is not
             // considered to be valid
             if (/https?:\/\//i.test(displayName)) {
+                return false;
+            } else if (/@/.test(displayName)) {
                 return false;
             }
 
@@ -881,6 +883,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * @param  {Boolean}            [options.preFill[i].fixed]      Whether or not the pre-filled item should be undeleteable from the selection list
          * @param  {Object[]}           [options.ghost]                 Ghost items that should be added to the autosuggest field upon initialization. This has the same format as `options.preFill`
          * @param  {Boolean}            [options.ghost[i].selected]     Whether or not the ghost item should be selected by default
+         * @param  {Object[]}           [options.exclude]               Specific items that should be excluded from suggestions
          * @param  {String}             [options.url]                   URL for the REST endpoint that should be used to fetch the suggested results
          * @param  {Function}           [options.selectionChanged]      Function that will be executed when the selection in the autosuggest field has changed
          * @param  {String[]}           [resourceTypes]                 Array of resourceTypes that should be used for the search. By default, `user` and `group` will be used
@@ -947,6 +950,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         ghostItem[options.selectedItemProp] = security().encodeForHTML(ghostItem[options.selectedItemProp]);
                     });
                 }
+                
+                // Coerce the set of excluded items to an array
+                if (!options.exclude) {
+                    options.exclude = [];
+                } else if (!_.isArray(options.exclude)) {
+                    options.exclude = [options.exclude];
+                }
 
                 // XSS escape the incoming data from the REST endpoints. We also add the current query
                 // onto each result object to make sure that the matching succeeds and all items are
@@ -960,10 +970,24 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     // Get the query from the request URL on the Ajax object, as that is the only provided clue
                     // for finding out the search query
                     var query = $.url(this.url).param('q');
+                    
+                    // Track any results that need to be excluded
+                    var toExclude = [];
+
                     $.each(data.results, function(index, result) {
-                        result.displayName = security().encodeForHTML(result.displayName);
-                        result.query = query;
+                        if (_.contains(options.exclude, result.id)) {
+                            toExclude.push(index);
+                        } else {
+                            result.displayName = security().encodeForHTML(result.displayName);
+                            result.query = query;
+                        }
                     });
+                    
+                    // Remove excluded items
+                    while (_.isEmpty(toExclude)) {
+                        // Remove from end of array to preserve indices
+                        data.results.splice(toExclude.pop(), 1);
+                    }
 
                     if (retrieveComplete) {
                         return retrieveComplete(data);
