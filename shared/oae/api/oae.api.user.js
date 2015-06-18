@@ -260,4 +260,51 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
             }
         });
     };
+
+    /**
+     * Get the pending email verification for the current user, if any
+     *
+     * @param  {Function}   callback            Standard callback function
+     * @param  {Object}     callback.err        Error object containing error code and error message
+     * @param  {String}     [callback.email]    The email address that is pending verification, if any
+     */
+    var getPendingEmailVerification = exports.getPendingEmailVerification = function(callback) {
+        var userId = require('oae.core').data.me.id;
+
+        $.ajax({
+            'url': '/api/user/' + userId + '/email/token',
+            'type': 'GET',
+            'success': function(data) {
+                callback(null, data.email);
+            },
+            'error': function(jqXHR, textStatus) {
+                if (jqXHR.status === 404) {
+                    callback();
+                } else {
+                    callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+                }
+            }
+        });
+    };
+
+    /**
+     * Delete the pending email verification for the current user, if any
+     *
+     * @param  {Function}   callback        Standard callback function
+     * @param  {Object}     callback.err    Error object containing error code and error message
+     */
+    var deletePendingEmailVerification = exports.deletePendingEmailVerification = function(callback) {
+        var userId = require('oae.core').data.me.id;
+
+        $.ajax({
+            'url': '/api/user/' + userId + '/email/token',
+            'type': 'DELETE',
+            'success': function(data) {
+                callback(null, data.email);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
 });
