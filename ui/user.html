@@ -36,7 +36,7 @@
                                 ${renderThumbnail(user, displayOptions)}
                                 <div>
                                     <div>
-                                        <h1 class="oae-threedots">${user.displayName|encodeForHTML}</h1>
+                                        <span class="oae-clip-text oae-threedots">${user.displayName|encodeForHTML}</span>
                                         <small class="oae-threedots">${user.tenant.displayName|encodeForHTML}</small>
                                     </div>
                                 </div>
@@ -57,7 +57,7 @@
                                 <button type="button" class="user-follow">
                                     <div>
                                         <i class="fa fa-bookmark pull-left"></i>
-                                        <h1>__MSG__FOLLOW__</h1>
+                                        <span class="oae-clip-text">__MSG__FOLLOW__</span>
                                     </div>
                                 </button>
                             </div>

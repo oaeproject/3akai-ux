@@ -498,7 +498,7 @@ div.oae-thumbnail i.fa {
  *                      </div>
  *                      <div>
  *                          <div>
- *                              <h1 class="oae-threedots">John Doe</h1>
+ *                              <span class="oae-clip-text oae-threedots">John Doe</span>
  *                              <i class="fa fa-caret-down"></i>
  *                              <small>Job Title</small>
  *                          </div>
@@ -532,7 +532,7 @@ div.oae-thumbnail i.fa {
  *   main button. This can also show a default entity picture (in case no image is provided) as well as a
  *   visibility icon (See the `Thumbnail` section for details on how to create a thumbnail).
  *   The thumbnail image is optional and can be left out as well.
- * - An optional `oae-threedots` class can be added to the `h1` elements in case a maximum width needs to be
+ * - An optional `oae-threedots` class can be added to the `.oae-clip-text` elements in case a maximum width needs to be
  *   enforced.
  * - The `fa-caret-down` element is optional. If it is not provided, the clip will be shown in view
  *   only mode. If it is provided, the clip will be toggleable and the action menu will be shown when clicked.
@@ -661,7 +661,7 @@ div.oae-thumbnail i.fa {
     width: 35px;
 }
 
-.oae-clip .oae-clip-content h1 {
+.oae-clip .oae-clip-content .oae-clip-text {
     display: inline-block;
     font-size: 16px;
     line-height: 1.3;
@@ -672,7 +672,7 @@ div.oae-thumbnail i.fa {
     word-wrap: nowrap;
 }
 
-.oae-clip .oae-clip-content h1.oae-threedots {
+.oae-clip .oae-clip-content .oae-clip-text.oae-threedots {
     float: left;
 }
 
@@ -684,8 +684,8 @@ div.oae-thumbnail i.fa {
     top: 3px;
 }
 
-.oae-clip .oae-clip-content > button h1.oae-threedots + i.fa-caret-down,
-.oae-clip .oae-clip-content > button h1.oae-threedots + i.fa-caret-up {
+.oae-clip .oae-clip-content > button .oae-clip-text.oae-threedots + i.fa-caret-down,
+.oae-clip .oae-clip-content > button .oae-clip-text.oae-threedots + i.fa-caret-up {
     margin-left: 10px;
 }
 
@@ -703,7 +703,7 @@ div.oae-thumbnail i.fa {
 }
 
 @media (max-width: 510px) {
-    .oae-clip .oae-clip-content > button h1,
+    .oae-clip .oae-clip-content > button .oae-clip-text,
     .oae-clip .oae-clip-content > button small {
         max-width: 185px;
     }
