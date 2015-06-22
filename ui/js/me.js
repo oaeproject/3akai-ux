@@ -203,6 +203,45 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
+     * Verify the user's email if there is instruction in the query string to do so with the
+     * specified verification token
+     */
+    var verifyEmail = function() {
+        var emailToken = $.url().param('verifyEmail');
+        console.log('email token: %s', emailToken);
+        if (emailToken) {
+            oae.api.user.getPendingEmailVerification(function(err, unverifiedEmail) {
+                if (err) {
+                    // Notify if we could not determine there was an email to be verified
+                    return oae.api.util.notification(
+                        oae.api.i18n.translate('__MSG__EMAIL_VERIFICATION_FAILED__'),
+                        oae.api.i18n.translate('__MSG__AN_ERROR_OCCURRED_VERIFYING_YOUR_EMAIL_ADDRESS__'),
+                        'error');
+                } else if (unverifiedEmail) {
+                    oae.api.user.verifyEmail(emailToken, function(err) {
+                        if (err) {
+                            // Notify if we failed to perform the actual email verification
+                            return oae.api.util.notification(
+                                oae.api.i18n.translate('__MSG__EMAIL_VERIFICATION_FAILED__'),
+                                oae.api.i18n.translate('__MSG__AN_ERROR_OCCURRED_VERIFYING_YOUR_EMAIL_ADDRESS__'),
+                                'error');
+                        }
+
+                        // Send an edit profile update trigger through the UI
+                        var newProfile = $.extend({}, oae.data.me, {'email': unverifiedEmail});
+                        $(document).trigger('oae.editprofile.done', newProfile);
+
+                        // Notify that we successfully verified the email address
+                        return oae.api.util.notification(
+                            oae.api.i18n.translate('__MSG__EMAIL_VERIFIED__'),
+                            oae.api.i18n.translate('__MSG__EMAIL_VERIFIED_THANK_YOU__'));
+                    });
+                }
+            });
+        }
+    };
+
+    /**
      * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
      * to get hold of the current context (i.e. current user's profile). In the first case, a
      * `oae.context.send` event will be sent out as a broadcast to all widgets listening
@@ -249,5 +288,5 @@ require(['jquery','oae.core'], function($, oae) {
     setUpClip();
     setUpNavigation();
     showPreferences();
-
+    verifyEmail();
 });

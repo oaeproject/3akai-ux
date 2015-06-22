@@ -174,10 +174,12 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
             var needsToProvideDisplayName = !oae.api.util.validation().isValidDisplayName(oae.data.me.displayName);
             var needsToProvideEmail = !oae.data.me.email;
 
-            // Show the user details widget if a valid name or email address need to be provided
+            // Show the edit profile widget if a valid name or email address need to be provided
             if (needsToProvideDisplayName || needsToProvideEmail) {
-                oae.api.widget.insertWidget('userdetails');
-
+                oae.api.widget.insertWidget('editprofile', null, null, null, null, function() {
+                    console.log('triggering...');
+                    $(document).trigger('oae.trigger.editprofile');
+                });
             // Show the Terms and Conditions widget if the user needs to accept the Terms and Conditions
             } else if (oae.data.me.needsToAcceptTC) {
                 oae.api.widget.insertWidget('termsandconditions', null, null, true);
