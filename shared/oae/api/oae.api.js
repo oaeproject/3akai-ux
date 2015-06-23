@@ -171,19 +171,71 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
                 return;
             }
 
-            var needsToProvideDisplayName = !oae.api.util.validation().isValidDisplayName(oae.data.me.displayName);
-            var needsToProvideEmail = !oae.data.me.email;
+            // Perform any email verification if instructed before we try and determine if the
+            // user's profile info is valid
+            verifyEmail(function() {
+                var needsToProvideDisplayName = !oae.api.util.validation().isValidDisplayName(oae.data.me.displayName);
+                var needsToProvideEmail = !oae.data.me.email;
 
-            // Show the edit profile widget if a valid name or email address need to be provided
-            if (needsToProvideDisplayName || needsToProvideEmail) {
-                oae.api.widget.insertWidget('editprofile', null, null, null, null, function() {
-                    console.log('triggering...');
+                // Show the edit profile widget if a valid name or email address need to be provided
+                if (needsToProvideDisplayName || needsToProvideEmail) {
                     $(document).trigger('oae.trigger.editprofile');
-                });
-            // Show the Terms and Conditions widget if the user needs to accept the Terms and Conditions
-            } else if (oae.data.me.needsToAcceptTC) {
-                oae.api.widget.insertWidget('termsandconditions', null, null, true);
+
+                // Show the Terms and Conditions widget if the user needs to accept the Terms and Conditions
+                } else if (oae.data.me.needsToAcceptTC) {
+                    oae.api.widget.insertWidget('termsandconditions', null, null, true);
+                }
+            });
+        };
+
+        /**
+         * Verify the user's email if there is instruction in the query string to do so with the
+         * specified verification token. If there is no `verifyEmail` query string parameter, then
+         * this will simply return doing no work.
+         *
+         * @param  {Function}   callback    Invoked when the email verification has completed, regardless if it was successful or failed
+         */
+        var verifyEmail = function(callback) {
+            var emailToken = $.url().param('verifyEmail');
+            if (!emailToken) {
+                return callback();
             }
+
+            oae.api.user.getEmailVerificationStatus(oae.data.me.id, function(err, unverifiedEmail) {
+                if (err) {
+                    // Notify if we could not determine there was an email to be verified
+                    oae.api.util.notification(
+                        oae.api.i18n.translate('__MSG__EMAIL_VERIFICATION_FAILED__'),
+                        oae.api.i18n.translate('__MSG__AN_ERROR_OCCURRED_VERIFYING_YOUR_EMAIL_ADDRESS__'),
+                        'error');
+
+                    return callback();
+                } else if (unverifiedEmail) {
+                    oae.api.user.verifyEmail(oae.data.me.id, emailToken, function(err) {
+                        if (err) {
+                            // Notify if we failed to perform the actual email verification
+                            oae.api.util.notification(
+                                oae.api.i18n.translate('__MSG__EMAIL_VERIFICATION_FAILED__'),
+                                oae.api.i18n.translate('__MSG__AN_ERROR_OCCURRED_VERIFYING_YOUR_EMAIL_ADDRESS__'),
+                                'error');
+
+                            return callback();
+                        }
+
+                        // Update the me data appropriately
+                        oae.data.me.email = unverifiedEmail;
+
+                        // Notify that we successfully verified the email address
+                        oae.api.util.notification(
+                            oae.api.i18n.translate('__MSG__EMAIL_VERIFIED__'),
+                            oae.api.i18n.translate('__MSG__EMAIL_VERIFIED_THANK_YOU__'));
+
+                        return callback();
+                    });
+                } else {
+                    return callback();
+                }
+            });
         };
 
         return {

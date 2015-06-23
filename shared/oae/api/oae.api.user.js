@@ -208,18 +208,16 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
     };
 
     /**
-     * Verify an email token
+     * Verify an email token on behalf of the specified user
      *
+     * @param  {String}         userId              The id of the user whose email to verify
      * @param  {String}         token               The token that verifies the email address
      * @param  {Function}       [callback]          Standard callback function
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      */
-    var verifyEmail = exports.verifyEmail = function(token, callback) {
+    var verifyEmail = exports.verifyEmail = function(userId, token, callback) {
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
-
-        // Get the current user to construct the endpoint url
-        var userId = require('oae.core').data.me.id;
 
         $.ajax({
             'url': '/api/user/' + userId + '/email/verify',
@@ -237,17 +235,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
     };
 
     /**
-     * Resend an email verification token
+     * Resend an email verification token for the specified user
      *
+     * @param  {String}         userId              The id of the user whose email token to resend
      * @param  {Function}       [callback]          Standard callback function
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      */
-    var resendEmailToken = exports.resendEmailToken = function(callback) {
+    var resendEmailToken = exports.resendEmailToken = function(userId, callback) {
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
-
-        // Get the current user to construct the endpoint url
-        var userId = require('oae.core').data.me.id;
 
         $.ajax({
             'url': '/api/user/' + userId + '/email/resend',
@@ -262,15 +258,14 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
     };
 
     /**
-     * Get the pending email verification for the current user, if any
+     * Get the pending email verification status for the current user, if any
      *
+     * @param  {String}     userId              The id of the user whose pending email verification to get
      * @param  {Function}   callback            Standard callback function
      * @param  {Object}     callback.err        Error object containing error code and error message
      * @param  {String}     [callback.email]    The email address that is pending verification, if any
      */
-    var getPendingEmailVerification = exports.getPendingEmailVerification = function(callback) {
-        var userId = require('oae.core').data.me.id;
-
+    var getEmailVerificationStatus = exports.getEmailVerificationStatus = function(userId, callback) {
         $.ajax({
             'url': '/api/user/' + userId + '/email/token',
             'type': 'GET',
@@ -278,11 +273,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
                 callback(null, data.email);
             },
             'error': function(jqXHR, textStatus) {
-                if (jqXHR.status === 404) {
-                    callback();
-                } else {
-                    callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-                }
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
