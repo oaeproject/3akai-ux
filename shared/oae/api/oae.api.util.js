@@ -950,7 +950,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         ghostItem[options.selectedItemProp] = security().encodeForHTML(ghostItem[options.selectedItemProp]);
                     });
                 }
-                
+
                 // Coerce the set of excluded items to an array
                 if (!options.exclude) {
                     options.exclude = [];
@@ -970,7 +970,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     // Get the query from the request URL on the Ajax object, as that is the only provided clue
                     // for finding out the search query
                     var query = $.url(this.url).param('q');
-                    
+
                     // Track any results that need to be excluded
                     var toExclude = [];
 
@@ -982,7 +982,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                             result.query = query;
                         }
                     });
-                    
+
                     // Remove excluded items
                     while (_.isEmpty(toExclude)) {
                         // Remove from end of array to preserve indices

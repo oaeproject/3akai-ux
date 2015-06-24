@@ -206,4 +206,96 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
             }
         });
     };
+
+    /**
+     * Verify an email token on behalf of the specified user
+     *
+     * @param  {String}         userId              The id of the user whose email to verify
+     * @param  {String}         token               The token that verifies the email address
+     * @param  {Function}       [callback]          Standard callback function
+     * @param  {Object}         [callback.err]      Error object containing error code and error message
+     */
+    var verifyEmail = exports.verifyEmail = function(userId, token, callback) {
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/user/' + userId + '/email/verify',
+            'type': 'POST',
+            'data': {
+                'token': token
+            },
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Resend an email verification token for the specified user
+     *
+     * @param  {String}         userId              The id of the user whose email token to resend
+     * @param  {Function}       [callback]          Standard callback function
+     * @param  {Object}         [callback.err]      Error object containing error code and error message
+     */
+    var resendEmailToken = exports.resendEmailToken = function(userId, callback) {
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/user/' + userId + '/email/resend',
+            'type': 'POST',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Get the pending email verification status for the current user, if any
+     *
+     * @param  {String}     userId              The id of the user whose pending email verification to get
+     * @param  {Function}   callback            Standard callback function
+     * @param  {Object}     callback.err        Error object containing error code and error message
+     * @param  {String}     [callback.email]    The email address that is pending verification, if any
+     */
+    var getEmailVerificationStatus = exports.getEmailVerificationStatus = function(userId, callback) {
+        $.ajax({
+            'url': '/api/user/' + userId + '/email/token',
+            'type': 'GET',
+            'success': function(data) {
+                callback(null, data.email);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Delete the pending email verification for the current user, if any
+     *
+     * @param  {Function}   callback        Standard callback function
+     * @param  {Object}     callback.err    Error object containing error code and error message
+     */
+    var deletePendingEmailVerification = exports.deletePendingEmailVerification = function(callback) {
+        var userId = require('oae.core').data.me.id;
+
+        $.ajax({
+            'url': '/api/user/' + userId + '/email/token',
+            'type': 'DELETE',
+            'success': function(data) {
+                callback(null, data.email);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
 });

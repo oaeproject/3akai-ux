@@ -249,5 +249,4 @@ require(['jquery','oae.core'], function($, oae) {
     setUpClip();
     setUpNavigation();
     showPreferences();
-
 });
