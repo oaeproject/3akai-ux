@@ -274,7 +274,9 @@
 
     <div class="oae-thumbnail {if displayOptions.size} oae-thumbnail-${displayOptions.size}{/if} fa fa-oae-${resourceSubType} fa-oae-${resourceType}" data-id="${resourceId}">
         {if profilePath && displayOptions.addLink !== false}
-        {if profilePath && displayOptions.addLink !== false}<a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if} {if displayOptions.hideThumbnailLink === true} aria-hidden="true"{/if}>{/if}
+            <a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" 
+                {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if} 
+                {if displayOptions.hideThumbnailLink === true} aria-hidden="true"{/if}>
         {/if}
         {if thumbnailUrl}
             <div role="img" style="background-image: url('${thumbnailUrl}');"></div>
