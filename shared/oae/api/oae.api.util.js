@@ -176,11 +176,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          */
         var init = function(callback) {
             // Load the activity summary and lists macros through the RequireJS Text plugin
-            require(['text!/shared/oae/macros/list.html'], function(listMacro) {
+            require(['text!/shared/oae/macros/list.html', 'text!/shared/oae/macros/header.html'], function(listMacro, headerMacro) {
                 // Translate and cache the macros. We require the i18n API here to avoid creating
                 // a cyclic dependency
                 var i18nAPI = require('oae.api.i18n');
                 globalMacros.push(i18nAPI.translate(listMacro));
+                globalMacros.push(i18nAPI.translate(headerMacro));
                 callback();
             });
         };
@@ -682,10 +683,35 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             $form.find('*[aria-describedby]').removeAttr('aria-describedby');
         };
 
+        /**
+         * Check whether a provided string is a valid display name
+         *
+         * @param  {String}             displayName     The name to check
+         * @return {Boolean}                            `true` when the display name is valid, `false` otherwise
+         */
+        var isValidDisplayName = function(displayName) {
+            // Empty names are not allowed
+            if (!displayName) {
+                return false;
+            }
+
+            // Display names that contain `http://`, `https://`, or `@` are indicative of Shibboleth
+            // not releasing an attribute that could be used as the display name. This is not
+            // considered to be valid
+            if (/https?:\/\//i.test(displayName)) {
+                return false;
+            } else if (/@/.test(displayName)) {
+                return false;
+            }
+
+            return true;
+        };
+
         return {
+            'clear': clear,
             'init': init,
-            'validate': validate,
-            'clear': clear
+            'isValidDisplayName': isValidDisplayName,
+            'validate': validate
         };
     };
 
@@ -857,6 +883,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * @param  {Boolean}            [options.preFill[i].fixed]      Whether or not the pre-filled item should be undeleteable from the selection list
          * @param  {Object[]}           [options.ghost]                 Ghost items that should be added to the autosuggest field upon initialization. This has the same format as `options.preFill`
          * @param  {Boolean}            [options.ghost[i].selected]     Whether or not the ghost item should be selected by default
+         * @param  {Object[]}           [options.exclude]               Specific items that should be excluded from suggestions
          * @param  {String}             [options.url]                   URL for the REST endpoint that should be used to fetch the suggested results
          * @param  {Function}           [options.selectionChanged]      Function that will be executed when the selection in the autosuggest field has changed
          * @param  {String[]}           [resourceTypes]                 Array of resourceTypes that should be used for the search. By default, `user` and `group` will be used
@@ -923,6 +950,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         ghostItem[options.selectedItemProp] = security().encodeForHTML(ghostItem[options.selectedItemProp]);
                     });
                 }
+                
+                // Coerce the set of excluded items to an array
+                if (!options.exclude) {
+                    options.exclude = [];
+                } else if (!_.isArray(options.exclude)) {
+                    options.exclude = [options.exclude];
+                }
 
                 // XSS escape the incoming data from the REST endpoints. We also add the current query
                 // onto each result object to make sure that the matching succeeds and all items are
@@ -936,10 +970,25 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     // Get the query from the request URL on the Ajax object, as that is the only provided clue
                     // for finding out the search query
                     var query = $.url(this.url).param('q');
+                    
+                    // Track any results that need to be excluded
+                    var toExclude = [];
+
                     $.each(data.results, function(index, result) {
-                        result.displayName = security().encodeForHTML(result.displayName);
-                        result.query = query;
+                        if (_.contains(options.exclude, result.id)) {
+                            toExclude.push(index);
+                        } else {
+                            result.displayName = security().encodeForHTML(result.displayName);
+                            result.query = query;
+                        }
                     });
+                    
+                    // Remove excluded items
+                    while (_.isEmpty(toExclude)) {
+                        // Remove from end of array to preserve indices
+                        data.results.splice(toExclude.pop(), 1);
+                    }
+
                     if (retrieveComplete) {
                         return retrieveComplete(data);
                     } else {
@@ -1008,8 +1057,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 }
                 options.selectionAdded = function(elem) {
                     var $elem = $(elem);
-                    // Make sure that the item cannot overflow
-                    $elem.addClass('oae-threedots');
+                    // Wrap the element text in a 'oae-threedots' span element to prevent overflowing
+                    var text = $elem[0].lastChild.nodeValue;
+                    $elem[0].lastChild.remove();
+                    $elem.append($('<span>' + text + '</span>').addClass('pull-left oae-threedots'));
 
                     var originalData = $elem.data('originalData');
                     if (originalData.resourceType) {
@@ -1224,7 +1275,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
         /**
          * Sanitizes markdown input in a manner that makes it safe for the input to be placed inside of an HTML tag.
-         * This sanitizer will also recognise bare URLs, including path elements, but not query parameters, inside 
+         * This sanitizer will also recognise bare URLs, including path elements, but not query parameters, inside
          * the provided input and will convert these into links.
          *
          * @param  {String}     [input]         The markdown input string that should be sanitized. If this is not provided, an empty string will be returned

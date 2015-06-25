@@ -118,8 +118,9 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
                                         $('html').addClass('anon');
                                     }
 
-                                    // Set up the terms and conditions widget
-                                    setUpTermsAndConditions();
+                                    // Check if any widgets need to be shown before the user can start
+                                    // using the system
+                                    setupPreUseActions();
 
                                     // The APIs have now fully initialized. All javascript that
                                     // depends on the initialized core APIs can now execute
@@ -129,7 +130,7 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
                                     oae.api.widget.loadWidgets(null, null, null, function() {
                                         // We can show the body as internationalization and
                                         // initial widget loading have finished
-                                        $('body').show();
+                                        $('body').css('visibility', 'visible');
 
                                         // Initialize websocket push API, unless we're on the
                                         // global admin tenant
@@ -150,19 +151,36 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
         };
 
 
-        //////////////////////////
-        // Terms and Conditions //
-        //////////////////////////
+        /////////////////////
+        // Pre-use actions //
+        /////////////////////
 
         /**
-         * Trigger the Terms and Conditions widget if the Terms and Conditions
-         * need to be accepted before using the system.
+         * Trigger the user details widgets if the user needs to provide a valid display name
+         * or email address. If the user needs to accept the Terms and Conditions, the Terms
+         * and Conditions widget will be triggered.
          */
-        var setUpTermsAndConditions = function() {
-            if (oae.data.me.needsToAcceptTC) {
-                // Insert the terms and conditions widget in settings mode
-                var termsandconditionsId = oae.api.util.generateId();
-                oae.api.widget.insertWidget('termsandconditions', termsandconditionsId, null, true);
+        var setupPreUseActions = function() {
+            // Anonymous users can be ignored as the don't need to perform any
+            // pre-use actions
+            if (oae.data.me.anon) {
+                return;
+
+            // Global admins don't need to perform any pre-use actions either
+            } else if (oae.data.me.isGlobalAdmin) {
+                return;
+            }
+
+            var needsToProvideDisplayName = !oae.api.util.validation().isValidDisplayName(oae.data.me.displayName);
+            var needsToProvideEmail = !oae.data.me.email;
+
+            // Show the user details widget if a valid name or email address need to be provided
+            if (needsToProvideDisplayName || needsToProvideEmail) {
+                oae.api.widget.insertWidget('userdetails');
+
+            // Show the Terms and Conditions widget if the user needs to accept the Terms and Conditions
+            } else if (oae.data.me.needsToAcceptTC) {
+                oae.api.widget.insertWidget('termsandconditions', null, null, true);
             }
         };
 
