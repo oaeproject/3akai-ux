@@ -950,7 +950,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         ghostItem[options.selectedItemProp] = security().encodeForHTML(ghostItem[options.selectedItemProp]);
                     });
                 }
-                
+
                 // Coerce the set of excluded items to an array
                 if (!options.exclude) {
                     options.exclude = [];
@@ -970,24 +970,19 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     // Get the query from the request URL on the Ajax object, as that is the only provided clue
                     // for finding out the search query
                     var query = $.url(this.url).param('q');
-                    
-                    // Track any results that need to be excluded
-                    var toExclude = [];
 
-                    $.each(data.results, function(index, result) {
-                        if (_.contains(options.exclude, result.id)) {
-                            toExclude.push(index);
-                        } else {
+                    data.results = _.chain(data.results)
+                        // Remove any results in the exclusion list
+                        .filter(function(result) {
+                            return !_.contains(options.exclude, result.id);
+                        })
+                        // Enhance the results for the autosuggest template
+                        .each(function(result) {
                             result.displayName = security().encodeForHTML(result.displayName);
                             result.query = query;
-                        }
-                    });
-                    
-                    // Remove excluded items
-                    while (_.isEmpty(toExclude)) {
-                        // Remove from end of array to preserve indices
-                        data.results.splice(toExclude.pop(), 1);
-                    }
+                            return result;
+                        })
+                        .value();
 
                     if (retrieveComplete) {
                         return retrieveComplete(data);
