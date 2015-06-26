@@ -1053,9 +1053,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 options.selectionAdded = function(elem) {
                     var $elem = $(elem);
                     // Wrap the element text in a 'oae-threedots' span element to prevent overflowing
-                    var text = $elem[0].lastChild.nodeValue;
-                    $elem[0].lastChild.remove();
-                    $elem.append($('<span>' + text + '</span>').addClass('pull-left oae-threedots'));
+                    $elem.contents().filter(function() {
+                        return this.nodeType === 3;
+                    }).wrapAll('<span class="pull-left oae-threedots" />');
 
                     var originalData = $elem.data('originalData');
                     if (originalData.resourceType) {
