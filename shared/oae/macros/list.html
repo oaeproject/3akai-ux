@@ -165,14 +165,14 @@
                         ${displayOptions.threedotTitle = true|eat}
                         ${renderThumbnail(entityData, displayOptions)}
                     </div>
+                    <div class="oae-listitem-metadata">
+                        ${renderMetadata(entityData, displayOptions)}
+                    </div>
                     {if displayOptions.listItemActions}
                         <div class="oae-listitem-actions">
                             ${displayOptions.listItemActions()}
                         </div>
                     {/if}
-                    <div class="oae-listitem-metadata">
-                        ${renderMetadata(entityData, displayOptions)}
-                    </div>
                 </div>
             </div>
 
@@ -183,14 +183,14 @@
                     <div class="oae-listitem-primary-thumbnail">
                         ${renderThumbnail(entityData, displayOptions)}
                     </div>
+                    <div class="oae-listitem-metadata">
+                        ${renderMetadata(entityData, displayOptions)}
+                    </div>
                     {if displayOptions.listItemActions}
                         <div class="oae-listitem-actions">
                             ${displayOptions.listItemActions()}
                         </div>
                     {/if}
-                    <div class="oae-listitem-metadata">
-                        ${renderMetadata(entityData, displayOptions)}
-                    </div>
                 </div>
             </div>
         </li>
