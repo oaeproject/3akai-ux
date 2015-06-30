@@ -32,11 +32,11 @@ define(['jquery', 'jquery.history'], function (jQuery, oaeUtil) {
          *  ```
          *  <div id="search-scope" class="oae-switchtab-container">
          *      <div class="oae-switchtab-control">
-         *          <button class="oae-switchtab-switch" data-switchtab-id="all" data-switchtab-path="/search/all">
+         *          <button class="oae-switchtab-switch" aria-controls="all" data-switchtab-path="/search/all">
          *              <span class="oae-switchtab-switch-icon fa fa-globe"></span>
          *              <span class="oae-switchtab-switch-label">__MSG__EVERYWHERE__</span>
          *          </button>
-         *          <button class="oae-switchtab-switch" data-switchtab-id="my" data-switchtab-path="/search/my">
+         *          <button class="oae-switchtab-switch" aria-controls="my" data-switchtab-path="/search/my">
          *              <span class="oae-switchtab-switch-icon fa fa-lock"></span>
          *              <span class="oae-switchtab-switch-label">__MSG__MY_STUFF_ONLY__</span>
          *          </button>
@@ -47,7 +47,7 @@ define(['jquery', 'jquery.history'], function (jQuery, oaeUtil) {
          * Where all classes prefixed with `oae-switchtab` are specific to the switchtab component.
          * The following special data attributes are available:
          *
-         *  *   data-switchtab-id (required): Indicates that id of the tab. It is used both
+         *  *   aria-controls (required): Indicates that id of the tab. It is used both
          *      internally to indentify the element and it is useful for the $.switchtabId() method
          *      in order to determine which tab is currently selected
          *  *   data-switchtab-path (required): Indicates not only at what path prefix the tab
@@ -64,9 +64,9 @@ define(['jquery', 'jquery.history'], function (jQuery, oaeUtil) {
 
             var currentId = _idFromState($switchtab);
 
-            $switchtab.on('click', '.oae-switchtab-switch', function() {
+            $switchtab.on('click', 'a', function() {
                 var $el = $(this);
-                var id = $el.attr('data-switchtab-id');
+                var id = $el.attr('aria-controls');
                 if (id !== currentId) {
                     currentId = id;
                     _idToState($switchtab, id);
@@ -112,11 +112,11 @@ define(['jquery', 'jquery.history'], function (jQuery, oaeUtil) {
         var _idFromState = function($switchtab) {
             var id = null;
             var path = $.url(History.getState().cleanUrl).attr('path');
-            $switchtab.find('.oae-switchtab-switch').each(function(i, el) {
+            $switchtab.find('a').each(function(i, el) {
                 var $el = $(el);
-                var elPath = $el.attr('data-switchtab-path');
+                var elPath = $el.attr('href');
                 if (path.indexOf(elPath) === 0) {
-                    id = $el.attr('data-switchtab-id');
+                    id = $el.attr('aria-controls');
                 }
             });
             return id;
@@ -132,17 +132,16 @@ define(['jquery', 'jquery.history'], function (jQuery, oaeUtil) {
         var _idToState = function($switchtab, id, init) {
             var $target = _idToElement($switchtab, id);
             var data = History.getState().data;
-            var title = $target.attr('data-switchtab-title') || History.getState().title;
-            var path = $target.attr('data-switchtab-path')
+            var path = $target.attr('href')
             var queryString = _queryString();
             if (queryString) {
                 path += '?' + queryString;
             }
 
             if (!init) {
-                History.pushState(data, title, path);
+                History.pushState(data, null, path);
             } else {
-                History.replaceState(data, title, path);
+                History.replaceState(data, null, path);
             }
         };
 
@@ -154,9 +153,9 @@ define(['jquery', 'jquery.history'], function (jQuery, oaeUtil) {
          * @param  {String}     id          The tab id to use to set the element CSS classes
          */
         var _idToElement = function($switchtab, id) {
-            var $target = $switchtab.find('.oae-switchtab-switch[data-switchtab-id="' + id + '"]');
-            $target.addClass('oae-switchtab-active');
-            $switchtab.find('.oae-switchtab-switch[data-switchtab-id!="' + id + '"]').removeClass('oae-switchtab-active');
+            var $target = $switchtab.find('a[aria-controls="' + id + '"]');
+            $target.parent('li').addClass('active');
+            $switchtab.find('a[aria-controls!="' + id + '"]').parent('li').removeClass('active');
             return $target;
         }
 

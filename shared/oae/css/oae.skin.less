@@ -523,41 +523,41 @@ ul.as-selections.as-selections-focus {
 /* Left hand navigation actions border color */
 @lhnav-item-border-color: #EEE;
 
-.nav > li > a,
-.nav > li > button,
-.nav > li i,
-.nav > li.nav-header {
+.nav:not(.nav-pills) > li > a,
+.nav:not(.nav-pills) > li > button,
+.nav:not(.nav-pills) > li i,
+.nav:not(.nav-pills) > li.nav-header {
     color: @lhnav-item-text-color;
     background-color: @lhnav-item-background-color;
 }
 
-.nav > li:not(.nav-header):hover,
-.nav > li:not(.nav-header) > a:hover,
-.nav > li:not(.nav-header) > a:focus,
-.nav > li:not(.nav-header) > a:hover i,
-.nav > li:not(.nav-header) > a:focus i,
-.nav > li:not(.nav-header) > button:hover,
-.nav > li:not(.nav-header) > button:focus,
-.nav > li:not(.nav-header) > button:hover i,
-.nav > li:not(.nav-header) > button:focus i {
+.nav:not(.nav-pills) > li:not(.nav-header):hover,
+.nav:not(.nav-pills) > li:not(.nav-header) > a:hover,
+.nav:not(.nav-pills) > li:not(.nav-header) > a:focus,
+.nav:not(.nav-pills) > li:not(.nav-header) > a:hover i,
+.nav:not(.nav-pills) > li:not(.nav-header) > a:focus i,
+.nav:not(.nav-pills) > li:not(.nav-header) > button:hover,
+.nav:not(.nav-pills) > li:not(.nav-header) > button:focus,
+.nav:not(.nav-pills) > li:not(.nav-header) > button:hover i,
+.nav:not(.nav-pills) > li:not(.nav-header) > button:focus i {
     color: @lhnav-item-text-hover-color;
     background-color: @lhnav-item-background-hover-color;
 }
 
-.nav > li.active > a,
-.nav > li.active > a:hover,
-.nav > li.active > a:focus,
-.nav > li.active > button,
-.nav > li.active > button:hover,
-.nav > li.active > button:focus,
-.nav > li.active > a i,
-.nav > li.active > a:hover i,
-.nav > li.active > a:focus i {
+.nav:not(.nav-pills) > li.active > a,
+.nav:not(.nav-pills) > li.active > a:hover,
+.nav:not(.nav-pills) > li.active > a:focus,
+.nav:not(.nav-pills) > li.active > button,
+.nav:not(.nav-pills) > li.active > button:hover,
+.nav:not(.nav-pills) > li.active > button:focus,
+.nav:not(.nav-pills) > li.active > a i,
+.nav:not(.nav-pills) > li.active > a:hover i,
+.nav:not(.nav-pills) > li.active > a:focus i {
     color: @lhnav-item-text-selected-color;
     background-color: @lhnav-item-background-selected-color;
 }
 
-.nav > li.oae-lhnavigation-border {
+.nav:not(.nav-pills) > li.oae-lhnavigation-border {
     border-bottom: @lhnav-item-border-color;
 }
 
@@ -596,6 +596,26 @@ ul.as-selections.as-selections-focus {
     background-color: @tabbed-nav-background-selected-color;
 }
 
+.nav.nav-pills {
+    background-color: @tile-background-color;
+}
+
+.nav.nav-pills > li > a {
+    background-color: @tile-background-color;
+    border-style: solid;
+    border-width: 3px;
+    border-color: @tile-background-color;
+    color: @tile-description-color;
+}
+
+.nav.nav-pills > li.active > a {
+    background-color: @tile-description-color;
+    color: @tile-background-color;
+}
+
+.nav.nav-pills > li.active .oae-switchtab-switch-icon {
+    color: @link-color;
+}
 
 /*********************
  ** @section  Pills **
@@ -1016,3 +1036,4 @@ div.oae-thumbnail {
 .oae-clip.oae-clip-secondary ul li button:hover {
     background-color: @clip-secondary-gradient2-color;
 }
+

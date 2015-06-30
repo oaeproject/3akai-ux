@@ -44,6 +44,7 @@
 
 #search-scope {
     margin-top: -33px;
+    text-align: center;
 }
 
 /* Anonymous only ever has "Everywhere", so don't show the switches at all */

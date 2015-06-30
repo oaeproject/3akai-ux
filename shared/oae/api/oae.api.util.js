@@ -191,7 +191,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 // All loaded macros will come back as the arguments of the callback. Dynamically
                 // add them all to the global macros list
                 _.chain(arguments).toArray().each(function(macro) {
-                    globalMacros.push(macro);
+                    globalMacros.push(i18nAPI.translate(macro));
                 });
 
                 callback();
