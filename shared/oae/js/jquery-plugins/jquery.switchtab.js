@@ -27,34 +27,34 @@ define(['jquery', 'jquery.history'], function (jQuery, oaeUtil) {
          *
          * Usage:
          *
-         *  You should create a template that looks like the following:
+         * You should create a template that is based on the bootstrap pill component, with the
+         * one exception that the root element has the `oae-switchtab` class:
          *
          *  ```
-         *  <div id="search-scope" class="oae-switchtab-container">
-         *      <div class="oae-switchtab-control">
-         *          <button class="oae-switchtab-switch" aria-controls="all" data-switchtab-path="/search/all">
-         *              <span class="oae-switchtab-switch-icon fa fa-globe"></span>
+         *  <ul class="oae-switchtab nav nav-pills" role="tablist">
+         *      <li role="presentation">
+         *          <a href="/search/all" aria-controls="all" role="tab" data-toggle="tab">
+         *              <i class="oae-switchtab-switch-icon fa fa-globe"></i>
          *              <span class="oae-switchtab-switch-label">__MSG__EVERYWHERE__</span>
-         *          </button>
-         *          <button class="oae-switchtab-switch" aria-controls="my" data-switchtab-path="/search/my">
-         *              <span class="oae-switchtab-switch-icon fa fa-lock"></span>
+         *          </a>
+         *      </li>
+         *      <li role="presentation">
+         *          <a href="/search/my"  aria-controls="my" role="tab" data-toggle="tab">
+         *              <i class="oae-switchtab-switch-icon fa fa-home"></i>
          *              <span class="oae-switchtab-switch-label">__MSG__MY_STUFF_ONLY__</span>
-         *          </button>
-         *      </div>
-         *  </div>
+         *          </a>
+         *      </li>
+         *  </ul>
          *  ```
          *
-         * Where all classes prefixed with `oae-switchtab` are specific to the switchtab component.
-         * The following special data attributes are available:
+         * The following attributes are noteworth:
          *
          *  *   aria-controls (required): Indicates that id of the tab. It is used both
          *      internally to indentify the element and it is useful for the $.switchtabId() method
          *      in order to determine which tab is currently selected
-         *  *   data-switchtab-path (required): Indicates not only at what path prefix the tab
+         *  *   href (required): Indicates not only at what path prefix the tab
          *      should be active, but also what path to push into the History module when the tab
          *      is clicked. Note that when navigating to a tab, the query string is retained
-         *  *   data-switchtab-title (optional): If specified, indicates what browser title should
-         *      be used for the tab
          *
          * To perform an action when the tab is changed, you should listen to `$(window).on('statechange')`
          * and use `$mySwitchTab.switchtabId()` to get the tab id of the currently active tab.
@@ -62,27 +62,30 @@ define(['jquery', 'jquery.history'], function (jQuery, oaeUtil) {
         $.fn.switchtab = function() {
             var $switchtab = $(this);
 
-            var currentId = _idFromState($switchtab);
+            var currentId = getIdFromState($switchtab);
 
+            // When a switchtab tab is clicked, we should update the History.js state with the href
+            // of the item that was clicked. The `$(window).on('statechange')` listener then takes
+            // care of all the DOM updates
             $switchtab.on('click', 'a', function() {
                 var $el = $(this);
                 var id = $el.attr('aria-controls');
                 if (id !== currentId) {
                     currentId = id;
-                    _idToState($switchtab, id);
+                    pushIdToState($switchtab, id);
                 }
                 return false;
             });
 
             // Initialize the state
-            _idToState($switchtab, currentId, true);
+            pushIdToState($switchtab, currentId, true);
 
-            // Each time the state changes (e.g., back button), update the state
+            // Each time the state changes (e.g., back button), update the elements on the DOM
             $(window).on('statechange', function() {
-                var id = _idFromState($switchtab);
+                var id = getIdFromState($switchtab);
                 if (id !== currentId) {
                     currentId = id;
-                    _idToElement($switchtab, id);
+                    pushIdToElement($switchtab, id);
                 }
             });
 
@@ -93,13 +96,13 @@ define(['jquery', 'jquery.history'], function (jQuery, oaeUtil) {
          * Get the tab id of the currently selected element
          */
         $.fn.switchtabId = function() {
-            return _idFromState($(this));
+            return getIdFromState($(this));
         }
 
         /*!
          * Get the querystring of the current page as a string
          */
-        var _queryString = function() {
+        var getQueryString = function() {
             var url = History.getState().cleanUrl;
             return url.split('?')[1];
         };
@@ -109,7 +112,7 @@ define(['jquery', 'jquery.history'], function (jQuery, oaeUtil) {
          *
          * @param  {jQuery}     $switchtab  The switchtab element that contains the tabs
          */
-        var _idFromState = function($switchtab) {
+        var getIdFromState = function($switchtab) {
             var id = null;
             var path = $.url(History.getState().cleanUrl).attr('path');
             $switchtab.find('a').each(function(i, el) {
@@ -129,11 +132,11 @@ define(['jquery', 'jquery.history'], function (jQuery, oaeUtil) {
          * @param  {String}     id          The tab id to use to set the current History state
          * @param  {Boolean}    init        Whether or not this is the initial switchtab invokation. If it is, we will want to `replace` current state instead of `push` it, as that will result in a bogus back step
          */
-        var _idToState = function($switchtab, id, init) {
-            var $target = _idToElement($switchtab, id);
+        var pushIdToState = function($switchtab, id, init) {
+            var $target = pushIdToElement($switchtab, id);
             var data = History.getState().data;
             var path = $target.attr('href')
-            var queryString = _queryString();
+            var queryString = getQueryString();
             if (queryString) {
                 path += '?' + queryString;
             }
@@ -146,13 +149,13 @@ define(['jquery', 'jquery.history'], function (jQuery, oaeUtil) {
         };
 
         /*!
-         * Given an id, set the CSS stat such that the active tab will be labelled as such for
+         * Given an id, set the CSS state such that the active tab will be labelled as such for
          * display purposes
          *
          * @param  {jQuery}     $switchtab  The switchtab element that contains the tabs
          * @param  {String}     id          The tab id to use to set the element CSS classes
          */
-        var _idToElement = function($switchtab, id) {
+        var pushIdToElement = function($switchtab, id) {
             var $target = $switchtab.find('a[aria-controls="' + id + '"]');
             $target.parent('li').addClass('active');
             $switchtab.find('a[aria-controls!="' + id + '"]').parent('li').removeClass('active');

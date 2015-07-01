@@ -30,19 +30,19 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
      * @return {String[]}   queryData.types     The resource types for which to search
      * @return {String}     queryData.tenant    The tenant alias in which to search
      */
-    var _queryData = function() {
+    var getQueryData = function() {
         var params = $.url(History.getState().cleanUrl).param();
         var q = params.q;
-        var types = [];
         var tenant = params.tenant;
+        var types = [];
         if (params.types) {
             types = params.types.split(',');
         }
 
         var data = {
             'q': params.q,
-            'types': types,
-            'tenant': tenant
+            'tenant': tenant,
+            'types': types
         };
 
         return data;
@@ -53,7 +53,7 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
      *
      * @return {String}     The query string (including the '?'), or an empty string if the data object is empty
      */
-    var _queryString = function(obj) {
+    var createQueryString = function(obj) {
         var params = [];
         $.each(obj, function(key, val) {
             params.push(key + '=' + oae.api.util.security().encodeForURL(val));
@@ -70,7 +70,8 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
             infinityScroll.kill();
         }
 
-        // Ensure the correct tab class is on the search content container
+        // Ensure the correct tab class is on the search content container. This CSS class helps
+        // the UI hide/show search form controls that are applicable to specied search scope
         var switchtabId = $switchtab.switchtabId();
         if (currSwitchtabId !== switchtabId) {
             currSwitchtabId = switchtabId;
@@ -81,7 +82,7 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
         }
 
         var title = ['__MSG__SEARCH__'];
-        var queryData = _queryData();
+        var queryData = getQueryData();
 
         // Apply the search value to the search text field
         $('.search-query').val(queryData.q);
@@ -94,9 +95,7 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
 
         // Reset the type checkboxes to make sure that none of them stay checked incorrectly
         // when hitting the back and forward buttons
-        $('#search-refine-type input[type="checkbox"]').each(function() {
-            $(this).prop('checked', false);
-        });
+        $('#search-refine-type input[type="checkbox"]').prop('checked', false);
 
         $.each(queryData.types, function(i, type) {
             $('#search-refine-type input[type="checkbox"][data-type="' + type + '"]').prop('checked', true);
@@ -144,7 +143,6 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
      * checked/unchecked.
      */
     var modifySearch = function() {
-
         // Get the query from the search form
         var query = $.trim($('#search-query').val());
 
@@ -171,7 +169,7 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
         }
 
         // Append the query string, if any
-        path += _queryString(params);
+        path += createQueryString(params);
 
         History.pushState({}, null, path);
 
@@ -201,6 +199,8 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
          *
          * To transition to this, we look if the query looks like /search/<query> where <query> is
          * not "all" or "my". If so, we rewrite the URL to /search/all/<query>.
+         *
+         * TODO: Remove after this is released
          */
         var topLevelSearch = path[2] || '';
         if (topLevelSearch !== 'my' && topLevelSearch !== 'all') {
@@ -235,7 +235,7 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
         $(document).on('submit', '#search-form', modifySearch);
 
         // Listen to changes to the checkboxes that refine search options
-        $(document).on('change', '#search-lhnavigation input[type="checkbox"]', modifySearch);
+        $('#search-refine-type').on('change', 'input[type="checkbox"]', modifySearch);
 
         // Listen to History.js state changes
         $(window).on('statechange', renderSearch);

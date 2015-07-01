@@ -136,19 +136,20 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     border-radius: 3px;
 }
 
-.nav.nav-pills > li > a > span {
+.nav.nav-pills > li > a > * {
     color: inherit;
+    display: inline;
     margin-left: 5px;
     position: relative;
 }
 
 /* Give the first (left-most) element space on the left side to make the button bigger */
-.nav.nav-pills > li > a > span:first-child {
+.nav.nav-pills > li > a > *:first-child {
     margin-left: 35px;
 }
 
 /* Give the last (right-most) element space on the right side to make the button bigger */
-.nav.nav-pills > li > a > span:last-child {
+.nav.nav-pills > li > a > *:last-child {
     margin-right: 35px;
 }
 
@@ -165,11 +166,11 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 /* Free up some horizontal button spacing to try and fit as much text as possible */
 @media (max-width: 768px) {
-    .nav.nav-pills > li > a > span:first-child {
+    .nav.nav-pills > li > a > *:first-child {
         margin-left: 5px;
     }
 
-    .nav.nav-pills > li > a > span:last-child {
+    .nav.nav-pills > li > a > *:last-child {
         margin-right: 5px;
     }
 }
