@@ -53,4 +53,8 @@ The mailing list used for Apereo OAE is oae@apereo.org. You can subscribe to the
 
 Bugs and other issues can be reported in our [issue tracker](https://github.com/oaeproject/3akai-ux/issues). Ideas for new features and capabilities can be suggested and voted for in our [UserVoice page](http://oaeproject.uservoice.com).
 
-Cross-browser testing graciously supported by [BrowserStack](https://www.browserstack.com).
+## Special thanks to
+
+- [BrowserStack](https://www.browserstack.com) for graciously supporting cross-browser testing.
+- [Crowdin](http://crowdin.com/project/apereo-oae) for providing our internationalisation platform.
+
