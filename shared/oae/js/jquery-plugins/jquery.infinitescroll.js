@@ -274,7 +274,20 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                 oaeL10n.timeAgo($listContainer);
 
                 // Apply multi-line threedotting to the tile titles
-                $('.oae-tile h3').dotdotdot({'watch': 'window'});
+                $('.oae-tile h3').dotdotdot({
+                    'callback': function(isTruncated, orgContent) {
+                        // If content was truncated, add a title attribute to show the full
+                        // content on hover
+                        if (isTruncated) {
+                            var id = $(orgContent).attr('id');
+                            $('#' + id + '[data-full-title]').each(function() {
+                                var title = $(this).attr('data-full-title');
+                                $(this).attr('title', title);
+                            })
+                        }
+                    },
+                    'watch': 'window'
+                });
             }
         };
 
