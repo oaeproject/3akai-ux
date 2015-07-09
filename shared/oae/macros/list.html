@@ -332,7 +332,7 @@
     {/if}
 
     {if profilePath && displayOptions.addLink !== false}
-        <h3 {if displayOptions.threedotTitle !== false} class="oae-threedots"{/if}><a href="${profilePath|profilePath}" id="${_.uniqueId('oae-')}" data-full-title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>${entityData.displayName|encodeForHTML}</a></h3>
+        <h3 {if displayOptions.threedotTitle !== false} class="oae-threedots"{/if}><a href="${profilePath|profilePath}" id="${_.uniqueId('oae-')}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>${entityData.displayName|encodeForHTML}</a></h3>
     {else}
         <h3 {if displayOptions.threedotTitle !== false} class="oae-threedots"{/if}><span class="jeditable-field oae-threedots" rel="tooltip" data-placement="right" data-original-title="__MSG__CLICK_TO_RENAME__" tabindex="0">${entityData.displayName|encodeForHTML}</span></h3>
     {/if}
