@@ -194,20 +194,17 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
             'success': function(data) {
                 currentContext = data;
 
-                // If we are on the global admin tenant, we load the full list of available tenants for rendering
-                // the tenant view and the footer
                 if (currentContext.isGlobalAdminServer) {
-                    oae.api.admin.getTenants(function(err, tenants) {
-                        allTenants = tenants;
-                        // Check if we're currently on a user admin on the global admin tenant. In that
-                        // case, the URL should be /tenant/<tenantAlias>
-                        var tenantAlias = $.url().segment(2);
-                        if (tenantAlias) {
-                            currentContext = allTenants[tenantAlias];
+                    // Check if we're currently on a user admin on the global admin tenant. In that
+                    // case, the URL should be /tenant/<tenantAlias>
+                    var tenantAlias = $.url().segment(2);
+                    if (tenantAlias) {
+                        oae.api.admin.getTenant(tenantAlias, function(err, data) {
+                            currentContext = data;
                             currentContext.isTenantOnGlobalAdminServer = true;
-                        }
-                        callback();
-                    });
+                            callback();
+                        });
+                    }
                 } else {
                     callback();
                 }
