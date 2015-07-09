@@ -1188,7 +1188,7 @@ div.oae-thumbnail i.fa {
     margin: 0;
 }
 
-.oae-listitem > div.oae-listitem-metadata > small {
+.oae-listitem > div.oae-listitem-metadata > h3 + small {
     font-size: 12px;
     line-height: 27px;
     text-transform: uppercase;
