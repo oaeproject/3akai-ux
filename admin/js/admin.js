@@ -17,8 +17,6 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
 
     // Variable that will be used to keep track of the current tenant
     var currentContext = null;
-    // Variable that will cache the list of available tenants
-    var allTenants = null;
     // Variable that will cache the configuration schema
     var configurationSchema = null;
     // Variable that will cache the configuration for the current tenant
@@ -64,8 +62,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                                 {
                                     'name': 'tenants',
                                     'settings': {
-                                        'context': currentContext,
-                                        'tenants': allTenants
+                                        'context': currentContext
                                     }
                                 }
                             ]
@@ -204,6 +201,8 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                             currentContext.isTenantOnGlobalAdminServer = true;
                             callback();
                         });
+                    } else {
+                        callback();
                     }
                 } else {
                     callback();
