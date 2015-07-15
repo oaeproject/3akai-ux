@@ -587,6 +587,10 @@ ul.as-list li.as-result-item.active {
     width: 100%;
 }
 
+.oae-institutional-logo-left {
+    background-position: left;
+}
+
 .oae-institutional-logo:hover {
     opacity: 0.4;
 }
