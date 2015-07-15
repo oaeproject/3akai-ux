@@ -588,7 +588,7 @@ ul.as-list li.as-result-item.active {
 }
 
 .oae-institutional-logo-left {
-    background-position: left;
+    background-position: 5px 0, left;
 }
 
 .oae-institutional-logo:hover {
