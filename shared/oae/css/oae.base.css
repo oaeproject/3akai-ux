@@ -328,11 +328,22 @@ input.search-query {
     padding: 5px 25px 10px;
 }
 
-.modal-body h4 {
+.modal-body fieldset {
+    width: 100%;
+}
+
+.modal-body h4,
+.modal-body legend {
     font-size: 14px;
     font-style: italic;
     font-weight: 200;
     margin-top: 0;
+}
+
+.modal-body legend {
+    border-bottom: none;
+    line-height: 21px;
+    margin-bottom: 10px;
 }
 
 .modal-body form,

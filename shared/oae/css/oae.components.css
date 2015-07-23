@@ -237,12 +237,11 @@ i.fa.large:before {
  **/
 
 .oae-large-options-container {
-    margin-top: -35px;
     padding: 0 10px;
 }
 
 .oae-large-options-container > div {
-    padding: 35px 7px 0 7px;
+    padding: 0 7px;
 }
 
 .oae-large-options-container label {
@@ -890,6 +889,27 @@ div.oae-thumbnail i.fa {
 .oae-lhnavigation > ul.nav > li.oae-lhnavigation-border {
     border-bottom-style: solid;
     border-bottom-width: 1px;
+}
+
+/* left hand navigation containing a form (e.g. search refinements) */
+
+.oae-lhnavigation > fieldset.nav {
+    border: 0;
+    margin: 18px 0 0 0;
+    padding: 0;
+    width: 210px;
+}
+
+.oae-lhnavigation > fieldset.nav > legend.nav-header {
+    border-bottom: none;
+    margin: 10px 12px 0 0;
+    padding: 0 15px;
+    width: auto;
+}
+
+.oae-lhnavigation > fieldset.nav > label {
+    margin: 10px 12px 0 0;
+    padding: 0 15px;
 }
 
 /* Left hand navigation toggle */

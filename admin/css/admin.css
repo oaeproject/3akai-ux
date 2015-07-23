@@ -59,7 +59,9 @@ div.admin-table-striped .admin-table-striped-content-container > div {
 }
 
 div.admin-table-striped .admin-table-striped-content-container > form .checkbox:first-child,
-div.admin-table-striped .admin-table-striped-content-container > form .checkbox:first-child h5 {
+div.admin-table-striped .admin-table-striped-content-container > form .checkbox:first-child h5,
+div.admin-table-striped .admin-table-striped-content-container > form legend.sr-only + .checkbox,
+div.admin-table-striped .admin-table-striped-content-container > form legend.sr-only + .checkbox h5 {
     margin-top: 0;
 }
 
