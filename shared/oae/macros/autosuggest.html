@@ -1,9 +1,18 @@
-<!-- SELECTED ITEMS -->
-<div id="autosuggest-selected-template"><!--
+<!-- GHOST ITEMS -->
+<div id="autosuggest-ghost-template"><!--
     <li class="as-selection-item as-ghost-item {if ghostItem.selected} as-ghost-selected {/if}" id="as-selection-ghost-${index}" data-value="${ghostItem[options.selectedValuesProp]}">
         <a class="as-ghost-add"><i class="fa fa-plus"><span class="sr-only">__MSG__ADD__</span></i></a>
         <a class="as-close">&times;</a>
         ${ghostItem[options.selectedItemProp]}
+    </li>
+--></div>
+
+<!-- EMAIL ITEMS -->
+<div id="autosuggest-email-template"><!--
+    <li class="as-selection-item" data-value="${emailAddress}">
+        <i class="fa fa-envelope"></i>
+        <a class="as-close">&times;</a>
+        ${emailAddress}
     </li>
 --></div>
 

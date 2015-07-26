@@ -808,6 +808,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          */
         var defaultOptions = {
             'canGenerateNewSelections': false,
+            'emptyText': '',
+            'limitText': '',
             'minChars': 2,
             'neverSubmit': true,
             'retrieveLimit': 10,
@@ -879,6 +881,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          *
          * @param  {Element|String}     $element                        jQuery element or jQuery selector for that element that represents the element on which the autosuggest should be initialized
          * @param  {Object}             [options]                       JSON Object containing options to pass to the autosuggest component. It supports all of the standard options documented at https://github.com/wuyuntao/jquery-autosuggest
+         * @param  {Boolean}            [options.allowEmail]            Allow arbitrary email addresses to be entered as well as autosuggest items
          * @param  {Object[]}           [options.preFill]               Items that should be pre-filled into the autosuggest field upon initialization
          * @param  {Boolean}            [options.preFill[i].fixed]      Whether or not the pre-filled item should be undeleteable from the selection list
          * @param  {Object[]}           [options.ghost]                 Ghost items that should be added to the autosuggest field upon initialization. This has the same format as `options.preFill`
@@ -910,8 +913,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     options.startText = placeholder ? placeholder : i18nAPI.translate('__MSG__ENTER_NAME_HERE__');
                 }
                 // The `emptyText` is the text that will be shown when no suggested items could be found.
-                // If no `emptyText` has been provided, we fall back to a default string
-                if (!options.emptyText) {
+                // If no `emptyText` has been provided, we fall back to a default string unless email
+                // addresses are allowed
+                if (!options.emptyText && !options.allowEmail) {
                     options.emptyText = i18nAPI.translate('__MSG__NO_RESULTS_FOUND__');
                 }
 
@@ -1060,7 +1064,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     }).wrapAll('<span class="pull-left oae-threedots" />');
 
                     var originalData = $elem.data('originalData');
-                    if (originalData.resourceType) {
+                    if (originalData.resourceType !== "email") {
                         // Prepend a thumbnail to the item to add to the list
                         var $thumbnail = $('<div>').addClass('oae-thumbnail fa fa-oae-' + originalData.resourceType);
                         if (originalData.thumbnailUrl) {
@@ -1085,6 +1089,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 // Initialize the autoSuggest field
                 var $autoSuggest = $element.autoSuggest(options.url, options);
                 var $list = $autoSuggest.parents('ul.as-selections');
+                var $suggestions = $list.siblings('.as-results');
 
                 // Remove the delete (x) button from the fixed fields
                 if (options.preFill) {
@@ -1095,11 +1100,16 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     });
                 }
 
+                // If no results message is empty, hide the container
+                if (!options.emptyText) {
+                    $suggestions.addClass('oae-no-empty-text');
+                }
+
                 // Add the ghost fields
                 if (options.ghosts) {
                     $.each(options.ghosts, function(index, ghostItem) {
                         // Create the list item. An `as-ghost-selected` class will be added to selected ghosts
-                        $list.prepend(template().render($('#autosuggest-selected-template', $autosuggestTemplates), {
+                        $list.prepend(template().render($('#autosuggest-ghost-template', $autosuggestTemplates), {
                             'index': index,
                             'ghostItem': ghostItem,
                             'options': options
@@ -1121,6 +1131,88 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
                 // Add a label to the autosuggest input field for accessibility
                 $('.as-input', $list).before('<label class="sr-only" for="' + $('.as-input', $list).attr('id') + '">' + options.startText + '</label>');
+
+                // If email addresses are allowed, add code to look for them in input element
+                if (options.allowEmail) {
+
+                    /**
+                     * Look for valid email addresses in the `<input>` element,
+                     * extract any that are present, and add them to the selected
+                     * items. This function should only be called when the `allowEmail`
+                     * option is true.
+                     *
+                     * @param  {Object}     [evt]           Event that triggered the parsing
+                     * @param  {Boolean}    tokenCompleted  Has the user has finished input of the current word/token
+                     */
+                    var parseEmail = function(evt, tokenCompleted) {
+
+                        // Split the current input contents into tokens separated by
+                        // whitespace characters or commas
+                        var tokens = $element.val().split(/[\s,]+/);
+
+                        // If the final token isn't complete, ignore it by removing
+                        // it from the array, keeping track of the "in progress"
+                        // characters so they can be restored after processing
+                        var remainingChars = tokenCompleted ? '' : tokens.pop().trim();
+
+                        // Filter out any empty strings
+                        tokens = tokens.filter(Boolean);
+
+                        // See if all the remaining tokens are valid email
+                        // addresses. For details on the regex used,
+                        // @see https://html.spec.whatwg.org/multipage/forms.html#states-of-the-type-attribute
+                        if (_.every(tokens, function(token) {
+                            return token.search(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/) !== -1;
+                        })) {
+
+                            // All tokens are email addresses, so process them
+                            _.each(tokens, function(emailAddress) {
+                                var $li = $(template().render($('#autosuggest-email-template', $autosuggestTemplates), {
+                                    'emailAddress': emailAddress
+                                }).trim());
+                                $element.parent('li.as-original').before($li);
+                                $li.data({
+                                    'originalData': {
+                                        'displayName': emailAddress,
+                                        'id': emailAddress,
+                                        'resourceType': 'email'
+                                }});
+                                $('a.as-close', $li).click(function() {
+                                    options.selectionRemoved.call($element, $li);
+                                    $li.remove();
+                                    $element.focus();
+                                    return false;
+                                });
+                                options.selectionAdded.call($element, $li);
+                                $element.val(remainingChars);
+                            })
+
+                            // No need to continue processing the event
+                            if (evt) {
+                                evt.preventDefault();
+                                evt.stopImmediatePropagation();
+                            }
+                        }
+                    };
+
+                    $element.on('cut paste', function() {
+                        // Cut and paste events are triggered before the input
+                        // element is actually updated, so delay processing until
+                        // execution stack is exhausted
+                        setTimeout(function() {
+                            parseEmail(null, false);
+                        }, 0);
+
+                    }).on('keydown', function(evt) {
+                        switch (evt.keyCode) {
+                            case 13:  // Enter key
+                            case 32:  // Space key
+                            case 188: // Comma key
+                                parseEmail(evt, true);
+                                break;
+                        }
+                    });
+                }
 
                 // Trigger the callback function
                 if (_.isFunction(callback)) {

@@ -1163,9 +1163,10 @@ div.oae-thumbnail i.fa {
     width: 25px;
 }
 
-/* List item primary thumbnail */
+/* List item primary thumbnail or icon acting as thumbnail */
 
-.oae-listitem > div.oae-listitem-primary-thumbnail {
+.oae-listitem > div.oae-listitem-primary-thumbnail,
+.oae-listitem > i.pull-left {
     float: left;
     margin-right: 15px;
 }

@@ -460,7 +460,7 @@ ul.as-selections li.as-original input:focus {
     box-shadow: none;
     padding-left: 5px;
     padding-top: 8px;
-    width: 150px;
+    width: 300px;
 }
 
 ul.as-selections li.as-original input::-ms-clear {
@@ -489,6 +489,15 @@ ul.as-selections li.as-selection-item .oae-thumbnail {
     position: relative;
     top: 3px;
     width: 25px;
+}
+
+/* Email icon emulating a thumbnail */
+
+ul.as-selections li.as-selection-item .fa-envelope {
+    font-size: 17px;
+    margin-right: 4px;
+    position: relative;
+    top: 1px;
 }
 
 /* Fixed items */
@@ -526,6 +535,12 @@ ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-ghost
 
 ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close {
     display: block;
+}
+
+/* no results message */
+.oae-no-empty-text li.as-message {
+    padding: 0;
+    border: none;
 }
 
 /* Suggested list items */

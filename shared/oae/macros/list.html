@@ -180,9 +180,13 @@
             <div class="oae-list-compact-item">
                 <div class="oae-listitem">
                     ${renderCheckbox(entityData, 'compact', displayOptions.showCheckbox)}
-                    <div class="oae-listitem-primary-thumbnail">
-                        ${renderThumbnail(entityData, displayOptions)}
-                    </div>
+                    {if entityData.resourceType !== 'email'}
+                        <div class="oae-listitem-primary-thumbnail">
+                            ${renderThumbnail(entityData, displayOptions)}
+                        </div>
+                    {else}
+                        <i class="fa fa-envelope pull-left"></i>
+                    {/if}
                     {if displayOptions.listItemActions}
                         <div class="oae-listitem-actions">
                             ${displayOptions.listItemActions()}
