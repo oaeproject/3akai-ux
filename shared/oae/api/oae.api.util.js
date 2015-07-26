@@ -971,23 +971,20 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     // for finding out the search query
                     var query = $.url(this.url).param('q');
 
-                    // Track any results that need to be excluded
-                    var toExclude = [];
 
-                    $.each(data.results, function(index, result) {
-                        if (_.contains(options.exclude, result.id)) {
-                            toExclude.push(index);
-                        } else {
+                    data.results = _.chain(data.results)
+                        // Remove any results in the exclusion list
+                        .filter(function(result) {
+                            return !_.contains(options.exclude, result.id);
+                        })
+                        // Enhance the results for the autosuggest template
+                        .each(function(result) {
                             result.displayName = security().encodeForHTML(result.displayName);
                             result.query = query;
-                        }
-                    });
+                            return result;
+                        })
+                        .value();
 
-                    // Remove excluded items
-                    while (_.isEmpty(toExclude)) {
-                        // Remove from end of array to preserve indices
-                        data.results.splice(toExclude.pop(), 1);
-                    }
 
                     if (retrieveComplete) {
                         return retrieveComplete(data);
@@ -1058,9 +1055,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 options.selectionAdded = function(elem) {
                     var $elem = $(elem);
                     // Wrap the element text in a 'oae-threedots' span element to prevent overflowing
-                    var text = $elem[0].lastChild.nodeValue;
-                    $elem[0].lastChild.remove();
-                    $elem.append($('<span>' + text + '</span>').addClass('pull-left oae-threedots'));
+                    $elem.contents().filter(function() {
+                        return this.nodeType === 3;
+                    }).wrapAll('<span class="pull-left oae-threedots" />');
 
                     var originalData = $elem.data('originalData');
                     if (originalData.resourceType) {
