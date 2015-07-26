@@ -18,20 +18,21 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
     /**
      * Creates a new user with an internal login strategy
      *
-     * @param  {String}         username                        The username this user can login with
-     * @param  {String}         password                        The password for this user
-     * @param  {String}         displayName                     The display name for the user
-     * @param  {Object}         [additionalOptions]             Additional optional parameters that need to be passed in
-     * @param  {String}         [additionalOptions.visibility]  The user's visibility setting. This can be public, loggedin or private
-     * @param  {String}         [additionalOptions.email]       The user's email address
-     * @param  {String}         [additionalOptions.locale]      The user's locale
-     * @param  {String}         [additionalOptions.publicAlias] The publically-available alias for users to see when the user's display name is protected
-     * @param  {String}         recaptchaChallenge              The identifier of the recaptcha challenge that has been presented to the user
-     * @param  {String}         recaptchaResponse               The response for the presented recaptcha challenge
-     * @param  {Function}       [callback]                      Standard callback function
-     * @param  {Object}         [callback.err]                  Error object containing error code and error message
-     * @param  {User}           [callback.user]                 A User object representing the created user
-     * @throws {Error}                                          Error thrown when not all of the required parameters have been provided
+     * @param  {String}         username                                The username this user can login with
+     * @param  {String}         password                                The password for this user
+     * @param  {String}         displayName                             The display name for the user
+     * @param  {Object}         [additionalOptions]                     Additional optional parameters that need to be passed in
+     * @param  {String}         [additionalOptions.visibility]          The user's visibility setting. This can be public, loggedin or private
+     * @param  {String}         [additionalOptions.email]               The user's email address
+     * @param  {String}         [additionalOptions.locale]              The user's locale
+     * @param  {String}         [additionalOptions.publicAlias]         The publically-available alias for users to see when the user's display name is protected
+     * @param  {String}         [additionalOptions.invitationToken]     If the user originated from an email invitation, this token will allow their email to be automatically verified
+     * @param  {String}         recaptchaChallenge                      The identifier of the recaptcha challenge that has been presented to the user
+     * @param  {String}         recaptchaResponse                       The response for the presented recaptcha challenge
+     * @param  {Function}       [callback]                              Standard callback function
+     * @param  {Object}         [callback.err]                          Error object containing error code and error message
+     * @param  {User}           [callback.user]                         A User object representing the created user
+     * @throws {Error}                                                  Error thrown when not all of the required parameters have been provided
      */
     var createUser = exports.createUser = function(username, password, displayName, additionalOptions, recaptchaChallenge, recaptchaResponse, callback) {
         if (!username) {
@@ -56,7 +57,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
             'visibility': additionalOptions.visibility,
             'email': additionalOptions.email,
             'locale': additionalOptions.locale,
-            'publicAlias': additionalOptions.publicAlias
+            'publicAlias': additionalOptions.publicAlias,
+            'invitationToken': additionalOptions.invitationToken
         };
 
         // If the tenant requires the terms and conditions to be accepted, add it on the data object
@@ -221,6 +223,25 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
 
         $.ajax({
             'url': '/api/user/' + userId + '/email/verify',
+            'type': 'POST',
+            'data': {
+                'token': token
+            },
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    var acceptInvitation = exports.acceptInvitation = function(token, callback) {
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/invitations/accept',
             'type': 'POST',
             'data': {
                 'token': token

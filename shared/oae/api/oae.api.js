@@ -21,10 +21,10 @@
  * This module is intended to be referenced as a *plugin*, not a regular module. Do not depend on this directly, instead depend
  * on `oae.core`, which invokes this plugin, and also efficiently pre-loads many third-party dependencies.
  */
-define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.comment', 'oae.api.discussion', 'oae.api.folder',
+define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.comment', 'oae.api.discussion', 'oae.api.folder',
         'oae.api.follow','oae.api.group', 'oae.api.i18n', 'oae.api.l10n', 'oae.api.push', 'oae.api.user', 'oae.api.util', 'oae.api.widget'],
 
-    function(adminAPI, authenticationAPI, configAPI, contentAPI, commentAPI, discussionAPI, folderAPI, followAPI, groupAPI, i18nAPI, l10nAPI, pushAPI, userAPI, utilAPI, widgetAPI) {
+    function(_, adminAPI, authenticationAPI, configAPI, contentAPI, commentAPI, discussionAPI, folderAPI, followAPI, groupAPI, i18nAPI, l10nAPI, pushAPI, userAPI, utilAPI, widgetAPI) {
 
         /*!
          * Object containing all of the available OAE API modules and their functions, as well as some
@@ -171,20 +171,55 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
                 return;
             }
 
-            // Perform any email verification if instructed before we try and determine if the
-            // user's profile info is valid
-            verifyEmail(function() {
-                var needsToProvideDisplayName = !oae.api.util.validation().isValidDisplayName(oae.data.me.displayName);
-                var needsToProvideEmail = !oae.data.me.email;
-
-                // Show the edit profile widget if a valid name or email address need to be provided
-                if (needsToProvideDisplayName || needsToProvideEmail) {
-                    $(document).trigger('oae.trigger.editprofile');
-
-                // Show the Terms and Conditions widget if the user needs to accept the Terms and Conditions
-                } else if (oae.data.me.needsToAcceptTC) {
-                    oae.api.widget.insertWidget('termsandconditions', null, null, true);
+            // Perform any invitation accepting if instructed
+            acceptInvitation(function(resources) {
+                if (_.size(resources) === 1) {
+                    // If we were invited into only one resource, send them to the profile path. In
+                    // the case of multiple resources, let them arrive at their activity feed and
+                    // watch the activity fireworks of items arriving in their library
+                    window.location = _.first(resources).profilePath;
                 }
+
+                // Perform any email verification if instructed before we try and determine if the
+                // user's profile info is valid
+                verifyEmail(function() {
+                    var needsToProvideDisplayName = !oae.api.util.validation().isValidDisplayName(oae.data.me.displayName);
+                    var needsToProvideEmail = !oae.data.me.email;
+
+                    // Show the edit profile widget if a valid name or email address need to be provided
+                    if (needsToProvideDisplayName || needsToProvideEmail) {
+                        $(document).trigger('oae.trigger.editprofile');
+
+                    // Show the Terms and Conditions widget if the user needs to accept the Terms and Conditions
+                    } else if (oae.data.me.needsToAcceptTC) {
+                        oae.api.widget.insertWidget('termsandconditions', null, null, true);
+                    }
+                });
+            });
+        };
+
+        var acceptInvitation = function(callback) {
+            var invitationToken = $.url().param('invitationToken');
+            if (!invitationToken) {
+                return callback();
+            }
+
+            oae.api.user.acceptInvitation(invitationToken, function(err, result) {
+                if (err && err.code !== 404) {
+                    oae.api.util.notification(
+                        oae.api.i18n.translate('__MSG__EMAIL_INVITATION_FAILED__'),
+                        oae.api.i18n.translate('__MSG__AN ERROR_OCCURRED_WHILE_ACCEPTING_YOUR_INVITATION__'),
+                        'error');
+                    return callback();
+                } else if (err) {
+                    return callback();
+                }
+
+                // Accepting an invitation will set a verified email if there wasn't one already,
+                // so do that here to avoid giving the user a pop-up
+                oae.data.me.email = oae.data.me.email || result.email;
+
+                return callback(result.resources);
             });
         };
 

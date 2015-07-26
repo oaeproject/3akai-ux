@@ -1344,7 +1344,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * a page that requires login.
          */
         var login = function() {
-            window.location = '/?url=' + $.url().attr('relative');
+            // We have to run `encodeURI` on the location, since $.url will run `decodeURI` on the
+            // location, which will break url-encoded query string parameters
+            var relative = $.url().attr('relative');
+            var redirectUrl = '/?url=' + encodeURIComponent(relative);
+            window.location = redirectUrl;
         };
 
         /**

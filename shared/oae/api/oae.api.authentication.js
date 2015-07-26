@@ -84,14 +84,16 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     /**
      * Log in as an internal user using the local authentication strategy
      *
-     * @param  {String}         username              Username for the user logging in
-     * @param  {String}         password              The user's password
-     * @param  {Function}       [callback]            Standard callback function
-     * @param  {Object}         [callback.err]        Error object containing error code and error message
-     * @param  {User}           [callback.user]       User object representing the logged in user
-     * @throws {Error}                                Error thrown when not all of the required parameters have been provided
+     * @param  {String}         username                Username for the user logging in
+     * @param  {String}         password                The user's password
+     * @param  {Object}         [opts]                  Optional authentication arguments
+     * @param  {String}         [opts.invitationToken]  If this authentication is originating from an invitation token, the invitation can be placed here. This will help pre-verify the email address for the user
+     * @param  {Function}       [callback]              Standard callback function
+     * @param  {Object}         [callback.err]          Error object containing error code and error message
+     * @param  {User}           [callback.user]         User object representing the logged in user
+     * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
-    var localLogin = exports.localLogin = function(username, password, callback) {
+    var localLogin = exports.localLogin = function(username, password, opts, callback) {
         if (!username) {
             throw new Error('A valid username should be provided');
         } else if (!password) {
@@ -100,13 +102,15 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
+        opts = opts || {};
 
         $.ajax({
             'url': '/api/auth/login',
             'type': 'POST',
             'data': {
                 'username': username,
-                'password': password
+                'password': password,
+                'invitationToken': opts.invitationToken
             },
             'success': function() {
                 callback(null);
@@ -136,14 +140,16 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     /**
      * Log in using the LDAP authentication strategy
      *
-     * @param  {String}         username              Username for the user logging in
-     * @param  {String}         password              The user's password
-     * @param  {Function}       [callback]            Standard callback function
-     * @param  {Object}         [callback.err]        Error object containing error code and error message
-     * @param  {User}           [callback.user]       User object representing the logged in user
-     * @throws {Error}                                Error thrown when not all of the required parameters have been provided
+     * @param  {String}         username                Username for the user logging in
+     * @param  {String}         password                The user's password
+     * @param  {Object}         [opts]                  Optional authentication arguments
+     * @param  {String}         [opts.invitationToken]  If this authentication is originating from an invitation token, the invitation can be placed here. This will help pre-verify the email address for the user
+     * @param  {Function}       [callback]              Standard callback function
+     * @param  {Object}         [callback.err]          Error object containing error code and error message
+     * @param  {User}           [callback.user]         User object representing the logged in user
+     * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
-    var LDAPLogin = exports.LDAPLogin = function(username, password, callback) {
+    var LDAPLogin = exports.LDAPLogin = function(username, password, opts, callback) {
         if (!username) {
             throw new Error('A valid username should be provided');
         } else if (!password) {
@@ -152,13 +158,15 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
+        opts = opts || {};
 
         $.ajax({
             'url': '/api/auth/ldap',
             'type': 'POST',
             'data': {
                 'username': username,
-                'password': password
+                'password': password,
+                'invitationToken': opts.invitationToken
             },
             'success': function() {
                 callback(null);
