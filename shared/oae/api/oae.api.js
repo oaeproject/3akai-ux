@@ -58,6 +58,10 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
          * `oae.api!`
          */
         var initOAE = function(callback) {
+            // Keep track of our original window location, as we don't have control of some widgets
+            // using plugins that clear query string variables
+            var origWindowLocation = window.location.toString();
+
             // Get the me feed
             oae.api.user.getMe(function(err, meObj) {
                 if (err) {
@@ -118,16 +122,15 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                                         $('html').addClass('anon');
                                     }
 
-                                    // Check if any widgets need to be shown before the user can start
-                                    // using the system
-                                    setupPreUseActions();
-
                                     // The APIs have now fully initialized. All javascript that
                                     // depends on the initialized core APIs can now execute
                                     callback(oae);
 
                                     // We now load the widgets in the core HTML
                                     oae.api.widget.loadWidgets(null, null, null, function() {
+
+                                        setupPreUseActions(origWindowLocation);
+
                                         // We can show the body as internationalization and
                                         // initial widget loading have finished
                                         $('body').css('visibility', 'visible');
@@ -135,11 +138,8 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                                         // Initialize websocket push API, unless we're on the
                                         // global admin tenant
                                         if (oae.data.me.tenant.alias !== 'admin') {
-                                            oae.api.push.init(function(err) {
-                                                if (err) {
-                                                    throw new Error('Could not initialize the push API');
-                                                }
-                                            });
+                                            // Ensure the push API is initialized
+                                            oae.api.push.init();
                                         }
                                     });
                                 });
@@ -160,7 +160,7 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
          * or email address. If the user needs to accept the Terms and Conditions, the Terms
          * and Conditions widget will be triggered.
          */
-        var setupPreUseActions = function() {
+        var setupPreUseActions = function(location) {
             // Anonymous users can be ignored as the don't need to perform any
             // pre-use actions
             if (oae.data.me.anon) {
@@ -172,7 +172,7 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
             }
 
             // Perform any invitation accepting if instructed
-            acceptInvitation(function(resources) {
+            acceptInvitation(location, function(resources) {
                 if (_.size(resources) === 1) {
                     // If we were invited into only one resource, send them to the profile path. In
                     // the case of multiple resources, let them arrive at their activity feed and
@@ -182,7 +182,7 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
 
                 // Perform any email verification if instructed before we try and determine if the
                 // user's profile info is valid
-                verifyEmail(function() {
+                verifyEmail(location, function() {
                     var needsToProvideDisplayName = !oae.api.util.validation().isValidDisplayName(oae.data.me.displayName);
                     var needsToProvideEmail = !oae.data.me.email;
 
@@ -198,28 +198,32 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
             });
         };
 
-        var acceptInvitation = function(callback) {
-            var invitationToken = $.url().param('invitationToken');
+        var acceptInvitation = function(location, callback) {
+            var invitationToken = $.url(location).param('invitationToken');
             if (!invitationToken) {
                 return callback();
             }
 
-            oae.api.user.acceptInvitation(invitationToken, function(err, result) {
-                if (err && err.code !== 404) {
-                    oae.api.util.notification(
-                        oae.api.i18n.translate('__MSG__EMAIL_INVITATION_FAILED__'),
-                        oae.api.i18n.translate('__MSG__AN_ERROR_OCCURRED_WHILE_ACCEPTING_YOUR_INVITATION__'),
-                        'error');
-                    return callback();
-                } else if (err) {
-                    return callback();
-                }
+            // We need to ensure we can handle activities that happen as a result of accepting this
+            // invitation, so set up the push API
+            oae.api.push.init(function() {
+                oae.api.user.acceptInvitation(invitationToken, function(err, result) {
+                    if (err && err.code !== 404) {
+                        oae.api.util.notification(
+                            oae.api.i18n.translate('__MSG__EMAIL_INVITATION_FAILED__'),
+                            oae.api.i18n.translate('__MSG__AN_ERROR_OCCURRED_WHILE_ACCEPTING_YOUR_INVITATION__'),
+                            'error');
+                        return callback();
+                    } else if (err) {
+                        return callback();
+                    }
 
-                // Accepting an invitation will set a verified email if there wasn't one already,
-                // so do that here to avoid giving the user a pop-up
-                oae.data.me.email = oae.data.me.email || result.email;
+                    // Accepting an invitation will set a verified email if there wasn't one already,
+                    // so do that here to avoid giving the user a pop-up
+                    oae.data.me.email = oae.data.me.email || result.email;
 
-                return callback(result.resources);
+                    return callback(result.resources);
+                });
             });
         };
 
@@ -230,8 +234,8 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
          *
          * @param  {Function}   callback    Invoked when the email verification has completed, regardless if it was successful or failed
          */
-        var verifyEmail = function(callback) {
-            var emailToken = $.url().param('verifyEmail');
+        var verifyEmail = function(location, callback) {
+            var emailToken = $.url(location).param('verifyEmail');
             if (!emailToken) {
                 return callback();
             }

@@ -92,6 +92,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     // Variable that keeps track of the timeouts per resource and stream type
     var timers = {};
 
+    // Variable to hold the sockjs client
+    var sockjs = null;
+
     /**
      * Initialize all push notification functionality by establishing the websocket connection
      * and authenticating. SockJS is used to provide a cross-browser and cross-domain communication
@@ -102,8 +105,17 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
      * @api private
      */
     var init = exports.init = function(callback) {
+        callback = callback || function(err) {
+            if (err) {
+                throw new Error('Could not initialize the push API');
+            }
+        };
+
         // Push notifications are only enabled for authenticated users
         if (require('oae.core').data.me.anon) {
+            return callback();
+        } else if (sockjs) {
+            // Ensure we only initialize once
             return callback();
         }
 
@@ -114,10 +126,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
 
         // Bind the event handlers that will be called when the websocket
         // connection has been established and when new incoming messages arrive
-        sockjs.onopen = authenticateSocket;
+        sockjs.onopen = authenticateSocket(callback);
         sockjs.onmessage = incomingMessage;
-
-        callback();
     };
 
     /**
@@ -128,24 +138,28 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
      * @throws {Error}                     Error thrown when the websocket could not be authenticated
      * @api private
      */
-    var authenticateSocket = function() {
-        // Get the me object for the current user
-        var me = require('oae.core').data.me;
+    var authenticateSocket = function(callback) {
+        return function() {
+            // Get the me object for the current user
+            var me = require('oae.core').data.me;
 
-        // Authenticate the websocket
-        sendMessage('authentication', {'userId': me.id, 'tenantAlias': me.tenant.alias, 'signature': me.signature }, function(err) {
-            if (err) {
-                throw new Error('Could not authenticate the websocket');
-            }
+            // Authenticate the websocket
+            sendMessage('authentication', {'userId': me.id, 'tenantAlias': me.tenant.alias, 'signature': me.signature}, function(err) {
+                if (err) {
+                    return callback(err);
+                }
 
-            // Indicate that the connection and authentication was successful
-            websocketEstablished = true;
+                // Indicate that the connection and authentication was successful
+                websocketEstablished = true;
 
-            // Send all messages that were received before the websocket connection was established
-            _.each(deferredMessages, function(message) {
-                sendMessage(message.name, message.payload, message.callback);
+                // Send all messages that were received before the websocket connection was established
+                _.each(deferredMessages, function(message) {
+                    sendMessage(message.name, message.payload, message.callback);
+                });
+
+                return callback();
             });
-        });
+        };
     };
 
     /**
