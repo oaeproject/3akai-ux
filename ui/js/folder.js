@@ -240,6 +240,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             ],
             'api': {
                 'getMembersURL': '/api/folder/'+ folderProfile.id + '/members',
+                'getInvitations': oae.api.folder.getInvitations,
                 'setMembers': oae.api.folder.updateMembers,
                 'setVisibility': oae.api.folder.updateFolder
             }

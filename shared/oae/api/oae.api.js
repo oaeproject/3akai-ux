@@ -208,7 +208,7 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                 if (err && err.code !== 404) {
                     oae.api.util.notification(
                         oae.api.i18n.translate('__MSG__EMAIL_INVITATION_FAILED__'),
-                        oae.api.i18n.translate('__MSG__AN ERROR_OCCURRED_WHILE_ACCEPTING_YOUR_INVITATION__'),
+                        oae.api.i18n.translate('__MSG__AN_ERROR_OCCURRED_WHILE_ACCEPTING_YOUR_INVITATION__'),
                         'error');
                     return callback();
                 } else if (err) {

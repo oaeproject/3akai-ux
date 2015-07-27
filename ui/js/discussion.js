@@ -189,6 +189,7 @@ require(['jquery','oae.core'], function($, oae) {
             ],
             'api': {
                 'getMembersURL': '/api/discussion/'+ discussionProfile.id + '/members',
+                'getInvitations': oae.api.discussion.getInvitations,
                 'setMembers': oae.api.discussion.updateMembers,
                 'setVisibility': oae.api.discussion.updateDiscussion
             }

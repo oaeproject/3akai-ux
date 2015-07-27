@@ -71,15 +71,14 @@
 
         var d_fetcher;
         var request = null;
-        if(typeof data == "function") {
-            d_fetcher = data;
-        } else if(typeof data == "string") {
+        if(typeof data == "string" || typeof data == "function") {
             d_fetcher = function(query, next) {
+                var baseUrl = (typeof data == "string") ? data : data(query);
                 var limit = "";
                 if(opts.retrieveLimit){
                     limit = "&limit="+encodeURIComponent(opts.retrieveLimit);
                 }
-                request = $.getJSON(data+"?"+opts.queryParam+"="+encodeURIComponent(query)+limit+getExtraParams(), function(data){
+                request = $.getJSON(baseUrl+"?"+opts.queryParam+"="+encodeURIComponent(query)+limit+getExtraParams(), function(data){
                     var new_data = opts.retrieveComplete.call(this, data);
                     next(new_data, query);
                 });
@@ -334,9 +333,10 @@
                                 str = str+data[num][name]+" ";
                             }
                         }
+
                         if(str){
                             if (!opts.matchCase){ str = str.toLowerCase(); }
-                            if(str.search(query) != -1 && values_input.val().search(","+data[num][opts.selectedValuesProp]+",") == -1){
+                            if(str.indexOf(query) != -1 && values_input.val().search(","+data[num][opts.selectedValuesProp]+",") == -1){
                                 forward = true;
                             }
                         }
@@ -455,12 +455,12 @@
 
                 function hideResults() {
                     results_holder.attr("aria-expanded","false").hide();
-                    input.removeAttr("aria-activedescendant");                    
+                    input.removeAttr("aria-activedescendant");
                 }
 
                 function showResults() {
                     results_holder.attr("aria-expanded","true").show();
-                    input.attr("aria-activedescendant",results_holder.find(".active").attr("id"));                    
+                    input.attr("aria-activedescendant",results_holder.find(".active").attr("id"));
                 }
 
             });

@@ -15,6 +15,8 @@
 
 define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdown', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI, markdown) {
 
+    var REGEX_EMAIL = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
     /**
      * Initialize all utility functionality.
      *
@@ -707,10 +709,25 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             return true;
         };
 
+        /**
+         * Check whether a provided string is a valid email
+         *
+         * @param  {String}             email       The string to check
+         * @return {Boolean}                        `true` when the email is valid, `false` otherwise
+         */
+        var isValidEmail = function(email) {
+            if (!email) {
+                return false;
+            }
+
+            return REGEX_EMAIL.test(email);
+        };
+
         return {
             'clear': clear,
             'init': init,
             'isValidDisplayName': isValidDisplayName,
+            'isValidEmail': isValidEmail,
             'validate': validate
         };
     };
@@ -1086,8 +1103,17 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     }
                 };
 
+                // If we're allowing email in the input, we have to switch to user email search
+                // whenever we detect that the search query is an email
+                var optionsUrl = options.url;
+                if (options.allowEmail) {
+                    optionsUrl = function(q) {
+                        return (validation().isValidEmail(q)) ? '/api/search/email' : options.url;
+                    };
+                }
+
                 // Initialize the autoSuggest field
-                var $autoSuggest = $element.autoSuggest(options.url, options);
+                var $autoSuggest = $element.autoSuggest(optionsUrl, options);
                 var $list = $autoSuggest.parents('ul.as-selections');
                 var $suggestions = $list.siblings('.as-results');
 
@@ -1161,9 +1187,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         // See if all the remaining tokens are valid email
                         // addresses. For details on the regex used,
                         // @see https://html.spec.whatwg.org/multipage/forms.html#states-of-the-type-attribute
-                        if (_.every(tokens, function(token) {
-                            return token.search(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/) !== -1;
-                        })) {
+                        if (_.every(tokens, validation().isValidEmail)) {
 
                             // All tokens are email addresses, so process them
                             _.each(tokens, function(emailAddress) {

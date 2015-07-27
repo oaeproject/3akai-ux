@@ -337,6 +337,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             ],
             'api': {
                 'getMembersURL': '/api/group/' + groupProfile.id + '/members',
+                'getInvitations': oae.api.group.getInvitations,
                 'setMembers': oae.api.group.updateMembers,
                 'setVisibility': oae.api.group.updateGroup
             }

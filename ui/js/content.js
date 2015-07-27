@@ -300,6 +300,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             ],
             'api': {
                 'getMembersURL': '/api/content/'+ contentProfile.id + '/members',
+                'getInvitations': oae.api.content.getInvitations,
                 'setMembers': oae.api.content.updateMembers,
                 'setVisibility': oae.api.content.updateContent
             }
