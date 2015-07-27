@@ -972,9 +972,9 @@ div.oae-thumbnail i.fa {
  *      </a>
  *      <div class="oae-tile-metadata">
  *          <i class="fa fa-oae-public pull-left"></i>
- *          <h3 class="oae-threedots">
+ *          <div class="oae-tile-title oae-threedots">
  *              <a href="/user/u:cambridge:PPTBPgxSdf">John Librarian</a>
- *          </h3>
+ *          </div>
  *          <small class="oae-threedots">Professor</small>
  *      </div>
  *  </div>
@@ -986,8 +986,8 @@ div.oae-thumbnail i.fa {
  * - The `oae-threedots` class should be added to metadata elements if you want
  *   to make sure that `...` is shown when the metadata is longer than the available
  *   space in the tile.
- * - The actual content of the metadata div can be pretty much anything, although an
- *   h3 should be used for the tile title.
+ * - The actual content of the metadata div can be pretty much anything, although a
+ *   class of `oae-tile-title` should be used for the tile title.
  * - The `small` element used to add some additional metadata is optional.
  * - The visibility icon can be used as defined in the Visibility icon section, and
  *   can be floated on the left or right.
@@ -1037,8 +1037,8 @@ div.oae-thumbnail i.fa {
     right: 5px;
 }
 
-.oae-tile h3,
-.oae-tile h3 a {
+.oae-tile .oae-tile-title,
+.oae-tile .oae-tile-title a {
     font-size: 14px;
     font-weight: 600;
     line-height: 18px;
