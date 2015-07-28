@@ -173,13 +173,6 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
 
             // Perform any invitation accepting if instructed
             acceptInvitation(location, function(resources) {
-                if (_.size(resources) === 1) {
-                    // If we were invited into only one resource, send them to the profile path. In
-                    // the case of multiple resources, let them arrive at their activity feed and
-                    // watch the activity fireworks of items arriving in their library
-                    window.location = _.first(resources).profilePath;
-                }
-
                 // Perform any email verification if instructed before we try and determine if the
                 // user's profile info is valid
                 verifyEmail(location, function() {
@@ -205,8 +198,10 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
             }
 
             // We need to ensure we can handle activities that happen as a result of accepting this
-            // invitation, so set up the push API
+            // invitation, so set up the push API a bit earlier than we normally would have
             oae.api.push.init(function() {
+
+                // Accept the invitation
                 oae.api.user.acceptInvitation(invitationToken, function(err, result) {
                     if (err && err.code !== 404) {
                         oae.api.util.notification(
