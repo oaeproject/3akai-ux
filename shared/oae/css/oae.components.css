@@ -814,7 +814,7 @@ div.oae-thumbnail i.fa {
  *                  </ul>
  *              </li>
  *              <li class="clearfix active" data-id="dashboard">
- *                  <a href="/me/dashboard" title="__MSG__RECENT_ACTIVITY__">
+ *                  <a href="/dashboard" title="__MSG__RECENT_ACTIVITY__">
  *                      <i class="fa fa-tachometer pull-left"></i>
  *                      <div>__MSG__RECENT_ACTIVITY__</div>
  *                  </a>
