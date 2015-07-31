@@ -14,17 +14,20 @@
  */
 
 
-.oae-page {
+/*-- STYLE OVERRIDES FOR ANONYMOUS USERS --*/
+
+.oae-index-anon .oae-page {
     background-color: rgba(0, 0, 0, 0);
 }
 
-/* The content page shouldn't have a left hand navigation when wider than 992 pixels */
-@media (min-width: 992px) {
-    .oae-lhnavigation {
-        display: none;
-    }
+.oae-index-anon .oae-lhnavigation {
+    display: none;
+}
 
-    .oae-page {
+@media (min-width: 992px) {
+    .oae-index-anon .oae-page {
         margin-left: 25px;
     }
 }
+
+

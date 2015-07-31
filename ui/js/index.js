@@ -14,13 +14,15 @@
  */
 
 require(['jquery','oae.core'], function($, oae) {
+    
+    /*-- ANONYMOUS USERS --*/
 
     /**
      * Set up the left hand navigation with the content space page structure.
      * The content left hand navigation item will not be shown to the user and
      * is only used to load the correct content preview widget
      */
-    var setUpNavigation = function() {
+    var setUpAnonNavigation = function() {
         var lhNavPages = [{
             'id': 'content',
             'title': '__MSG__WELCOME__',
@@ -43,9 +45,30 @@ require(['jquery','oae.core'], function($, oae) {
             $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, [], '/']);
         });
     };
+    
+    /*-- LOGGED IN USERS --*/
 
-    // Set up the page
-    setUpNavigation();
+    /*-- GENERAL PAGE SETUP --*/
+    
+    // The basic index page varies based on whether the user
+    // has logged in (in which case the page shows that user's
+    // activity stream) or not (in which case the page reverts
+    // to the generic tenant landing page
+
+    if (oae.data.me.anon) {
+        
+        // Add a class to the page to trigger appropriate styles
+        $('body').addClass('oae-index-anon');
+        
+        // For anonmous users, the page is static, so all
+        // we do is set up the navigation. That will load
+        // the page content
+        setUpAnonNavigation();
+
+    } else {
+        
+    }
+
     // We can now unhide the page
     oae.api.util.showPage();
 
