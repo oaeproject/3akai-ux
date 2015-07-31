@@ -14,12 +14,13 @@
  */
 
 
-/*-- STYLE OVERRIDES FOR ANONYMOUS USERS --*/
+/* Style overrides for anonymous users */
 
 .oae-index-anon .oae-page {
     background-color: rgba(0, 0, 0, 0);
 }
 
+.oae-index-anon .oae-clip-container,
 .oae-index-anon .oae-lhnavigation {
     display: none;
 }
