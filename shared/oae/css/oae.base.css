@@ -588,11 +588,6 @@ ul.as-list li.as-result-item.active {
     width: 100%;
 }
 
-.oae-institutional-logo:hover,
-.oae-institutional-logo-small:hover {
-    opacity: 0.4;
-}
-
 /* BRANDED PAGE BACKGROUND */
 .oae-main-content.oae-branding-container {
     background-position: top center;
