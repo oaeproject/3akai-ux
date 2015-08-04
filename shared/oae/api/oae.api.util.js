@@ -1081,7 +1081,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     }).wrapAll('<span class="pull-left oae-threedots" />');
 
                     var originalData = $elem.data('originalData');
-                    if (originalData.resourceType !== "email") {
+                    if (originalData.resourceType && originalData.resourceType !== 'email') {
                         // Prepend a thumbnail to the item to add to the list
                         var $thumbnail = $('<div>').addClass('oae-thumbnail fa fa-oae-' + originalData.resourceType);
                         if (originalData.thumbnailUrl) {
