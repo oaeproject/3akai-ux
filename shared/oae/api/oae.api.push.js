@@ -528,7 +528,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
      */
     var getAggregateKey = function(activity) {
         var aggregateKey = [];
-        _.each(AGGREGATION_RULES[activity['oae:activityType']], function(activityField, aggregationSpec) {
+        _.each(AGGREGATION_RULES[activity['oae:activityType']], function(aggregationSpec, activityField) {
             // Having a "true" aggregation spec implicitly means to aggregate on the id of the
             // entity. However by specifying a string, it is possible to aggregate on other
             // entity fields
