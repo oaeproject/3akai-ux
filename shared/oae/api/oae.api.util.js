@@ -992,7 +992,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     // for finding out the search query
                     var query = $.url(this.url).param('q');
 
-
                     data.results = _.chain(data.results)
                         // Remove any results in the exclusion list
                         .filter(function(result) {
@@ -1002,10 +1001,21 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         .each(function(result) {
                             result.displayName = security().encodeForHTML(result.displayName);
                             result.query = query;
+
+                            // If the result was found from an email query, then we must prepend
+                            // the user id with the email with which it was found so that we can
+                            // validate the interactability of the account. The result would be an
+                            // id that looks like the following:
+                            //
+                            //  mrvisser@gmail.com:u:oae:abcd1234
+                            //
+                            if (options.allowEmail && validation().isValidEmail(query)) {
+                                result.id = query + ':' + result.id;
+                            }
+
                             return result;
                         })
                         .value();
-
 
                     if (retrieveComplete) {
                         return retrieveComplete(data);
