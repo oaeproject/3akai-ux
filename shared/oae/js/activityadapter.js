@@ -40,11 +40,13 @@ var _expose = function(exports) {
      * @param  {Function}               sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML tag
      * @param  {Function}               sanitization.encodeForHTMLAttribute     Encode a value such that it is safe to be embedded into an HTML attribute
      * @param  {Function}               sanitization.encodeForURL               Encode a value such that it is safe to be used as a URL fragment
+     * @param  {Object}                 [opts]                                  Optional arguments
+     * @param  {String}                 [opts.resourceHrefOverride]             When specified, this value will replace any URL specified for an entity. This can be used to control outbound links in different contexts (e.g., email invitation)
      * @return {ActivityViewModel[]}                                            The adapted activities
      */
-    var adapt = exports.adapt = function(context, me, activities, sanitization) {
+    var adapt = exports.adapt = function(context, me, activities, sanitization, opts) {
         return activities.map(function(activity) {
-            return _adaptActivity(context, me, activity, sanitization);
+            return _adaptActivity(context, me, activity, sanitization, opts);
         });
     };
 
@@ -58,15 +60,17 @@ var _expose = function(exports) {
      * @param  {Function}               sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML tag
      * @param  {Function}               sanitization.encodeForHTMLAttribute     Encode a value such that it is safe to be embedded into an HTML attribute
      * @param  {Function}               sanitization.encodeForURL               Encode a value such that it is safe to be used as a URL fragment
+     * @param  {Object}                 [opts]                                  Optional arguments
+     * @param  {String}                 [opts.resourceHrefOverride]             When specified, this value will replace any URL specified for an entity. This can be used to control outbound links in different contexts (e.g., email invitation)
      * @return {ActivityViewModel}                                              The adapted activity
      * @api private
      */
-    var _adaptActivity = function(context, me, activity, sanitization) {
+    var _adaptActivity = function(context, me, activity, sanitization, opts) {
         // Move the relevant items (comments, previews, ..) to the top
         _prepareActivity(me, activity);
 
         // Generate an i18nable summary for this activity
-        var summary = _generateSummary(me, activity, sanitization);
+        var summary = _generateSummary(me, activity, sanitization, opts);
 
         // Generate the primary actor view
         var primaryActor = _generatePrimaryActor(me, activity);
@@ -551,9 +555,13 @@ var _expose = function(exports) {
      * @param  {Function}   sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML tag
      * @param  {Function}   sanitization.encodeForHTMLAttribute     Encode a value such that it is safe to be embedded into an HTML attribute
      * @param  {Function}   sanitization.encodeForURL               Encode a value such that it is safe to be used as a URL fragment
+     * @param  {Object}     [opts]                                  Optional arguments
+     * @param  {String}     [opts.resourceHrefOverride]             When specified, this value will replace any URL specified for an entity. This can be used to control outbound links in different contexts (e.g., email invitation)
      * @api private
      */
-    var _setSummaryPropertiesForEntity = function(properties, propertyKey, entity, sanitization) {
+    var _setSummaryPropertiesForEntity = function(properties, propertyKey, entity, sanitization, opts) {
+        opts = opts || {};
+
         var displayNameKey = propertyKey;
         var profilePathKey = propertyKey + 'URL';
         var displayLinkKey = propertyKey + 'Link';
@@ -561,7 +569,7 @@ var _expose = function(exports) {
 
         // This holds the "display name" of the entity
         properties[displayNameKey] = sanitization.encodeForHTML(entity.displayName);
-        properties[profilePathKey] = entity['oae:profilePath'];
+        properties[profilePathKey] = opts.resourceHrefOverride || entity['oae:profilePath'];
 
         // If the profile path was set, it indicates that we have access to view the user, therefore
         // we should display a link. If not specified, we should show plain-text
@@ -585,10 +593,12 @@ var _expose = function(exports) {
      * @param  {Function}               sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML tag
      * @param  {Function}               sanitization.encodeForHTMLAttribute     Encode a value such that it is safe to be embedded into an HTML attribute
      * @param  {Function}               sanitization.encodeForURL               Encode a value such that it is safe to be used as a URL fragment
+     * @param  {Object}                 [opts]                                  Optional arguments
+     * @param  {String}                 [opts.resourceHrefOverride]             When specified, this value will replace any URL specified for an entity. This can be used to control outbound links in different contexts (e.g., email invitation)
      * @return {ActivityViewSummary}                                            The summary for the given activity
      * @api private
      */
-    var _generateSummary = function(me, activity, sanitization) {
+    var _generateSummary = function(me, activity, sanitization, opts) {
         // The dictionary that can be used to translate the dynamic values in the i18n keys
         var properties = {};
 
@@ -603,14 +613,14 @@ var _expose = function(exports) {
                 properties.actorCountMinusOne = properties.actorCount - 1;
 
                 // Apply additional actor information
-                _setSummaryPropertiesForEntity(properties, 'actor2', activity.actor['oae:collection'][1], sanitization);
+                _setSummaryPropertiesForEntity(properties, 'actor2', activity.actor['oae:collection'][1], sanitization, opts);
             }
         } else {
             actor1Obj = activity.actor;
         }
 
         // Apply the actor1 information to the summary properties
-        _setSummaryPropertiesForEntity(properties, 'actor1', actor1Obj, sanitization);
+        _setSummaryPropertiesForEntity(properties, 'actor1', actor1Obj, sanitization, opts);
 
         // Prepare the object-related variables that will be present in the i18n keys
         var object1Obj = null;
@@ -623,14 +633,14 @@ var _expose = function(exports) {
                 properties.objectCountMinusOne = properties.objectCount - 1;
 
                 // Apply additional object information
-                _setSummaryPropertiesForEntity(properties, 'object2', activity.object['oae:collection'][1], sanitization);
+                _setSummaryPropertiesForEntity(properties, 'object2', activity.object['oae:collection'][1], sanitization, opts);
             }
         } else {
             object1Obj = activity.object;
         }
 
         // Apply the object1 information to the summary properties
-        _setSummaryPropertiesForEntity(properties, 'object1', object1Obj, sanitization);
+        _setSummaryPropertiesForEntity(properties, 'object1', object1Obj, sanitization, opts);
 
         // Prepare the target-related variables that will be present in the i18n keys
         var target1Obj = null;
@@ -644,14 +654,14 @@ var _expose = function(exports) {
                     properties.targetCountMinusOne = properties.targetCount - 1;
 
                     // Apply additional target information
-                    _setSummaryPropertiesForEntity(properties, 'target2', activity.target['oae:collection'][1], sanitization);
+                    _setSummaryPropertiesForEntity(properties, 'target2', activity.target['oae:collection'][1], sanitization, opts);
                 }
             } else {
                 target1Obj = activity.target;
             }
 
             // Apply the target1 information to the summary properties
-            _setSummaryPropertiesForEntity(properties, 'target1', target1Obj, sanitization);
+            _setSummaryPropertiesForEntity(properties, 'target1', target1Obj, sanitization, opts);
         }
 
         // Depending on the activity type, we render a different template that is specific to that activity,
@@ -719,8 +729,8 @@ var _expose = function(exports) {
             return _generateGroupUpdateMemberRoleSummary(me, activity, properties);
         } else if (activityType === 'group-update-visibility') {
             return _generateGroupUpdateVisibilitySummary(me, activity, properties);
-        } else if (activityType === 'invite') {
-            return _generateInviteSummary(me, activity, properties);
+        } else if (activityType === 'invite' || activityType === 'invitation-accept') {
+            return _generateInvitationSummary(me, activity, properties);
         // Fall back on the default activity summary if no specific template is found for the activity type
         } else {
             return _generateDefaultSummary(me, activity, properties);
@@ -1693,15 +1703,89 @@ var _expose = function(exports) {
     };
 
     /**
-     * Render the end-user friendly, internationalized summary of an email invitation.
+     * Render the end-user friendly, internationalized summary related to invitation activities. The
+     * blueprint for the invitation activity should be of the form:
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the group visibility update activity, for which to generate the activity summary
+     *  * Only one actor
+     *  * Only one object, it must be a user (either who is invited, or who is accepting)
+     *  * Multiple targets of the same resource type (either the resources to which a user is being
+     *    invited, or is accepting an invitation)
+     *
+     * The resulting summary will have the standard actor/object/target properties, as well as a
+     * summary i18n key of the form:
+     *
+     *  `ACTIVITY_${activityLabel}_${resourceType}_${numTargets}`
+     *
+     * Which renders all the following i18n key possibilities:
+     *
+     *  * ACTIVITY_INVITE_COLLABDOC_1
+     *  * ACTIVITY_INVITE_FILE_1
+     *  * ACTIVITY_INVITE_LINK_1
+     *  * ACTIVITY_INVITE_CONTENT_2
+     *  * ACTIVITY_INVITE_CONTENT_2+
+     *  * ACTIVITY_INVITE_DISCUSSION_1
+     *  * ACTIVITY_INVITE_DISCUSSION_2
+     *  * ACTIVITY_INVITE_DISCUSSION_2+
+     *  * ACTIVITY_INVITE_FOLDER_1
+     *  * ACTIVITY_INVITE_FOLDER_2
+     *  * ACTIVITY_INVITE_FOLDER_2+
+     *  * ACTIVITY_INVITE_GROUP_1
+     *  * ACTIVITY_INVITE_GROUP_2
+     *  * ACTIVITY_INVITE_GROUP_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_COLLABDOC_1
+     *  * ACTIVITY_INVITATION_ACCEPT_FILE_1
+     *  * ACTIVITY_INVITATION_ACCEPT_LINK_1
+     *  * ACTIVITY_INVITATION_ACCEPT_CONTENT_2
+     *  * ACTIVITY_INVITATION_ACCEPT_CONTENT_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_DISCUSSION_1
+     *  * ACTIVITY_INVITATION_ACCEPT_DISCUSSION_2
+     *  * ACTIVITY_INVITATION_ACCEPT_DISCUSSION_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_FOLDER_1
+     *  * ACTIVITY_INVITATION_ACCEPT_FOLDER_2
+     *  * ACTIVITY_INVITATION_ACCEPT_FOLDER_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_GROUP_1
+     *  * ACTIVITY_INVITATION_ACCEPT_GROUP_2
+     *  * ACTIVITY_INVITATION_ACCEPT_GROUP_2+
+     *
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the invite activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A summary object
      * @api private
      */
-    var _generateInviteSummary = function(me, activity, properties) {
-        return new ActivityViewSummary('__MSG__ACTIVITY_INVITE__', properties);
+    var _generateInvitationSummary = function(me, activity, properties) {
+        var activityType = activity['oae:activityType'];
+
+        var activityLabel = null;
+        if (activityType === 'invite') {
+            activityLabel = 'INVITE';
+        } else if (activityType === 'invitation-accept') {
+            activityLabel = 'INVITATION_ACCEPT';
+        } else {
+            throw new Error('Invalid activity type provided for invitation activity: ' + activityType);
+        }
+
+        var countLabel = properties.targetCount;
+        if (countLabel > 2) {
+            countLabel = '2+';
+        }
+
+        // Find any target object so we can inspect its `objectType` or `resourceSubType`
+        var target = null;
+        if (countLabel === 1) {
+            target = activity.target;
+        } else {
+            target = activity.target['oae:collection'][0];
+        }
+
+        var typeLabel = target.objectType.toUpperCase();
+        if (typeLabel === 'CONTENT' && countLabel === 1) {
+            typeLabel = target['oae:resourceSubType'].toUpperCase();
+        }
+
+        // Generate the activity i18n key according to the labels we determined
+        var i18nKey = '__MSG__ACTIVITY_' + activityLabel + '_' + typeLabel + '_' + countLabel + '__';
+
+        return new ActivityViewSummary(i18nKey, properties);
     };
 };
 

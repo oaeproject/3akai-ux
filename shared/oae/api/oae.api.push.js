@@ -24,14 +24,37 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     // should match with those fields on a different activity before both activities can be aggregated into
     // one activity
     var AGGREGATION_RULES = {
-        'content-comment': ['target'],
-        'content-create': ['actor', 'target'],
-        'content-revision': ['object'],
-        'content-share': ['actor'],
-        'discussion-message': ['target'],
-        'folder-add-to-folder': ['target'],
-        'folder-create': ['actor', 'target'],
-        'folder-share': ['actor']
+        'content-comment': {
+            'target': true
+        },
+        'content-create': {
+            'actor': true,
+            'target': true
+        },
+        'content-revision': {
+            'object': true
+        },
+        'content-share': {
+            'actor': true
+        },
+        'discussion-message': {
+            'target': true
+        },
+        'folder-add-to-folder': {
+            'target': true
+        },
+        'folder-create': {
+            'actor': true,
+            'target': true
+        },
+        'folder-share': {
+            'actor': true
+        },
+        'invitation-accept': {
+            'actor': true,
+            'object': true,
+            'target': 'objectType'
+        }
     };
 
     // Time in milliseconds during which aggregatable activities should be aggregated before calling
@@ -386,9 +409,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
             });
 
             // Aggregate the two sets of activities. The `aggreateActivities` function
-            // will inline any activities into the `oldActivitiesOfSameType` set. Because
-            // these activities are passed by reference, the global `activities` object
-            // that contains the activities per activity stream will be updated as well
+            // will inline any activities into the `oldActivitiesOfSameType` set
             aggregatedActivities = aggregateActivities(oldActivitiesOfSameType.concat(inlineAggregatedActivities));
 
             // We now roll in our aggregated activities with *all* the activities of our
@@ -410,7 +431,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
         // We wait a little bit before returing to the caller so we can aggregate with
         // activities from messages that will arrive later
         timers[resourceId][streamType] = setTimeout(function() {
-            return callback(aggregatedActivities);
+            var activitiesToNotify = activities[resourceId][streamType];
+
+            // Clean up the activities we're caching internall
+            delete activities[resourceId][streamType];
+            if (_.isEmpty(activities[resourceId])) {
+                delete activities[resourceId];
+            }
+
+            return callback(activitiesToNotify);
         }, AGGREGATION_TIMEOUT);
     };
 
@@ -499,11 +528,18 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
      */
     var getAggregateKey = function(activity) {
         var aggregateKey = [];
-        _.each(AGGREGATION_RULES[activity['oae:activityType']], function(activityField) {
+        _.each(AGGREGATION_RULES[activity['oae:activityType']], function(activityField, aggregationSpec) {
+            // Having a "true" aggregation spec implicitly means to aggregate on the id of the
+            // entity. However by specifying a string, it is possible to aggregate on other
+            // entity fields
+            if (aggregationSpec === true) {
+                aggregationSpec = 'oae:id';
+            }
+
             // Depending of the context the activity was created in, some
             // activities (content-create, folder-create) do not always have a target
-            if (activity[activityField] && activity[activityField]['oae:id']) {
-                aggregateKey.push(activity[activityField]['oae:id']);
+            if (activity[activityField] && activity[activityField][aggregationSpec]) {
+                aggregateKey.push(activity[activityField][aggregationSpec]);
             } else {
                 aggregateKey.push('__null__');
             }
