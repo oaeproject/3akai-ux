@@ -1168,10 +1168,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                      * option is true.
                      *
                      * @param  {Object}     [evt]           Event that triggered the parsing
-                     * @param  {Boolean}    tokenCompleted  Has the user has finished input of the current word/token
+                     * @param  {Boolean}    tokenCompleted  Specifies if the user has finished input of the current word/token
                      */
                     var parseEmail = function(evt, tokenCompleted) {
-
                         // Split the current input contents into tokens separated by
                         // whitespace characters or commas
                         var tokens = $element.val().split(/[\s,]+/);
@@ -1184,11 +1183,19 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         // Filter out any empty strings
                         tokens = tokens.filter(Boolean);
 
+                        // If we only have 1 token, and it is an email address, we need to ensure
+                        // that there are no users suggested. If there are, one of those should
+                        // be selected rather than entering the email address
+                        var isSingleEmailAddress = (_.size(tokens) === 1 && validation().isValidEmail(_.first(tokens)));
+                        var hasSuggestions = ($suggestions.find('li.as-result-item').length > 0);
+                        if (isSingleEmailAddress && hasSuggestions) {
+                            return;
+                        }
+
                         // See if all the remaining tokens are valid email
                         // addresses. For details on the regex used,
                         // @see https://html.spec.whatwg.org/multipage/forms.html#states-of-the-type-attribute
                         if (_.every(tokens, validation().isValidEmail)) {
-
                             // All tokens are email addresses, so process them
                             _.each(tokens, function(emailAddress) {
                                 var $li = $(template().render($('#autosuggest-email-template', $autosuggestTemplates), {
