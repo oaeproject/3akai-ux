@@ -41,6 +41,7 @@
     "optimist": "latest",
     "properties-parser": "latest",
     "readdirp": "latest",
+    "requirejs": "^2.1.20",
     "shelljs": "latest",
     "underscore": "latest"
   },
