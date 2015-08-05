@@ -1168,11 +1168,23 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 // Add a label to the autosuggest input field for accessibility
                 $('.as-input', $list).before('<label class="sr-only" for="' + $('.as-input', $list).attr('id') + '">' + options.startText + '</label>');
 
-
+                /**
+                 * Parse the current auto-suggest input into comma or space-separated tokens
+                 *
+                 * @return {String[]}  An array of all user-inputted tokens
+                 * @api private
+                 */
                 var getTokens = function() {
                     return $element.val().split(/[\s,]+/);
                 };
 
+                /**
+                 * Insert the specified email address as invitation entries in the auto-suggest
+                 * field
+                 *
+                 * @param  {String[]}   emailAddresses  The email addresses to embed into the field
+                 * @api private
+                 */
                 var insertEmails = function(emailAddresses) {
                     _.each(emailAddresses, function(emailAddress) {
                         // Render the template for the email invitation entry
@@ -1206,6 +1218,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     });
                 };
 
+                /**
+                 * Handle the scenario when a user copy/pastes content into an auto-suggest field
+                 *
+                 * @param  {String[]}   tokens  The space/comma separated tokens of the user's input
+                 * @api private
+                 */
                 var handleCopyPaste = function(tokens) {
                     // If every token in the copy/paste is an email address, add an invitation entry
                     // for each one
@@ -1215,6 +1233,14 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     }
                 };
 
+                /**
+                 * Handle the scenario when a user enters a termination key
+                 *
+                 * @param  {String[]}   tokens      The space/comma separated tokens of the user's current input
+                 * @param  {Number}     keyCode     The termination key code the user entered to trigger the event
+                 * @return {Boolean}                Whether or not the key event should continue default event processing after this
+                 * @api private
+                 */
                 var handleTerminationKey = function(tokens, keyCode) {
                     var isEnterKey = (keyCode === 13);
                     var isSpaceKey = (keyCode === 32);
@@ -1262,77 +1288,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                             break;
                     }
                 });
-
-                // If email addresses are allowed, add code to look for them in input element
-                if (options.allowEmail) {
-
-                    /**
-                     * Look for valid email addresses in the `<input>` element,
-                     * extract any that are present, and add them to the selected
-                     * items. This function should only be called when the `allowEmail`
-                     * option is true.
-                     *
-                     * @param  {Object}     [evt]           Event that triggered the parsing
-                     * @param  {Boolean}    tokenCompleted  Specifies if the user has finished input of the current word/token
-                     */
-                    var parseEmail = function(evt, tokenCompleted) {
-                        // Split the current input contents into tokens separated by
-                        // whitespace characters or commas
-                        var tokens = $element.val().split(/[\s,]+/);
-
-                        // If the final token isn't complete, ignore it by removing
-                        // it from the array, keeping track of the "in progress"
-                        // characters so they can be restored after processing
-                        var remainingChars = tokenCompleted ? '' : tokens.pop().trim();
-
-                        // Filter out any empty strings
-                        tokens = tokens.filter(Boolean);
-
-                        // If we only have 1 token, and it is an email address, we need to ensure
-                        // that there are no users suggested. If there are, one of those should
-                        // be selected rather than entering the email address
-                        var isSingleEmailAddress = (_.size(tokens) === 1 && validation().isValidEmail(_.first(tokens)));
-                        var $suggestionItems = $suggestions.find('li.as-result-item');
-                        if (isSingleEmailAddress && $suggestionItems.length > 0) {
-                            return;
-                        }
-
-                        // See if all the remaining tokens are valid email
-                        // addresses. For details on the regex used,
-                        // @see https://html.spec.whatwg.org/multipage/forms.html#states-of-the-type-attribute
-                        if (_.every(tokens, validation().isValidEmail)) {
-                            // All tokens are email addresses, so process them
-                            _.each(tokens, function(emailAddress) {
-                                var $li = $(template().render($('#autosuggest-email-template', $autosuggestTemplates), {
-                                    'emailAddress': emailAddress
-                                }).trim());
-                                $element.parent('li.as-original').before($li);
-                                $li.data({
-                                    'originalData': {
-                                        'displayName': emailAddress,
-                                        'id': emailAddress,
-                                        'resourceType': 'email'
-                                }});
-                                $('a.as-close', $li).click(function() {
-                                    options.selectionRemoved.call($element, $li);
-                                    $li.remove();
-                                    $element.focus();
-                                    return false;
-                                });
-                                options.selectionAdded.call($element, $li);
-                                $element.val(remainingChars);
-                            })
-
-                            // No need to continue processing the event
-                            if (evt) {
-                                evt.preventDefault();
-                                evt.stopImmediatePropagation();
-                            }
-                        }
-                    };
-
-
-                }
 
                 // Trigger the callback function
                 if (_.isFunction(callback)) {
