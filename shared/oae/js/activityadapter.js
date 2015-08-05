@@ -503,21 +503,30 @@ var _expose = function(exports) {
      * @api private
      */
     var _generateActivityPreviewItems = function(context, activity) {
+        var activityType = activity['oae:activityType'];
 
         // Comment activities should always show the target as the activity preview
         var previewObj = null;
-        if (COMMENT_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1) {
+        if (COMMENT_ACTIVITY_TYPES.indexOf(activityType) !== -1) {
             previewObj = activity.target;
         // Share activities are considered to be a special social activity, where the
         // users and groups the item is shared with are preferred as a preview over
         // the object that is being shared
-        } else if (SHARE_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1) {
+        } else if (SHARE_ACTIVITY_TYPES.indexOf(activityType) !== -1) {
             previewObj = activity.target;
             // When the current context is part of the target entities, we prefer
             // to use the activity's object as the activity preview instead. This
             // will avoid showing a picture and link for an item in its own context
             if (_isContextInActivityEntities(context, previewObj)) {
                 previewObj = activity.object;
+            }
+        // When a user is accepting an invitation to join target(s), we show the targets, unless the
+        // target is the context, in which case we show the user who is accepting the invitation
+        } else if (activityType === 'invitation-accept') {
+            previewObj = activity.target;
+
+            if (_isContextInActivityEntities(context, previewObj)) {
+                previewObj = activity.actor;
             }
         // Otherwise, we always want to show the activity object as the activity preview
         } else if (activity.object) {
@@ -1714,7 +1723,7 @@ var _expose = function(exports) {
      * The resulting summary will have the standard actor/object/target properties, as well as a
      * summary i18n key of the form:
      *
-     *  `ACTIVITY_${activityLabel}_${resourceType}_${numTargets}`
+     *  `ACTIVITY_${activityLabel}_${whoLabel}_${resourceType}_${numTargets}`
      *
      * Which renders all the following i18n key possibilities:
      *
@@ -1732,20 +1741,48 @@ var _expose = function(exports) {
      *  * ACTIVITY_INVITE_GROUP_1
      *  * ACTIVITY_INVITE_GROUP_2
      *  * ACTIVITY_INVITE_GROUP_2+
-     *  * ACTIVITY_INVITATION_ACCEPT_COLLABDOC_1
-     *  * ACTIVITY_INVITATION_ACCEPT_FILE_1
-     *  * ACTIVITY_INVITATION_ACCEPT_LINK_1
-     *  * ACTIVITY_INVITATION_ACCEPT_CONTENT_2
-     *  * ACTIVITY_INVITATION_ACCEPT_CONTENT_2+
-     *  * ACTIVITY_INVITATION_ACCEPT_DISCUSSION_1
-     *  * ACTIVITY_INVITATION_ACCEPT_DISCUSSION_2
-     *  * ACTIVITY_INVITATION_ACCEPT_DISCUSSION_2+
-     *  * ACTIVITY_INVITATION_ACCEPT_FOLDER_1
-     *  * ACTIVITY_INVITATION_ACCEPT_FOLDER_2
-     *  * ACTIVITY_INVITATION_ACCEPT_FOLDER_2+
-     *  * ACTIVITY_INVITATION_ACCEPT_GROUP_1
-     *  * ACTIVITY_INVITATION_ACCEPT_GROUP_2
-     *  * ACTIVITY_INVITATION_ACCEPT_GROUP_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_COLLABDOC_1
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_FILE_1
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_LINK_1
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_CONTENT_2
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_CONTENT_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_DISCUSSION_1
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_DISCUSSION_2
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_DISCUSSION_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_FOLDER_1
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_FOLDER_2
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_FOLDER_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_GROUP_1
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_GROUP_2
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_GROUP_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_COLLABDOC_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_FILE_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_LINK_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_CONTENT_2
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_CONTENT_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_DISCUSSION_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_DISCUSSION_2
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_DISCUSSION_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_FOLDER_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_FOLDER_2
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_FOLDER_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_GROUP_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_GROUP_2
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_GROUP_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_COLLABDOC_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_FILE_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_LINK_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_CONTENT_2
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_CONTENT_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_DISCUSSION_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_DISCUSSION_2
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_DISCUSSION_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_FOLDER_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_FOLDER_2
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_FOLDER_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_GROUP_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_GROUP_2
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_GROUP_2+
      *
      * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the invite activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
@@ -1753,17 +1790,33 @@ var _expose = function(exports) {
      * @api private
      */
     var _generateInvitationSummary = function(me, activity, properties) {
+        var labels = ['ACTIVITY'];
         var activityType = activity['oae:activityType'];
+        var actorId = activity.actor['oae:id'];
+        var objectId = activity.object['oae:id'];
 
-        var activityLabel = null;
         if (activityType === 'invite') {
-            activityLabel = 'INVITE';
+            labels.push('INVITE');
         } else if (activityType === 'invitation-accept') {
-            activityLabel = 'INVITATION_ACCEPT';
+            labels.push('INVITATION_ACCEPT');
+
+            // Find the "who" label, which indicates if the current user in context is either the
+            // inviter or the invited user. When that is the case, we alter the language to be in
+            // the form "You"/"Your" as opposed to the display name of the user. This is only
+            // applicable for the invitation accept activity because the invite is only seen by the
+            // user who was invited
+            if (me.id === actorId) {
+                labels.push('YOU_OTHER');
+            } else if (me.id === objectId) {
+                labels.push('OTHER_YOU');
+            } else {
+                labels.push('OTHER_OTHER');
+            }
         } else {
             throw new Error('Invalid activity type provided for invitation activity: ' + activityType);
         }
 
+        // Find the count label
         var countLabel = properties.targetCount;
         if (countLabel > 2) {
             countLabel = '2+';
@@ -1777,13 +1830,18 @@ var _expose = function(exports) {
             target = activity.target['oae:collection'][0];
         }
 
+        // Find the type label (e.g., LINK, DISCUSSION, GROUP, etc...)
         var typeLabel = target.objectType.toUpperCase();
         if (typeLabel === 'CONTENT' && countLabel === 1) {
             typeLabel = target['oae:resourceSubType'].toUpperCase();
         }
 
+        // Gather the rest of the labels together to form the i18n key
+        labels.push(typeLabel);
+        labels.push(countLabel);
+
         // Generate the activity i18n key according to the labels we determined
-        var i18nKey = '__MSG__ACTIVITY_' + activityLabel + '_' + typeLabel + '_' + countLabel + '__';
+        var i18nKey = '__MSG__' + labels.join('_') + '__';
 
         return new ActivityViewSummary(i18nKey, properties);
     };
