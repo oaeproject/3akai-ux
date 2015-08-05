@@ -938,7 +938,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
                 // Merge the supplied options with the default options. Default options will be overriden
                 // by supplied options
-                options = _.extend({'showResultListWhenNoMatch': true}, defaultOptions, options);
+                options = _.extend({}, defaultOptions, options);
 
                 // Add the resourceTypes onto the additional querystring parameter that needs to be added to the request.
                 // We need to do this as querystring-formatted string as the Autosuggest component is not able to deal with objects.
@@ -991,11 +991,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     // Get the query from the request URL on the Ajax object, as that is the only provided clue
                     // for finding out the search query
                     var query = $.url(this.url).param('q');
+                    var isValidEmail = validation().isValidEmail(query);
 
                     data.results = _.chain(data.results)
                         // Remove any results in the exclusion list
                         .filter(function(result) {
-                            return !_.contains(options.exclude, result.id);
+                            return (!_.contains(options.exclude, result.id));
                         })
                         // Enhance the results for the autosuggest template
                         .each(function(result) {
@@ -1009,13 +1010,22 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                             //
                             //  mrvisser@gmail.com:u:oae:abcd1234
                             //
-                            if (options.allowEmail && validation().isValidEmail(query)) {
+                            if (options.allowEmail && isValidEmail) {
                                 result.id = query + ':' + result.id;
                             }
 
                             return result;
                         })
                         .value();
+
+                    if (options.allowEmail && isValidEmail && _.isEmpty(data.results)) {
+                        data.results.push({
+                            'id': query,
+                            'displayName': query,
+                            'query': query,
+                            'resourceType': 'email'
+                        });
+                    }
 
                     if (retrieveComplete) {
                         return retrieveComplete(data);
@@ -1085,13 +1095,14 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 }
                 options.selectionAdded = function(elem) {
                     var $elem = $(elem);
+
                     // Wrap the element text in a 'oae-threedots' span element to prevent overflowing
                     $elem.contents().filter(function() {
                         return this.nodeType === 3;
                     }).wrapAll('<span class="pull-left oae-threedots" />');
 
                     var originalData = $elem.data('originalData');
-                    if (originalData.resourceType && originalData.resourceType !== 'email') {
+                    if (originalData.resourceType) {
                         // Prepend a thumbnail to the item to add to the list
                         var $thumbnail = $('<div>').addClass('oae-thumbnail fa fa-oae-' + originalData.resourceType);
                         if (originalData.thumbnailUrl) {
@@ -1107,6 +1118,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     if (selectionAdded) {
                         selectionAdded(elem);
                     }
+
                     // Trigger the custom selection changed function
                     if (options.selectionChanged) {
                         options.selectionChanged();
@@ -1198,9 +1210,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         // Attach our data to the entry
                         $li.data({
                             'originalData': {
-                                'displayName': emailAddress,
+                                'resourceType': 'email',
                                 'id': emailAddress,
-                                'resourceType': 'email'
+                                'dipslayName': emailAddress
                             }
                         });
 

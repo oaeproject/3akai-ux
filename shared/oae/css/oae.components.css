@@ -418,6 +418,16 @@ div.oae-thumbnail.fa-oae-user div {
     background-position: center;
 }
 
+/* Remove the background and border for email icons */
+div.oae-thumbnail.fa-oae-email {
+    background: none;
+    border: none;
+}
+
+div.oae-thumbnail.fa-oae-email:before {
+    color: #333333;
+}
+
 div.oae-thumbnail.oae-thumbnail-medium:before {
     font-size: 30px;
     margin-top: -15px;
@@ -463,6 +473,10 @@ div.oae-thumbnail.fa-oae-group:before {
 
 div.oae-thumbnail.fa-oae-user:before {
     content: "\f007";
+}
+
+div.oae-thumbnail.fa-oae-email:before {
+    content: "\f0e0";
 }
 
 div.oae-thumbnail i.fa {

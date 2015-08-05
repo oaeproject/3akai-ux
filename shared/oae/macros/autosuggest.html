@@ -10,16 +10,14 @@
 <!-- EMAIL ITEMS -->
 <div id="autosuggest-email-template"><!--
     <li class="as-selection-item" data-value="${emailAddress}">
-        <i class="fa fa-envelope"></i>
-        <a class="as-close">&times;</a>
-        ${emailAddress}
+        <a class="as-close">&times;</a>${emailAddress|encodeForHTML}
     </li>
 --></div>
 
 <!-- SUGGESTED ITEMS -->
 <div id="autosuggest-suggested-template"><!--
     <div class="oae-list-details-item">
-        <div class="clearfix oae-listitem">
+        <div class="clearfix oae-listitem{if data.resourceType === 'email'} oae-listitem-email{/if}">
             <div class="oae-listitem-primary-thumbnail">
                 ${renderThumbnail(data, displayOptions)}
             </div>
