@@ -938,7 +938,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
                 // Merge the supplied options with the default options. Default options will be overriden
                 // by supplied options
-                options = _.extend({}, defaultOptions, options);
+                options = _.extend({'showResultListWhenNoMatch': true}, defaultOptions, options);
 
                 // Add the resourceTypes onto the additional querystring parameter that needs to be added to the request.
                 // We need to do this as querystring-formatted string as the Autosuggest component is not able to deal with objects.
@@ -1168,6 +1168,101 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 // Add a label to the autosuggest input field for accessibility
                 $('.as-input', $list).before('<label class="sr-only" for="' + $('.as-input', $list).attr('id') + '">' + options.startText + '</label>');
 
+
+                var getTokens = function() {
+                    return $element.val().split(/[\s,]+/);
+                };
+
+                var insertEmails = function(emailAddresses) {
+                    _.each(emailAddresses, function(emailAddress) {
+                        // Render the template for the email invitation entry
+                        var $li = $(template().render($('#autosuggest-email-template', $autosuggestTemplates), {
+                            'emailAddress': emailAddress
+                        }).trim());
+
+                        // Insert the template onto the DOM
+                        $element.parent('li.as-original').before($li);
+
+                        // Attach our data to the entry
+                        $li.data({
+                            'originalData': {
+                                'displayName': emailAddress,
+                                'id': emailAddress,
+                                'resourceType': 'email'
+                            }
+                        });
+
+                        // Bind the remove event to the entry
+                        // TODO: Shouldn't there just be something like a $('a.as-close', $ul) to handle this for all the li's?
+                        $('a.as-close', $li).click(function() {
+                            options.selectionRemoved.call($element, $li);
+                            $li.remove();
+                            $element.focus();
+                            return false;
+                        });
+
+                        // Run this new entry through the `selectionAdded` callback
+                        options.selectionAdded.call($element, $li);
+                    });
+                };
+
+                var handleCopyPaste = function(tokens) {
+                    // If every token in the copy/paste is an email address, add an invitation entry
+                    // for each one
+                    if (_.every(tokens, validation().isValidEmail)) {
+                        insertEmails(tokens);
+                        $element.val('');
+                    }
+                };
+
+                var handleTerminationKey = function(tokens, keyCode) {
+                    var isEnterKey = (keyCode === 13);
+                    var isSpaceKey = (keyCode === 32);
+                    var isCommaKey = (keyCode === 188);
+
+                    // If we're doing a hard termination (enter or comma) and there is at least one
+                    // result, we always choose the result
+                    var $results = $suggestions.find('li.as-result-item');
+                    if ($results.length > 0 && (isEnterKey || isCommaKey)) {
+                        $results[0].click();
+                        return false;
+                    }
+
+                    // If we're doing any kind of termination and we have all emails and we allow
+                    // them as entries, insert them all into the field
+                    if (options.allowEmail && _.every(tokens, validation().isValidEmail)) {
+                        insertEmails(tokens);
+                        $element.val('');
+                        return false;
+                    }
+
+                    return true;
+                };
+
+                $element.on('cut paste', function() {
+                    // Cut and paste events are triggered before the input
+                    // element is actually updated, so delay processing until
+                    // execution stack is exhausted
+                    setTimeout(function() {
+                        handleCopyPaste(getTokens());
+                    }, 0);
+
+                });
+
+                $element.on('keydown', function(evt) {
+                    switch (evt.keyCode) {
+                        case 13:  // Enter key
+                        case 32:  // Space key
+                        case 188: // Comma key
+                            var result = handleTerminationKey(getTokens(), evt.keyCode);
+                            if (!result) {
+                                evt.preventDefault();
+                                evt.stopImmediatePropagation();
+                            }
+                            break;
+                    }
+                });
+
                 // If email addresses are allowed, add code to look for them in input element
                 if (options.allowEmail) {
 
@@ -1197,8 +1292,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         // that there are no users suggested. If there are, one of those should
                         // be selected rather than entering the email address
                         var isSingleEmailAddress = (_.size(tokens) === 1 && validation().isValidEmail(_.first(tokens)));
-                        var hasSuggestions = ($suggestions.find('li.as-result-item').length > 0);
-                        if (isSingleEmailAddress && hasSuggestions) {
+                        var $suggestionItems = $suggestions.find('li.as-result-item');
+                        if (isSingleEmailAddress && $suggestionItems.length > 0) {
                             return;
                         }
 
@@ -1236,23 +1331,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         }
                     };
 
-                    $element.on('cut paste', function() {
-                        // Cut and paste events are triggered before the input
-                        // element is actually updated, so delay processing until
-                        // execution stack is exhausted
-                        setTimeout(function() {
-                            parseEmail(null, false);
-                        }, 0);
 
-                    }).on('keydown', function(evt) {
-                        switch (evt.keyCode) {
-                            case 13:  // Enter key
-                            case 32:  // Space key
-                            case 188: // Comma key
-                                parseEmail(evt, true);
-                                break;
-                        }
-                    });
                 }
 
                 // Trigger the callback function
