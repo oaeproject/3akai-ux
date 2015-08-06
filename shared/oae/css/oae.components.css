@@ -1255,7 +1255,12 @@ div.oae-thumbnail i.fa {
 }
 
 .oae-listitem > div.oae-listitem-actions > .btn {
+    border-width: 1px;
+}
+
+.oae-listitem > div.oae-listitem-actions > .oae-listitem-remove {
     /* Do not apply a top-padding as the browser already gives buttons some padding */
+    border-width: 0;
     padding: 0 4px;
     vertical-align: baseline;
 }

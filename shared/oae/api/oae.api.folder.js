@@ -241,9 +241,35 @@ define(['exports', 'jquery'], function(exports, $) {
         }
 
         $.ajax({
-            'url': '/api/folder/'  + folderId + '/invitations',
+            'url': '/api/folder/' + folderId + '/invitations',
             'success': function(data) {
                 callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Resend an invitation that invites an email into a folder
+     *
+     * @param  {String}     folderId        Id of the folder whose invitation to resend
+     * @param  {String}     email           The email of the invitation to resend
+     * @param  {Function}   callback        Standard callback function
+     * @param  {Object}     callback.err    Error object containing error code and error message
+     * @throws {Error}                      Error thrown when no folder id has been provided
+     */
+    var resendInvitation = exports.resendInvitation = function(folderId, email, callback) {
+        if (!folderId) {
+            throw new Error('A valid folder id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/folder/' + folderId + '/invitations/' + email + '/resend',
+            'type': 'POST',
+            'success': function() {
+                callback();
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.responseText});

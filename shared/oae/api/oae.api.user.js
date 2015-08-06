@@ -236,6 +236,16 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
         });
     };
 
+    /**
+     * Accept a user invitation with the specified email token
+     *
+     * @param  {String}         token                       The invitation token to use to accept the invitation
+     * @param  {Function}       callback                    Standard callback function
+     * @param  {Object}         callback.err                Error object containing error code and error message
+     * @param  {Object}         callback.result             The accept invitation result
+     * @param  {String}         callback.result.email       The email address that was associated to the token
+     * @param  {Resource[]}     callback.result.resources   The resources that the user was invited into
+     */
     var acceptInvitation = exports.acceptInvitation = function(token, callback) {
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};

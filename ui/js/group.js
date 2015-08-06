@@ -338,8 +338,9 @@ require(['jquery', 'oae.core'], function($, oae) {
             'api': {
                 'getMembersURL': '/api/group/' + groupProfile.id + '/members',
                 'getInvitations': oae.api.group.getInvitations,
+                'resendInvitation': oae.api.group.resendInvitation,
                 'setMembers': oae.api.group.updateMembers,
-                'setVisibility': oae.api.group.updateGroup
+                'setVisibility': oae.api.group.updateGroup,
             }
         };
     };

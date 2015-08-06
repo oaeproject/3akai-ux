@@ -170,6 +170,32 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
+     * Resend an invitation that invites an email into a discussion
+     *
+     * @param  {String}     discussionId    Id of the discussion whose invitation to resend
+     * @param  {String}     email           The email of the invitation to resend
+     * @param  {Function}   callback        Standard callback function
+     * @param  {Object}     callback.err    Error object containing error code and error message
+     * @throws {Error}                      Error thrown when no discussion id has been provided
+     */
+    var resendInvitation = exports.resendInvitation = function(discussionId, email, callback) {
+        if (!discussionId) {
+            throw new Error('A valid discussion id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/discussion/' + discussionId + '/invitations/' + email + '/resend',
+            'type': 'POST',
+            'success': function() {
+                callback();
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
      * Get the viewers and managers of a discussion
      *
      * @param  {String}          discussionId                   Id of the discussion we're trying to retrieve the members for
