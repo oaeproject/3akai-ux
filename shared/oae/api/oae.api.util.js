@@ -1239,6 +1239,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 var handleCopyPaste = function(tokens) {
                     // If every token in the copy/paste is an email address, add an invitation entry
                     // for each one
+                    tokens = _.compact(tokens);
                     if (_.every(tokens, validation().isValidEmail)) {
                         insertEmails(tokens);
                         $element.val('');
@@ -1268,6 +1269,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
                     // If we're doing any kind of termination and we have all emails and we allow
                     // them as entries, insert them all into the field
+                    tokens = _.compact(tokens);
                     if (options.allowEmail && _.every(tokens, validation().isValidEmail)) {
                         insertEmails(tokens);
                         $element.val('');
