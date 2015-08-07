@@ -419,7 +419,9 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/css/oae.base.css': null,
                 '/shared/oae/css/oae.components.css': null,
                 '/shared/oae/css/oae.core.css': null,
-                '/shared/oae/css/oae.skin.static.css': null
+                '/shared/oae/css/oae.skin.static.css': null,
+                '/shared/oae/errors/css/oae.error.css': null,
+                '/shared/oae/errors/css/oae.unsupported.css': null
             }
         };
 
