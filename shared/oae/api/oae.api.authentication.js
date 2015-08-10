@@ -213,7 +213,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
 
         // Use the `auth.html` `authExternalButton` macro to create a form that performs this
         // authentication
-        var $template = $('<div>${authExternalButton(strategyId, strategy, opts)}</div>');
+        var $template = $('<div style="display: none";>${authExternalButton(strategyId, strategy, opts)}</div>');
         var form = utilAPI.template().render($template, {
             'strategyId': strategyId,
             'strategy': strategyInfo.enabledExternalStrategies[strategyId],
@@ -226,7 +226,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
         });
 
         // Submit the form
-        $($.trim(form)).submit();
+        $($.trim(form)).appendTo('body').submit();
     };
 
     /**

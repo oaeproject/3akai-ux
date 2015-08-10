@@ -331,27 +331,7 @@ require(['jquery','oae.core'], function($, oae) {
         setUpReCaptcha();
     };
 
-    /**
-     * Insert the topnavigation widget with the relevant widget data
-     */
-    var renderTopNav = function() {
-        var topnavData = {
-            'email': invitationInfo.email,
-            'hidesignup': true,
-            'redirecturl': signUpRedirectUrl,
-            'token': invitationInfo.token
-        };
-
-        oae.api.widget.insertWidget('topnavigation', null, $('#signup-topnavigation'), null, topnavData, function() {
-            if (authStrategyInfo.hasSingleExternalAuth) {
-                // If there is only one external authentication method, simply invoke it for the user
-                $('#signup-topnavigation .oae-trigger-signin').click();
-            }
-        });
-    };
-
     init();
-    renderTopNav();
     renderPageTitle();
     renderSignUpOptions();
 });
