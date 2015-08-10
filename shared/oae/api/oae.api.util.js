@@ -177,10 +177,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * @api private
          */
         var init = function(callback) {
-            var macros = ['list', 'header', 'auth'];
-            var macroPaths = _.map(macros, function(macro) {
-                return 'text!/shared/oae/macros/' + macro + '.html';
-            });
+            // Note: These need to have their full URLs in the file in order for minification to
+            // rewrite them with a hash
+            var macroPaths = [
+                'text!/shared/oae/macros/list.html',
+                'text!/shared/oae/macros/header.html',
+                'text!/shared/oae/macros/auth.html'
+            ];
 
             // Load the activity summary and lists macros through the RequireJS Text plugin
             require(macroPaths, function() {
