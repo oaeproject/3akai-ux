@@ -36,7 +36,7 @@
 
                 {if authStrategyInfo.hasExternalAuth}
                     <div id="signup-options-external">
-                        <h5>Use one of your familiar accounts:</h5>
+                        <h5>__MSG__USE_ONE_OF_YOUR_FAMILIAR_ACCOUNTS_COLON__</h5>
                         <ul class="nav">
                             {for strategy in authStrategyInfo.enabledExternalStrategies}
                                 <li>
@@ -48,20 +48,20 @@
                 {/if}
 
                 {if authStrategyInfo.hasExternalAuth && authStrategyInfo.allowAccountCreation}
-                    <div id="signup-options-divider">
+                    <div id="signup-options-divider-vertical">
                         <div>
                             <i class="fa fa-circle"></i>
                             <span>__MSG__OR__</span>
                         </div>
                     </div>
+                    <div id="signup-options-divider-horizontal" class="hr">
+                        <span>__MSG__OR__</span>
+                    </div>
                 {/if}
 
                 {if authStrategyInfo.allowAccountCreation}
                     <div id="signup-options-local">
-                        {if authStrategyInfo.hasExternalAuth}
-                            <h5>Or, complete this sign up form:</h5>
-                        {/if}
-
+                        <h5>__MSG__COMPLETE_THIS_SIGN_UP_FORM_COLON__</h5>
                         <form id="signup-createaccount-form" class="form-horizontal" role="form">
                             {if invitationInfo.email}
                                 <input type="hidden" id="signup-createaccount-email" name="email" class="form-control required email maxlength-short" value="${invitationInfo.email|encodeForHTMLAttribute}" />
@@ -71,28 +71,28 @@
                             {/if}
 
                             <div class="form-group">
-                                <label class="col-sm-4 control-label" for="signup-createaccount-firstname">__MSG__FIRSTNAME_COLON__</label>
-                                <div class="col-sm-8">
+                                <label class="col-md-5 control-label" for="signup-createaccount-firstname">__MSG__FIRSTNAME_COLON__</label>
+                                <div class="col-md-7">
                                     <input type="text" id="signup-createaccount-firstname" name="firstName" class="form-control required maxlength-short" placeholder="__MSG__YOUR_FIRST_NAME__" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-4 control-label" for="signup-createaccount-lastname">__MSG__LASTNAME_COLON__</label>
-                                <div class="col-sm-8">
+                                <label class="col-md-5 control-label" for="signup-createaccount-lastname">__MSG__LASTNAME_COLON__</label>
+                                <div class="col-md-7">
                                     <input type="text" id="signup-createaccount-lastname" name="lastName" class="form-control required maxlength-short" placeholder="__MSG__YOUR_LAST_NAME__" />
                                 </div>
                             </div>
                             {if !invitationInfo.email}
                                 <div class="form-group">
-                                    <label class="col-sm-4 control-label" for="signup-createaccount-email">__MSG__EMAIL_COLON__</label>
-                                    <div class="col-sm-8">
+                                    <label class="col-md-5 control-label" for="signup-createaccount-email">__MSG__EMAIL_COLON__</label>
+                                    <div class="col-md-7">
                                         <input type="text" id="signup-createaccount-email" name="email" autocapitalize="off" class="form-control required email maxlength-short" placeholder="__MSG__YOUR_EMAIL_ADDRESS__" />
                                     </div>
                                 </div>
                             {/if}
                             <div id="signup-createaccount-username-container" class="form-group">
-                                <label class="col-sm-4 control-label" for="signup-createaccount-username">__MSG__USERNAME_COLON__</label>
-                                <div class="col-sm-8">
+                                <label class="col-md-5 control-label" for="signup-createaccount-username">__MSG__USERNAME_COLON__</label>
+                                <div class="col-md-7">
                                     <div id="signup-createaccount-username-controls">
                                         <input type="text" id="signup-createaccount-username" name="username" autocapitalize="off" class="form-control required maxlength-short" placeholder="__MSG__ENTER_YOUR_USERNAME__" />
                                         <i id="signup-createaccount-username-available" class="fa fa-times"></i>
@@ -100,20 +100,20 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-4 control-label" for="signup-createaccount-password">__MSG__PASSWORD_COLON__</label>
-                                <div class="col-sm-8">
+                                <label class="col-md-5 control-label" for="signup-createaccount-password">__MSG__PASSWORD_COLON__</label>
+                                <div class="col-md-7">
                                     <input type="password" id="signup-createaccount-password" name="password" class="form-control required maxlength-short" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-4 control-label" for="signup-createaccount-password-repeat">__MSG__RE_TYPE_PASSWORD__</label>
-                                <div class="col-sm-8">
+                                <label class="col-md-5 control-label" for="signup-createaccount-password-repeat">__MSG__RE_TYPE_PASSWORD__</label>
+                                <div class="col-md-7">
                                     <input type="password" id="signup-createaccount-password-repeat" name="password_repeat" class="form-control required maxlength-short" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" />
                                 </div>
                             </div>
                             {if oae.api.config.getValue('oae-principals', 'recaptcha', 'enabled')}
                                 <div id="signup-createaccount-recaptcha-container" class="form-group">
-                                    <div class="col-sm-8 pull-right">
+                                    <div class="col-xs-12 col-md-7 pull-right">
                                         <div id="recaptcha_image"></div>
                                         <div class="signup-createaccount-captcha-buttons pull-right">
                                             <span>
@@ -142,7 +142,7 @@
                             {/if}
                             {if termsAndConditionsEnabled}
                                 <div id="signup-createaccount-termsandconditions-container" class="form-group">
-                                    <div class="col-sm-8 pull-right">
+                                    <div class="col-xs-12 col-md-7 pull-right">
                                         {var termsAndConditionsLink = '<a href="#" role="button" class="oae-trigger-termsandconditions">__MSG__TERMS_AND_CONDITIONS__</a>'}
                                         <label for="signup-createaccount-accept-terms-and-conditions" class="checkbox control-label">
                                             <input type="checkbox" id="signup-createaccount-accept-terms-and-conditions" class="required" name="termsandconditions"/>__MSG__I_AGREE_TO_THE_TERMS_AND_CONDITIONS__
@@ -152,7 +152,7 @@
                                 </div>
                             {/if}
                             <div class="form-group">
-                                <div class="col-sm-8 pull-right">
+                                <div class="col-xs-12 col-md-7 pull-right">
                                     <button class="btn btn-primary">__MSG__SIGN_UP__</button>
                                 </div>
                             </div>

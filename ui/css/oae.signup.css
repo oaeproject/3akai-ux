@@ -21,12 +21,21 @@ main > h3 {
 }
 
 #signup-options-container > div {
-    margin-right: 80px;
+    margin-right: 5%;
+}
+
+#signup-options-container > div:last-child {
+    margin-right: 0;
 }
 
 #signup-options-container h5 {
     font-weight: normal;
     margin-bottom: 35px;
+    text-align: left;
+}
+
+#signup-options-external {
+    min-width: 225px;
 }
 
 #signup-options-external > ul.nav {
@@ -37,7 +46,7 @@ main > h3 {
     margin-bottom: 10px;
 }
 
-#signup-options-divider {
+#signup-options-divider-vertical {
     border-left: solid 1px #ccc;
     display: flex;
     flex-direction: column;
@@ -45,7 +54,7 @@ main > h3 {
     width: 0;
 }
 
-#signup-options-divider > div {
+#signup-options-divider-vertical > div {
     background-color: #fff;
     height: 60px;
     position: relative;
@@ -54,21 +63,26 @@ main > h3 {
     width: 50px;
 }
 
-#signup-options-divider > div > i.fa.fa-circle:before {
+#signup-options-divider-vertical > div > i.fa.fa-circle:before {
     color: #ccc;
     display: inline-block;
     font-size: 50px;
     margin-top: 5px;
 }
 
-#signup-options-divider > div > span {
+#signup-options-divider-vertical > div > span {
     color: #333;
     position: relative;
     top: -37px;
 }
 
+#signup-options-divider-horizontal {
+    display: none;
+    margin: 15px 0;
+}
+
 #signup-options-local {
-    min-width: 450px;
+    min-width: 500px;
 }
 
 #signup-createaccount-username-available {
@@ -111,6 +125,71 @@ main > h3 {
     color: #a94442;
 }
 
+@media (max-width: 991px) {
+    #signup-options-container > div {
+        margin-right: 10%;
+    }
+
+    #signup-options-local {
+        min-width: 300px;
+    }
+
+    #signup-createaccount-form {
+        margin-top: -8px;
+    }
+
+    #signup-createaccount-form .form-group {
+        margin-bottom: 5px;
+    }
+}
+
+@media (max-width: 767px) {
+    #signup-options-container {
+        flex-direction: column;
+        max-width: 400px
+    }
+
+    #signup-options-container > div {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    #signup-options-container h5 {
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    #signup-options-external {
+        text-align: center;
+    }
+
+    #signup-options-external > h5 {
+        display: none;
+    }
+
+    #signup-options-external > ul.nav {
+        display: inline-block;
+    }
+
+    #signup-options-divider-vertical {
+        display: none;
+    }
+
+    #signup-options-divider-horizontal {
+        display: block;
+    }
+
+    #signup-options-local {
+        min-width: 300px;
+    }
+
+    #signup-createaccount-form {
+        margin: 0 auto;
+        width: 300px
+    }
+}
+
+
 /* Top Navigation overrides */
 
 #topnavigation-container {
@@ -118,16 +197,8 @@ main > h3 {
     padding-right: 10px;
 }
 
-#topnavitation-left-signup {
-    display: none;
-}
-
-#topnavigation-search-form {
+#topnavigation-right #topnavigation-search-form {
     display: none !important;
-}
-
-#topnavigation-container .topnavigation-haveaccount {
-    display: inline-block !important;
 }
 
 /* ReCaptcha  overrides */
