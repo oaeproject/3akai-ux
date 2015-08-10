@@ -429,6 +429,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
                     'html': widgetHTML,
                     'widgetFunction': widgetFunction
                 };
+
                 // Load all of the declared instances for this widget
                 for (var i = 0; i < loadData.instances.length; i++) {
                     // Render the widget instance, and pass in the widget data for the widget instance

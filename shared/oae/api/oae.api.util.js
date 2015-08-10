@@ -177,13 +177,24 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * @api private
          */
         var init = function(callback) {
+            var macros = ['list', 'header', 'auth'];
+            var macroPaths = _.map(macros, function(macro) {
+                return 'text!/shared/oae/macros/' + macro + '.html';
+            });
+
             // Load the activity summary and lists macros through the RequireJS Text plugin
-            require(['text!/shared/oae/macros/list.html', 'text!/shared/oae/macros/header.html'], function(listMacro, headerMacro) {
+            require(macroPaths, function() {
                 // Translate and cache the macros. We require the i18n API here to avoid creating
                 // a cyclic dependency
                 var i18nAPI = require('oae.api.i18n');
-                globalMacros.push(i18nAPI.translate(listMacro));
-                globalMacros.push(i18nAPI.translate(headerMacro));
+                _.chain(arguments)
+                    .toArray()
+                    .map(i18nAPI.translate)
+                    .each(function(macro) {
+                        globalMacros.push(macro);
+                    })
+                    .value();
+
                 callback();
             });
         };
@@ -990,7 +1001,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 options.retrieveComplete = function(data) {
                     // Get the query from the request URL on the Ajax object, as that is the only provided clue
                     // for finding out the search query
-                    var query = $.url(this.url).param('q');
+                    var query = url(this.url).param('q');
                     var isValidEmail = validation().isValidEmail(query);
 
                     data.results = _.chain(data.results)
@@ -1513,6 +1524,18 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
     ///////////////
 
     /**
+     * Convenience function for safely parsing either the current or a specified URL, while working
+     * around some issues in the `$.url` utility
+     *
+     * @param  {String}     [location]  The URL location to parse. If unspecified, the current window location will be used
+     */
+    var url = exports.url = function(location) {
+        location = location || window.location.toString();
+        return $.url(encodeURI(location));
+    };
+
+
+    /**
      * All functionality related to redirecting users to error pages, etc.
      */
     var redirect = exports.redirect = function() {
@@ -1522,9 +1545,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * a page that requires login.
          */
         var login = function() {
-            // We have to run `encodeURI` on the location, since $.url will run `decodeURI` on the
-            // location, which will break url-encoded query string parameters
-            var relative = $.url().attr('relative');
+            var relative = url().attr('relative');
             var redirectUrl = '/?url=' + encodeURIComponent(relative);
             window.location = redirectUrl;
         };
@@ -1542,7 +1563,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * the user can be redirected here when signing in.
          */
         var accessdenied = function() {
-            window.location = '/accessdenied?url=' + $.url().attr('path');
+            window.location = '/accessdenied?url=' + url().attr('path');
         };
 
         /**

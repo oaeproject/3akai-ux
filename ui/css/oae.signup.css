@@ -1,0 +1,145 @@
+
+body {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.oae-main-content {
+    border-radius: 0 !important;
+    padding: 10px 50px;
+}
+
+main > h3 {
+    border-bottom: 1px #EEEEEE solid;
+}
+
+#signup-options-container {
+    display: flex;
+    -ms-justify-content: center;
+        justify-content: center;
+    margin: 50px auto;
+}
+
+#signup-options-container > div {
+    margin-right: 80px;
+}
+
+#signup-options-container h5 {
+    font-weight: normal;
+    margin-bottom: 35px;
+}
+
+#signup-options-external > ul.nav {
+    margin: 0 auto;
+}
+
+#signup-options-external > ul.nav > li {
+    margin-bottom: 10px;
+}
+
+#signup-options-divider {
+    border-left: solid 1px #ccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 0;
+}
+
+#signup-options-divider > div {
+    background-color: #fff;
+    height: 60px;
+    position: relative;
+    right: 25px;
+    text-align: center;
+    width: 50px;
+}
+
+#signup-options-divider > div > i.fa.fa-circle:before {
+    color: #ccc;
+    display: inline-block;
+    font-size: 50px;
+    margin-top: 5px;
+}
+
+#signup-options-divider > div > span {
+    color: #333;
+    position: relative;
+    top: -37px;
+}
+
+#signup-options-local {
+    min-width: 450px;
+}
+
+#signup-createaccount-username-available {
+    position: absolute;
+    top: 5px;
+    right: 22px;
+}
+
+#signup-createaccount-username-available.fa-times {
+    color: #8F0222;
+}
+
+.signup-createaccount-captcha-buttons a.btn {
+    margin: 2px 0 7px;
+}
+
+.signup-createaccount-captcha-buttons a.btn i {
+    font-size: 14px;
+}
+
+.signup-createaccount-captcha-input-container {
+    /* Make enough space for the floated captcha buttons to sit alongside this container */
+    padding-right: 87px;
+}
+
+#recaptcha_image {
+    margin-bottom: 5px;
+    min-height: 57px;
+}
+
+#signup-createaccount-termsandconditions-container label {
+    text-align: left;
+}
+
+#signup-createaccount-termsandconditions-container label input {
+    margin-right: 15px;
+}
+
+#signup-createaccount-captcha-error {
+    color: #a94442;
+}
+
+/* Top Navigation overrides */
+
+#topnavigation-container {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#topnavitation-left-signup {
+    display: none;
+}
+
+#topnavigation-search-form {
+    display: none !important;
+}
+
+#topnavigation-container .topnavigation-haveaccount {
+    display: inline-block !important;
+}
+
+/* ReCaptcha  overrides */
+
+#recaptcha_image,
+#recaptcha_image img {
+    height: auto !important;
+    width: 100% !important;
+}
+
+#recaptcha_image img {
+    border-style: solid;
+    border-width: 1px;
+}
+

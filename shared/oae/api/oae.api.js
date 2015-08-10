@@ -192,7 +192,7 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
         };
 
         var acceptInvitation = function(location, callback) {
-            var invitationToken = $.url(location).param('invitationToken');
+            var invitationToken = oae.api.util.url(location).param('invitationToken');
             if (!invitationToken) {
                 return callback();
             }
@@ -230,7 +230,7 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
          * @param  {Function}   callback    Invoked when the email verification has completed, regardless if it was successful or failed
          */
         var verifyEmail = function(location, callback) {
-            var emailToken = $.url(location).param('verifyEmail');
+            var emailToken = oae.api.util.url(location).param('verifyEmail');
             if (!emailToken) {
                 return callback();
             }

@@ -149,7 +149,7 @@ require(['jquery', 'oae.core', 'jquery.history'], function($, oae) {
 
             // Extract the currently selected module from the URL by parsing the URL fragment that's
             // inside of the current History.js hash. The expected URL structure is `/docs/internal/module/<moduleId>/<apiFunction>`.
-            var initialState = $.url(History.getState().hash);
+            var initialState = oae.api.util.url(History.getState().hash);
             var type = initialState.segment(3) || 'frontend';
             var moduleToLoad = initialState.segment(4) || modules[type][0];
             var apiFunction = initialState.segment(5);

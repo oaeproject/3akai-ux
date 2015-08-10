@@ -30,7 +30,7 @@ require(['jquery','oae.core'], function($, oae) {
         }
 
         // After signing in, the user should be redirected to the redirect target encoded in the URL
-        var redirectUrl = $.url().param('url') || '/me';
+        var redirectUrl = oae.api.util.url().param('url') || '/me';
 
         oae.api.util.template().render($('#error-signin-template'), {
             'singleInstitutionalAuth': singleInstitutionalAuth,

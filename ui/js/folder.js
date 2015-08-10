@@ -17,10 +17,11 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     // Get the folder id from the URL. The expected URL is `/folder/<tenantId>/<resourceId>`.
     // The folder id will then be `f:<tenantId>:<resourceId>`
-    var folderId = 'f:' + $.url().segment(2) + ':' + $.url().segment(3);
+    var url = oae.api.util.url();
+    var folderId = 'f:' + url.segment(2) + ':' + url.segment(3);
 
     // Variable used to cache the folder's base URL
-    var baseUrl = '/folder/' + $.url().segment(2) + '/' + $.url().segment(3);
+    var baseUrl = '/folder/' + url.segment(2) + '/' + url.segment(3);
 
     // Variable used to cache the requested folder profile
     var folderProfile = null;

@@ -17,10 +17,11 @@ require(['jquery','oae.core'], function($, oae) {
 
     // Get the discussion id from the URL. The expected URL is `/discussion/<tenantId>/<resourceId>`.
     // The discussion id will then be `d:<tenantId>:<resourceId>`
-    var discussionId = 'd:' + $.url().segment(2) + ':' + $.url().segment(3);
+    var url = oae.api.util.url();
+    var discussionId = 'd:' + url.segment(2) + ':' + url.segment(3);
 
     // Variable used to cache the discussion's base URL
-    var baseUrl = '/discussion/' + $.url().segment(2) + '/' + $.url().segment(3);
+    var baseUrl = '/discussion/' + url.segment(2) + '/' + url.segment(3);
 
     // Variable used to cache the requested discussion profile
     var discussionProfile = null;

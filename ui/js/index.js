@@ -19,6 +19,18 @@ require(['jquery','oae.core'], function($, oae) {
     oae.api.util.setBrowserTitle('__MSG__WELCOME__');
 
     /**
+     * Insert the topnavigation widget with the relevant widget data
+     */
+    var renderTopNav = function() {
+        var topnavData = {'redirecturl': oae.api.authentication.getLoginRedirectUrl()};
+        oae.api.widget.insertWidget('topnavigation', null, $('#index-topnavigation'), null, topnavData, function() {
+            if (topnavData.redirecturl) {
+                $('#index-topnavigation .oae-trigger-signin').click();
+            }
+        });
+    };
+
+    /**
      * Render the configured tenant landing page
      *
      * An unconfigured tenant landing page will use the following i18n keys:
@@ -86,7 +98,7 @@ require(['jquery','oae.core'], function($, oae) {
             var url = $(this).attr('data-url');
             // Detect YouTube videos and automatically play them when the play button is clicked
             if (url.indexOf('youtube') !== -1) {
-                var youtubeId = $.url(url).param('v');
+                var youtubeId = oae.api.util.url(url).param('v');
                 url = '//www.youtube.com/embed/' + youtubeId + '?rel=0&autoplay=1&showinfo=0&modestbranding=1';
             // Other videos are embedded as is
             } else {
@@ -128,7 +140,7 @@ require(['jquery','oae.core'], function($, oae) {
         }
     };
 
+    renderTopNav();
     renderLandingPage();
     setUpSearch();
-
 });

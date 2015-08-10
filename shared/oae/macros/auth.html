@@ -1,0 +1,33 @@
+<!--
+ * Render an external authentication item that, when clicked, performs the external authentication
+ * action.
+ *
+ * Note: The optional `data` keys and strategy url values are not encoded before put into the form.
+ * It is up to the caller to encode the data in a way that suits their needs. This is because the
+ * `$.encoder` utility will canonicalize data that is input, therefore if you simply
+ * `encodeForHTMLAttribute` the data, it will break any prior URL encoding that was performed (e.g.,
+ * a redirect url with encoded query string parameters).
+ *
+ * @param  {String}     id              The id of the authentication strategy
+ * @param  {Object}     strategy        The authentication strategy object
+ * @param  {Object}     [opts]          Optional arguments
+ * @param  {Object}     [opts.data]     Any additional authentication data to POST with the authentication request
+-->
+{macro authExternalButton(id, strategy, opts)}
+    {var opts = opts || new Object()}
+    {var data = opts.data || new Object()}
+    <form action="${strategy.url}" method="POST">
+        {for item in data}
+            {if item}
+                <input type="hidden" name="${item_index}" value="${item}" />
+            {/if}
+        {/for}
+
+        <button type="submit" class="btn btn-external-auth btn-${id}">
+            {if strategy.icon}
+                <i class="icon fa fa-${strategy.icon}"></i>
+            {/if}
+            ${strategy.name}
+        </button>
+    </form>
+{/macro}

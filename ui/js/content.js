@@ -17,10 +17,11 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     // Get the content id from the URL. The expected URL is `/content/<tenantId>/<resourceId>`.
     // The content id will then be `c:<tenantId>:<resourceId>`
-    var contentId = 'c:' + $.url().segment(2) + ':' + $.url().segment(3);
+    var url = oae.api.util.url();
+    var contentId = 'c:' + url.segment(2) + ':' + url.segment(3);
 
     // Variable used to cache the content's base URL
-    var baseUrl = '/content/' + $.url().segment(2) + '/' + $.url().segment(3);
+    var baseUrl = '/content/' + url.segment(2) + '/' + url.segment(3);
 
     // Variable used to cache the requested content profile
     var contentProfile = null;

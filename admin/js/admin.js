@@ -201,7 +201,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                         allTenants = tenants;
                         // Check if we're currently on a user admin on the global admin tenant. In that
                         // case, the URL should be /tenant/<tenantAlias>
-                        var tenantAlias = $.url().segment(2);
+                        var tenantAlias = oae.api.util.url().segment(2);
                         if (tenantAlias) {
                             currentContext = allTenants[tenantAlias];
                             currentContext.isTenantOnGlobalAdminServer = true;

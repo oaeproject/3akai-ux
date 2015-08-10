@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) {
+define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', 'oae.api.util'], function(exports, $, configAPI, i18nAPI, userAPI, utilAPI) {
 
     var STRATEGY_CAS = exports.STRATEGY_CAS = 'cas';
     var STRATEGY_FACEBOOK = exports.STRATEGY_FACEBOOK = 'facebook';
@@ -24,35 +24,129 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     var STRATEGY_SHIBBOLETH = exports.STRATEGY_SHIBBOLETH = 'shibboleth';
     var STRATEGY_TWITTER = exports.STRATEGY_TWITTER = 'twitter';
 
+    // Classify all known authentication strategies
+    var STRATEGIES_LOCAL = [STRATEGY_LOCAL, STRATEGY_LDAP];
+    var STRATEGIES_EXTERNAL = [
+        STRATEGY_CAS,
+        STRATEGY_FACEBOOK,
+        STRATEGY_GOOGLE,
+        STRATEGY_GOOGLE_APPS,
+        STRATEGY_SHIBBOLETH,
+        STRATEGY_TWITTER
+    ];
+    var STRATEGIES_INSTITUTIONAL = [
+        STRATEGY_CAS,
+        STRATEGY_GOOGLE_APPS,
+        STRATEGY_SHIBBOLETH
+    ];
+
+    /**
+     * Use the known authentication strategies to determine some important characteristics about how
+     * to offer a user their authentication method
+     *
+     * @param  {String}     [contextLabel]                                      Specifies in which context the strategy info is being requested. Either "SIGN_IN" or "SIGN_UP" (Default: SIGN_IN)
+     * @return {Object}     authStrategyInfo                                    Authentication strategy information
+     * @return {Object}     authStrategyInfo.enabledStrategies                  All the enabled strategies keyed by strategy id
+     * @return {Object}     authStrategyInfo.enabledLocalStrategy               The single local strategy that is enabled. There should not be 2
+     * @return {Object}     authStrategyInfo.enabledExternalStrategies          All the enabled external strategies keyed by strategy id
+     * @return {Object}     authStrategyInfo.enabledInstitutionalStrategies     All the enabled institutional strategies keyed by strategy id
+     * @return {Boolean}    authStrategyInfo.hasLocalAuth                       True if there is at least one local (e.g., username and password, ldap) authentication method enabled
+     * @return {Boolean}    authStrategyInfo.hasExternalAuth                    True if there is at least one external (e.g., cas, shibboleth, twitter, etc...) authentication method enabled
+     * @return {Boolean}    authStrategyInfo.hasInstitutionalAuth               True if there is at least one institutional (e.g., shibboleth, cas, google apps) authentication method enabled
+     * @return {Boolean}    authStrategyInfo.hasSingleExternalAuth              True if there is only one authentication method enabled and it is external
+     * @return {Boolean}    authStrategyInfo.hasSingleInstitutionalAuth         True if there is only one authentication method enabled and it is institutional
+     */
+    var getStrategyInfo = exports.getStrategyInfo = function(contextLabel) {
+        contextLabel = contextLabel || 'SIGN_IN';
+
+        var enabledStrategies = getEnabledStrategies(contextLabel);
+        var enabledStrategyNames = _.keys(enabledStrategies);
+
+        var hasLocalAuth = (!_.chain(enabledStrategyNames).intersection(STRATEGIES_LOCAL).isEmpty().value());
+        var hasExternalAuth = (!_.chain(enabledStrategyNames).intersection(STRATEGIES_EXTERNAL).isEmpty().value());
+        var hasInstitutionalAuth = (!_.chain(enabledStrategyNames).intersection(STRATEGIES_INSTITUTIONAL).isEmpty().value());
+
+        var hasSingleAuth = (_.size(enabledStrategyNames) === 1);
+        var hasSingleExternalAuth = (hasSingleAuth && hasExternalAuth);
+        var hasSingleInstitutionalAuth = (hasSingleAuth && hasInstitutionalAuth);
+
+        return {
+            'allowAccountCreation': configAPI.getValue('oae-authentication', STRATEGY_LOCAL, 'allowAccountCreation'),
+            'enabledStrategies': enabledStrategies,
+            'enabledLocalStrategy': _.chain(enabledStrategies).pick(STRATEGIES_LOCAL).values().first().value(),
+            'enabledExternalStrategies': _.pick(enabledStrategies, STRATEGIES_EXTERNAL),
+            'enabledInstitutionalStrategies': _.pick(enabledStrategies, STRATEGIES_INSTITUTIONAL),
+            'hasLocalAuth': hasLocalAuth,
+            'hasExternalAuth': hasExternalAuth,
+            'hasInstitutionalAuth': hasInstitutionalAuth,
+            'hasSingleExternalAuth': hasSingleExternalAuth,
+            'hasSingleInstitutionalAuth': hasSingleInstitutionalAuth
+        };
+    };
+
+    /*!
+     * Between the different context label and authentication strategy permutations, we have the
+     * following possible permutations of message keys:
+     *
+     *  * __MSG__SIGN_IN_WITH_STRATEGY
+     *  * __MSG__SIGN_IN_WITH_FACEBOOK
+     *  * __MSG__SIGN_IN_WITH_GOOGLE
+     *  * __MSG__SIGN_IN_WITH_TWITTER
+     *  * __MSG__SIGN_UP_WITH_STRATEGY
+     *  * __MSG__SIGN_UP_WITH_FACEBOOK
+     *  * __MSG__SIGN_UP_WITH_GOOGLE
+     *  * __MSG__SIGN_UP_WITH_TWITTER
+     */
+
+    var strategyName = function(strategyId) {
+        var translatedName = i18nAPI.translate('__MSG__' + contextLabel + '_WITH_STRATEGY__', null, {
+            'strategyName': configAPI.getValue('oae-authentication', strategyId, 'name')
+        });
+        return translatedName;
+    };
+
     /**
      * Get the list of all enabled authentication strategies for the current tenant
      *
-     * @return {Object}                List of all enabled authentication strategies for the current tenant keyed by authentication strategy id. Each enabled authentication strategy will contain a `url` property with the URL to which to POST to initiate the authentication process for that strategy and a `name` property with the custom configured name for that strategy
+     * @param  {String}     [contextLabel]  Specifies in which context the strategy info is being requested. Either "SIGN_IN" or "SIGN_UP" (Default: SIGN_IN)
+     * @return {Object}                     List of all enabled authentication strategies for the current tenant keyed by authentication strategy id. Each enabled authentication strategy will contain a `url` property with the URL to which to POST to initiate the authentication process for that strategy and a `name` property with the custom configured name for that strategy
      */
-    var getEnabledStrategies = exports.getEnabledStrategies = function() {
+    var getEnabledStrategies = exports.getEnabledStrategies = function(contextLabel) {
         var enabledStrategies = {};
 
         // CAS authentication
         if (configAPI.getValue('oae-authentication', STRATEGY_CAS, 'enabled')) {
             enabledStrategies[STRATEGY_CAS] = {
-                'name': configAPI.getValue('oae-authentication', STRATEGY_CAS, 'name'),
+                'name': strategyName(STRATEGY_CAS),
                 'url': '/api/auth/cas'
             };
         }
 
         // Facebook authentication
         if (configAPI.getValue('oae-authentication', STRATEGY_FACEBOOK, 'enabled')) {
-            enabledStrategies[STRATEGY_FACEBOOK] = {'url': '/api/auth/facebook'};
+            enabledStrategies[STRATEGY_FACEBOOK] = {
+                'icon': 'facebook',
+                'name': i18nAPI.translate('__MSG__' + contextLabel + '_WITH_FACEBOOK__'),
+                'url': '/api/auth/facebook'
+            };
         }
 
         // Google authentication. This will only be enabled when no Google Apps domain has been configured.
         if (configAPI.getValue('oae-authentication', STRATEGY_GOOGLE, 'enabled') && !configAPI.getValue('oae-authentication', STRATEGY_GOOGLE, 'domains')) {
-            enabledStrategies[STRATEGY_GOOGLE] = {'url': '/api/auth/google'};
+            enabledStrategies[STRATEGY_GOOGLE] = {
+                'icon': 'google-plus',
+                'name': i18nAPI.translate('__MSG__' + contextLabel + '_WITH_GOOGLE__'),
+                'url': '/api/auth/google'
+            };
         }
 
         // Google Apps authentication
         if (configAPI.getValue('oae-authentication', STRATEGY_GOOGLE, 'enabled') && configAPI.getValue('oae-authentication', STRATEGY_GOOGLE, 'domains')) {
-            enabledStrategies[STRATEGY_GOOGLE_APPS] = {'url': '/api/auth/google'};
+            enabledStrategies[STRATEGY_GOOGLE_APPS] = {
+                'icon': 'google-plus',
+                'name': i18nAPI.translate('__MSG__' + contextLabel + '_WITH_GOOGLE__'),
+                'url': '/api/auth/google'
+            };
         }
 
         // LDAP authentication
@@ -63,14 +157,18 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
         // Shibboleth authentication
         if (configAPI.getValue('oae-authentication', STRATEGY_SHIBBOLETH, 'enabled')) {
             enabledStrategies[STRATEGY_SHIBBOLETH] = {
-                'name': configAPI.getValue('oae-authentication', STRATEGY_SHIBBOLETH, 'name'),
+                'name': strategyName(STRATEGY_SHIBBOLETH),
                 'url': '/api/auth/shibboleth'
             };
         }
 
         // Twitter authentication
         if (configAPI.getValue('oae-authentication', STRATEGY_TWITTER, 'enabled')) {
-            enabledStrategies[STRATEGY_TWITTER] = {'url': '/api/auth/twitter'};
+            enabledStrategies[STRATEGY_TWITTER] = {
+                'icon': 'twitter',
+                'name': i18nAPI.translate('__MSG__' + contextLabel + '_WITH_TWITTER__'),
+                'url': '/api/auth/twitter'
+            };
         }
 
         // Local authentication
@@ -82,18 +180,66 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     };
 
     /**
+     * Determine if there is a login redirect url available for the current page
+     *
+     * @param  {String}     [location]  The url to use to check for the redirect url. If unspecified, the current window location will be used
+     * @return {String}                 The login redirect url, if any
+     */
+    var getLoginRedirectUrl = exports.getLoginRedirectUrl = function(location) {
+        return utilAPI.url(location).param('url');
+    };
+
+    /**
+     * Perform a login with an external authentication strategy
+     *
+     * @param  {String}     strategyId              The id of the strategy with which to authenticate. It must be a strategy that is enabled in the list of `enabledExternalStrategies` from the strategy info
+     * @param  {Object}     [opts]                  Optional arguments
+     * @param  {String}     [opts.redirectUrl]      The redirect url to follow after authentication success
+     * @param  {String}     [opts.invitationToken]  The invitation token from which the login originates, if any
+     */
+    var externalLogin = exports.externalLogin = function(strategyId, opts) {
+        if (!strategyId) {
+            throw new Error('A valid strategy id should be provided');
+        }
+
+        // Ensure we were provided an enabled external strategy
+        var strategyInfo = getStrategyInfo();
+        var strategy = strategyInfo.enabledExternalStrategies[strategyId];
+        if (!strategy) {
+            throw new Error('Strategy id must be an enabled external strategy');
+        }
+
+        opts = opts || {};
+
+        // Use the `auth.html` `authExternalButton` macro to create a form that performs this
+        // authentication
+        var $template = $('<div>${authExternalButton(strategyId, strategy, opts)}</div>');
+        var form = utilAPI.template().render($template, {
+            'strategyId': strategyId,
+            'strategy': strategyInfo.enabledExternalStrategies[strategyId],
+            'opts': {
+                'data': {
+                    'redirectUrl': opts.redirectUrl,
+                    'invitationToken': opts.invitationToken
+                }
+            }
+        });
+
+        // Submit the form
+        $($.trim(form)).submit();
+    };
+
+    /**
      * Log in as an internal user using the local authentication strategy
      *
      * @param  {String}         username                Username for the user logging in
      * @param  {String}         password                The user's password
-     * @param  {Object}         [opts]                  Optional authentication arguments
-     * @param  {String}         [opts.invitationToken]  If this authentication is originating from an invitation token, the invitation can be placed here. This will help pre-verify the email address for the user
      * @param  {Function}       [callback]              Standard callback function
      * @param  {Object}         [callback.err]          Error object containing error code and error message
      * @param  {User}           [callback.user]         User object representing the logged in user
      * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
-    var localLogin = exports.localLogin = function(username, password, opts, callback) {
+    var localLogin = exports.localLogin = function(username, password, callback) {
         if (!username) {
             throw new Error('A valid username should be provided');
         } else if (!password) {
@@ -102,15 +248,13 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
-        opts = opts || {};
 
         $.ajax({
             'url': '/api/auth/login',
             'type': 'POST',
             'data': {
                 'username': username,
-                'password': password,
-                'invitationToken': opts.invitationToken
+                'password': password
             },
             'success': function() {
                 callback(null);
@@ -142,14 +286,12 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
      *
      * @param  {String}         username                Username for the user logging in
      * @param  {String}         password                The user's password
-     * @param  {Object}         [opts]                  Optional authentication arguments
-     * @param  {String}         [opts.invitationToken]  If this authentication is originating from an invitation token, the invitation can be placed here. This will help pre-verify the email address for the user
      * @param  {Function}       [callback]              Standard callback function
      * @param  {Object}         [callback.err]          Error object containing error code and error message
      * @param  {User}           [callback.user]         User object representing the logged in user
      * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
-    var LDAPLogin = exports.LDAPLogin = function(username, password, opts, callback) {
+    var LDAPLogin = exports.LDAPLogin = function(username, password, callback) {
         if (!username) {
             throw new Error('A valid username should be provided');
         } else if (!password) {
@@ -158,15 +300,13 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
-        opts = opts || {};
 
         $.ajax({
             'url': '/api/auth/ldap',
             'type': 'POST',
             'data': {
                 'username': username,
-                'password': password,
-                'invitationToken': opts.invitationToken
+                'password': password
             },
             'success': function() {
                 callback(null);
@@ -210,5 +350,4 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
             }
         });
     };
-
 });

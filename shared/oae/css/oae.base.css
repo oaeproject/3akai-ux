@@ -147,6 +147,40 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     margin-top: 1px;
 }
 
+/* HR-like element */
+
+div.hr {
+    display: block;
+    overflow: hidden;
+    text-align: center;
+    white-space: nowrap;
+}
+
+div.hr > span {
+    display: inline-block;
+    position: relative;
+}
+
+div.hr > span:before,
+div.hr > span:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 9999px;
+    height: 1px;
+    background: #ccc;
+}
+
+div.hr > span:before {
+    right: 100%;
+    margin-right: 15px;
+}
+
+div.hr > span:after {
+    left: 100%;
+    margin-left: 15px;
+}
+
 /* DROPDOWN
  * @see http://getbootstrap.com/components/#dropdowns */
 
