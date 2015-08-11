@@ -158,20 +158,22 @@
             <!-- DETAILED LIST VIEW -->
             <div class="oae-list-details-item">
                 <div class="oae-listitem">
-                    ${renderCheckbox(entityData, 'details', displayOptions.showCheckbox)}
-                    <div class="oae-listitem-primary-thumbnail">
-                        ${displayOptions.addVisibilityIcon = true|eat}
-                        ${displayOptions.size = "small"|eat}
-                        ${displayOptions.threedotTitle = true|eat}
-                        ${renderThumbnail(entityData, displayOptions)}
-                    </div>
-                    {if displayOptions.listItemActions}
-                        <div class="oae-listitem-actions">
-                            ${displayOptions.listItemActions()}
+                    <div class="oae-listitem-inner">
+                        ${renderCheckbox(entityData, 'details', displayOptions.showCheckbox)}
+                        <div class="oae-listitem-primary-thumbnail">
+                            ${displayOptions.addVisibilityIcon = true|eat}
+                            ${displayOptions.size = "small"|eat}
+                            ${displayOptions.threedotTitle = true|eat}
+                            ${renderThumbnail(entityData, displayOptions)}
                         </div>
-                    {/if}
-                    <div class="oae-listitem-metadata">
-                        ${renderMetadata(entityData, displayOptions)}
+                        {if displayOptions.listItemActions}
+                            <div class="oae-listitem-actions">
+                                ${displayOptions.listItemActions()}
+                            </div>
+                        {/if}
+                        <div class="oae-listitem-metadata">
+                            ${renderMetadata(entityData, displayOptions)}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -179,21 +181,23 @@
             <!-- COMPACT LIST VIEW -->
             <div class="oae-list-compact-item">
                 <div class="oae-listitem">
-                    ${renderCheckbox(entityData, 'compact', displayOptions.showCheckbox)}
-                    {if entityData.resourceType !== 'email'}
-                        <div class="oae-listitem-primary-thumbnail">
-                            ${renderThumbnail(entityData, displayOptions)}
+                    <div class="oae-listitem-inner">
+                        ${renderCheckbox(entityData, 'compact', displayOptions.showCheckbox)}
+                        {if entityData.resourceType !== 'email'}
+                            <div class="oae-listitem-primary-thumbnail">
+                                ${renderThumbnail(entityData, displayOptions)}
+                            </div>
+                        {else}
+                            <i class="oae-listitem-primary-thumbnail fa fa-envelope"></i>
+                        {/if}
+                        {if displayOptions.listItemActions}
+                            <div class="oae-listitem-actions">
+                                ${displayOptions.listItemActions()}
+                            </div>
+                        {/if}
+                        <div class="oae-listitem-metadata">
+                            ${renderMetadata(entityData, displayOptions)}
                         </div>
-                    {else}
-                        <i class="oae-listitem-primary-thumbnail fa fa-envelope"></i>
-                    {/if}
-                    {if displayOptions.listItemActions}
-                        <div class="oae-listitem-actions">
-                            ${displayOptions.listItemActions()}
-                        </div>
-                    {/if}
-                    <div class="oae-listitem-metadata">
-                        ${renderMetadata(entityData, displayOptions)}
                     </div>
                 </div>
             </div>

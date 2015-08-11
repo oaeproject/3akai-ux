@@ -1156,7 +1156,7 @@ div.oae-thumbnail i.fa {
     margin-top: 6px;
 }
 
-.oae-listitem > div.oae-listitem-metadata .oae-threedots {
+.oae-listitem div.oae-listitem-metadata .oae-threedots {
     display: block;
     -webkit-flex: initial;
        -moz-flex: initial;
@@ -1180,8 +1180,8 @@ div.oae-thumbnail i.fa {
 
 /* List item primary thumbnail or icon acting as thumbnail */
 
-.oae-listitem > div.oae-listitem-primary-thumbnail,
-.oae-listitem > i.oae-listitem-primary-thumbnail {
+.oae-listitem div.oae-listitem-primary-thumbnail,
+.oae-listitem i.oae-listitem-primary-thumbnail {
     display: block;
     float: left;
     margin-right: 15px;
@@ -1189,7 +1189,7 @@ div.oae-thumbnail i.fa {
 
 /* List item metadata */
 
-.oae-listitem > div.oae-listitem-metadata {
+.oae-listitem div.oae-listitem-metadata {
     display: -webkit-flex;
     display: -moz-flex;
     display: -ms-flexbox;
@@ -1197,7 +1197,7 @@ div.oae-thumbnail i.fa {
     display: flex;
 }
 
-.oae-listitem > div.oae-listitem-metadata > h3 {
+.oae-listitem div.oae-listitem-metadata > h3 {
     font-size: 15px;
     font-weight: 500;
     height: 25px;
@@ -1205,14 +1205,14 @@ div.oae-thumbnail i.fa {
     margin: 0;
 }
 
-.oae-listitem > div.oae-listitem-metadata > h3 + small {
+.oae-listitem div.oae-listitem-metadata > h3 + small {
     font-size: 12px;
     line-height: 27px;
     text-transform: uppercase;
 }
 
 /* Details view stacks the h3/small in the metadata vertically */
-.oae-list-details-item > .oae-listitem > div.oae-listitem-metadata {
+.oae-list-details-item > .oae-listitem div.oae-listitem-metadata {
     -webkit-flex-direction: column;
        -moz-flex-direction: column;
         -ms-flex-direction: column;
@@ -1221,7 +1221,7 @@ div.oae-thumbnail i.fa {
 }
 
 /* Compact view lines up the h3/small in the metadata horizontally */
-.oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata {
+.oae-list-compact-item > .oae-listitem div.oae-listitem-metadata {
     -webkit-flex-direction: row;
        -moz-flex-direction: row;
         -ms-flex-direction: row;
@@ -1230,13 +1230,13 @@ div.oae-thumbnail i.fa {
 }
 
 /* Give space between the listitem header and the extra metadata that is next to it */
-.oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3 {
+.oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > h3 {
     margin-right: 15px;
 }
 
 /* List item actions */
 
-.oae-listitem > div.oae-listitem-actions {
+.oae-listitem div.oae-listitem-actions {
     display: inline-block;
     -webkit-flex: none;
        -moz-flex: none;
@@ -1245,22 +1245,22 @@ div.oae-thumbnail i.fa {
     float: right;
 }
 
-.oae-listitem > div.oae-listitem-actions > *:not(.hide) {
+.oae-listitem div.oae-listitem-actions > *:not(.hide) {
     border-width: 0;
     display: inline-block;
     height: 100%;
 }
 
-.oae-listitem > div.oae-listitem-actions i.fa {
+.oae-listitem div.oae-listitem-actions i.fa {
     font-size: 18px;
     padding: 4px;
 }
 
-.oae-listitem > div.oae-listitem-actions > .btn {
+.oae-listitem div.oae-listitem-actions > .btn {
     border-width: 1px;
 }
 
-.oae-listitem > div.oae-listitem-actions > .oae-listitem-remove {
+.oae-listitem div.oae-listitem-actions > .oae-listitem-remove {
     /* Do not apply a top-padding as the browser already gives buttons some padding */
     border-width: 0;
     padding: 0 4px;
@@ -1268,14 +1268,14 @@ div.oae-thumbnail i.fa {
 }
 
 /* Center the actions panel vertically for details items */
-.oae-list-details-item > .oae-listitem > div.oae-listitem-actions {
+.oae-list-details-item > .oae-listitem div.oae-listitem-actions {
     margin-top: 12px;
 }
 
 /* Compact view can have a .form-group. Currently it's an adhoc implementation of
    something needed in the manageaccess widget that may need to be fleshed out
    more for details view */
-.oae-list-compact-item > .oae-listitem > div.oae-listitem-actions .form-group {
+.oae-list-compact-item > .oae-listitem div.oae-listitem-actions .form-group {
     display: inline-block;
     margin-top: 1px;
 }
@@ -1290,41 +1290,41 @@ div.oae-thumbnail i.fa {
     padding-bottom: 10px;
 }
 
-.ie-lt10 .oae-listitem > div.oae-listitem-metadata,
-.ie-lt10 .oae-listitem > div.oae-listitem-actions {
+.ie-lt10 .oae-listitem div.oae-listitem-metadata,
+.ie-lt10 .oae-listitem div.oae-listitem-actions {
     display: block;
     vertical-align: middle;
     width: auto;
 }
 
-.ie-lt10 .oae-listitem > div.oae-listitem-actions {
+.ie-lt10 .oae-listitem div.oae-listitem-actions {
     float: right;
 }
 
 @media (min-width: 900px) {
-    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3,
-    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > small {
+    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > h3,
+    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > small {
         max-width: 500px;
     }
 }
 
 @media (min-width: 550px) and (max-width: 900px) {
-    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3,
-    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > small {
+    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > h3,
+    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > small {
         max-width: 300px;
     }
 }
 
 @media (min-width: 400px) and (max-width: 550px) {
-    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3,
-    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > small {
+    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > h3,
+    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > small {
         max-width: 160px;
     }
 }
 
 @media (max-width: 400px) {
-    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3,
-    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > small {
+    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > h3,
+    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > small {
         max-width: 100px;
     }
 }
