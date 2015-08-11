@@ -98,7 +98,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
      *  * __MSG__SIGN_UP_WITH_TWITTER
      */
 
-    var strategyName = function(strategyId) {
+    var strategyName = function(strategyId, contextLabel) {
         var translatedName = i18nAPI.translate('__MSG__' + contextLabel + '_WITH_STRATEGY__', null, {
             'strategyName': configAPI.getValue('oae-authentication', strategyId, 'name')
         });
@@ -117,7 +117,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
         // CAS authentication
         if (configAPI.getValue('oae-authentication', STRATEGY_CAS, 'enabled')) {
             enabledStrategies[STRATEGY_CAS] = {
-                'name': strategyName(STRATEGY_CAS),
+                'name': strategyName(STRATEGY_CAS, contextLabel),
                 'url': '/api/auth/cas'
             };
         }
@@ -157,7 +157,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
         // Shibboleth authentication
         if (configAPI.getValue('oae-authentication', STRATEGY_SHIBBOLETH, 'enabled')) {
             enabledStrategies[STRATEGY_SHIBBOLETH] = {
-                'name': strategyName(STRATEGY_SHIBBOLETH),
+                'name': strategyName(STRATEGY_SHIBBOLETH, contextLabel),
                 'url': '/api/auth/shibboleth'
             };
         }
