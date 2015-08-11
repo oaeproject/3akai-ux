@@ -1,22 +1,16 @@
 
-body {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-}
-
-.oae-main-content {
-    border-radius: 0 !important;
-    padding: 10px 50px;
-}
-
 main > h3 {
     border-bottom: 1px #EEEEEE solid;
+    margin-left: 20px;
+    margin-right: 20px
 }
 
 #signup-options-container {
-    display: flex;
-    -ms-justify-content: center;
-        justify-content: center;
+    display: -webkit-flex;
+    display:         flex;
+    -webkit-justify-content: center;
+        -ms-justify-content: center;
+            justify-content: center;
     margin: 50px auto;
 }
 
@@ -29,6 +23,8 @@ main > h3 {
 }
 
 #signup-options-container h5 {
+    color: #888;
+    font-size: 15px;
     font-weight: normal;
     margin-bottom: 35px;
     text-align: left;
@@ -48,9 +44,12 @@ main > h3 {
 
 #signup-options-divider-vertical {
     border-left: solid 1px #ccc;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: -webkit-flex;
+    display:         flex;
+    -webkit-flex-direction: column;
+            flex-direction: column;
+    -webkit-justify-content: center;
+            justify-content: center;
     width: 0;
 }
 
@@ -73,6 +72,7 @@ main > h3 {
 #signup-options-divider-vertical > div > span {
     color: #333;
     position: relative;
+    text-transform: uppercase;
     top: -37px;
 }
 
@@ -109,7 +109,7 @@ main > h3 {
 }
 
 #recaptcha_image {
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     min-height: 57px;
 }
 
@@ -137,21 +137,20 @@ main > h3 {
     #signup-createaccount-form {
         margin-top: -8px;
     }
-
-    #signup-createaccount-form .form-group {
-        margin-bottom: 5px;
-    }
 }
 
 @media (max-width: 767px) {
     #signup-options-container {
-        flex-direction: column;
+        -webkit-flex-direction: column;
+                flex-direction: column;
+        margin: 25px auto;
         max-width: 400px
     }
 
-    #signup-options-container > div {
-        margin-left: 0;
-        margin-right: 0;
+    #signup-options-container > div,
+    #signup-options-container > div:last-child {
+        margin-left: 20px;
+        margin-right: 20px;
     }
 
     #signup-options-container h5 {

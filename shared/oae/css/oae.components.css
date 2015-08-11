@@ -1180,7 +1180,8 @@ div.oae-thumbnail i.fa {
 /* List item primary thumbnail or icon acting as thumbnail */
 
 .oae-listitem > div.oae-listitem-primary-thumbnail,
-.oae-listitem > i.pull-left {
+.oae-listitem > i.oae-listitem-primary-thumbnail {
+    display: block;
     float: left;
     margin-right: 15px;
 }

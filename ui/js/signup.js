@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery','oae.core'], function($, oae) {
+require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     var DEFAULT_SIGN_UP_REDIRECT_URL = '/me';
 
@@ -198,6 +198,14 @@ require(['jquery','oae.core'], function($, oae) {
         invitationInfo = getInvitationInfo();
         pageTitle = getPageTitle();
         authStrategyInfo = oae.api.authentication.getStrategyInfo('SIGN_UP');
+        if (authStrategyInfo.hasSingleExternalAuth) {
+            _.each(authStrategyInfo.enabledExternalStrategies, function(strategy, strategyId) {
+                oae.api.authentication.externalLogin(strategyId, strategy, {
+                    'redirectUrl': signUpRedirectUrl,
+                    'invitationToken': invitationInfo.token
+                });
+            });
+        }
 
         recaptchaEnabled = (authStrategyInfo.hasLocalAuth && oae.api.config.getValue('oae-principals', 'recaptcha', 'enabled'));
         recaptchaPublicKey = oae.api.config.getValue('oae-principals', 'recaptcha', 'publicKey');
