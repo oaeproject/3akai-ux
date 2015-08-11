@@ -207,7 +207,14 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             });
         }
 
-        recaptchaEnabled = (authStrategyInfo.hasLocalAuth && oae.api.config.getValue('oae-principals', 'recaptcha', 'enabled'));
+        // Don't run recaptcha if the tenant doesn't have it enabled or if local auth is disabled,
+        // but also don't require recaptcha if an invitation token is provided, as it will validate
+        // user account creation on its own
+        recaptchaEnabled = (
+            !invitationInfo.token &&
+            authStrategyInfo.hasLocalAuth &&
+            oae.api.config.getValue('oae-principals', 'recaptcha', 'enabled')
+        );
         recaptchaPublicKey = oae.api.config.getValue('oae-principals', 'recaptcha', 'publicKey');
         termsAndConditionsEnabled = oae.api.config.getValue('oae-principals', 'termsAndConditions', 'enabled');
     };

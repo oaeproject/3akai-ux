@@ -111,7 +111,7 @@
                                     <input type="password" id="signup-createaccount-password-repeat" name="password_repeat" class="form-control required maxlength-short" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" />
                                 </div>
                             </div>
-                            {if oae.api.config.getValue('oae-principals', 'recaptcha', 'enabled')}
+                            {if recaptchaEnabled}
                                 <div id="signup-createaccount-recaptcha-container" class="form-group">
                                     <div class="col-xs-12 col-md-7 pull-right">
                                         <div id="recaptcha_image"></div>
