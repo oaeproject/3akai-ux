@@ -337,8 +337,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
         // For IE9, everything floats so we can't get height. Give the main container as much height
         // as it needs for the create account form
-        $('#signup-options-local:visible').each(function() {
-            console.log('height is: %s', $(this).height());
+        $('.ie-lt10 #signup-options-local:visible').each(function() {
             $('#signup-options-container').css('height', $(this).height());
         });
 

@@ -7,9 +7,10 @@ main > h3 {
 
 #signup-options-container {
     display: -webkit-flex;
+    display:  -ms-flexbox;
     display:         flex;
     -webkit-justify-content: center;
-        -ms-justify-content: center;
+              -ms-flex-pack: center;
             justify-content: center;
     margin: 50px auto;
 }
@@ -45,10 +46,13 @@ main > h3 {
 #signup-options-divider-vertical {
     border-left: solid 1px #ccc;
     display: -webkit-flex;
+    display:  -ms-flexbox;
     display:         flex;
     -webkit-flex-direction: column;
+        -ms-flex-direction: column;
             flex-direction: column;
     -webkit-justify-content: center;
+              -ms-flex-pack: center;
             justify-content: center;
     width: 0;
 }
@@ -142,6 +146,7 @@ main > h3 {
 @media (max-width: 767px) {
     #signup-options-container {
         -webkit-flex-direction: column;
+            -ms-flex-direction: column;
                 flex-direction: column;
         margin: 25px auto;
         max-width: 400px
