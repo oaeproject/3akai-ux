@@ -422,6 +422,7 @@ div.oae-thumbnail.fa-oae-user div {
 div.oae-thumbnail.fa-oae-email {
     background: none;
     border: none;
+    filter: none;
 }
 
 div.oae-thumbnail.fa-oae-email:before {

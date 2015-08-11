@@ -536,6 +536,10 @@ ul.as-list li.as-result-item .oae-listitem.oae-listitem-email h3 {
     margin-top: 12px;
 }
 
+.ie-lt10 ul.as-list li.as-result-item .oae-listitem.oae-listitem-email {
+    padding-top: 4px;
+}
+
 /* Fixed items */
 
 ul.as-selections li.as-selection-item.as-fixed-item a.as-close {
