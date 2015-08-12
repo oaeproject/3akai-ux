@@ -235,6 +235,7 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                 return callback();
             }
 
+            var previousEmail = oae.data.me.email;
             oae.api.user.getEmailVerificationStatus(oae.data.me.id, function(err, unverifiedEmail) {
                 if (err) {
                     // Notify if we could not determine there was an email to be verified
@@ -260,9 +261,15 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                         oae.data.me.email = unverifiedEmail;
 
                         // Notify that we successfully verified the email address
-                        oae.api.util.notification(
-                            oae.api.i18n.translate('__MSG__EMAIL_VERIFIED__'),
-                            oae.api.i18n.translate('__MSG__EMAIL_VERIFIED_THANK_YOU__'));
+                        if (previousEmail) {
+                            oae.api.util.notification(
+                                oae.api.i18n.translate('__MSG__EMAIL_VERIFIED__'),
+                                oae.api.i18n.translate('__MSG__EMAIL_VERIFIED_NEW_THANK_YOU__'));
+                        } else {
+                            oae.api.util.notification(
+                                oae.api.i18n.translate('__MSG__EMAIL_VERIFIED__'),
+                                oae.api.i18n.translate('__MSG__EMAIL_VERIFIED_FIRST_THANK_YOU__'));
+                        }
 
                         return callback();
                     });
