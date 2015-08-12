@@ -1016,22 +1016,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         .each(function(result) {
                             result.displayName = security().encodeForHTML(result.displayName);
                             result.query = query;
-
-                            // If the result was found from an email query, then we must prepend
-                            // the user id with the email with which it was found so that we can
-                            // validate the interactability of the account. The result would be an
-                            // id that looks like the following:
-                            //
-                            //  mrvisser@gmail.com:u:oae:abcd1234
-                            //
-                            if (options.allowEmail && isValidEmail) {
-                                result.id = query + ':' + result.id;
-                            }
-
                             return result;
                         })
                         .value();
 
+                    // If there are no search results and the query is an email address, present an
+                    // option for the user to have the email address as an option
                     if (options.allowEmail && isValidEmail && _.isEmpty(data.results)) {
                         data.results.push({
                             'id': query,
@@ -1273,12 +1263,31 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     var isSpaceKey = (keyCode === 32);
                     var isCommaKey = (keyCode === 188);
 
-                    // If we're doing a hard termination (enter or comma) and there is at least one
-                    // result, we always choose the result
-                    var $results = $suggestions.find('li.as-result-item');
-                    if ($results.length > 0 && (isEnterKey || isCommaKey)) {
-                        $results[0].click();
-                        return false;
+                    var firstResultItem = $suggestions.find('li.as-result-item:first').get(0);
+                    var activeResultItem = $suggestions.find('li.as-result-item.active:first').get(0);
+
+                    // If there is no suggestion panel available to the user, don't do anything
+                    // special with termination keys
+                    if (!$suggestions.is(':visible')) {
+                        return true;
+                    }
+
+                    // If enter is pressed and there is an active item, just let auto-suggest
+                    // handle the addition of the selected item the way it normally would
+                    if (isEnterKey && activeResultItem) {
+                        return true;
+                    }
+
+                    // If we're doing a hard termination (enter or comma), we always choose a result
+                    // if there any available
+                    if (isEnterKey || isCommaKey) {
+                        // If there is a selected item, use it. Otherwise use the first item in the
+                        // list. If there are no results at all, then we bypass this case
+                        var selectionResultItem = (activeResultItem || firstResultItem);
+                        if (selectionResultItem) {
+                            selectionResultItem.click();
+                            return false;
+                        }
                     }
 
                     // If we're doing any kind of termination and we have all emails and we allow
@@ -1371,6 +1380,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                             'id': id,
                             'displayName': selectionData.displayName,
                             'profilePath': selectionData.profilePath,
+                            'query': selectionData.query,
                             'resourceType': selectionData.resourceType,
                             'thumbnailUrl': selectionData.thumbnailUrl,
                             'visibility': selectionData.visibility
