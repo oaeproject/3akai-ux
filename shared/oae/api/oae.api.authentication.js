@@ -57,8 +57,6 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
      * @return {Boolean}    authStrategyInfo.hasSingleInstitutionalAuth         True if there is only one authentication method enabled and it is institutional
      */
     var getStrategyInfo = exports.getStrategyInfo = function(contextLabel) {
-        contextLabel = contextLabel || 'SIGN_IN';
-
         var enabledStrategies = getEnabledStrategies(contextLabel);
         var enabledStrategyNames = _.keys(enabledStrategies);
 
@@ -112,6 +110,8 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
      * @return {Object}                     List of all enabled authentication strategies for the current tenant keyed by authentication strategy id. Each enabled authentication strategy will contain a `url` property with the URL to which to POST to initiate the authentication process for that strategy and a `name` property with the custom configured name for that strategy
      */
     var getEnabledStrategies = exports.getEnabledStrategies = function(contextLabel) {
+        contextLabel = contextLabel || 'SIGN_IN';
+
         var enabledStrategies = {};
 
         // CAS authentication
