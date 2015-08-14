@@ -390,7 +390,7 @@
                             'overflow-y': 'auto'
                         });
                     }
-                    if (matchCount > 0 || !opts.showResultListWhenNoMatch) {
+                    if (matchCount > 0 || opts.showResultListWhenNoMatch) {
                         showResults();
                     }
                     opts.resultsComplete.call(this);
