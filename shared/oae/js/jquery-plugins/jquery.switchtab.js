@@ -25,39 +25,7 @@ define(['jquery', 'jquery.history'], function (jQuery, oaeUtil) {
          * is essentially a set of tabs that look like a left-to-right switch. There can only be
          * one selected at one time. Back functionality is also provided.
          *
-         * Usage:
-         *
-         * You should create a template that is based on the bootstrap pill component, with the
-         * one exception that the root element has the `oae-switchtab` class:
-         *
-         *  ```
-         *  <ul class="oae-switchtab nav nav-pills" role="tablist">
-         *      <li role="presentation">
-         *          <a href="/search/all" aria-controls="all" role="tab" data-toggle="tab">
-         *              <i class="oae-switchtab-switch-icon fa fa-globe"></i>
-         *              <span class="oae-switchtab-switch-label">__MSG__EVERYWHERE__</span>
-         *          </a>
-         *      </li>
-         *      <li role="presentation">
-         *          <a href="/search/my"  aria-controls="my" role="tab" data-toggle="tab">
-         *              <i class="oae-switchtab-switch-icon fa fa-home"></i>
-         *              <span class="oae-switchtab-switch-label">__MSG__MY_STUFF_ONLY__</span>
-         *          </a>
-         *      </li>
-         *  </ul>
-         *  ```
-         *
-         * The following attributes are noteworth:
-         *
-         *  *   aria-controls (required): Indicates that id of the tab. It is used both
-         *      internally to indentify the element and it is useful for the $.switchtabId() method
-         *      in order to determine which tab is currently selected
-         *  *   href (required): Indicates not only at what path prefix the tab
-         *      should be active, but also what path to push into the History module when the tab
-         *      is clicked. Note that when navigating to a tab, the query string is retained
-         *
-         * To perform an action when the tab is changed, you should listen to `$(window).on('statechange')`
-         * and use `$mySwitchTab.switchtabId()` to get the tab id of the currently active tab.
+         * For usage, refer to switchtab style documentation in `oae.components.css`
          */
         $.fn.switchtab = function() {
             var $switchtab = $(this);

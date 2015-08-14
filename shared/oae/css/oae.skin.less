@@ -523,47 +523,47 @@ ul.as-selections.as-selections-focus {
 /* Left hand navigation actions border color */
 @lhnav-item-border-color: #EEE;
 
-.nav:not(.nav-pills) > li > a,
-.nav:not(.nav-pills) > li > button,
-.nav:not(.nav-pills) > li i,
-.nav:not(.nav-pills) > li.nav-header {
+.oae-lhnavigation .nav > li > a,
+.oae-lhnavigation .nav > li > button,
+.oae-lhnavigation .nav > li i,
+.oae-lhnavigation .nav > li.nav-header {
     color: @lhnav-item-text-color;
     background-color: @lhnav-item-background-color;
 }
 
-.nav:not(.nav-pills) > li:not(.nav-header):hover,
-.nav:not(.nav-pills) > li:not(.nav-header) > a:hover,
-.nav:not(.nav-pills) > li:not(.nav-header) > a:focus,
-.nav:not(.nav-pills) > li:not(.nav-header) > a:hover i,
-.nav:not(.nav-pills) > li:not(.nav-header) > a:focus i,
-.nav:not(.nav-pills) > li:not(.nav-header) > button:hover,
-.nav:not(.nav-pills) > li:not(.nav-header) > button:focus,
-.nav:not(.nav-pills) > li:not(.nav-header) > button:hover i,
-.nav:not(.nav-pills) > li:not(.nav-header) > button:focus i {
+.oae-lhnavigation .nav > li:not(.nav-header):hover,
+.oae-lhnavigation .nav > li:not(.nav-header) > a:hover,
+.oae-lhnavigation .nav > li:not(.nav-header) > a:focus,
+.oae-lhnavigation .nav > li:not(.nav-header) > a:hover i,
+.oae-lhnavigation .nav > li:not(.nav-header) > a:focus i,
+.oae-lhnavigation .nav > li:not(.nav-header) > button:hover,
+.oae-lhnavigation .nav > li:not(.nav-header) > button:focus,
+.oae-lhnavigation .nav > li:not(.nav-header) > button:hover i,
+.oae-lhnavigation .nav > li:not(.nav-header) > button:focus i {
     color: @lhnav-item-text-hover-color;
     background-color: @lhnav-item-background-hover-color;
 }
 
-.nav:not(.nav-pills) > li.active > a,
-.nav:not(.nav-pills) > li.active > a:hover,
-.nav:not(.nav-pills) > li.active > a:focus,
-.nav:not(.nav-pills) > li.active > button,
-.nav:not(.nav-pills) > li.active > button:hover,
-.nav:not(.nav-pills) > li.active > button:focus,
-.nav:not(.nav-pills) > li.active > a i,
-.nav:not(.nav-pills) > li.active > a:hover i,
-.nav:not(.nav-pills) > li.active > a:focus i {
+.oae-lhnavigation .nav > li.active > a,
+.oae-lhnavigation .nav > li.active > a:hover,
+.oae-lhnavigation .nav > li.active > a:focus,
+.oae-lhnavigation .nav > li.active > button,
+.oae-lhnavigation .nav > li.active > button:hover,
+.oae-lhnavigation .nav > li.active > button:focus,
+.oae-lhnavigation .nav > li.active > a i,
+.oae-lhnavigation .nav > li.active > a:hover i,
+.oae-lhnavigation .nav > li.active > a:focus i {
     color: @lhnav-item-text-selected-color;
     background-color: @lhnav-item-background-selected-color;
 }
 
-.nav:not(.nav-pills) > li.oae-lhnavigation-border {
+.oae-lhnavigation .nav > li.oae-lhnavigation-border {
     border-bottom: @lhnav-item-border-color;
 }
 
-/*********************************
+/********************
  ** @section  Tabs **
- *********************************/
+ ********************/
 
 /* Tab text color */
 @tabbed-nav-text-color: #999;
@@ -602,18 +602,16 @@ ul.as-selections.as-selections-focus {
 
 .nav.nav-pills > li > a {
     background-color: @tile-background-color;
-    border-style: solid;
-    border-width: 3px;
     border-color: @tile-background-color;
     color: @tile-description-color;
 }
 
 .nav.nav-pills > li.active > a {
-    background-color: @tile-description-color;
+    .background-gradient-two(@thumbnail-gradient1-color, @thumbnail-gradient2-color, 20%, 80%);
     color: @tile-background-color;
 }
 
-.nav.nav-pills > li.active .oae-switchtab-switch-icon {
+.nav.nav-pills > li.active > a > i {
     color: @link-color;
 }
 

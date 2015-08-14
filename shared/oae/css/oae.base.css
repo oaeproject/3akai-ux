@@ -127,6 +127,8 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 }
 
 .nav.nav-pills > li > a {
+    border-style: solid;
+    border-width: 3px;
     font-size: 16px;
     min-width: 170px;
 }
@@ -136,7 +138,8 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     border-radius: 3px;
 }
 
-.nav.nav-pills > li > a > * {
+.nav.nav-pills > li > a > i,
+.nav.nav-pills > li > a > span, {
     color: inherit;
     display: inline;
     margin-left: 5px;
@@ -144,33 +147,22 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 }
 
 /* Give the first (left-most) element space on the left side to make the button bigger */
-.nav.nav-pills > li > a > *:first-child {
+.nav.nav-pills > li > a > i:first-child {
     margin-left: 35px;
 }
 
 /* Give the last (right-most) element space on the right side to make the button bigger */
-.nav.nav-pills > li > a > *:last-child {
+.nav.nav-pills > li > a > span:last-child {
     margin-right: 35px;
-}
-
-/* Icon generally takes up the most vertical baseline space, so shift it down to help align it with
-   the label content */
-.nav.nav-pills .oae-switchtab-switch-icon {
-    top: 1px;
-}
-
-/* Shift the text up one pixel to help align it to larger button */
-.nav.nav-pills .oae-switchtab-switch-label {
-    bottom: 1px;
 }
 
 /* Free up some horizontal button spacing to try and fit as much text as possible */
 @media (max-width: 768px) {
-    .nav.nav-pills > li > a > *:first-child {
+    .nav.nav-pills > li > a > i:first-child {
         margin-left: 5px;
     }
 
-    .nav.nav-pills > li > a > *:last-child {
+    .nav.nav-pills > li > a > span:last-child {
         margin-right: 5px;
     }
 }
