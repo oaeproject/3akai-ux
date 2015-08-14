@@ -251,7 +251,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/invitations/accept',
+            'url': '/api/invitation/accept',
             'type': 'POST',
             'data': {
                 'token': token

@@ -1538,7 +1538,22 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
     /**
      * Convenience function for safely parsing either the current or a specified URL, while working
-     * around some issues in the `$.url` utility
+     * around encoding issues in the `$.url` utility.
+     *
+     * Specifically, `$.url` first runs urls through `decodeURI` before it parses the URL. This
+     * results in an inconsistent decoding of the full URL representation. For example:
+     *
+     *  1. I have an email address: mrvisser@gmail.com
+     *  2. I want to send a user to OAE with it in the query string: /me?email=mrvisser%40gmail.com
+     *  3. OAE notices you are not authenticated, then redirects you to sign up: /signup?url=%2Fme%3Femail%3Dmrvisser%2540gmail.com
+     *  4. When running that location through `$.url` alone, it will:
+     *      a. Run `encodeURI` on it, which decodes only `%25`s and not other things (inconsistent!): /signup?url=%2Fme%3Femail%3Dmrvisser%40gmail.com
+     *      b. Now, you get the `url` querystring parameter.. `$.url` will do a regular `decodeURIComponent` on it: /me?email=mrvisser@gmail.com (notice the @ is no longer encoded)
+     *      c. Now, you try and parse the redirect URL as a URL, but it fails! Because the `@` has been inconsistently decoded by the initial `decodeURI` and it is not a safe URI character
+     *
+     *
+     * To resolve this inconsistent decoding, we simply have this helper that first runs `encodeURI`
+     * on the location before running it through `$.url`.
      *
      * @param  {String}     [location]  The URL location to parse. If unspecified, the current window location will be used
      */

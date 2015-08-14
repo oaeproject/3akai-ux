@@ -147,7 +147,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     margin-top: 1px;
 }
 
-/* HR-like element */
+/* HR-like element that has a split with text in the middle of it */
 
 div.hr {
     display: block;

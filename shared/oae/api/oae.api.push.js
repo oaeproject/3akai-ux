@@ -158,7 +158,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
      * The websocket is authenticated and any messages that were received before the connection
      * was established are submitted over the websocket.
      *
-     * @throws {Error}                     Error thrown when the websocket could not be authenticated
+     * @param  {Function}   callback        Invoked when the socket is either authenticated or when authentication fails
+     * @param  {Object}     callback.err    An error that occurred during authentication, if any
      * @api private
      */
     var authenticateSocket = function(callback) {
@@ -433,7 +434,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
         timers[resourceId][streamType] = setTimeout(function() {
             var activitiesToNotify = activities[resourceId][streamType];
 
-            // Clean up the activities we're caching internall
+            // Clean up the activities we're caching internally
             delete activities[resourceId][streamType];
             if (_.isEmpty(activities[resourceId])) {
                 delete activities[resourceId];

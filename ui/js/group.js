@@ -341,7 +341,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'getInvitations': oae.api.group.getInvitations,
                 'resendInvitation': oae.api.group.resendInvitation,
                 'setMembers': oae.api.group.updateMembers,
-                'setVisibility': oae.api.group.updateGroup,
+                'setVisibility': oae.api.group.updateGroup
             }
         };
     };
