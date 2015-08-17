@@ -137,9 +137,21 @@
             {var visibility = entityData['oae:visibility']}
         {/if}
 
+        {if entityData.profilePath}
+            {var profilePath = entityData.profilePath}
+        {elseif entityData['oae:profilePath']}
+            {var profilePath = entityData['oae:profilePath']}
+        {/if}
+
+        {var addLink = displayOptions.addLink}
+
         <li data-id="${entityData.id}" {if displayOptions.additionalClasses} class="${displayOptions.additionalClasses}"{/if}>
             <!-- THUMBNAIL VIEW -->
             <div class="oae-list-grid-item">
+                {if profilePath && addLink !== false}
+                    <a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>
+                    ${displayOptions.addLink = false|eat}
+                {/if}
                 <div class="oae-tile">
                     ${displayOptions.addVisibilityIcon = false|eat}
                     ${displayOptions.size = "large"|eat}
@@ -152,6 +164,10 @@
                         {/if}
                     </div>
                 </div>
+                {if profilePath && addLink !== false}
+                    </a>
+                    ${displayOptions.addLink = addLink|eat}
+                {/if}
                 ${renderCheckbox(entityData, 'grid', displayOptions.showCheckbox)}
             </div>
 
@@ -161,7 +177,7 @@
                     ${renderCheckbox(entityData, 'details', displayOptions.showCheckbox)}
                     <div class="oae-listitem-primary-thumbnail">
                         ${displayOptions.addVisibilityIcon = true|eat}
-                        ${displayOptions.size = "small"|eat}
+                        ${displayOptions.size = "medium"|eat}
                         ${displayOptions.threedotTitle = true|eat}
                         ${renderThumbnail(entityData, displayOptions)}
                     </div>
@@ -181,6 +197,9 @@
                 <div class="oae-listitem">
                     ${renderCheckbox(entityData, 'compact', displayOptions.showCheckbox)}
                     <div class="oae-listitem-primary-thumbnail">
+                        ${displayOptions.addVisibilityIcon = true|eat}
+                        ${displayOptions.size = "small"|eat}
+                        ${displayOptions.threedotTitle = true|eat}
                         ${renderThumbnail(entityData, displayOptions)}
                     </div>
                     {if displayOptions.listItemActions}
