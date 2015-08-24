@@ -715,7 +715,7 @@ module.exports = function(grunt) {
         grunt.task.run('contrib-qunit');
     });
 
-    // Task to run an individual CasperJS test
+    // Task to start prerequisites for CasperJS tests
     grunt.registerTask('startDependencies', function(path) {
         grunt.task.run('exec:startDependencies');
     });
@@ -728,7 +728,7 @@ module.exports = function(grunt) {
         path = path || grunt.option('path');
 
         if (!path) {
-            return grunt.fail.fatal('Please provide a path to a CasperJS test file. e.g. `grunt test-file --path node_modules/oae-core/preferences/tests/preferences.js`');
+            return grunt.fail.fatal('Please provide a path to a CasperJS test file. e.g. `grunt test-file --path=node_modules/oae-core/preferences/tests/preferences.js`');
         }
 
         grunt.task.run('exec:runCasperTest:' + path);

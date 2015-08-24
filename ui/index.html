@@ -12,9 +12,9 @@
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
-
         <!-- PAGE CSS -->
         <link rel="stylesheet" type="text/css" href="/ui/css/oae.index.css" />
+
     </head>
     <body>
 
@@ -22,85 +22,85 @@
         <div data-widget="topnavigation"><!-- --></div>
 
         <!-- BODY -->
-        <main id="index-container" class="oae-branding-container oae-main-content" role="main">
-            <div id="index-page-container" class="row"><!-- --></div>
-            <div id="index-page-template"><!--
-                {macro renderSearchBlock()}
-                    <form action="." class="index-search-form" role="search" aria-label="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__">
-                        <div class="form-group">
-                            <input type="text" class="form-control search-query form-control pull-left index-search-query" title="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__" placeholder="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__" name="index-search-${oae.api.util.generateId()}"/>
-                            <button type="submit" class="btn btn-link pull-left index-search-icon">
-                                <i class="fa fa-search"><span class="sr-only">__MSG__SEARCH__</span></i>
+        <main class="oae-main-content" role="main">
+
+            <!-- CLIPS -->
+            <div class="oae-clip-container">
+                <div id="me-clip-container" class="oae-clip-container-left"><!-- --></div>
+                <div id="me-clip-template"><!--
+                    <div class="oae-clip">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button type="button" aria-expanded="false" aria-controls="me-clip-detail">
+                                ${renderThumbnail(oae.data.me, displayOptions)}
+                                <div>
+                                    <div>
+                                        <h1 class="oae-threedots">${oae.data.me.displayName|encodeForHTML}</h1>
+                                        <i class="fa fa-caret-down"></i>
+                                        <small class="oae-threedots">${oae.data.me.tenant.displayName|encodeForHTML}</small>
+                                    </div>
+                                </div>
+                            </button>
+                            <div>
+                                <ul id="me-clip-detail" aria-hidden="true">
+                                    <li><button class="oae-trigger-changepic"><i class="fa fa-camera"></i>__MSG__MY_PICTURE__</button></li>
+                                    <li><button class="oae-trigger-editprofile"><i class="fa fa-user"></i>__MSG__MY_PROFILE__</button></li>
+                                    <li><button class="oae-trigger-preferences"><i class="fa fa-wrench"></i>__MSG__MY_PREFERENCES__</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                --></div>
+
+                <div class="hidden-xs hidden-sm oae-clip-container-right">
+                    <div class="oae-clip oae-clip-flipped oae-dnd-upload">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button type="button" class="oae-trigger-upload">
+                                <div>
+                                    <i class="fa fa-cloud-upload pull-left"></i>
+                                    <h1>__MSG__UPLOAD__</h1>
+                                </div>
                             </button>
                         </div>
-                    </form>
-                {/macro}
-
-                {macro renderIconTextBlock(block)}
-                    {var iconColor = block.titleColor || '#FFF'}
-                    <i class="fa ${block.icon}" style="color: ${iconColor}"/>
-                    <div class="oae-markdown">${oae.api.util.security().encodeMarkdownForHTMLWithLinks(oae.api.i18n.translate(block.text))}</div>
-                {/macro}
-
-                {macro renderTextBlock(block)}
-                    <div class="oae-markdown">${oae.api.util.security().encodeMarkdownForHTMLWithLinks(oae.api.i18n.translate(block.text))}</div>
-                {/macro}
-
-                {macro renderVideoBlock(block)}
-                    <div class="index-block-video hide">
-                        <button type="button" class="btn btn-link index-video-launch" title="__MSG__PLAY_VIDEO__" data-url=${block.videoUrl}>
-                            <i class="fa fa-play-circle-o active"><span class="sr-only">__MSG__PLAY_VIDEO__</span></i>
-                        </button>
                     </div>
-                {/macro}
 
-                {macro renderView(view)}
-                    {var totalWidth = 0}
-                    <div class="visible-${view}">
-                        {for block in blocks}
-                            {if totalWidth === 0}
-                                <div class="row index-row">
-                            {/if}
-
-                            {var currentWidth = parseInt(block[view], 10)}
-                            ${totalWidth += currentWidth|eat}
-
-                            {var horizontalAlign = block.horizontalAlign || 'center'}
-                            {var verticalAlign = block.verticalAlign || 'middle'}
-                            {var backgroundColor = block.bgColor || 'transparent'}
-                            {var backgroundImage = block.imgUrl || block.videoPlaceholder}
-                            {var textColor = block.textColor || '#FFF'}
-                            {var minHeight = block.minHeight}
-
-                            <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="text-align: ${horizontalAlign}; vertical-align: ${verticalAlign}; background-color: ${backgroundColor}; color: ${textColor}; {if backgroundImage} background-image: url(${backgroundImage}); {/if} {if minHeight} height: ${minHeight}px; {/if}">
-                                {if block.type === 'search'}
-                                    ${renderSearchBlock()}
-                                {elseif block.type === 'iconText'}
-                                    ${renderIconTextBlock(block)}
-                                {elseif block.type === 'text'}
-                                    ${renderTextBlock(block)}
-                                {elseif block.type === 'video'}
-                                    ${renderVideoBlock(block)}
-                                {/if}
-                            </div>
-
-                            {if totalWidth >= 12 || parseInt(block_index, 10) === blocks.length - 1}
+                    <div class="oae-clip oae-clip-secondary oae-clip-flipped">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button type="button" aria-expanded="false" aria-controls="me-secondary-clip-detail">
+                                <div>
+                                    <i class="fa fa-plus-circle pull-left"></i>
+                                    <h1>__MSG__CREATE__</h1>
+                                    <i class="fa fa-caret-down"></i>
                                 </div>
-                                ${totalWidth = 0|eat}
-                            {/if}
-                        {/for}
+                            </button>
+                            <div>
+                                <ul id="me-secondary-clip-detail" aria-hidden="true">
+                                    <li><button class="oae-trigger-creategroup"><i class="fa fa-group"></i>__MSG__GROUP__</button></li>
+                                    <li><button class="oae-trigger-createfolder"><i class="fa fa-folder-open"></i>__MSG__FOLDER__</button></li>
+                                    <li><button class="oae-trigger-createlink"><i class="fa fa-link"></i>__MSG__LINK__</button></li>
+                                    <li><button class="oae-trigger-createcollabdoc"><i class="fa fa-pencil-square-o"></i>__MSG__DOCUMENT__</button></li>
+                                    <li><button class="oae-trigger-creatediscussion"><i class="fa fa-comments"></i>__MSG__DISCUSSION__</button></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                {/macro}
+                </div>
+            </div>
 
-                ${renderView('xs')}
-                ${renderView('sm')}
-                ${renderView('md')}
-                ${renderView('lg')}
-            --></div>
+            <!-- NAVIGATION AND CONTENT -->
+            <div data-widget="lhnavigation"><!-- --></div>
 
-            <div id="index-video-template"><!--
-                <iframe src="${videoURL}" frameborder="0" allowfullscreen></iframe>
-            --></div>
         </main>
 
         <!-- FOOTER -->

@@ -1,5 +1,5 @@
 /*!
- * Copyright 2014 Apereo Foundation (AF) Licensed under the
+ * Copyright 2015 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -13,147 +13,22 @@
  * permissions and limitations under the License.
  */
 
-#index-page-container {
-    font-weight: 200;
-    margin: 0 auto;
-    padding: 25px;
-    max-width: 985px;
+/* Style overrides for anonymous users */
+
+.oae-index-anon .oae-page {
+    background-color: rgba(0, 0, 0, 0);
+    padding-bottom: 5px;
 }
 
-#index-page-container .index-row {
-    display: table;
-    margin: 0;
-    width: 100%;
+.oae-index-anon .oae-clip-container,
+.oae-index-anon .oae-lhnavigation {
+    display: none;
 }
 
-/************
- ** Blocks **
- ************/
-
-#index-page-container .index-block {
-    background-position: center;
-    background-size: cover;
-    display: table-cell;
-    float: none;
-    padding: 25px 25px;
-    vertical-align: top;
-}
-
-#index-page-container .index-row:first-child .index-block {
-    padding-top: 0;
-}
-
-/* Search block */
-
-#index-page-container .index-block-search-container {
-    padding: 35px 20px;
-}
-
-#index-page-container .index-block-search-container:only-child {
-    padding-left: 0;
-    padding-right: 0;
-}
-
-#index-page-container .index-block-search-container form {
-    margin: 0 auto;
-    max-width: 700px;
-}
-
-#index-page-container .index-block-search-container .index-search-query {
-    height: 37px;
-    padding: 0 30px 0 12px;
-}
-
-@media (max-width: 767px) {
-    #index-page-container .index-block-search-container .index-search-query:-moz-placeholder {
-        color: transparent;
-    }
-
-    #index-page-container .index-block-search-container .index-search-query::-moz-placeholder {
-        color: transparent;
-    }
-
-    #index-page-container .index-block-search-container .index-search-query:-ms-input-placeholder {
-        color: transparent;
-    }
-
-    #index-page-container .index-block-search-container .index-search-query::-webkit-input-placeholder {
-        color: transparent;
+@media (min-width: 992px) {
+    .oae-index-anon .oae-page {
+        margin-left: 25px;
     }
 }
 
-#index-page-container .index-block-search-container .index-search-icon {
-    height: 37px;
-    margin-left: -27px;
-    opacity: 0.6;
-    padding: 0px;
-}
-
-/* Text block */
-
-#index-page-container .index-block h1,
-#index-page-container .index-block h2,
-#index-page-container .index-block h3,
-#index-page-container .index-block h4,
-#index-page-container .index-block h5,
-#index-page-container .index-block h6 {
-    font-weight: 200;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    word-wrap: break-word;
-}
-
-#index-page-container .index-block h1:first-child,
-#index-page-container .index-block h2:first-child,
-#index-page-container .index-block h3:first-child,
-#index-page-container .index-block h4:first-child,
-#index-page-container .index-block h5:first-child,
-#index-page-container .index-block h6:first-child {
-    margin-top: 0;
-}
-
-#index-page-container .index-block h1 {
-    font-size: 40px;
-}
-
-/* Icon text block */
-
-#index-page-container .index-block-iconText-container i {
-    font-size: 35px;
-    margin-bottom: 5px;
-}
-
-#index-page-container .index-block-iconText-container {
-    padding-top: 30px;
-}
-
-/* Image block */
-
-#index-page-container .index-block-image-container,
-#index-page-container .index-block-video-container {
-    padding: 0;
-}
-
-/* Video block */
-
-#index-page-container .index-block-video-container {
-    overflow: hidden;
-}
-
-#index-page-container .index-video-launch {
-    height: 100%;
-    opacity: 0.8;
-    position: relative;
-    width: 100%;
-}
-
-#index-page-container .index-video-launch i {
-    font-size: 70px;
-}
-
-#index-page-container .index-block iframe {
-    height: 100%;
-    position: relative;
-    width: 100%;
-}
 

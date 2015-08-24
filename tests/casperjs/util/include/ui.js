@@ -60,7 +60,7 @@ var uiUtil = (function() {
      * Open my discussions
      */
     var openMyDiscussions = function() {
-        casper.thenOpen(configUtil.tenantUI + '/me/discussions', function() {
+        casper.thenOpen(configUtil.tenantUI + '/discussions', function() {
             casper.waitForSelector('#discussionslibrary-widget .oae-list-header h2');
         });
     };
@@ -111,7 +111,7 @@ var uiUtil = (function() {
      * Open the me page
      */
     var openMe = function() {
-        casper.thenOpen(configUtil.tenantUI + '/me', function() {
+        casper.thenOpen(configUtil.tenantUI, function() {
             casper.waitForSelector('#me-clip-container h1');
         });
     };
@@ -120,7 +120,7 @@ var uiUtil = (function() {
      * Open my groups
      */
     var openMyGroups = function() {
-        casper.thenOpen(configUtil.tenantUI + '/me/groups', function() {
+        casper.thenOpen(configUtil.tenantUI + '/groups', function() {
             casper.waitForSelector('#memberships-widget .oae-list-header h2');
         });
     };
@@ -129,7 +129,7 @@ var uiUtil = (function() {
      * Open my library
      */
     var openMyLibrary = function() {
-        casper.thenOpen(configUtil.tenantUI + '/me/library', function() {
+        casper.thenOpen(configUtil.tenantUI + '/library', function() {
             casper.waitForSelector('#contentlibrary-widget .oae-list-header h2');
         });
     };
@@ -138,7 +138,7 @@ var uiUtil = (function() {
      * Open my network
      */
     var openMyNetwork = function() {
-        casper.thenOpen(configUtil.tenantUI + '/me/network', function() {
+        casper.thenOpen(configUtil.tenantUI + '/network', function() {
             casper.waitForSelector('#network-widget .oae-list-header h2');
         });
     };

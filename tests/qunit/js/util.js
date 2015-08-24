@@ -378,7 +378,6 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/ui/folder.html': null,
                 '/ui/group.html': null,
                 '/ui/index.html': null,
-                '/ui/me.html': null,
                 '/ui/search.html': null,
                 '/ui/user.html': null
             },
