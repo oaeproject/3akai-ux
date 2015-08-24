@@ -71,7 +71,7 @@ var uiUtil = (function() {
      * @param  {Group}    groupProfile    The group profile object of the group to open the members page for
      */
     var openGroupMembersProfile = function(groupProfile) {
-        casper.thenOpen(configUtil.tenantUI + groupProfile.profilePath + 'mbers', function() {
+        casper.thenOpen(configUtil.tenantUI + groupProfile.profilePath + '/members', function() {
             casper.waitForSelector('#members-widget .oae-list.oae-list-grid li');
         });
     };
@@ -111,7 +111,7 @@ var uiUtil = (function() {
      * Open the me page
      */
     var openMe = function() {
-        casper.thenOpen(configUtil.tenantUI + '', function() {
+        casper.thenOpen(configUtil.tenantUI, function() {
             casper.waitForSelector('#me-clip-container h1');
         });
     };

@@ -13,11 +13,11 @@
  * permissions and limitations under the License.
  */
 
-
 /* Style overrides for anonymous users */
 
 .oae-index-anon .oae-page {
     background-color: rgba(0, 0, 0, 0);
+    padding-bottom: 5px;
 }
 
 .oae-index-anon .oae-clip-container,

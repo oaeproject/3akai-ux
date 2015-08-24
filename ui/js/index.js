@@ -21,9 +21,9 @@ require(['jquery','oae.core'], function($, oae) {
     /////////////////////
 
     /**
-     * Set up the left hand navigation with the content space page structure.
-     * The content left hand navigation item will not be shown to the user and
-     * is only used to load the correct content preview widget
+     * Set up the left hand navigation for anonymous users. For
+     * these users, `index.html` is the tenant landing page,
+     * which is rendered by the tenantlandingpage widget
      */
     var setUpAnonNavigation = function() {
         var lhNavPages = [{
@@ -55,8 +55,8 @@ require(['jquery','oae.core'], function($, oae) {
     /////////////////////
     
     /**
-     * Set up the callbacks that handle various events that
-     * require changes to the page content
+     * Set up the callbacks that handle queries from other widgets for the page context
+     * and other actions that might change the page content
      */
     var setUpEventHandling = function() {
         
@@ -80,7 +80,6 @@ require(['jquery','oae.core'], function($, oae) {
         $(document).on('oae.changepic.update', function(ev, data) {
             oae.data.me.picture = data.picture;
         });
-    
     
         // Re-render the me clip when the user profile has been updated. The updated
         // user object will be passed into the event
@@ -277,9 +276,9 @@ require(['jquery','oae.core'], function($, oae) {
     ////////////////////////
     
     // The basic index page varies based on whether the user
-    // has logged in (in which case the page shows that user's
-    // activity stream) or not (in which case the page reverts
-    // to the generic tenant landing page
+    // has logged in or not. When the user is authenticated, their personal 
+    // space will be loaded. When the user is anonymous, the tenant landing
+    // page will be shown.
 
     if (oae.data.me.anon) {
         
@@ -306,8 +305,4 @@ require(['jquery','oae.core'], function($, oae) {
         showPreferences();
 
     }
-
-    // We can now unhide the page
-    oae.api.util.showPage();
-
 });

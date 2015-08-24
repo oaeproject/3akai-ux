@@ -1345,7 +1345,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
         /**
          * Redirect the currently user to the me page.
          */
-        var me = function() {
+        var home = function() {
             window.location = '/';
         };
 
@@ -1384,7 +1384,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
         return {
             'login': login,
-            'me': me,
+            'home': home,
             'accessdenied': accessdenied,
             'notfound': notfound,
             'unavailable': unavailable,
