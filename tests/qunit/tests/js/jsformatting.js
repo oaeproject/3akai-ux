@@ -59,9 +59,13 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         var description = 'Double quotes should only be used within single quotes';
         doRegexTest(path, jsFile, regex, description);
 
-        regex = /^\s*function\s.*/gm;
-        description = 'Use \"var <functionName> = function() {\"';
-        doRegexTest(path, jsFile, regex, description);
+        // The annotator library requires plugins to have a constructor in this format
+        // so we disable this check for the sidebar plugin
+        if (path !== '/shared/oae/js/annotator-plugins/sidebar.js') {
+            regex = /^\s*function\s.*/gm;
+            description = 'Use \"var <functionName> = function() {\"';
+            doRegexTest(path, jsFile, regex, description);
+        }
 
         regex = /\)\s*$(\n|\r)^\s*\{.*/gm;
         description = 'Put opening braces on the same line as the statement';
@@ -91,9 +95,13 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         description = 'Use \".on()\" and \".off()\" to attach event handlers';
         doRegexTest(path, jsFile, regex, description);
 
-        regex = /\.prototype\..*=/gm;
-        description = 'Do not extend prototypes';
-        doRegexTest(path, jsFile, regex, description);
+        // The annotator library requires plugins to override prototype so we disable
+        // this check for the sidebar plugin
+        if (path !== '/shared/oae/js/annotator-plugins/sidebar.js') {
+            regex = /\.prototype\..*=/gm;
+            description = 'Do not extend prototypes';
+            doRegexTest(path, jsFile, regex, description);
+        }
 
         regex = /(^|\s)(Object\.(freeze|preventExtensions|seal)|eval|((?!['"].*)(with)(?!.*['"])))(\s|$)/gm;
         description = 'Avoid using Object.freeze, Object.preventExtensions, Object.seal, with, eval';

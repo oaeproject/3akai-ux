@@ -23,6 +23,7 @@ requirejs.config({
         'jquery': 'empty:',
 
         // Vendor paths
+        'annotator': 'vendor/js/annotator',
         'bootstrap': 'vendor/js/bootstrap',
         'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover.oae-edited',
         'bootstrap.datepicker': 'vendor/js/bootstrap-plugins/bootstrap-datepicker',

@@ -1016,3 +1016,50 @@ div.oae-thumbnail {
 .oae-clip.oae-clip-secondary ul li button:hover {
     background-color: @clip-secondary-gradient2-color;
 }
+
+
+/***************************
+ ** @section  Annotations **
+ ***************************/
+
+/* Annotation highlight background color */
+@annotations-highlight-background-color: rgba(255,255,10,0.3);
+/* Annotation highlight selected text color */
+@annotations-highlight-border-selected-text-color: #FFF;
+/* Annotation highlight selected background color */
+@annotations-highlight-border-selected-background-color: rgba(51, 51, 51, 1);
+/* Annotation selection color */
+@annotations-selection-color: #A8D1FF;
+
+.annotator-hl,
+.annotator-hl + ._ {
+    background-color: @annotations-highlight-background-color !important;
+}
+
+.annotator-hl-selected,
+.annotator-hl-selected + ._,
+.annotator-hl-selected .annotator-hl {
+    background: @annotations-highlight-border-selected-background-color !important;
+    color: @annotations-highlight-border-selected-text-color;
+}
+
+.annotator-hl-temporary,
+.annotator-hl-temporary + ._ {
+    background: @annotations-selection-color !important;
+}
+
+.annotator-wrapper div ::-moz-selection {
+    background: @annotations-selection-color;
+}
+
+.annotator-wrapper div ::-moz-selection span._ {
+    background: @annotations-selection-color;
+}
+
+.annotator-wrapper div ::selection {
+    background: @annotations-selection-color;
+}
+
+.annotator-wrapper div ::selection span._ {
+    background: @annotations-selection-color;
+}
