@@ -1374,20 +1374,32 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 // jQuery autosuggest will always prepare an empty item for the next item that needs to be
                 // added to the list. Therefore, it is possible that an item in the list is empty
                 if (id && selectionData) {
-                    // In case this is a ghost item, we can only add it when it has been selected.
+                    // In case this is a ghost item, we can only add it when it has been selected
                     if (!isGhostItem || (isGhostItem && $selection.hasClass('as-ghost-selected'))) {
-                        selectedItems.push({
+                        var selectedItem = {
                             'id': id,
                             'displayName': selectionData.displayName,
                             'profilePath': selectionData.profilePath,
-                            'query': selectionData.query,
                             'resourceType': selectionData.resourceType,
                             'thumbnailUrl': selectionData.thumbnailUrl,
                             'visibility': selectionData.visibility
-                        });
+                        };
+
+                        // Help the consumer determine what to use to use to share with this
+                        // selected item. Items that are identified by their email address can be
+                        // shared with regardless of their profile visibility
+                        if (_.contains(['group', 'user'], selectionData.resourceType) && validation().isValidEmail(selectionData.query)) {
+                            selectedItem.email = selectionData.query;
+                            selectedItem.shareId = selectionData.query + ':' + selectionData.id;
+                        } else {
+                            selectedItem.shareId = selectedItem.id;
+                        }
+
+                        selectedItems.push(selectedItem);
                     }
                 }
             });
+
             return selectedItems;
         };
 
