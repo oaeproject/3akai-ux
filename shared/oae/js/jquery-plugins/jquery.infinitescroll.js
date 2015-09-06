@@ -152,7 +152,6 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                 },
                 'error': function() {
                     hideLoadingContainer();
-                    console.error('An error has occured while retrieving the list of results');
                 }
             });
         };
