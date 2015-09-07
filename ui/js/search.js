@@ -13,11 +13,53 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery','oae.core', 'jquery.history'], function($, oae) {
+require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab'], function($, oae, _) {
 
     // Variable that will be used to keep track of the current
     // infinite scroll instance
     var infinityScroll = false;
+
+    var $switchtab = null;
+    var currSwitchtabId = null;
+
+    /**
+     * Get the search query data in the current state
+     *
+     * @return {Object}     queryData           The query data from the current state
+     * @return {String}     queryData.q         The full-text search query
+     * @return {String[]}   queryData.types     The resource types for which to search
+     * @return {String}     queryData.tenant    The tenant alias in which to search
+     */
+    var getQueryData = function() {
+        var params = $.url(History.getState().cleanUrl).param();
+        var q = params.q;
+        var tenant = params.tenant;
+        var types = [];
+        if (params.types) {
+            types = params.types.split(',');
+        }
+
+        var data = {
+            'q': params.q,
+            'tenant': tenant,
+            'types': types
+        };
+
+        return data;
+    };
+
+    /**
+     * Convert the given query data object into a url-encoded querystring string
+     *
+     * @return {String}     The query string (including the '?'), or an empty string if the data object is empty
+     */
+    var createQueryString = function(obj) {
+        var params = [];
+        $.each(obj, function(key, val) {
+            params.push(key + '=' + oae.api.util.security().encodeForURL(val));
+        });
+        return (params.length) ? '?' + params.join('&') : '';
+    };
 
     /**
      * Initialize a new infinite scroll container that lists the search results.
@@ -28,40 +70,69 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
             infinityScroll.kill();
         }
 
-        // Get the current search query from the History.js data object
-        var query = History.getState().data.query;
-        $('.search-query').val(query);
+        // Ensure the correct tab class is on the search content container. This CSS class helps
+        // the UI hide/show search form controls that are applicable to specied search scope
+        var switchtabId = $switchtab.switchtabId();
+        if (currSwitchtabId !== switchtabId) {
+            currSwitchtabId = switchtabId;
+            $('#search-content-container')
+                .removeClass('search-my')
+                .removeClass('search-all')
+                .addClass('search-' + switchtabId);
+        }
+
+        var title = ['__MSG__SEARCH__'];
+        var queryData = getQueryData();
+
+        // Apply the search value to the search text field
+        $('.search-query').val(queryData.q);
+        if (queryData.q) {
+            title.push(queryData.q);
+        }
 
         // Set the browser title
-        var browserTitle = [oae.api.i18n.translate('__MSG__SEARCH__')];
-        if (query) {
-            browserTitle.push(query);
-        }
-        oae.api.util.setBrowserTitle(browserTitle);
+        oae.api.util.setBrowserTitle(title);
 
         // Reset the type checkboxes to make sure that none of them stay checked incorrectly
         // when hitting the back and forward buttons
         $('#search-refine-type input[type="checkbox"]').prop('checked', false);
-        // Get the current type refinements from the History.js data object and select the corresponding checkboxes
-        var types = History.getState().data.types;
-        $.each(types, function(index, type) {
+
+        $.each(queryData.types, function(i, type) {
             $('#search-refine-type input[type="checkbox"][data-type="' + type + '"]').prop('checked', true);
         });
 
-        // Set up the infinite scroll for the list of search results
-        infinityScroll = $('.oae-list').infiniteScroll('/api/search/general', {
+        // Ensure only the selected tenant is chosen, if at all
+        $('#search-refine-tenant input[type="checkbox"]').removeAttr('checked');
+        if (queryData.tenant) {
+            $('#search-refine-tenant input[type="checkbox"][data-tenant="' + queryData.tenant + '"]').prop('checked', true);
+        }
+
+
+        var searchParams = {
             'limit': 12,
-            'q': query,
-            'resourceTypes': types,
-            'scope': '_network'
-        }, '#search-template', {
+            'q': queryData.q,
+            'resourceTypes': queryData.types,
+            'scope': '_' + currSwitchtabId
+        };
+
+        if (searchParams.scope === '_my') {
+            // "My" search never includes users, and will be harmful if only "user" is selected from
+            // the "Everything" tab. Just always filter it out
+            searchParams.resourceTypes = _.without(searchParams.resourceTypes, 'user');
+        } else if (searchParams.scope === '_all' && queryData.tenant) {
+            // If a tenant is specified, we search by the tenant
+            searchParams.scope = queryData.tenant;
+        }
+
+        // Set up the infinite scroll for the list of search results
+        infinityScroll = $('.oae-list').infiniteScroll('/api/search/general', searchParams, '#search-template', {
             'postRenderer': function(data) {
                 var nrResults = oae.api.l10n.transformNumber(data.total);
                 $('.oae-list-header-badge').text(nrResults).show();
             },
             'emptyListProcessor': function() {
                 oae.api.util.template().render($('#search-noresults-template'), {
-                    'query': query
+                    'query': queryData.q
                 }, $('.oae-list'));
             }
         });
@@ -77,21 +148,31 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
 
         // Get all of the selected type checkboxes
         var types = [];
-        $('#search-refine-type input[type="checkbox"]:checked').each(function(index, checkbox) {
-            types.push($(checkbox).attr('data-type'));
+        $('#search-refine-type input[type="checkbox"]:checked').each(function() {
+            types.push($(this).attr('data-type'));
         });
 
-        // Add the query and types into a new state, and encode a URL that reflects these for bookmarking
-        // and refresh purposes
-        var url = '/search/' + oae.api.util.security().encodeForURL(query);
-        if (types.length > 0) {
-            url += '?types=' + types.join(',');
+        var tenant = $('#search-refine-tenant input[type="checkbox"]:checked').attr('data-tenant');
+        var path = $.url(History.getState().cleanUrl).attr('path');
+        var params = {};
+
+        if (query) {
+            params.q = query;
         }
 
-        History.pushState({
-            'query': query,
-            'types': types
-        }, $('title').text(), url);
+        if (types.length > 0) {
+            params.types = types.join(',');
+        }
+
+        if (tenant) {
+            params.tenant = tenant;
+        }
+
+        // Append the query string, if any
+        path += createQueryString(params);
+
+        History.pushState({}, null, path);
+
         return false;
     };
 
@@ -100,25 +181,50 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
      * This will only be executed when the page is loaded.
      */
     var initSearch = function() {
-        // We parse the URL fragment that's inside of the current History.js state.
-        // The expected URL structure is `/search/<query>?types=type1,type2`
-        var url = History.getState().cleanUrl;
-        var initialState = $.url(url);
-        var query = initialState.segment().slice(1).join('/');
-        var types = (initialState.param().types || '').split(',');
-        // Replace the current History.js state to have the query and type refinement data. This
-        // is necessary because a newly loaded page will not contain the data object in its
-        // state. Calling the replaceState function will automatically trigger the statechange
-        // event, which will take care of the actual search. However, we also need to add a random
-        // number to the data object to make sure that the statechange event is triggered after
-        // a page reload.
-        History.replaceState({
-            'query': query,
-            'types': types,
-            '_': Math.random()
-        }, $('title').text(), url);
-
         oae.api.util.template().render($('#search-list-header-template'), null, $('#search-list-header'));
+        oae.api.util.template().render($('#search-lhnavigation-template'), null, $('#search-lhnavigation'));
+
+        // We should intelligently detect that if someone goes to /search/<search query>, we should
+        // automatically send them to /search/all?q=<search query>
+        var state = History.getState()
+        var url = $.url(History.getState().cleanUrl);
+        var path = url.attr('path').split('/');
+        var queryString = url.attr('query');
+
+        /*!
+         * This is backward compatibility handling for links that are sent to OAE. Previously, a
+         * link could be sent to /search/<query> to send a user to the search page with a pre-
+         * loaded query. Now those search endpoints look like /search/all/<query> and
+         * /search/my/<query>.
+         *
+         * To transition to this, we look if the query looks like /search/<query> where <query> is
+         * not "all" or "my". If so, we rewrite the URL to /search/all/<query>.
+         *
+         * TODO: Remove after this is released
+         */
+        var topLevelSearch = path[2] || '';
+        if (topLevelSearch !== 'my' && topLevelSearch !== 'all') {
+            // The topLevelSearch does not equal "my" or "all", so we make that path portion the `q`
+            // parameter and send them to /search/all
+            path[2] = 'all';
+            if (queryString) {
+                queryString += '&';
+            }
+            queryString += 'q=' + topLevelSearch;
+            History.replaceState({}, null, path.join('/') + '?' + queryString);
+        } else if (topLevelSearch !== 'all' && oae.data.me.anon) {
+            // When the user is anonymous, they can only go to /search/all, so send them there
+            // instead with the search query
+            path[2] = 'all';
+            path = path.join('/');
+            if (queryString) {
+                path += '?' + queryString;
+            }
+            History.replaceState({}, null, path);
+        }
+
+        // Initialize the switchtab component
+        $switchtab = $('#search-scope').switchtab();
     };
 
     /**
@@ -127,12 +233,15 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
     var addBinding = function() {
         // Listen to the form submit event on the search form
         $(document).on('submit', '#search-form', modifySearch);
-        // Listen to the change event on the type refinement checkboxes
+
+        // Listen to changes to the checkboxes that refine search options
         $('#search-refine-type').on('change', 'input[type="checkbox"]', modifySearch);
+
         // Listen to History.js state changes
         $(window).on('statechange', renderSearch);
     };
 
-    addBinding();
     initSearch();
+    addBinding();
+    renderSearch();
 });

@@ -116,6 +116,57 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     text-shadow: none;
 }
 
+/* NAVIGATION PILLS */
+
+.nav.nav-pills {
+    display: inline-block;
+}
+
+.nav.nav-pills > li {
+    margin: 0;
+}
+
+.nav.nav-pills > li > a {
+    border-style: solid;
+    border-width: 3px;
+    font-size: 16px;
+    min-width: 170px;
+}
+
+.nav.nav-pills,
+.nav.nav-pills > li > a {
+    border-radius: 3px;
+}
+
+.nav.nav-pills > li > a > i,
+.nav.nav-pills > li > a > span, {
+    color: inherit;
+    display: inline;
+    margin-left: 5px;
+    position: relative;
+}
+
+/* Give the first (left-most) element space on the left side to make the button bigger */
+.nav.nav-pills > li > a > i:first-child {
+    margin-left: 35px;
+}
+
+/* Give the last (right-most) element space on the right side to make the button bigger */
+.nav.nav-pills > li > a > span:last-child {
+    margin-right: 35px;
+}
+
+/* Free up some horizontal button spacing to try and fit as much text as possible */
+@media (max-width: 768px) {
+    .nav.nav-pills > li > a > i:first-child {
+        margin-left: 5px;
+    }
+
+    .nav.nav-pills > li > a > span:last-child {
+        margin-right: 5px;
+    }
+}
+
 /* MEDIA OBJECTS
  * @see http://getbootstrap.com/components/#media */
 
@@ -598,6 +649,17 @@ ul.as-list li.as-result-item.active {
     background-position: top center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+/* MAIN ACTION DIV */
+
+/* The main action div is useful when a page has a prominent action that can take some of the
+   spotlight away from the content. A key example is the search page, where a search box will want
+   to have prominence in the page. The `oae-main-action` div would then be placed before the
+   `oae-main-content` div in the HTML page template */
+
+.oae-main-action {
+    margin: 15px 0 0 0;
 }
 
 /* MAIN CONTENT DIV */
