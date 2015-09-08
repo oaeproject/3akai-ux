@@ -108,7 +108,8 @@ var uiUtil = (function() {
     };
 
     /**
-     * Open the me page
+     * Open the me page. This is identical to `openIndex`, however in this scenario it is expected
+     * that the user is authenticated in the system
      */
     var openMe = function() {
         casper.thenOpen(configUtil.tenantUI, function() {

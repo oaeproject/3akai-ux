@@ -1343,7 +1343,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
         };
 
         /**
-         * Redirect the currently user to the me page.
+         * Redirect the current user to the home page. For anonymous users it's the tenant landing
+         * page, while for authenticated user's it is their activity page
          */
         var home = function() {
             window.location = '/';
