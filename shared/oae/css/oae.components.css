@@ -1719,14 +1719,14 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
  *  </ul>
  *  ```
  *
- * The following attributes are noteworthy:
+ * Notes:
  *
- *  *   aria-controls (required): Indicates the id of the tab. It is used both internally to
- *      indentify the element and it is useful for the $.switchtabId() method in order to determine
- *      which tab is currently selected
- *  *   href (required): Indicates not only at what path prefix activates the tab, but also what
- *      path to push into the History module when the tab is clicked. Note that when navigating to a
- *      tab, the query string is retained
+ * - aria-controls (required): Indicates the id of the tab. It is used both internally to
+ *   indentify the element and it is useful for the $.switchtabId() method in order to determine
+ *   which tab is currently selected
+ * - href (required): Indicates not only at what path prefix activates the tab, but also what
+ *   path to push into the History module when the tab is clicked. Note that when navigating to a
+ *   tab, the query string is retained
  *
  * To perform an action when the tab is changed, you should listen to `$(window).on('statechange')`
  * and use `$mySwitchTab.switchtabId()` to get the tab id of the currently active tab.
@@ -1735,10 +1735,12 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 /* Icon generally takes up the most vertical baseline space, so shift it down to help align it with
    the label content */
 .nav.nav-pills > li > a > i {
+    position: relative;
     top: 1px;
 }
 
 /* Shift the text up one pixel to help align it to the larger button */
 .nav.nav-pills .oae-switchtab-switch-label {
     bottom: 1px;
+    position: relative;
 }

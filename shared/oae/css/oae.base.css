@@ -139,11 +139,10 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 }
 
 .nav.nav-pills > li > a > i,
-.nav.nav-pills > li > a > span, {
+.nav.nav-pills > li > a > span {
     color: inherit;
     display: inline;
     margin-left: 5px;
-    position: relative;
 }
 
 /* Give the first (left-most) element space on the left side to make the button bigger */
@@ -655,7 +654,7 @@ ul.as-list li.as-result-item.active {
    `oae-main-content` div in the HTML page template */
 
 .oae-main-action {
-    margin: 15px 0 0 0;
+    margin: 10px 0 0 0;
 }
 
 /* MAIN CONTENT DIV */

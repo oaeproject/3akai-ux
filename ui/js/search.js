@@ -139,8 +139,8 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
     };
 
     /**
-     * Initiate a new search when a new search query has been entered or a type checkbox has been
-     * checked/unchecked.
+     * Initiates a new searc based on the current state of the search parameters. This can be re-run
+     * whenever search parameters are changed
      */
     var modifySearch = function() {
         // Get the query from the search form
@@ -236,6 +236,9 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
 
         // Listen to changes to the checkboxes that refine search options
         $('#search-refine-type').on('change', 'input[type="checkbox"]', modifySearch);
+
+        // Listen to changes to the checkboxes that refine by tenant
+        $('#search-refine-tenant').on('change', 'input[type="checkbox"]', modifySearch);
 
         // Listen to History.js state changes
         $(window).on('statechange', renderSearch);
