@@ -15,7 +15,7 @@
 
 require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
-    var DEFAULT_SIGN_UP_REDIRECT_URL = '/me';
+    var DEFAULT_SIGN_UP_REDIRECT_URL = '/';
 
     var signUpRedirectUrl = null;
     var invitationInfo = null;

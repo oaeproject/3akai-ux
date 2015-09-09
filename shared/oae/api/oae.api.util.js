@@ -1556,11 +1556,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
      * results in an inconsistent decoding of the full URL representation. For example:
      *
      *  1. I have an email address: mrvisser@gmail.com
-     *  2. I want to send a user to OAE with it in the query string: /me?email=mrvisser%40gmail.com
+     *  2. I want to send a user to OAE with it in the query string: /?email=mrvisser%40gmail.com
      *  3. OAE notices you are not authenticated, then redirects you to sign up: /signup?url=%2Fme%3Femail%3Dmrvisser%2540gmail.com
      *  4. When running that location through `$.url` alone, it will:
      *      a. Run `encodeURI` on it, which decodes only `%25`s and not other things (inconsistent!): /signup?url=%2Fme%3Femail%3Dmrvisser%40gmail.com
-     *      b. Now, you get the `url` querystring parameter.. `$.url` will do a regular `decodeURIComponent` on it: /me?email=mrvisser@gmail.com (notice the @ is no longer encoded)
+     *      b. Now, you get the `url` querystring parameter.. `$.url` will do a regular `decodeURIComponent` on it: /?email=mrvisser@gmail.com (notice the @ is no longer encoded)
      *      c. Now, you try and parse the redirect URL as a URL, but it fails! Because the `@` has been inconsistently decoded by the initial `decodeURI` and it is not a safe URI character
      *
      *
