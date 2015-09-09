@@ -627,8 +627,7 @@ ul.as-list li.as-result-item.active {
 
 /* INSTITUTION LOGO */
 
-.oae-institutional-logo,
-.oae-institutional-logo-small {
+.oae-institutional-logo {
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -638,8 +637,11 @@ ul.as-list li.as-result-item.active {
     width: 100%;
 }
 
-.oae-institutional-logo:hover,
-.oae-institutional-logo-small:hover {
+.oae-institutional-logo-left {
+    background-position: 5px 0, left;
+}
+
+.oae-institutional-logo:hover {
     opacity: 0.4;
 }
 
