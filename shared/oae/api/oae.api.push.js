@@ -397,7 +397,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
         // we've already seen activities or not
         var aggregatedActivities = null;
 
-        // If we've seen activities previously, we need to to aggregate the new activities
+        // If we've seen activities previously, we need to aggregate the new activities
         // with those previously seen activities
         if (!_.isEmpty(activities[resourceId][streamType])) {
             // Get the activities we've already seen who can aggregate with activities

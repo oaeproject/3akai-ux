@@ -53,19 +53,19 @@ require(['jquery','oae.core'], function($, oae) {
     /////////////////////
     // LOGGED IN USERS //
     /////////////////////
-    
+
     /**
      * Set up the callbacks that handle queries from other widgets for the page context
      * and other actions that might change the page content
      */
     var setUpEventHandling = function() {
-        
+
         // The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
         // to get hold of the current context (i.e. current user's profile). In the first case, a
         // `oae.context.send` event will be sent out as a broadcast to all widgets listening
         // for the context event. In the second case, a `oae.context.send.<widgetname>` event
         // will be sent out and will only be caught by that particular widget. In case the widget
-        // has put in its context request before the profile was loaded, we also broadcast it 
+        // has put in its context request before the profile was loaded, we also broadcast it
         // out straight away.
         $(document).on('oae.context.get', function(ev, widgetId) {
             if (widgetId) {
@@ -75,12 +75,12 @@ require(['jquery','oae.core'], function($, oae) {
             }
         });
         $(document).trigger('oae.context.send', oae.data.me);
-    
+
         // Cache the updated profile picture after it has been changed
         $(document).on('oae.changepic.update', function(ev, data) {
             oae.data.me.picture = data.picture;
         });
-    
+
         // Re-render the me clip when the user profile has been updated. The updated
         // user object will be passed into the event
         $(document).on('oae.editprofile.done', function(ev, data) {
@@ -150,7 +150,7 @@ require(['jquery','oae.core'], function($, oae) {
                 }
             ]
         }];
-    
+
         // Structure that will be used to construct the left hand navigation pages
         var lhNavPages = [
             {
@@ -274,18 +274,18 @@ require(['jquery','oae.core'], function($, oae) {
     ////////////////////////
     // GENERAL PAGE SETUP //
     ////////////////////////
-    
+
     // The basic index page varies based on whether the user
-    // has logged in or not. When the user is authenticated, their personal 
+    // has logged in or not. When the user is authenticated, their personal
     // space will be loaded. When the user is anonymous, the tenant landing
     // page will be shown.
 
     if (oae.data.me.anon) {
-        
-        // Add classes to to trigger appropriate styling changes
+
+        // Add classes to trigger appropriate styling changes
         $('body').addClass('oae-index-anon');
         $('.oae-main-content').addClass('oae-branding-container');
-        
+
         // For anonmous users, the page is static, so all
         // we do is set up the navigation. That will load
         // the page content
@@ -296,11 +296,11 @@ require(['jquery','oae.core'], function($, oae) {
         // For logged in users, we have to handle various events
         // that trigger updates to the page content
         setUpEventHandling();
-        
-        // Logged in users also have clips and left-hand navigation        
+
+        // Logged in users also have clips and left-hand navigation
         setUpClip();
         setUpNavigation();
-        
+
         // Show user preferences if, e.g., it's deep-linked via the URL
         showPreferences();
 
