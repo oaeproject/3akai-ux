@@ -139,7 +139,7 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
     };
 
     /**
-     * Initiates a new searc based on the current state of the search parameters. This can be re-run
+     * Initiate a new search based on the current state of the search parameters. This can be re-run
      * whenever search parameters are changed
      */
     var modifySearch = function() {
