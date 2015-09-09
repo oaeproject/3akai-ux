@@ -132,6 +132,11 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
                                         // initial widget loading have finished
                                         $('body').css('visibility', 'visible');
 
+                                        // Apply auto-focus after the core HTML widgets have loaded.
+                                        // The rendering will cause HTML5 autofocus to be lost, so
+                                        // we re-inforce it here
+                                        $('[autofocus]:first').focus();
+
                                         // Initialize websocket push API, unless we're on the
                                         // global admin tenant
                                         if (oae.data.me.tenant.alias !== 'admin') {
