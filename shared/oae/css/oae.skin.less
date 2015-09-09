@@ -523,47 +523,47 @@ ul.as-selections.as-selections-focus {
 /* Left hand navigation actions border color */
 @lhnav-item-border-color: #EEE;
 
-.nav > li > a,
-.nav > li > button,
-.nav > li i,
-.nav > li.nav-header {
+.oae-lhnavigation .nav > li > a,
+.oae-lhnavigation .nav > li > button,
+.oae-lhnavigation .nav > li i,
+.oae-lhnavigation .nav > li.nav-header {
     color: @lhnav-item-text-color;
     background-color: @lhnav-item-background-color;
 }
 
-.nav > li:not(.nav-header):hover,
-.nav > li:not(.nav-header) > a:hover,
-.nav > li:not(.nav-header) > a:focus,
-.nav > li:not(.nav-header) > a:hover i,
-.nav > li:not(.nav-header) > a:focus i,
-.nav > li:not(.nav-header) > button:hover,
-.nav > li:not(.nav-header) > button:focus,
-.nav > li:not(.nav-header) > button:hover i,
-.nav > li:not(.nav-header) > button:focus i {
+.oae-lhnavigation .nav > li:not(.nav-header):hover,
+.oae-lhnavigation .nav > li:not(.nav-header) > a:hover,
+.oae-lhnavigation .nav > li:not(.nav-header) > a:focus,
+.oae-lhnavigation .nav > li:not(.nav-header) > a:hover i,
+.oae-lhnavigation .nav > li:not(.nav-header) > a:focus i,
+.oae-lhnavigation .nav > li:not(.nav-header) > button:hover,
+.oae-lhnavigation .nav > li:not(.nav-header) > button:focus,
+.oae-lhnavigation .nav > li:not(.nav-header) > button:hover i,
+.oae-lhnavigation .nav > li:not(.nav-header) > button:focus i {
     color: @lhnav-item-text-hover-color;
     background-color: @lhnav-item-background-hover-color;
 }
 
-.nav > li.active > a,
-.nav > li.active > a:hover,
-.nav > li.active > a:focus,
-.nav > li.active > button,
-.nav > li.active > button:hover,
-.nav > li.active > button:focus,
-.nav > li.active > a i,
-.nav > li.active > a:hover i,
-.nav > li.active > a:focus i {
+.oae-lhnavigation .nav > li.active > a,
+.oae-lhnavigation .nav > li.active > a:hover,
+.oae-lhnavigation .nav > li.active > a:focus,
+.oae-lhnavigation .nav > li.active > button,
+.oae-lhnavigation .nav > li.active > button:hover,
+.oae-lhnavigation .nav > li.active > button:focus,
+.oae-lhnavigation .nav > li.active > a i,
+.oae-lhnavigation .nav > li.active > a:hover i,
+.oae-lhnavigation .nav > li.active > a:focus i {
     color: @lhnav-item-text-selected-color;
     background-color: @lhnav-item-background-selected-color;
 }
 
-.nav > li.oae-lhnavigation-border {
+.oae-lhnavigation .nav > li.oae-lhnavigation-border {
     border-bottom: @lhnav-item-border-color;
 }
 
-/*********************************
+/********************
  ** @section  Tabs **
- *********************************/
+ ********************/
 
 /* Tab text color */
 @tabbed-nav-text-color: #999;
@@ -596,6 +596,24 @@ ul.as-selections.as-selections-focus {
     background-color: @tabbed-nav-background-selected-color;
 }
 
+.nav.nav-pills {
+    background-color: @tile-background-color;
+}
+
+.nav.nav-pills > li > a {
+    background-color: @tile-background-color;
+    border-color: @tile-background-color;
+    color: @tile-description-color;
+}
+
+.nav.nav-pills > li.active > a {
+    .background-gradient-two(@thumbnail-gradient1-color, @thumbnail-gradient2-color, 20%, 80%);
+    color: @tile-background-color;
+}
+
+.nav.nav-pills > li.active > a > i {
+    color: @link-color;
+}
 
 /*********************
  ** @section  Pills **
@@ -1016,3 +1034,4 @@ div.oae-thumbnail {
 .oae-clip.oae-clip-secondary ul li button:hover {
     background-color: @clip-secondary-gradient2-color;
 }
+
