@@ -1309,7 +1309,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     setTimeout(function() {
                         handleCopyPaste(getTokens());
                     }, 0);
-
                 });
 
                 $element.on('keydown', function(evt) {
@@ -1378,7 +1377,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     if (!isGhostItem || (isGhostItem && $selection.hasClass('as-ghost-selected'))) {
                         var selectedItem = {
                             'id': id,
-                            'displayName': selectionData.displayName,
+                            'displayName': selectionData.displayName || id,
                             'profilePath': selectionData.profilePath,
                             'resourceType': selectionData.resourceType,
                             'thumbnailUrl': selectionData.thumbnailUrl,

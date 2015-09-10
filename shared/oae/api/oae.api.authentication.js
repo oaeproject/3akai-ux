@@ -44,15 +44,15 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
      * Use the known authentication strategies to determine some important characteristics about how
      * to offer a user their authentication method
      *
-     * @param  {String}     [contextLabel]                                      Specifies in which context the strategy info is being requested. Either "SIGN_IN" or "SIGN_UP" (Default: SIGN_IN)
+     * @param  {String}     [contextLabel]                                      Specifies in which context the strategy info is being requested. It's used to identify the context-specific i18n key for the strategy info. Either "SIGN_IN" or "SIGN_UP" are acceptable (Default: SIGN_IN)
      * @return {Object}     authStrategyInfo                                    Authentication strategy information
-     * @return {Object}     authStrategyInfo.enabledStrategies                  All the enabled strategies keyed by strategy id
-     * @return {Object}     authStrategyInfo.enabledLocalStrategy               The single local strategy that is enabled. There should not be 2
+     * @return {Boolean}    authStrategyInfo.allowAccountCreation               True if users are allowed to create their own accounts. False otherwise
      * @return {Object}     authStrategyInfo.enabledExternalStrategies          All the enabled external strategies keyed by strategy id
      * @return {Object}     authStrategyInfo.enabledInstitutionalStrategies     All the enabled institutional strategies keyed by strategy id
-     * @return {Boolean}    authStrategyInfo.hasLocalAuth                       True if there is at least one local (e.g., username and password, ldap) authentication method enabled
+     * @return {Object}     authStrategyInfo.enabledStrategies                  All the enabled strategies keyed by strategy id
      * @return {Boolean}    authStrategyInfo.hasExternalAuth                    True if there is at least one external (e.g., cas, shibboleth, twitter, etc...) authentication method enabled
      * @return {Boolean}    authStrategyInfo.hasInstitutionalAuth               True if there is at least one institutional (e.g., shibboleth, cas, google apps) authentication method enabled
+     * @return {Boolean}    authStrategyInfo.hasLocalAuth                       True if there is at least one local (e.g., username and password, ldap) authentication method enabled
      * @return {Boolean}    authStrategyInfo.hasSingleExternalAuth              True if there is only one authentication method enabled and it is external
      * @return {Boolean}    authStrategyInfo.hasSingleInstitutionalAuth         True if there is only one authentication method enabled and it is institutional
      */
@@ -70,32 +70,27 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
 
         return {
             'allowAccountCreation': configAPI.getValue('oae-authentication', STRATEGY_LOCAL, 'allowAccountCreation'),
-            'enabledStrategies': enabledStrategies,
-            'enabledLocalStrategy': _.chain(enabledStrategies).pick(STRATEGIES_LOCAL).values().first().value(),
             'enabledExternalStrategies': _.pick(enabledStrategies, STRATEGIES_EXTERNAL),
             'enabledInstitutionalStrategies': _.pick(enabledStrategies, STRATEGIES_INSTITUTIONAL),
-            'hasLocalAuth': hasLocalAuth,
+            'enabledStrategies': enabledStrategies,
             'hasExternalAuth': hasExternalAuth,
             'hasInstitutionalAuth': hasInstitutionalAuth,
+            'hasLocalAuth': hasLocalAuth,
             'hasSingleExternalAuth': hasSingleExternalAuth,
             'hasSingleInstitutionalAuth': hasSingleInstitutionalAuth
         };
     };
 
-    /*!
-     * Between the different context label and authentication strategy permutations, we have the
-     * following possible permutations of message keys:
+    /**
+     * Get the translated strategy name given the strategy id and the `contextLabel` in which it is
+     * being requested. An organization-specific name of the authentication can be configured with
+     * a tenancy, and that name is taken into consideration here.
      *
-     *  * __MSG__SIGN_IN_WITH_STRATEGY
-     *  * __MSG__SIGN_IN_WITH_FACEBOOK
-     *  * __MSG__SIGN_IN_WITH_GOOGLE
-     *  * __MSG__SIGN_IN_WITH_TWITTER
-     *  * __MSG__SIGN_UP_WITH_STRATEGY
-     *  * __MSG__SIGN_UP_WITH_FACEBOOK
-     *  * __MSG__SIGN_UP_WITH_GOOGLE
-     *  * __MSG__SIGN_UP_WITH_TWITTER
+     * @param  {String}     strategyId      The id of the strategy whose translated name to get
+     * @param  {String}     contextLabel    The context label in which the strategy name is being requested
+     * @return {String}                     The i18n translated name of this authentication strategy
+     * @api private
      */
-
     var strategyName = function(strategyId, contextLabel) {
         var translatedName = i18nAPI.translate('__MSG__' + contextLabel + '_WITH_STRATEGY__', null, {
             'strategyName': configAPI.getValue('oae-authentication', strategyId, 'name')
@@ -111,6 +106,24 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
      */
     var getEnabledStrategies = exports.getEnabledStrategies = function(contextLabel) {
         contextLabel = contextLabel || 'SIGN_IN';
+
+        /*!
+         * Between the different context label and authentication strategy permutations, we have the
+         * following possible permutations of i18n message keys for strategy name:
+         *
+         *  * __MSG__SIGN_IN_WITH_STRATEGY
+         *  * __MSG__SIGN_IN_WITH_FACEBOOK
+         *  * __MSG__SIGN_IN_WITH_GOOGLE
+         *  * __MSG__SIGN_IN_WITH_TWITTER
+         *  * __MSG__SIGN_UP_WITH_STRATEGY
+         *  * __MSG__SIGN_UP_WITH_FACEBOOK
+         *  * __MSG__SIGN_UP_WITH_GOOGLE
+         *  * __MSG__SIGN_UP_WITH_TWITTER
+         *
+         * In the case of `__MSG__*_WITH_STRATEGY` keys, the `strategyName` method is used to
+         * determine the organization-specific name for their authentication strategy to get a more
+         * context-sensitive strategy name.
+         */
 
         var enabledStrategies = {};
 
@@ -182,11 +195,10 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
     /**
      * Determine if there is a login redirect url available for the current page
      *
-     * @param  {String}     [location]  The url to use to check for the redirect url. If unspecified, the current window location will be used
-     * @return {String}                 The login redirect url, if any
+     * @return {String}     The login redirect url, if any
      */
-    var getLoginRedirectUrl = exports.getLoginRedirectUrl = function(location) {
-        return utilAPI.url(location).param('url');
+    var getLoginRedirectUrl = exports.getLoginRedirectUrl = function() {
+        return utilAPI.url().param('url');
     };
 
     /**
@@ -213,7 +225,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
 
         // Use the `auth.html` `authExternalButton` macro to create a form that performs this
         // authentication
-        var $template = $('<div style="display: none";>${authExternalButton(strategyId, strategy, opts)}</div>');
+        var $template = $('<div class="hide">${authExternalButton(strategyId, strategy, opts)}</div>');
         var form = utilAPI.template().render($template, {
             'strategyId': strategyId,
             'strategy': strategyInfo.enabledExternalStrategies[strategyId],
