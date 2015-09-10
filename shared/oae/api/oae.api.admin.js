@@ -61,15 +61,16 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Get all created tenants
+     * Get a tenant by alias
      *
+     * @param  {String}      alias                The alias of the tenant to get
      * @param  {Function}    callback             Standard callback method
      * @param  {Object}      callback.err         Error object containing error code and error message
-     * @param  {Object}      callback.response    Object containing all available tenants in the system
+     * @param  {Object}      callback.response    Object containing the tenant
      */
-    var getTenants = exports.getTenants = function(callback) {
+    var getTenant = exports.getTenant = function(alias, callback) {
         $.ajax({
-            'url': '/api/tenants',
+            'url': '/api/tenant/' + alias,
             'type': 'GET',
             'success': function(data) {
                 callback(null, data);
