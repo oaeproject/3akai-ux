@@ -484,6 +484,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
      */
     var validation = exports.validation = function() {
 
+        // Regex used to validate a url
+        var urlRegex = /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
+
         /**
          * Initialize the validation utility functions by adding some custom validators
          * to jquery.validate
@@ -707,10 +710,27 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             return true;
         };
 
+        /**
+         * Check whether a provided string is a valid host
+         *
+         * @param  {String}             hostName     The host to check
+         * @return {Boolean}                         `true` when the host is valid, `false` otherwise
+         */
+        var isValidHost = function(host) {
+            if (!host) {
+                return false;
+            }
+
+            // Since a host shouldn't include include the scheme, prepend a scheme and simply run
+            // it against the URL validator
+            return urlRegex.test('http://' + host);
+        };
+
         return {
             'clear': clear,
             'init': init,
             'isValidDisplayName': isValidDisplayName,
+            'isValidHost': isValidHost,
             'validate': validate
         };
     };
@@ -950,7 +970,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         ghostItem[options.selectedItemProp] = security().encodeForHTML(ghostItem[options.selectedItemProp]);
                     });
                 }
-                
+
                 // Coerce the set of excluded items to an array
                 if (!options.exclude) {
                     options.exclude = [];
@@ -970,7 +990,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     // Get the query from the request URL on the Ajax object, as that is the only provided clue
                     // for finding out the search query
                     var query = $.url(this.url).param('q');
-                    
+
                     // Track any results that need to be excluded
                     var toExclude = [];
 
@@ -982,7 +1002,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                             result.query = query;
                         }
                     });
-                    
+
                     // Remove excluded items
                     while (_.isEmpty(toExclude)) {
                         // Remove from end of array to preserve indices
