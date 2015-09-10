@@ -23,12 +23,12 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Create a new tenant
      *
-     * @param  {String}                alias                               The alias of the tenant to create
-     * @param  {String}                displayName                         The display name of the tenant to create
-     * @param  {String}                host                                The host name of the tenant to create
-     * @param  {Function}              [callback]                          Standard callback method
-     * @param  {Object}                [callback.err]                      Error object containing error code and error message
-     * @param  {Tenant}                [callback.response]                 A Tenant object representing the created tenant
+     * @param  {String}                alias                The alias of the tenant to create
+     * @param  {String}                displayName          The display name of the tenant to create
+     * @param  {String}                host                 The host name of the tenant to create
+     * @param  {Function}              [callback]           Standard callback method
+     * @param  {Object}                [callback.err]       Error object containing error code and error message
+     * @param  {Tenant}                [callback.tenant]    A Tenant object representing the created tenant
      */
     var createTenant = exports.createTenant = function(alias, displayName, host, callback) {
         if (!alias) {
@@ -63,10 +63,10 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Get a tenant by alias
      *
-     * @param  {String}      alias                The alias of the tenant to get
-     * @param  {Function}    callback             Standard callback method
-     * @param  {Object}      callback.err         Error object containing error code and error message
-     * @param  {Object}      callback.response    Object containing the tenant
+     * @param  {String}      alias              The alias of the tenant to get
+     * @param  {Function}    callback           Standard callback method
+     * @param  {Object}      callback.err       Error object containing error code and error message
+     * @param  {Tenant}      callback.tenant    The requested tenant
      */
     var getTenant = exports.getTenant = function(alias, callback) {
         $.ajax({
@@ -102,7 +102,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Boolean}        [additionalOptions.isTenantAdmin]   Whether or not the new user should be a tenant admin
      * @param  {Function}       [callback]                          Standard callback function
      * @param  {Object}         [callback.err]                      Error object containing error code and error message
-     * @param  {User}           [callback.response]                 A User object representing the created user
+     * @param  {User}           [callback.user]                     The created user
      * @throws {Error}                                              Error thrown when not all of the required parameters have been provided
      */
     var createUser = exports.createUser = function(tenantAlias, username, password, displayName, additionalOptions, callback) {
@@ -161,7 +161,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         [additionalOptions.publicAlias]     The publically-available alias for users to see when the global administrator's display name is protected
      * @param  {Function}       [callback]                          Standard callback function
      * @param  {Object}         [callback.err]                      Error object containing error code and error message
-     * @param  {User}           [callback.response]                 A User object representing the created global administrator
+     * @param  {User}           [callback.user]                     The created global administrator user
      * @throws {Error}                                              Error thrown when not all of the required parameters have been provided
      */
     var createGlobalAdminUser = exports.createGlobalAdminUser = function(username, password, displayName, additionalOptions, callback) {
@@ -214,7 +214,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         [additionalOptions.publicAlias]     The publically-available alias for users to see when the tenant administrator's display name is protected
      * @param  {Function}       [callback]                          Standard callback function
      * @param  {Object}         [callback.err]                      Error object containing error code and error message
-     * @param  {User}           [callback.response]                 A User object representing the created tenant administrator
+     * @param  {User}           [callback.user]                     The created tenant administrator user
      * @throws {Error}                                              Error thrown when not all of the required parameters have been provided
      */
     var createTenantAdminUser = exports.createTenantAdminUser = function(tenantAlias, username, password, displayName, additionalOptions, callback) {
@@ -267,6 +267,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}         params              Object representing the profile fields that need to be updated
      * @param  {Function}       [callback]          Standard callback function
      * @param  {Object}         [callback.err]      Error object containing error code and error message
+     * @param  {User}           [callback.user]     The updated user profile
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
     var updateUser = exports.updateUser = function(userId, params, callback) {
