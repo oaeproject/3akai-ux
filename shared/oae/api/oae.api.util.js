@@ -725,8 +725,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
         /**
          * Check whether a provided string is a valid host
          *
-         * @param  {String}             hostName     The host to check
-         * @return {Boolean}                         `true` when the host is valid, `false` otherwise
+         * @param  {String}             host        The host to check
+         * @return {Boolean}                        `true` when the host is valid, `false` otherwise
          */
         var isValidHost = function(host) {
             if (!host) {
