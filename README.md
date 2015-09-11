@@ -52,3 +52,9 @@ The project website can be found at http://www.oaeproject.org. The [project blog
 The mailing list used for Apereo OAE is oae@apereo.org. You can subscribe to the mailing list at https://groups.google.com/a/apereo.org/d/forum/oae.
 
 Bugs and other issues can be reported in our [issue tracker](https://github.com/oaeproject/3akai-ux/issues). Ideas for new features and capabilities can be suggested and voted for in our [UserVoice page](http://oaeproject.uservoice.com).
+
+## Special thanks to
+
+- [BrowserStack](https://www.browserstack.com) for graciously supporting cross-browser testing.
+- [Crowdin](http://crowdin.com/project/apereo-oae) for providing our internationalisation platform.
+

@@ -277,7 +277,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                 oaeL10n.timeAgo($listContainer);
 
                 // Apply multi-line threedotting to the tile titles
-                $('.oae-tile h3').dotdotdot({'watch': 'window'});
+                $('.oae-tile .oae-tile-title').dotdotdot({'watch': 'window'});
             }
         };
 

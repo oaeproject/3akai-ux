@@ -67,6 +67,7 @@ requirejs.config({
         'jquery.jeditable-focus': 'oae/js/jquery-plugins/jquery.jeditable-focus',
         'jquery.list': 'oae/js/jquery-plugins/jquery.list',
         'jquery.responsive': 'oae/js/jquery-plugins/jquery.responsive',
+        'jquery.switchtab': 'oae/js/jquery-plugins/jquery.switchtab',
         'jquery.update-picture': 'oae/js/jquery-plugins/jquery.update-picture',
         'mimetypes': 'oae/js/mimetypes',
 

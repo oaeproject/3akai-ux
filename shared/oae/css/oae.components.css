@@ -972,9 +972,9 @@ div.oae-thumbnail i.fa {
  *      </a>
  *      <div class="oae-tile-metadata">
  *          <i class="fa fa-oae-public pull-left"></i>
- *          <h3 class="oae-threedots">
+ *          <div class="oae-tile-title oae-threedots">
  *              <a href="/user/u:cambridge:PPTBPgxSdf">John Librarian</a>
- *          </h3>
+ *          </div>
  *          <small class="oae-threedots">Professor</small>
  *      </div>
  *  </div>
@@ -986,8 +986,8 @@ div.oae-thumbnail i.fa {
  * - The `oae-threedots` class should be added to metadata elements if you want
  *   to make sure that `...` is shown when the metadata is longer than the available
  *   space in the tile.
- * - The actual content of the metadata div can be pretty much anything, although an
- *   h3 should be used for the tile title.
+ * - The actual content of the metadata div can be pretty much anything, although a
+ *   class of `oae-tile-title` should be used for the tile title.
  * - The `small` element used to add some additional metadata is optional.
  * - The visibility icon can be used as defined in the Visibility icon section, and
  *   can be floated on the left or right.
@@ -1037,8 +1037,8 @@ div.oae-thumbnail i.fa {
     right: 5px;
 }
 
-.oae-tile h3,
-.oae-tile h3 a {
+.oae-tile .oae-tile-title,
+.oae-tile .oae-tile-title a {
     font-size: 14px;
     font-weight: 600;
     line-height: 18px;
@@ -1188,7 +1188,7 @@ div.oae-thumbnail i.fa {
     margin: 0;
 }
 
-.oae-listitem > div.oae-listitem-metadata > small {
+.oae-listitem > div.oae-listitem-metadata > h3 + small {
     font-size: 12px;
     line-height: 27px;
     text-transform: uppercase;
@@ -1685,4 +1685,62 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
     .oae-lhnavigation.oae-lhnav-expanded + .oae-page .oae-list-grid-item input[type="checkbox"] {
         display: none;
     }
+}
+
+/***************
+ ** SWITCHTAB **
+ ***************/
+
+/**
+ * The switchtab component is a template combined with the custom `$.switchtab` plugin that
+ * implements the interaction of the "Switch Tab" component. A Switch Tab is essentially a set of
+ * tabs that look like a left-to-right switch. There can only be one selected at one time. Back
+ * functionality is also provided.
+ *
+ * Usage:
+ *
+ * You should create a template that is based on the bootstrap pill component, with the one
+ * exception that the root element has the `oae-switchtab` class:
+ *
+ *  ```
+ *  <ul class="oae-switchtab nav nav-pills" role="tablist">
+ *      <li role="presentation">
+ *          <a href="/search/all" aria-controls="all" role="tab" data-toggle="tab">
+ *              <i class="fa fa-globe"></i>
+ *              <span class="oae-switchtab-switch-label">__MSG__EVERYWHERE__</span>
+ *          </a>
+ *      </li>
+ *      <li role="presentation">
+ *          <a href="/search/my"  aria-controls="my" role="tab" data-toggle="tab">
+ *              <i class="fa fa-home"></i>
+ *              <span class="oae-switchtab-switch-label">__MSG__MY_STUFF_ONLY__</span>
+ *          </a>
+ *      </li>
+ *  </ul>
+ *  ```
+ *
+ * Notes:
+ *
+ * - aria-controls (required): Indicates the id of the tab. It is used both internally to
+ *   indentify the element and it is useful for the $.switchtabId() method in order to determine
+ *   which tab is currently selected
+ * - href (required): Indicates not only at what path prefix activates the tab, but also what
+ *   path to push into the History module when the tab is clicked. Note that when navigating to a
+ *   tab, the query string is retained
+ *
+ * To perform an action when the tab is changed, you should listen to `$(window).on('statechange')`
+ * and use `$mySwitchTab.switchtabId()` to get the tab id of the currently active tab.
+ */
+
+/* Icon generally takes up the most vertical baseline space, so shift it down to help align it with
+   the label content */
+.nav.nav-pills > li > a > i {
+    position: relative;
+    top: 1px;
+}
+
+/* Shift the text up one pixel to help align it to the larger button */
+.nav.nav-pills .oae-switchtab-switch-label {
+    bottom: 1px;
+    position: relative;
 }

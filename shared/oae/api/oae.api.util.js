@@ -175,13 +175,25 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * @api private
          */
         var init = function(callback) {
-            // Load the activity summary and lists macros through the RequireJS Text plugin
-            require(['text!/shared/oae/macros/list.html', 'text!/shared/oae/macros/header.html'], function(listMacro, headerMacro) {
+            // List all macro files available in /shared/oae/macros to this list to have them
+            // available for JST templates
+            var macroFiles = ['header.html', 'list.html'];
+
+            // Load all macros using the `require` command
+            var macros = _.map(macroFiles, function(macroFile) {
+                return 'text!/shared/oae/macros/' + macroFile;
+            });
+            require(macros, function() {
                 // Translate and cache the macros. We require the i18n API here to avoid creating
                 // a cyclic dependency
                 var i18nAPI = require('oae.api.i18n');
-                globalMacros.push(i18nAPI.translate(listMacro));
-                globalMacros.push(i18nAPI.translate(headerMacro));
+
+                // All loaded macros will come back as the arguments of the callback. Dynamically
+                // add them all to the global macros list
+                _.chain(arguments).toArray().each(function(macro) {
+                    globalMacros.push(i18nAPI.translate(macro));
+                });
+
                 callback();
             });
         };
@@ -991,23 +1003,20 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     // for finding out the search query
                     var query = $.url(this.url).param('q');
 
-                    // Track any results that need to be excluded
-                    var toExclude = [];
 
-                    $.each(data.results, function(index, result) {
-                        if (_.contains(options.exclude, result.id)) {
-                            toExclude.push(index);
-                        } else {
+                    data.results = _.chain(data.results)
+                        // Remove any results in the exclusion list
+                        .filter(function(result) {
+                            return !_.contains(options.exclude, result.id);
+                        })
+                        // Enhance the results for the autosuggest template
+                        .each(function(result) {
                             result.displayName = security().encodeForHTML(result.displayName);
                             result.query = query;
-                        }
-                    });
+                            return result;
+                        })
+                        .value();
 
-                    // Remove excluded items
-                    while (_.isEmpty(toExclude)) {
-                        // Remove from end of array to preserve indices
-                        data.results.splice(toExclude.pop(), 1);
-                    }
 
                     if (retrieveComplete) {
                         return retrieveComplete(data);
@@ -1078,9 +1087,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 options.selectionAdded = function(elem) {
                     var $elem = $(elem);
                     // Wrap the element text in a 'oae-threedots' span element to prevent overflowing
-                    var text = $elem[0].lastChild.nodeValue;
-                    $elem[0].lastChild.remove();
-                    $elem.append($('<span>' + text + '</span>').addClass('pull-left oae-threedots'));
+                    $elem.contents().filter(function() {
+                        return this.nodeType === 3;
+                    }).wrapAll('<span class="pull-left oae-threedots" />');
 
                     var originalData = $elem.data('originalData');
                     if (originalData.resourceType) {
