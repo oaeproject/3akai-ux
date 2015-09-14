@@ -24,7 +24,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
      * The template used to render the result should put each item into its own `li` tag and should have a `data-id` attribute containing
      * the item's id. This goes the same for the "initialContent" template, however it is recommended that the initial content item be
      * tagged with class `oae-list-initial` so that when calculating whether or not there are any result rows in the list, the initial
-     * content can be ommitted from that calculation.
+     * content can be omitted from that calculation.
      *
      * By default, the infinite scroll plug-in will use the `nextToken` key for paging when provided in the back-end feed response. When
      * no `nextToken` is provided, the index of the last rendered item will be used instead.
