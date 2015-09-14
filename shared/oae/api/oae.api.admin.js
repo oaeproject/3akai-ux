@@ -103,9 +103,9 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         username                            The username this user can login with
      * @param  {String}         password                            The password for this user
      * @param  {String}         displayName                         The display name for the user
+     * @param  {String}         email                               The email for the user
      * @param  {Object}         [additionalOptions]                 Additional optional parameters that need to be passed in
      * @param  {String}         [additionalOptions.visibility]      The user's visibility setting. This can be public, loggedin or private
-     * @param  {String}         [additionalOptions.email]           The user's email address
      * @param  {String}         [additionalOptions.locale]          The user's locale
      * @param  {String}         [additionalOptions.publicAlias]     The publically-available alias for users to see when the user's display name is protected
      * @param  {Boolean}        [additionalOptions.isGlobalAdmin]   Whether or not the new user should be a global admin
@@ -115,13 +115,15 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {User}           [callback.response]                 A User object representing the created user
      * @throws {Error}                                              Error thrown when not all of the required parameters have been provided
      */
-    var createUser = exports.createUser = function(tenantAlias, username, password, displayName, additionalOptions, callback) {
+    var createUser = exports.createUser = function(tenantAlias, username, password, displayName, email, additionalOptions, callback) {
         if (!username) {
             throw new Error('A username should be provided');
         } else if (!password) {
             throw new Error('A password should be provided');
         } else if (!displayName) {
             throw new Error('A display name should be provided');
+        } else if (!email) {
+            throw new Error('An email address should be provided');
         }
 
         // Set a default callback function in case no callback function has been provided
@@ -133,8 +135,8 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'username': username,
             'password': password,
             'displayName': displayName,
+            'email': email,
             'visibility': additionalOptions.visibility,
-            'email': additionalOptions.email,
             'locale': additionalOptions.locale,
             'publicAlias': additionalOptions.publicAlias
         };
@@ -165,8 +167,8 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         username                            The username the global administrator can log in with
      * @param  {String}         password                            The password for the global administrator
      * @param  {String}         displayName                         The display name for the global administrator
+     * @param  {String}         email                               The email for the global administrator
      * @param  {Object}         [additionalOptions]                 Additional optional parameters that need to be passed in
-     * @param  {String}         [additionalOptions.email]           The global administrator's email address
      * @param  {String}         [additionalOptions.locale]          The global administrator's locale
      * @param  {String}         [additionalOptions.publicAlias]     The publically-available alias for users to see when the global administrator's display name is protected
      * @param  {Function}       [callback]                          Standard callback function
@@ -174,13 +176,15 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {User}           [callback.response]                 A User object representing the created global administrator
      * @throws {Error}                                              Error thrown when not all of the required parameters have been provided
      */
-    var createGlobalAdminUser = exports.createGlobalAdminUser = function(username, password, displayName, additionalOptions, callback) {
+    var createGlobalAdminUser = exports.createGlobalAdminUser = function(username, password, displayName, email, additionalOptions, callback) {
         if (!username) {
             throw new Error('A username should be provided');
         } else if (!password) {
             throw new Error('A password should be provided');
         } else if (!displayName) {
             throw new Error('A display name should be provided');
+        } else if (!email) {
+            throw new Error('An email address should be provided');
         }
 
         // Set a default callback function in case no callback function has been provided
@@ -192,7 +196,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'username': username,
             'password': password,
             'displayName': displayName,
-            'email': additionalOptions.email,
+            'email': email,
             'locale': additionalOptions.locale,
             'publicAlias': additionalOptions.publicAlias
         };
@@ -218,8 +222,8 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         username                            The username the tenant administrator can log in with
      * @param  {String}         password                            The password for the tenant administrator
      * @param  {String}         displayName                         The display name for the tenant administrator
+     * @param  {String}         email                               The email for the tenant administrator
      * @param  {Object}         [additionalOptions]                 Additional optional parameters that need to be passed in
-     * @param  {String}         [additionalOptions.email]           The tenant administrator's email address
      * @param  {String}         [additionalOptions.locale]          The tenant administrator's locale
      * @param  {String}         [additionalOptions.publicAlias]     The publically-available alias for users to see when the tenant administrator's display name is protected
      * @param  {Function}       [callback]                          Standard callback function
@@ -227,13 +231,15 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {User}           [callback.response]                 A User object representing the created tenant administrator
      * @throws {Error}                                              Error thrown when not all of the required parameters have been provided
      */
-    var createTenantAdminUser = exports.createTenantAdminUser = function(tenantAlias, username, password, displayName, additionalOptions, callback) {
+    var createTenantAdminUser = exports.createTenantAdminUser = function(tenantAlias, username, password, displayName, email, additionalOptions, callback) {
         if (!username) {
             throw new Error('A username should be provided');
         } else if (!password) {
             throw new Error('A password should be provided');
         } else if (!displayName) {
             throw new Error('A display name should be provided');
+        } else if (!email) {
+            throw new Error('An email address should be provided');
         }
 
         // Set a default callback function in case no callback function has been provided
@@ -245,7 +251,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'username': username,
             'password': password,
             'displayName': displayName,
-            'email': additionalOptions.email,
+            'email': email,
             'locale': additionalOptions.locale,
             'publicAlias': additionalOptions.publicAlias
         };

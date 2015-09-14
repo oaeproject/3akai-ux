@@ -37,11 +37,12 @@ main > h3 {
     margin-right: 0;
 }
 
-#signup-options-container h5 {
+#signup-options-container h4 {
     color: #888;
     font-size: 15px;
     font-weight: normal;
     margin-bottom: 35px;
+    margin-top: 0;
     text-align: left;
 }
 
@@ -113,15 +114,15 @@ main > h3 {
     color: #8F0222;
 }
 
-.signup-createaccount-captcha-buttons a.btn {
-    margin: 2px 0 7px;
+.signup-createaccount-recaptcha-buttons a.btn {
+    margin: 2px 0 0;
 }
 
-.signup-createaccount-captcha-buttons a.btn i {
+.signup-createaccount-recaptcha-buttons a.btn i {
     font-size: 14px;
 }
 
-.signup-createaccount-captcha-input-container {
+.signup-createaccount-recaptcha-input-container {
     /* Make enough space for the floated captcha buttons to sit alongside this container */
     padding-right: 87px;
 }
@@ -129,6 +130,13 @@ main > h3 {
 #recaptcha_image {
     margin-bottom: 15px;
     min-height: 57px;
+}
+
+/* This container contains only a checkbox, and bootstrap gives top padding to the input field and
+   the label text to vertically center. We need to pull it up a bit so that it is evenly vertically
+   spaced with the other fields */
+#signup-createaccount-termsandconditions-container {
+    margin-top: -7px;
 }
 
 #signup-createaccount-termsandconditions-container label {
@@ -139,7 +147,11 @@ main > h3 {
     margin-right: 15px;
 }
 
-#signup-createaccount-captcha-error {
+#signup-createaccount-termsandconditions-container .help:empty {
+    display: none;
+}
+
+#signup-createaccount-recaptcha-error {
     color: #a94442;
 }
 
@@ -172,7 +184,7 @@ main > h3 {
         margin-right: 20px;
     }
 
-    #signup-options-container h5 {
+    #signup-options-container h4 {
         margin-bottom: 15px;
         text-align: center;
     }
@@ -181,7 +193,7 @@ main > h3 {
         text-align: center;
     }
 
-    #signup-options-external > h5 {
+    #signup-options-external > h4 {
         display: none;
     }
 

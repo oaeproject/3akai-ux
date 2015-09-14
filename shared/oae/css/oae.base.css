@@ -578,8 +578,9 @@ ul.as-selections li.as-selection-item .oae-thumbnail {
 /* Email icon emulating a thumbnail */
 
 ul.as-list li.as-result-item div.oae-thumbnail.fa-oae-email:before {
-    font-size: 25px;
-    margin-top: -12px;
+    font-size: 20px;
+    margin-left: 5px;
+    margin-top: -10px;
 }
 
 ul.as-list li.as-result-item .oae-listitem.oae-listitem-email h3 {

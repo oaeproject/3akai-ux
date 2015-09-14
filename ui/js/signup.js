@@ -112,10 +112,10 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // Set the aria attributes on the main recaptcha input field
         $('#recaptcha_response_field').attr({
             'aria-invalid': 'true',
-            'aria-describedby': 'signup-createaccount-captcha-error'
+            'aria-describedby': 'signup-createaccount-recaptcha-error'
         });
-        $('#signup-createaccount-captcha-column').addClass('has-error');
-        $('#signup-createaccount-captcha-error').show();
+        $('#signup-createaccount-recaptcha-container').addClass('has-error');
+        $('#signup-createaccount-recaptcha-error').show();
     };
 
     /**
@@ -124,8 +124,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     var hideRecaptchaError = function() {
         // Remove the aria attributes on the main recaptcha input field
         $('#recaptcha-response-field').removeAttr('aria-invalid aria-describedby');
-        $('#signup-createaccount-captcha-error').hide();
-        $('#signup-createaccount-captcha-column').removeClass('has-error');
+        $('#signup-createaccount-recaptcha-error').hide();
+        $('#signup-createaccount-recaptcha-container').removeClass('has-error');
     };
 
     /**
@@ -149,11 +149,10 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // Create the user
         var displayName = values.firstName + ' ' + values.lastName;
         var additionalOptions = {
-            'email': values.email,
             'invitationToken': invitationInfo.token
         };
 
-        oae.api.user.createUser(values.username, values.password, displayName, additionalOptions, values.recaptchaChallenge, values.recaptchaResponse, function(err, createdUser) {
+        oae.api.user.createUser(values.username, values.password, displayName, values.email, additionalOptions, values.recaptchaChallenge, values.recaptchaResponse, function(err, createdUser) {
             if (err) {
                 if (recaptchaEnabled) {
                     // Refresh reCaptcha
@@ -315,17 +314,14 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         if (recaptchaEnabled) {
             // Only require the recaptcha library when recaptcha has been enabled
             require(['//www.google.com/recaptcha/api/js/recaptcha_ajax.js'], function() {
-                var captchaContainer = $('#signup-createaccount-captcha-container')[0];
+                var captchaContainer = $('#signup-createaccount-recaptcha-container')[0];
                 Recaptcha.create(recaptchaPublicKey, captchaContainer, {theme: 'custom'});
             });
 
             // Hide the Recaptcha error when text is entered
             $('#recaptcha_response_field').on('keyup', hideRecaptchaError);
-
-            // Add a consistent height to the bottom row containers
-            $('#signup-createaccount-usercheck-container').addClass('signup-createaccount-captcha-create-has-captcha');
         } else {
-            $('#signup-createaccount-captcha-container').hide();
+            $('#signup-createaccount-recaptcha-container').hide();
         }
     };
 
@@ -333,12 +329,19 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * Initialize the signup options template
      */
     var renderSignUpOptions = function() {
+        var externalAuthOpts = {
+            'data': {
+                'invitationToken': invitationInfo.token,
+                'redirectUrl': signUpRedirectUrl
+            }
+        };
+
         // Render the signup options
         oae.api.util.template().render($('#signup-options-template'), {
             'authStrategyInfo': authStrategyInfo,
+            'externalAuthOpts': externalAuthOpts,
             'invitationInfo': invitationInfo,
             'recaptchaEnabled': recaptchaEnabled,
-            'redirectUrl': signUpRedirectUrl,
             'termsAndConditionsEnabled': termsAndConditionsEnabled
         }, $('#signup-options-container'));
 

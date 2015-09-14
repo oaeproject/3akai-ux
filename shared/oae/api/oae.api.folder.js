@@ -228,11 +228,11 @@ define(['exports', 'jquery'], function(exports, $) {
     /**
      * Get all the invitations for a folder
      *
-     * @param  {String}          folderId                       Id of the folder we're trying to retrieve the invitations for
-     * @param  {Function}        callback                       Standard callback function
-     * @param  {Object}          callback.err                   Error object containing error code and error message
-     * @param  {Object}          callback.result                Response object containing the folder invitations
-     * @param  {Invitation[]}    callback.result.results        Every invitation associated to the folder
+     * @param  {String}         folderId                        Id of the folder we're trying to retrieve the invitations for
+     * @param  {Function}       callback                        Standard callback function
+     * @param  {Object}         callback.err                    Error object containing error code and error message
+     * @param  {Object}         callback.invitations            Response object containing the folder invitations
+     * @param  {Invitation[]}   callback.invitations.results    Every invitation associated to the folder
      * @throws {Error}                                          Error thrown when no folder id has been provided
      */
     var getInvitations = exports.getInvitations = function(folderId, callback) {
