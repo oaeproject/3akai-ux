@@ -1111,6 +1111,9 @@ div.oae-thumbnail i.fa {
  * - A list item is available in an expanded size and a compact size. By default, the larger expanded
  *   view will be used. In order to use the smaller compact view, the item should be embedded in a
  *   `div` with class `oae-list-compact-item`
+ * - When the list contains a fixed initial item, it is recommended that it's tagged with the class
+ *   `oae-list-initial` so that when calculating whether or not there are any result rows in the list,
+ *   the initial item can be omitted from that calculation
  */
 
 .oae-listitem {
