@@ -325,7 +325,7 @@ module.exports = function(grunt) {
                         }
                     },
                     {
-                        'from': /(href)="\/(.+?)"/ig,
+                        'from': /(<link.*?href)="\/(.+?)"/ig,
                         'to': function(matchedWord, index, fullText, regexMatches) {
                             return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
                         }
@@ -694,7 +694,7 @@ module.exports = function(grunt) {
         // and give them the proper names so no config changes in Hilary need to occur
         grunt.task.run('copyReleaseArtifacts:' + outputDir);
     });
-    
+
     // Lint tasks (JavaScript only for now, too many errors in css)
     grunt.registerTask('lint', ['jshint' /*, 'csslint' */ ]);
 
