@@ -83,6 +83,50 @@ input.oae-focus,
     white-space: nowrap;
 }
 
+/*********************
+ ** HORIZONTAL RULE **
+ *********************/
+
+/**
+ * A custom horizontal rule component that supports having centered text. Useful for compact
+ * horizontal dividers that contain a segue into the next section.
+ *
+ *  e.g. <div class="oae-hr"><span>Segue text here</span></div>
+ *
+ * @see http://stackoverflow.com/a/22603610/2517093
+ */
+
+div.oae-hr {
+    display: block;
+    overflow: hidden;
+    text-align: center;
+    white-space: nowrap;
+}
+
+div.oae-hr > span {
+    display: inline-block;
+    position: relative;
+}
+
+div.oae-hr > span:before,
+div.oae-hr > span:after {
+    background: #ccc;
+    content: "";
+    height: 1px;
+    position: absolute;
+    top: 50%;
+    width: 9999px;
+}
+
+div.oae-hr > span:before {
+    margin-right: 15px;
+    right: 100%;
+}
+
+div.oae-hr > span:after {
+    left: 100%;
+    margin-left: 15px;
+}
 
 /************
  ** PANELS **

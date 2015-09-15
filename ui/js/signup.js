@@ -17,13 +17,24 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     var DEFAULT_SIGN_UP_REDIRECT_URL = '/me';
 
+    // Variable that indicates where to redirect the user to after sign up
     var signUpRedirectUrl = null;
+
+    // Variable that indicates what invitation info, if any, is available (e.g., email and
+    // invitation token)
     var invitationInfo = null;
-    var pageTitle = null;
+
+    // Variable that holds the configured auth strategy information for the tenant
     var authStrategyInfo = null;
+
+    // Variable that specifies if recaptcha should be enabled or disabled
     var recaptchaEnabled = null;
-    var recaptchaPublicKey = null;
-    var termsAndConditionsEnabled = null;
+
+    // Variable that holds the recaptcha service public key, if any
+    var recaptchaPublicKey = oae.api.config.getValue('oae-principals', 'recaptcha', 'publicKey');
+
+    // Variable that specifies if the terms and conditions are enabled
+    var termsAndConditionsEnabled = oae.api.config.getValue('oae-principals', 'termsAndConditions', 'enabled');
 
     /**
      * Convenience function to get the desired redirect URL after signup
@@ -61,24 +72,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         }
 
         return oae.api.i18n.translate(title);
-    };
-
-    /**
-     * Get the terms and conditions if applicable
-     *
-     * @param  {Function}   callback        Standard callback function
-     * @param  {String}     callback.text   The terms and conditions content, if any
-     */
-    var getTermsAndConditions = function(callback) {
-        if (!termsAndConditionsEnabled) {
-            // Terms and conditions are not enabled, so just callback with nothing
-            return callback();
-        }
-
-        // Get the terms and conditions from the server
-        oae.api.user.getTC(function(err, data) {
-            return callback(data.text);
-        });
     };
 
     /**
@@ -195,7 +188,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         }
 
         invitationInfo = getInvitationInfo();
-        pageTitle = getPageTitle();
         authStrategyInfo = oae.api.authentication.getStrategyInfo('SIGN_UP');
         if (authStrategyInfo.hasSingleExternalAuth) {
             _.each(authStrategyInfo.enabledExternalStrategies, function(strategy, strategyId) {
@@ -214,14 +206,14 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             authStrategyInfo.hasLocalAuth &&
             oae.api.config.getValue('oae-principals', 'recaptcha', 'enabled')
         );
-        recaptchaPublicKey = oae.api.config.getValue('oae-principals', 'recaptcha', 'publicKey');
-        termsAndConditionsEnabled = oae.api.config.getValue('oae-principals', 'termsAndConditions', 'enabled');
     };
 
     /**
      * Render the title of the page for both the browser and page
      */
     var renderPageTitle = function() {
+        var pageTitle = getPageTitle();
+
         // Set the browser and page title
         oae.api.util.setBrowserTitle(pageTitle);
         oae.api.util.template().render($('#signup-title-template'), {
@@ -345,11 +337,15 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             'termsAndConditionsEnabled': termsAndConditionsEnabled
         }, $('#signup-options-container'));
 
-        // For IE9, everything floats so we can't get height. Give the main container as much height
-        // as it needs for the create account form
-        $('.ie-lt10 #signup-options-local:visible').each(function() {
-            $('#signup-options-container').css('height', $(this).height());
-        });
+        // For IE9, since we can't use flexbox, we need to have an explicit height to have a full-
+        // height vertical "OR" divider. Using `height: 100%` doesn't work because then all parents
+        // will need an explicit height, which means we have to set `height: 100%` all the way up
+        // to the `html` tag. If we set `height: 100%` on the HTML tag, then the document doesn't
+        // appear to become taller than the browser viewport, and it breaks the rendering
+        var $ieLt10SignUpOptionsLocal = $('.ie-lt10 #signup-options-local:visible');
+        if ($ieLt10SignUpOptionsLocal.length > 0) {
+            $('#signup-options-container').css('height', $ieLt10SignUpOptionsLocal.height());
+        }
 
         setUpCreateAccountValidation();
         setUpReCaptcha();

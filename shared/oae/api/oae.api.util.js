@@ -15,8 +15,6 @@
 
 define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdown', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI, markdown) {
 
-    var REGEX_EMAIL = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-
     /**
      * Initialize all utility functionality.
      *
@@ -499,6 +497,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
      * All functionality related to validating forms
      */
     var validation = exports.validation = function() {
+
+        // A regular expression that can be used to match and validate an email address
+        var REGEX_EMAIL = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
         /**
          * Initialize the validation utility functions by adding some custom validators
@@ -1152,11 +1153,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     });
                 }
 
-                // If no results message is empty, hide the container
-                if (!options.emptyText) {
-                    $suggestions.addClass('oae-no-empty-text');
-                }
-
                 // Add the ghost fields
                 if (options.ghosts) {
                     $.each(options.ghosts, function(index, ghostItem) {
@@ -1220,8 +1216,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                             }
                         });
 
-                        // Bind the remove event to the entry
-                        // TODO: Shouldn't there just be something like a $('a.as-close', $ul) to handle this for all the li's?
+                        // Bind the remove event to the entry. The AutoSuggest plugin does this
+                        // internally for each result in its `add_selected_item` function but
+                        // doesn't provide any way to access it for custom use, so we'll have to
+                        // work it in here
                         $('a.as-close', $li).click(function() {
                             options.selectionRemoved.call($element, $li);
                             $li.remove();
@@ -1308,7 +1306,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     // execution stack is exhausted
                     setTimeout(function() {
                         handleCopyPaste(getTokens());
-                    }, 0);
+                    });
                 });
 
                 $element.on('keydown', function(evt) {
@@ -1387,7 +1385,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         // Help the consumer determine what to use to use to share with this
                         // selected item. Items that are identified by their email address can be
                         // shared with regardless of their profile visibility
-                        if (_.contains(['group', 'user'], selectionData.resourceType) && validation().isValidEmail(selectionData.query)) {
+                        if (selectionData.resourceType === 'user' && validation().isValidEmail(selectionData.query)) {
                             selectedItem.email = selectionData.query;
                             selectedItem.shareId = selectionData.query + ':' + selectionData.id;
                         } else {

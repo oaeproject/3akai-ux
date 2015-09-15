@@ -278,10 +278,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
             // The data-widget attribute is removed, to avoid the widget being rendered again
             $element.removeAttr('data-widget');
 
-            // Apply the widget data from the widget loading element on to the widget data for this
-            // widget
-            widgetData[widgetId] = widgetData[widgetId] || {};
-            $.extend(widgetData[widgetId], $element.data());
+            // Merge the specified widget data values with any data that was specified on the
+            // `data-widget` widget. The custom widget data specified via the `widgetData` parameter
+            // will override any widget data specified on the `data-widget` element
+            widgetData[widgetId] = $.extend({}, $element.data(), widgetData[widgetId]);
 
             // If the widget's resource have already been loaded,
             // we just render the widget
