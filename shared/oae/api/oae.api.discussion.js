@@ -146,11 +146,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Get all the invitations for a discussion
      *
-     * @param  {String}          discussionId                   Id of the discussion we're trying to retrieve the invitations for
-     * @param  {Function}        callback                       Standard callback function
-     * @param  {Object}          callback.err                   Error object containing error code and error message
-     * @param  {Object}          callback.result                Response object containing the discussion invitations
-     * @param  {Invitation[]}    callback.result.results        Every invitation associated to the discussion
+     * @param  {String}         discussionId                    Id of the discussion we're trying to retrieve the invitations for
+     * @param  {Function}       callback                        Standard callback function
+     * @param  {Object}         callback.err                    Error object containing error code and error message
+     * @param  {Object}         callback.invitations            Response object containing the discussion invitations
+     * @param  {Invitation[]}   callback.invitations.results    Every invitation associated to the discussion
      * @throws {Error}                                          Error thrown when no discussion id has been provided
      */
     var getInvitations = exports.getInvitations = function(discussionId, callback) {

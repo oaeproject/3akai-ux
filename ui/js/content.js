@@ -243,7 +243,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     var getManageAccessMessages = function() {
         // Keeps track of messages to return
         var messages = {
-            'membersTitle': oae.api.i18n.translate('__MSG__SHARE_WITH__'),
+            'membersTitle': oae.api.i18n.translate('__MSG__SHARED_WITH__'),
             'private': oae.api.i18n.translate('__MSG__PRIVATE__'),
             'loggedin': oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName),
             'public': oae.api.i18n.translate('__MSG__PUBLIC__')

@@ -41,7 +41,7 @@ var _expose = function(exports) {
      * @param  {Function}               sanitization.encodeForHTMLAttribute     Encode a value such that it is safe to be embedded into an HTML attribute
      * @param  {Function}               sanitization.encodeForURL               Encode a value such that it is safe to be used as a URL fragment
      * @param  {Object}                 [opts]                                  Optional arguments
-     * @param  {String}                 [opts.resourceHrefOverride]             When specified, this value will replace any URL specified for an entity. This can be used to control outbound links in different contexts (e.g., email invitation)
+     * @param  {String}                 [opts.resourceHrefOverride]             When specified, any `<a href="...">` tag in the generated HTML content will have its `href` attribute rewritten to this value. This can be used to control outbound links in different contexts (e.g., email invitation)
      * @return {ActivityViewModel[]}                                            The adapted activities
      */
     var adapt = exports.adapt = function(context, me, activities, sanitization, opts) {

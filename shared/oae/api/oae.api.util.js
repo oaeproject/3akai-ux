@@ -15,8 +15,6 @@
 
 define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdown', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI, markdown) {
 
-    var REGEX_EMAIL = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-
     /**
      * Initialize all utility functionality.
      *
@@ -500,6 +498,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
      */
     var validation = exports.validation = function() {
 
+        // A regular expression that can be used to match and validate an email address
+        var REGEX_EMAIL = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+        // Regex used to validate a url
+        var REGEX_URL = /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
+
         /**
          * Initialize the validation utility functions by adding some custom validators
          * to jquery.validate
@@ -737,11 +741,28 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             return REGEX_EMAIL.test(email);
         };
 
+        /**
+         * Check whether a provided string is a valid host
+         *
+         * @param  {String}             host        The host to check
+         * @return {Boolean}                        `true` when the host is valid, `false` otherwise
+         */
+        var isValidHost = function(host) {
+            if (!host) {
+                return false;
+            }
+
+            // Since a host shouldn't include include the scheme, prepend a scheme and simply run
+            // it against the URL validator
+            return REGEX_URL.test('http://' + host);
+        };
+
         return {
             'clear': clear,
             'init': init,
             'isValidDisplayName': isValidDisplayName,
             'isValidEmail': isValidEmail,
+            'isValidHost': isValidHost,
             'validate': validate
         };
     };
@@ -1007,6 +1028,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     var query = url(this.url).param('q');
                     var isValidEmail = validation().isValidEmail(query);
 
+
                     data.results = _.chain(data.results)
                         // Remove any results in the exclusion list
                         .filter(function(result) {
@@ -1152,11 +1174,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     });
                 }
 
-                // If no results message is empty, hide the container
-                if (!options.emptyText) {
-                    $suggestions.addClass('oae-no-empty-text');
-                }
-
                 // Add the ghost fields
                 if (options.ghosts) {
                     $.each(options.ghosts, function(index, ghostItem) {
@@ -1220,8 +1237,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                             }
                         });
 
-                        // Bind the remove event to the entry
-                        // TODO: Shouldn't there just be something like a $('a.as-close', $ul) to handle this for all the li's?
+                        // Bind the remove event to the entry. The AutoSuggest plugin does this
+                        // internally for each result in its `add_selected_item` function but
+                        // doesn't provide any way to access it for custom use, so we'll have to
+                        // work it in here
                         $('a.as-close', $li).click(function() {
                             options.selectionRemoved.call($element, $li);
                             $li.remove();
@@ -1308,7 +1327,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     // execution stack is exhausted
                     setTimeout(function() {
                         handleCopyPaste(getTokens());
-                    }, 0);
+                    });
                 });
 
                 $element.on('keydown', function(evt) {
@@ -1387,7 +1406,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         // Help the consumer determine what to use to use to share with this
                         // selected item. Items that are identified by their email address can be
                         // shared with regardless of their profile visibility
-                        if (_.contains(['group', 'user'], selectionData.resourceType) && validation().isValidEmail(selectionData.query)) {
+                        if (selectionData.resourceType === 'user' && validation().isValidEmail(selectionData.query)) {
                             selectedItem.email = selectionData.query;
                             selectedItem.shareId = selectionData.query + ':' + selectionData.id;
                         } else {

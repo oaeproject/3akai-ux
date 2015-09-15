@@ -21,6 +21,7 @@
          <!-- HEADER -->
         <div data-widget="topnavigation"><!-- --></div>
 
+        <!-- BODY -->
         <main class="oae-main-content" role="main">
             <h3 id="signup-title-container"><!----></h3>
             <div id="signup-title-template"><!--
@@ -29,18 +30,13 @@
 
             <div id="signup-options-container"><!-- --></div>
             <div id="signup-options-template"><!--
-                {var opts = new Object()}
-                ${opts.data = new Object()|eat}
-                ${opts.data.invitationToken = invitationInfo.token|eat}
-                ${opts.data.redirectUrl = redirectUrl|eat}
-
                 {if authStrategyInfo.hasExternalAuth}
                     <div id="signup-options-external">
-                        <h5>__MSG__USE_ONE_OF_YOUR_FAMILIAR_ACCOUNTS_COLON__</h5>
+                        <h4>__MSG__USE_ONE_OF_YOUR_FAMILIAR_ACCOUNTS_COLON__</h4>
                         <ul class="nav">
                             {for strategy in authStrategyInfo.enabledExternalStrategies}
                                 <li>
-                                    ${authExternalButton(strategy_index, strategy, opts)}
+                                    ${authExternalButton(strategy, externalAuthOpts)}
                                 </li>
                             {/for}
                         </ul>
@@ -54,14 +50,14 @@
                             <span>__MSG__OR__</span>
                         </div>
                     </div>
-                    <div id="signup-options-divider-horizontal" class="hr">
+                    <div id="signup-options-divider-horizontal" class="oae-hr">
                         <span>__MSG__OR__</span>
                     </div>
                 {/if}
 
                 {if authStrategyInfo.allowAccountCreation}
                     <div id="signup-options-local">
-                        <h5>__MSG__COMPLETE_THIS_SIGN_UP_FORM_COLON__</h5>
+                        <h4>__MSG__CREATE_A_NEW_ACCOUNT_COLON__</h4>
                         <form id="signup-createaccount-form" class="form-horizontal" role="form">
                             {if invitationInfo.email}
                                 <input type="hidden" id="signup-createaccount-email" name="email" class="form-control required email maxlength-short" value="${invitationInfo.email|encodeForHTMLAttribute}" />
@@ -115,7 +111,7 @@
                                 <div id="signup-createaccount-recaptcha-container" class="form-group">
                                     <div class="col-xs-12 col-md-7 pull-right">
                                         <div id="recaptcha_image"></div>
-                                        <div class="signup-createaccount-captcha-buttons pull-right">
+                                        <div class="signup-createaccount-recaptcha-buttons pull-right">
                                             <span>
                                                 <a class="btn" href="javascript:Recaptcha.reload()" title="__MSG__GET_A_NEW_CHALLENGE__">
                                                     <i class="fa fa-refresh"></i>
@@ -132,11 +128,11 @@
                                                 </a>
                                             </span>
                                         </div>
-                                        <div class="signup-createaccount-captcha-input-container">
+                                        <div class="signup-createaccount-recaptcha-input-container">
                                             <label for="recaptcha_response_field" class="control-label sr-only">__MSG__ENTER_THE_TEXT__</label>
                                             <input type="text" id="recaptcha_response_field" class="form-control" autocapitalize="off" name="recaptcha_response_field" placeholder="__MSG__ENTER_THE_TEXT__"/>
                                         </div>
-                                        <label id="signup-createaccount-captcha-error" class="hide help-block" for="recaptcha_response_field">__MSG__CAPTCHA_ERROR__</label>
+                                        <label id="signup-createaccount-recaptcha-error" class="hide help help-block" for="recaptcha_response_field">__MSG__CAPTCHA_ERROR__</label>
                                     </div>
                                 </div>
                             {/if}
@@ -167,9 +163,5 @@
 
         <!-- JAVASCRIPT -->
         <script data-main="/shared/oae/api/oae.bootstrap.js" data-loadmodule="/ui/js/signup.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
-
-        <div id="haveaccount-template"><!--
-            <li id="haveaccount">Already have an account?</li>
-        --></div>
     </body>
 </html>

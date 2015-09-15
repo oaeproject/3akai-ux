@@ -127,11 +127,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
     /**
      * Get all the invitations for a group
      *
-     * @param  {String}          groupId                        Id of the group we're trying to retrieve the invitations for
-     * @param  {Function}        callback                       Standard callback function
-     * @param  {Object}          callback.err                   Error object containing error code and error message
-     * @param  {Object}          callback.result                Response object containing the group invitations
-     * @param  {Invitation[]}    callback.result.results        Every invitation associated to the group
+     * @param  {String}         groupId                         Id of the group we're trying to retrieve the invitations for
+     * @param  {Function}       callback                        Standard callback function
+     * @param  {Object}         callback.err                    Error object containing error code and error message
+     * @param  {Object}         callback.invitations            Response object containing the group invitations
+     * @param  {Invitation[]}   callback.invitations.results    Every invitation associated to the group
      * @throws {Error}                                          Error thrown when no group id has been provided
      */
     var getInvitations = exports.getInvitations = function(groupId, callback) {

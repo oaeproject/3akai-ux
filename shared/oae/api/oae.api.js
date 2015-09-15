@@ -269,15 +269,9 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                         oae.data.me.email = unverifiedEmail;
 
                         // Notify that we successfully verified the email address
-                        if (previousEmail) {
-                            oae.api.util.notification(
-                                oae.api.i18n.translate('__MSG__EMAIL_VERIFIED__'),
-                                oae.api.i18n.translate('__MSG__EMAIL_VERIFIED_NEW_THANK_YOU__'));
-                        } else {
-                            oae.api.util.notification(
-                                oae.api.i18n.translate('__MSG__EMAIL_VERIFIED__'),
-                                oae.api.i18n.translate('__MSG__EMAIL_VERIFIED_FIRST_THANK_YOU__'));
-                        }
+                        oae.api.util.notification(
+                            oae.api.i18n.translate('__MSG__EMAIL_VERIFIED__'),
+                            oae.api.i18n.translate('__MSG__EMAIL_VERIFIED_THANK_YOU__'));
 
                         return callback();
                     });

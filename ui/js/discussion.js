@@ -175,7 +175,7 @@ require(['jquery','oae.core'], function($, oae) {
                 'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_NOT_UPDATED__'),
                 'accessUpdatedBody': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_SUCCESSFULLY_UPDATED__'),
                 'accessUpdatedTitle': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_UPDATED__'),
-                'membersTitle': oae.api.i18n.translate('__MSG__SHARE_WITH__'),
+                'membersTitle': oae.api.i18n.translate('__MSG__SHARED_WITH__'),
                 'private': oae.api.i18n.translate('__MSG__PRIVATE__'),
                 'loggedin': oae.api.util.security().encodeForHTML(discussionProfile.tenant.displayName),
                 'public': oae.api.i18n.translate('__MSG__PUBLIC__'),

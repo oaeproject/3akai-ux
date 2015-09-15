@@ -21,9 +21,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {String}         username                                The username this user can login with
      * @param  {String}         password                                The password for this user
      * @param  {String}         displayName                             The display name for the user
+     * @param  {String}         email                                   The email address for the user
      * @param  {Object}         [additionalOptions]                     Additional optional parameters that need to be passed in
      * @param  {String}         [additionalOptions.visibility]          The user's visibility setting. This can be public, loggedin or private
-     * @param  {String}         [additionalOptions.email]               The user's email address
      * @param  {String}         [additionalOptions.locale]              The user's locale
      * @param  {String}         [additionalOptions.publicAlias]         The publically-available alias for users to see when the user's display name is protected
      * @param  {String}         [additionalOptions.invitationToken]     If the user originated from an email invitation, this token will allow their email to be automatically verified
@@ -34,13 +34,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {User}           [callback.user]                         A User object representing the created user
      * @throws {Error}                                                  Error thrown when not all of the required parameters have been provided
      */
-    var createUser = exports.createUser = function(username, password, displayName, additionalOptions, recaptchaChallenge, recaptchaResponse, callback) {
+    var createUser = exports.createUser = function(username, password, displayName, email, additionalOptions, recaptchaChallenge, recaptchaResponse, callback) {
         if (!username) {
             throw new Error('A username should be provided');
         } else if (!password) {
             throw new Error('A password should be provided');
         } else if (!displayName) {
             throw new Error('A display name should be provided');
+        } else if (!email) {
+            throw new Error('An email address should be provided');
         }
 
         // Set a default callback function in case no callback function has been provided
@@ -52,10 +54,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
             'username': username,
             'password': password,
             'displayName': displayName,
+            'email': email,
             'recaptchaChallenge': recaptchaChallenge,
             'recaptchaResponse': recaptchaResponse,
             'visibility': additionalOptions.visibility,
-            'email': additionalOptions.email,
             'locale': additionalOptions.locale,
             'publicAlias': additionalOptions.publicAlias,
             'invitationToken': additionalOptions.invitationToken
@@ -106,7 +108,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {String}         userId              User id of the profile you wish to retrieve
      * @param  {Function}       callback            Standard callback function
      * @param  {Object}         callback.err        Error object containing error code and error message
-     * @param  {User}           callback.response   The user's basic profile
+     * @param  {User}           callback.user       The user's basic profile
      * @throws {Error}                              Error thrown when no userId has been provided
      */
     var getUser = exports.getUser = function(userId, callback) {
@@ -312,10 +314,13 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
     /**
      * Delete the pending email verification for the current user, if any
      *
-     * @param  {Function}   callback        Standard callback function
-     * @param  {Object}     callback.err    Error object containing error code and error message
+     * @param  {Function}   [callback]      Standard callback function
+     * @param  {Object}     [callback.err]  Error object containing error code and error message
      */
     var deletePendingEmailVerification = exports.deletePendingEmailVerification = function(callback) {
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
         var userId = require('oae.core').data.me.id;
 
         $.ajax({

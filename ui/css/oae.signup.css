@@ -14,10 +14,23 @@
  */
 
 main > h3 {
-    border-bottom: 1px #EEEEEE solid;
+    border-bottom: 1px #EEE solid;
     margin-left: 20px;
     margin-right: 20px
 }
+
+/***********
+ ** TITLE **
+ ***********/
+
+#signup-title-container {
+    margin-bottom: 0;
+    padding-bottom: 10px;
+}
+
+/******************************
+ ** SIGNUP OPTIONS CONTAINER **
+ ******************************/
 
 #signup-options-container {
     display: -webkit-flex;
@@ -29,21 +42,29 @@ main > h3 {
     margin: 50px auto;
 }
 
+/* Fluid space between sign up options */
 #signup-options-container > div {
     margin-right: 5%;
 }
 
+/* Don't give a right-margin to the last item since there is container padding */
 #signup-options-container > div:last-child {
     margin-right: 0;
 }
 
-#signup-options-container h5 {
+/* Headers for individual signup option sections (i.e., external auth or create account) */
+#signup-options-container h4 {
     color: #888;
     font-size: 15px;
     font-weight: normal;
     margin-bottom: 35px;
+    margin-top: 0;
     text-align: left;
 }
+
+/****************************
+ ** EXTERNAL SIGNUP OPTION **
+ ****************************/
 
 #signup-options-external {
     min-width: 225px;
@@ -57,31 +78,36 @@ main > h3 {
     margin-bottom: 10px;
 }
 
+/*************************************
+ ** SIGNUP OPTIONS VERTICAL DIVIDER **
+ *************************************/
+
+/* Use flexbox for the inner divider construction so we can get a full fluid-height divider for
+   wide screens */
 #signup-options-divider-vertical {
-    border-left: solid 1px #ccc;
-    display: -webkit-flex;
-    display:  -ms-flexbox;
-    display:         flex;
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-justify-content: center;
-              -ms-flex-pack: center;
-            justify-content: center;
+    border-left: solid 1px #CCC;
+    position: relative;
+
+    /* For the outer container, we only need the border, so any inner width will only uncenter it */
     width: 0;
 }
 
+/* This is the container for the grey circle around the "OR". Position it both vertically and
+   horizontally centered in the vertical divider container */
 #signup-options-divider-vertical > div {
-    background-color: #fff;
+    /* The white background creates the gap between the disc and the divider line */
+    background-color: #FFF;
     height: 60px;
-    position: relative;
-    right: 25px;
+    margin-top: -30px;
+    position: absolute;
+    right: -25px;
     text-align: center;
+    top: 50%;
     width: 50px;
 }
 
 #signup-options-divider-vertical > div > i.fa.fa-circle:before {
-    color: #ccc;
+    color: #CCC;
     display: inline-block;
     font-size: 50px;
     margin-top: 5px;
@@ -94,10 +120,18 @@ main > h3 {
     top: -37px;
 }
 
+/***************************************
+ ** SIGNUP OPTIONS HORIZONTAL DIVIDER **
+ ***************************************/
+
 #signup-options-divider-horizontal {
     display: none;
     margin: 15px 0;
 }
+
+/*************************
+ ** LOCAL SIGNUP OPTION **
+ *************************/
 
 #signup-options-local {
     min-width: 500px;
@@ -105,23 +139,23 @@ main > h3 {
 
 #signup-createaccount-username-available {
     position: absolute;
-    top: 5px;
     right: 22px;
+    top: 5px;
 }
 
 #signup-createaccount-username-available.fa-times {
     color: #8F0222;
 }
 
-.signup-createaccount-captcha-buttons a.btn {
-    margin: 2px 0 7px;
+.signup-createaccount-recaptcha-buttons a.btn {
+    margin: 2px 0 0;
 }
 
-.signup-createaccount-captcha-buttons a.btn i {
+.signup-createaccount-recaptcha-buttons a.btn i {
     font-size: 14px;
 }
 
-.signup-createaccount-captcha-input-container {
+.signup-createaccount-recaptcha-input-container {
     /* Make enough space for the floated captcha buttons to sit alongside this container */
     padding-right: 87px;
 }
@@ -129,6 +163,13 @@ main > h3 {
 #recaptcha_image {
     margin-bottom: 15px;
     min-height: 57px;
+}
+
+/* This container contains only a checkbox, and bootstrap gives top padding to the input field and
+   the label text to vertically center. We need to pull it up a bit so that it is evenly vertically
+   spaced with the other fields */
+#signup-createaccount-termsandconditions-container {
+    margin-top: -7px;
 }
 
 #signup-createaccount-termsandconditions-container label {
@@ -139,8 +180,16 @@ main > h3 {
     margin-right: 15px;
 }
 
-#signup-createaccount-captcha-error {
-    color: #a94442;
+#signup-createaccount-termsandconditions-container .help {
+    display: none;
+}
+
+#signup-createaccount-termsandconditions-container.has-error .help {
+    display: block;
+}
+
+#signup-createaccount-recaptcha-error {
+    color: #A94442;
 }
 
 @media (max-width: 991px) {
@@ -158,6 +207,8 @@ main > h3 {
 }
 
 @media (max-width: 767px) {
+
+    /* Switch to vertical stacking at <768px width */
     #signup-options-container {
         -webkit-flex-direction: column;
             -ms-flex-direction: column;
@@ -172,7 +223,7 @@ main > h3 {
         margin-right: 20px;
     }
 
-    #signup-options-container h5 {
+    #signup-options-container h4 {
         margin-bottom: 15px;
         text-align: center;
     }
@@ -181,7 +232,7 @@ main > h3 {
         text-align: center;
     }
 
-    #signup-options-external > h5 {
+    #signup-options-external > h4 {
         display: none;
     }
 
@@ -210,11 +261,6 @@ main > h3 {
 
 /* Top Navigation overrides */
 
-#topnavigation-container {
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
 #topnavigation-right #topnavigation-search-form {
     display: none !important;
 }
@@ -237,7 +283,7 @@ main > h3 {
 
 .ie-lt10 #signup-options-container {
     height: 100%;
-    margin: 30px 0px 30px 10%;
+    margin: 30px 0 30px 10%;
 }
 
 .ie-lt10 #signup-options-container > div {

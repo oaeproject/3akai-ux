@@ -30,18 +30,16 @@ var adminUtil = (function() {
         var tenantExists = null;
         var err = null;
 
-        mainUtil.callInternalAPI('admin', 'getTenants', null, function(_err, tenants) {
+        mainUtil.callInternalAPI('admin', 'getTenant', [alias], function(_err, tenant) {
             if (_err) {
-                casper.echo('Could not retrieve the list of tenants. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
-                err = _err;
-            } else {
-                for (var i in tenants) {
-                    if (tenants[i].alias === alias) {
-                        tenantExists = true;
-                        break;
-                    }
+                if (_err.code === 404) {
+                    tenantExists = false;
+                } else {
+                    casper.echo('Could not retrieve the list of tenants. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                    err = _err;
                 }
-                tenantExists = tenantExists || false;
+            } else {
+                tenantExists = true;
             }
         });
 

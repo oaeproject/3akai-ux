@@ -130,6 +130,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
         // CAS authentication
         if (configAPI.getValue('oae-authentication', STRATEGY_CAS, 'enabled')) {
             enabledStrategies[STRATEGY_CAS] = {
+                'id': STRATEGY_CAS,
                 'name': strategyName(STRATEGY_CAS, contextLabel),
                 'url': '/api/auth/cas'
             };
@@ -138,6 +139,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
         // Facebook authentication
         if (configAPI.getValue('oae-authentication', STRATEGY_FACEBOOK, 'enabled')) {
             enabledStrategies[STRATEGY_FACEBOOK] = {
+                'id': STRATEGY_FACEBOOK,
                 'icon': 'facebook',
                 'name': i18nAPI.translate('__MSG__' + contextLabel + '_WITH_FACEBOOK__'),
                 'url': '/api/auth/facebook'
@@ -147,6 +149,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
         // Google authentication. This will only be enabled when no Google Apps domain has been configured.
         if (configAPI.getValue('oae-authentication', STRATEGY_GOOGLE, 'enabled') && !configAPI.getValue('oae-authentication', STRATEGY_GOOGLE, 'domains')) {
             enabledStrategies[STRATEGY_GOOGLE] = {
+                'id': STRATEGY_GOOGLE,
                 'icon': 'google-plus',
                 'name': i18nAPI.translate('__MSG__' + contextLabel + '_WITH_GOOGLE__'),
                 'url': '/api/auth/google'
@@ -156,6 +159,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
         // Google Apps authentication
         if (configAPI.getValue('oae-authentication', STRATEGY_GOOGLE, 'enabled') && configAPI.getValue('oae-authentication', STRATEGY_GOOGLE, 'domains')) {
             enabledStrategies[STRATEGY_GOOGLE_APPS] = {
+                'id': STRATEGY_GOOGLE_APPS,
                 'icon': 'google-plus',
                 'name': i18nAPI.translate('__MSG__' + contextLabel + '_WITH_GOOGLE__'),
                 'url': '/api/auth/google'
@@ -164,12 +168,16 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
 
         // LDAP authentication
         if (configAPI.getValue('oae-authentication', STRATEGY_LDAP, 'enabled')) {
-            enabledStrategies[STRATEGY_LDAP] = {'url': '/api/auth/ldap'};
+            enabledStrategies[STRATEGY_LDAP] = {
+                'id': STRATEGY_LDAP,
+                'url': '/api/auth/ldap'
+            };
         }
 
         // Shibboleth authentication
         if (configAPI.getValue('oae-authentication', STRATEGY_SHIBBOLETH, 'enabled')) {
             enabledStrategies[STRATEGY_SHIBBOLETH] = {
+                'id': STRATEGY_SHIBBOLETH,
                 'name': strategyName(STRATEGY_SHIBBOLETH, contextLabel),
                 'url': '/api/auth/shibboleth'
             };
@@ -178,6 +186,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
         // Twitter authentication
         if (configAPI.getValue('oae-authentication', STRATEGY_TWITTER, 'enabled')) {
             enabledStrategies[STRATEGY_TWITTER] = {
+                'id': STRATEGY_TWITTER,
                 'icon': 'twitter',
                 'name': i18nAPI.translate('__MSG__' + contextLabel + '_WITH_TWITTER__'),
                 'url': '/api/auth/twitter'
@@ -186,7 +195,10 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
 
         // Local authentication
         if (configAPI.getValue('oae-authentication', STRATEGY_LOCAL, 'enabled')) {
-            enabledStrategies[STRATEGY_LOCAL] = {'url': '/api/auth/login'};
+            enabledStrategies[STRATEGY_LOCAL] = {
+                'id': STRATEGY_LOCAL,
+                'url': '/api/auth/login'
+            };
         }
 
         return enabledStrategies;
@@ -225,9 +237,8 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
 
         // Use the `auth.html` `authExternalButton` macro to create a form that performs this
         // authentication
-        var $template = $('<div class="hide">${authExternalButton(strategyId, strategy, opts)}</div>');
+        var $template = $('<div class="hide">${authExternalButton(strategy, opts)}</div>');
         var form = utilAPI.template().render($template, {
-            'strategyId': strategyId,
             'strategy': strategyInfo.enabledExternalStrategies[strategyId],
             'opts': {
                 'data': {

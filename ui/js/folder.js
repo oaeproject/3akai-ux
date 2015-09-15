@@ -226,7 +226,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__FOLDER_ACCESS_NOT_UPDATED__'),
                 'accessUpdatedBody': oae.api.i18n.translate('__MSG__FOLDER_ACCESS_SUCCESSFULLY_UPDATED__'),
                 'accessUpdatedTitle': oae.api.i18n.translate('__MSG__FOLDER_ACCESS_UPDATED__'),
-                'membersTitle': oae.api.i18n.translate('__MSG__SHARE_WITH__'),
+                'membersTitle': oae.api.i18n.translate('__MSG__SHARED_WITH__'),
                 'private': oae.api.i18n.translate('__MSG__PRIVATE__'),
                 'loggedin': oae.api.util.security().encodeForHTML(folderProfile.tenant.displayName),
                 'public': oae.api.i18n.translate('__MSG__PUBLIC__'),

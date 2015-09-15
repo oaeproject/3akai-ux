@@ -197,40 +197,6 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     margin-top: 1px;
 }
 
-/* HR-like element that has a split with text in the middle of it */
-
-div.hr {
-    display: block;
-    overflow: hidden;
-    text-align: center;
-    white-space: nowrap;
-}
-
-div.hr > span {
-    display: inline-block;
-    position: relative;
-}
-
-div.hr > span:before,
-div.hr > span:after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    width: 9999px;
-    height: 1px;
-    background: #ccc;
-}
-
-div.hr > span:before {
-    right: 100%;
-    margin-right: 15px;
-}
-
-div.hr > span:after {
-    left: 100%;
-    margin-left: 15px;
-}
-
 /* DROPDOWN
  * @see http://getbootstrap.com/components/#dropdowns */
 
@@ -578,8 +544,9 @@ ul.as-selections li.as-selection-item .oae-thumbnail {
 /* Email icon emulating a thumbnail */
 
 ul.as-list li.as-result-item div.oae-thumbnail.fa-oae-email:before {
-    font-size: 25px;
-    margin-top: -12px;
+    font-size: 20px;
+    margin-left: 5px;
+    margin-top: -10px;
 }
 
 ul.as-list li.as-result-item .oae-listitem.oae-listitem-email h3 {
@@ -626,13 +593,6 @@ ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-ghost
 ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close {
     display: block;
 }
-
-/* No results message */
-.oae-no-empty-text li.as-message {
-    padding: 0;
-    border: none;
-}
-
 
 /* Suggested list items */
 
