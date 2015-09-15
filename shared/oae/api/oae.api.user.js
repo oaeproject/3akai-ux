@@ -108,7 +108,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {String}         userId              User id of the profile you wish to retrieve
      * @param  {Function}       callback            Standard callback function
      * @param  {Object}         callback.err        Error object containing error code and error message
-     * @param  {User}           callback.response   The user's basic profile
+     * @param  {User}           callback.user       The user's basic profile
      * @throws {Error}                              Error thrown when no userId has been provided
      */
     var getUser = exports.getUser = function(userId, callback) {

@@ -17,8 +17,6 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
 
     // Variable that will be used to keep track of the current tenant
     var currentContext = null;
-    // Variable that will cache the list of available tenants
-    var allTenants = null;
     // Variable that will cache the configuration schema
     var configurationSchema = null;
     // Variable that will cache the configuration for the current tenant
@@ -64,8 +62,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                                 {
                                     'name': 'tenants',
                                     'settings': {
-                                        'context': currentContext,
-                                        'tenants': allTenants
+                                        'context': currentContext
                                     }
                                 }
                             ]
@@ -194,20 +191,19 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
             'success': function(data) {
                 currentContext = data;
 
-                // If we are on the global admin tenant, we load the full list of available tenants for rendering
-                // the tenant view and the footer
                 if (currentContext.isGlobalAdminServer) {
-                    oae.api.admin.getTenants(function(err, tenants) {
-                        allTenants = tenants;
-                        // Check if we're currently on a user admin on the global admin tenant. In that
-                        // case, the URL should be /tenant/<tenantAlias>
-                        var tenantAlias = oae.api.util.url().segment(2);
-                        if (tenantAlias) {
-                            currentContext = allTenants[tenantAlias];
+                    // Check if we're currently on a user admin on the global admin tenant. In that
+                    // case, the URL should be /tenant/<tenantAlias>
+                    var tenantAlias = oae.api.util.url().segment(2);
+                    if (tenantAlias) {
+                        oae.api.admin.getTenant(tenantAlias, function(err, data) {
+                            currentContext = data;
                             currentContext.isTenantOnGlobalAdminServer = true;
-                        }
+                            callback();
+                        });
+                    } else {
                         callback();
-                    });
+                    }
                 } else {
                     callback();
                 }

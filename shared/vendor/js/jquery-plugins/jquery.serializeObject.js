@@ -42,11 +42,11 @@
                     o[this.name] = [o[this.name]];
                 }
                 if (includeEmpty || $.trim(this.value) !== '') {
-                    o[this.name].push(this.value || '');
+                    o[this.name].push($.trim(this.value) || '');
                 }
             } else {
                 if (includeEmpty || $.trim(this.value) !== '') {
-                    o[this.name] = this.value || '';
+                    o[this.name] = $.trim(this.value) || '';
                 }
             }
         });
