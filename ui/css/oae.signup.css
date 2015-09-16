@@ -180,6 +180,11 @@ main > h3 {
     margin-right: 15px;
 }
 
+#signup-createaccount-termsandconditions-container button {
+    padding: 0;
+    vertical-align: initial;
+}
+
 #signup-createaccount-termsandconditions-container .help {
     display: none;
 }
