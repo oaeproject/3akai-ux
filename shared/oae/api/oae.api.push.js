@@ -176,12 +176,29 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
                 // Indicate that the connection and authentication was successful
                 websocketEstablished = true;
 
+                // Keep track of how many deferred messages have called back (i.e., have been
+                // received by the server)
+                var numCalledBack = 0;
+
                 // Send all messages that were received before the websocket connection was established
                 _.each(deferredMessages, function(message) {
-                    sendMessage(message.name, message.payload, message.callback);
-                });
+                    sendMessage(message.name, message.payload, function() {
+                        // First invoke the message callback for this deferred message
+                        message.callback.apply(null, _.toArray(arguments));
 
-                return callback();
+                        // Only after all the deferred message callbacks have been invoked do we
+                        // call the authentication callback. Practically speaking, these messages
+                        // will be subscriptions to things like activity stream, notification
+                        // stream, etc... Since we perform activity-generating actions on page load
+                        // (e.g., accepting an invitation to the system), we need to ensure these
+                        // subscriptions are registered before the activity-generating actions are
+                        // performed
+                        numCalledBack++;
+                        if (numCalledBack === deferredMessages.length) {
+                            callback();
+                        }
+                    });
+                });
             });
         };
     };

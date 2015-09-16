@@ -1567,8 +1567,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
     ///////////////
 
     /**
-     * Convenience function for safely parsing either the current or a specified URL, while working
-     * around encoding issues in the `$.url` utility.
+     * Convenience function for safely parsing either the original window URL or a specified URL,
+     * while working around encoding issues in the `$.url` utility.
      *
      * Specifically, `$.url` first runs urls through `decodeURI` before it parses the URL. This
      * results in an inconsistent decoding of the full URL representation. For example:
@@ -1582,13 +1582,19 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
      *      c. Now, you try and parse the redirect URL as a URL, but it fails! Because the `@` has been inconsistently decoded by the initial `decodeURI` and it is not a safe URI character
      *
      *
-     * To resolve this inconsistent decoding, we simply have this helper that first runs `encodeURI`
-     * on the location before running it through `$.url`.
+     * To resolve this inconsistent decoding, we have this helper that first runs `encodeURI` on the
+     * location before running it through `$.url`.
      *
-     * @param  {String}     [location]  The URL location to parse. If unspecified, the current window location will be used
+     * Note that by default, the *original* `window.location` string is used as the url to parse and
+     * return. If the `window.location` has changed since the page loaded (e.g., History.js state
+     * modifications), then the result of this call is different than what is currently present in
+     * the address bar. If you need to parse the *current* address bar location, you should
+     * explicitly pass in `window.location.toString()` as the first parameter.
+     *
+     * @param  {String}     [location]  The URL location to parse. If unspecified, the *initial* page load window location will be used
      */
     var url = exports.url = function(location) {
-        location = location || window.location.toString();
+        location = location || require('oae.core').data.location;
         return $.url(encodeURI(location));
     };
 

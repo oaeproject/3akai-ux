@@ -59,9 +59,9 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
          */
         var initOAE = function(callback) {
             // Keep track of our original window location, as we don't have control of some widgets
-            // using plugins that clear query string variables
-            var origWindowLocation = window.location.toString();
-
+            // using plugins that clear query string variables. We have to use a string because
+            // `window.location` is stateful and can change
+            oae.data.location = window.location.toString();
             // Get the me feed
             oae.api.user.getMe(function(err, meObj) {
                 if (err) {
@@ -129,7 +129,7 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                                     // We now load the widgets in the core HTML
                                     oae.api.widget.loadWidgets(null, null, null, function() {
 
-                                        setupPreUseActions(origWindowLocation);
+                                        setupPreUseActions();
 
                                         // We can show the body as internationalization and
                                         // initial widget loading have finished
@@ -160,7 +160,7 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
          * or email address. If the user needs to accept the Terms and Conditions, the Terms
          * and Conditions widget will be triggered.
          */
-        var setupPreUseActions = function(location) {
+        var setupPreUseActions = function() {
             // Anonymous users can be ignored as the don't need to perform any
             // pre-use actions
             if (oae.data.me.anon) {
@@ -172,10 +172,10 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
             }
 
             // Perform any invitation accepting if instructed
-            acceptInvitation(location, function(resources) {
+            acceptInvitation(function(resources) {
                 // Perform any email verification if instructed before we try and determine if the
                 // user's profile info is valid
-                verifyEmail(location, function() {
+                verifyEmail(function() {
                     var needsToProvideDisplayName = !oae.api.util.validation().isValidDisplayName(oae.data.me.displayName);
                     var needsToProvideEmail = !oae.data.me.email;
 
@@ -192,15 +192,13 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
         };
 
         /**
-         * Accept the invitation if the query string of the specified location indicates there is an
-         * invitation to be accepted
+         * Accept the invitation if the query string indicates there is an invitation to be accepted
          *
-         * @param  {String}         location            The URL whose location to check for invitation info
          * @param  {Function}       callback            Invoked when the accept invitation request is complete
          * @param  {Resource[]}     callback.resources  Indicates the resources that were accepted. If the request failed, this will be unspecified
          */
-        var acceptInvitation = function(location, callback) {
-            var invitationToken = oae.api.util.url(location).param('invitationToken');
+        var acceptInvitation = function(callback) {
+            var invitationToken = oae.api.util.url().param('invitationToken');
             if (!invitationToken) {
                 return callback();
             }
@@ -237,8 +235,8 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
          *
          * @param  {Function}   callback    Invoked when the email verification has completed, regardless if it was successful or failed
          */
-        var verifyEmail = function(location, callback) {
-            var emailToken = oae.api.util.url(location).param('verifyEmail');
+        var verifyEmail = function(callback) {
+            var emailToken = oae.api.util.url().param('verifyEmail');
             if (!emailToken) {
                 return callback();
             }
