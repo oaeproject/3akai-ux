@@ -189,13 +189,14 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
         invitationInfo = getInvitationInfo();
         authStrategyInfo = oae.api.authentication.getStrategyInfo('SIGN_UP');
+
+        // Auto-signin if there is only one external signin method available
         if (authStrategyInfo.hasSingleExternalAuth) {
-            _.each(authStrategyInfo.enabledExternalStrategies, function(strategy, strategyId) {
-                oae.api.authentication.externalLogin(strategyId, strategy, {
-                    'redirectUrl': signUpRedirectUrl,
-                    'invitationToken': invitationInfo.token
-                });
+            oae.api.authentication.externalLogin(_.keys(authStrategyInfo.enabledExternalStrategies)[0], {
+                'redirectUrl': signUpRedirectUrl,
+                'invitationToken': invitationInfo.token
             });
+            return;
         }
 
         // Don't run recaptcha if the tenant doesn't have it enabled or if local auth is disabled,
