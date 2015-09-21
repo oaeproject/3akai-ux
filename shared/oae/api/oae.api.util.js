@@ -1278,6 +1278,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                  * @api private
                  */
                 var handleTerminationKey = function(tokens, keyCode) {
+                    tokens = _.compact(tokens);
+
                     var isEnterKey = (keyCode === 13);
                     var isSpaceKey = (keyCode === 32);
                     var isCommaKey = (keyCode === 188);
@@ -1300,18 +1302,39 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     // If we're doing a hard termination (enter or comma), we always choose a result
                     // if there any available
                     if (isEnterKey || isCommaKey) {
-                        // If there is a selected item, use it. Otherwise use the first item in the
-                        // list. If there are no results at all, then we bypass this case
+                        // We use the active item if there is one. If not, we
+                        // just grab the first one in the suggestion list. If
+                        // there are no suggestions, we just bypass to the
+                        // next case
                         var selectionResultItem = (activeResultItem || firstResultItem);
                         if (selectionResultItem) {
-                            selectionResultItem.click();
+                            var selectionResultItemId = $(selectionResultItem).data('data').attributes.id;
+
+                            // If there is a selected item, we handle it a bit
+                            // differently if it is an email versus if it is a
+                            // user result
+                            if (options.allowEmail && validation().isValidEmail(selectionResultItemId)) {
+                                // If the current item is an email, use the
+                                // final result of the text field to avoid any
+                                // issue with the result list delaying to update
+                                // due to a search in progress
+                                insertEmails(tokens);
+                                $element.val('');
+                            } else {
+                                // The user searched for a display name of a
+                                // user or group, just treat this as an
+                                // explicit selection of the item
+                                selectionResultItem.click();
+                            }
+
+                            // Since we took action on this character, don't
+                            // further process it
                             return false;
                         }
                     }
 
                     // If we're doing any kind of termination and we have all emails and we allow
                     // them as entries, insert them all into the field
-                    tokens = _.compact(tokens);
                     if (options.allowEmail && _.every(tokens, validation().isValidEmail)) {
                         insertEmails(tokens);
                         $element.val('');
