@@ -154,8 +154,8 @@ var renameKeyInBundles = exports.renameKeyInBundles = function(bundles, sourceKe
     sourceKey = sourceKey.trim();
     destinationKey = destinationKey.trim();
 
-    // Make sure that the key isn't already present in one of the bundles to move the key to
-    // to avoid accidentally removing an existing translation
+    // Make sure that the destination key isn't already present in the bundles
+    // to avoid overwriting an existing key
     var exists = [];
     _.each(bundles, function(bundle, bundlePath) {
         _.each(bundle, function(i18nEntry) {

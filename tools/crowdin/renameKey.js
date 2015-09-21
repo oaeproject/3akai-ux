@@ -1,5 +1,5 @@
 /*!
- * Copyright 2014 Apereo Foundation (AF) Licensed under the
+ * Copyright 2015 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -14,7 +14,7 @@
  */
 
 /**
- * Move a provided i18n key from a bundle directory to a different bundle directory
+ * Rename a provided i18n key in a bundle directory to a different name
  */
 
 var argv = require('optimist')
@@ -45,7 +45,7 @@ var bundleDir = argv.bundleDir;
 // Read the bundles that hold the key to rename
 util.readBundles(bundleDir, function(err, bundles) {
     if (err) {
-        return console.error('Error reading the bundles that hold the key to move', err);
+        return console.error('Error reading the bundles that hold the key to rename', err);
     }
 
     // Rename the keys in the specified bundles
