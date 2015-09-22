@@ -1,0 +1,361 @@
+/*!
+ * Copyright 2014 Apereo Foundation (AF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://opensource.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+main > h3 {
+    border-bottom: 1px #EEE solid;
+    margin-left: 20px;
+    margin-right: 20px
+}
+
+/***********
+ ** TITLE **
+ ***********/
+
+#signup-title-container {
+    margin-bottom: 0;
+    padding-bottom: 10px;
+}
+
+/******************************
+ ** SIGNUP OPTIONS CONTAINER **
+ ******************************/
+
+#signup-options-container {
+    display: -webkit-flex;
+    display:  -ms-flexbox;
+    display:         flex;
+    -webkit-justify-content: center;
+              -ms-flex-pack: center;
+            justify-content: center;
+    margin: 50px auto;
+}
+
+/* Fluid space between sign up options */
+#signup-options-container > div {
+    margin-right: 5%;
+}
+
+/* Don't give a right-margin to the last item since there is container padding */
+#signup-options-container > div:last-child {
+    margin-right: 0;
+}
+
+/* Headers for individual signup option sections (i.e., external auth or create account) */
+#signup-options-container h4 {
+    color: #888;
+    font-size: 15px;
+    font-weight: normal;
+    margin-bottom: 35px;
+    margin-top: 0;
+    text-align: left;
+}
+
+/****************************
+ ** EXTERNAL SIGNUP OPTION **
+ ****************************/
+
+#signup-options-external {
+    min-width: 225px;
+}
+
+#signup-options-external > ul.nav {
+    margin: 0 auto;
+}
+
+#signup-options-external > ul.nav > li {
+    margin-bottom: 10px;
+}
+
+/*************************************
+ ** SIGNUP OPTIONS VERTICAL DIVIDER **
+ *************************************/
+
+/* Use flexbox for the inner divider construction so we can get a full fluid-height divider for
+   wide screens */
+#signup-options-divider-vertical {
+    border-left: solid 1px #CCC;
+    position: relative;
+
+    /* For the outer container, we only need the border, so any inner width will only uncenter it */
+    width: 0;
+}
+
+/* This is the container for the grey circle around the "OR". Position it both vertically and
+   horizontally centered in the vertical divider container */
+#signup-options-divider-vertical > div {
+    /* The white background creates the gap between the disc and the divider line */
+    background-color: #FFF;
+    height: 60px;
+    margin-top: -30px;
+    position: absolute;
+    right: -25px;
+    text-align: center;
+    top: 50%;
+    width: 50px;
+}
+
+#signup-options-divider-vertical > div > i.fa.fa-circle:before {
+    color: #CCC;
+    display: inline-block;
+    font-size: 50px;
+    margin-top: 5px;
+}
+
+#signup-options-divider-vertical > div > span {
+    color: #333;
+    position: relative;
+    text-transform: uppercase;
+    top: -37px;
+}
+
+/***************************************
+ ** SIGNUP OPTIONS HORIZONTAL DIVIDER **
+ ***************************************/
+
+#signup-options-divider-horizontal {
+    display: none;
+    margin: 15px 0;
+}
+
+/*************************
+ ** LOCAL SIGNUP OPTION **
+ *************************/
+
+#signup-options-local {
+    min-width: 500px;
+}
+
+#signup-createaccount-username-available {
+    position: absolute;
+    right: 22px;
+    top: 5px;
+}
+
+#signup-createaccount-username-available.fa-times {
+    color: #8F0222;
+}
+
+.signup-createaccount-recaptcha-buttons a.btn {
+    margin: 2px 0 0;
+}
+
+.signup-createaccount-recaptcha-buttons a.btn i {
+    font-size: 14px;
+}
+
+.signup-createaccount-recaptcha-input-container {
+    /* Make enough space for the floated captcha buttons to sit alongside this container */
+    padding-right: 87px;
+}
+
+#recaptcha_image {
+    margin-bottom: 15px;
+    min-height: 57px;
+}
+
+/* This container contains only a checkbox, and bootstrap gives top padding to the input field and
+   the label text to vertically center. We need to pull it up a bit so that it is evenly vertically
+   spaced with the other fields */
+#signup-createaccount-termsandconditions-container {
+    margin-top: -7px;
+}
+
+#signup-createaccount-termsandconditions-container label {
+    text-align: left;
+}
+
+#signup-createaccount-termsandconditions-container label input {
+    margin-right: 15px;
+}
+
+#signup-createaccount-termsandconditions-container button {
+    padding: 0;
+    vertical-align: initial;
+}
+
+#signup-createaccount-termsandconditions-container .help {
+    display: none;
+}
+
+#signup-createaccount-termsandconditions-container.has-error .help {
+    display: block;
+}
+
+#signup-createaccount-recaptcha-error {
+    color: #A94442;
+}
+
+@media (max-width: 991px) {
+    #signup-options-container > div {
+        margin-right: 10%;
+    }
+
+    #signup-options-local {
+        min-width: 300px;
+    }
+
+    #signup-createaccount-form {
+        margin-top: -8px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    /* Switch to vertical stacking at <768px width */
+    #signup-options-container {
+        -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+                flex-direction: column;
+        margin: 25px auto;
+        max-width: 400px
+    }
+
+    #signup-options-container > div,
+    #signup-options-container > div:last-child {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    #signup-options-container h4 {
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    #signup-options-external {
+        text-align: center;
+    }
+
+    #signup-options-external > h4 {
+        display: none;
+    }
+
+    #signup-options-external > ul.nav {
+        display: inline-block;
+    }
+
+    #signup-options-divider-vertical {
+        display: none;
+    }
+
+    #signup-options-divider-horizontal {
+        display: block;
+    }
+
+    #signup-options-local {
+        min-width: 300px;
+    }
+
+    #signup-createaccount-form {
+        margin: 0 auto;
+        width: 300px
+    }
+}
+
+
+/* Top Navigation overrides */
+
+#topnavigation-right #topnavigation-search-form {
+    display: none !important;
+}
+
+/* ReCaptcha  overrides */
+
+#recaptcha_image,
+#recaptcha_image img {
+    height: auto !important;
+    width: 100% !important;
+}
+
+#recaptcha_image img {
+    border-style: solid;
+    border-width: 1px;
+}
+
+
+/* IE9 Support */
+
+.ie-lt10 #signup-options-container {
+    height: 100%;
+    margin: 30px 0 30px 10%;
+}
+
+.ie-lt10 #signup-options-container > div {
+    margin-right: 8%;
+}
+
+.ie-lt10 #signup-options-container > div:last-child {
+    margin-right: 0;
+}
+
+.ie-lt10 #signup-options-external {
+    float: left;
+    width: 250px;
+}
+
+.ie-lt10 #signup-options-divider-vertical {
+    float: left;
+    height: 100%;
+    position: relative;
+    width: 1px;
+}
+
+.ie-lt10 #signup-options-divider-vertical > div {
+    left: -25px;
+    position: absolute;
+    top: 50%;
+}
+
+.ie-lt10 #signup-options-local {
+    float: left;
+    min-width: auto;
+    width: 44%;
+}
+
+.ie-lt10 #signup-createaccount-form {
+    width: 100%;
+}
+
+@media (max-width: 991px) {
+    .ie-lt10 #signup-options-container {
+        margin: 30px 0;
+        padding: 0 30px;
+        width: 100%;
+    }
+
+    .ie-lt10 #signup-options-container > div {
+        margin-right: 5%;
+    }
+
+    .ie-lt10 #signup-options-container > div:last-child {
+        margin-right: 0;
+    }
+
+    .ie-lt10 #signup-options-local {
+        width: auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .ie-lt10 #signup-options-container {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .ie-lt10 #signup-options-container > div,
+    .ie-lt10 #signup-options-container > div:last-child {
+        float: none;
+        margin: 0 auto;
+    }
+}

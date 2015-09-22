@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+
+        <meta name="viewport" content="width=device-width">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <noscript>
+            <meta http-equiv="Refresh" content="1; URL=/noscript">
+        </noscript>
+
+        <!-- CORE CSS -->
+        <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
+        <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
+
+        <!-- PAGE CSS -->
+        <link rel="stylesheet" type="text/css" href="/ui/css/oae.signup.css" />
+    </head>
+    <body class="oae-page-signup">
+
+         <!-- HEADER -->
+        <div data-widget="topnavigation"><!-- --></div>
+
+        <!-- BODY -->
+        <main class="oae-main-content" role="main">
+            <h3 id="signup-title-container"><!----></h3>
+            <div id="signup-title-template"><!--
+                ${title}
+            --></div>
+
+            <div id="signup-options-container"><!-- --></div>
+            <div id="signup-options-template"><!--
+                {if authStrategyInfo.hasExternalAuth}
+                    <div id="signup-options-external">
+                        <h4>__MSG__USE_ONE_OF_YOUR_FAMILIAR_ACCOUNTS_COLON__</h4>
+                        <ul class="nav">
+                            {for strategy in authStrategyInfo.enabledExternalStrategies}
+                                <li>
+                                    ${authExternalButton(strategy, externalAuthOpts)}
+                                </li>
+                            {/for}
+                        </ul>
+                    </div>
+                {/if}
+
+                {if authStrategyInfo.hasExternalAuth && authStrategyInfo.allowAccountCreation}
+                    <div id="signup-options-divider-vertical">
+                        <div>
+                            <i class="fa fa-circle"></i>
+                            <span>__MSG__OR__</span>
+                        </div>
+                    </div>
+                    <div id="signup-options-divider-horizontal" class="oae-hr">
+                        <span>__MSG__OR__</span>
+                    </div>
+                {/if}
+
+                {if authStrategyInfo.allowAccountCreation}
+                    <div id="signup-options-local">
+                        <h4>__MSG__CREATE_A_NEW_ACCOUNT_COLON__</h4>
+                        <form id="signup-createaccount-form" class="form-horizontal" role="form">
+                            {if invitationInfo.email}
+                                <input type="hidden" id="signup-createaccount-email" name="email" class="form-control required email maxlength-short" value="${invitationInfo.email|encodeForHTMLAttribute}" />
+                            {/if}
+                            {if invitationInfo.token}
+                                <input type="hidden" id="signup-createaccount-invitationtoken" name="invitationToken" class="form-control" value="${invitationInfo.invitationToken|encodeForHTMLAttribute}" />
+                            {/if}
+
+                            <div class="form-group">
+                                <label class="col-md-5 control-label" for="signup-createaccount-firstname">__MSG__FIRSTNAME_COLON__</label>
+                                <div class="col-md-7">
+                                    <input type="text" id="signup-createaccount-firstname" name="firstName" class="form-control required maxlength-short" placeholder="__MSG__YOUR_FIRST_NAME__" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-5 control-label" for="signup-createaccount-lastname">__MSG__LASTNAME_COLON__</label>
+                                <div class="col-md-7">
+                                    <input type="text" id="signup-createaccount-lastname" name="lastName" class="form-control required maxlength-short" placeholder="__MSG__YOUR_LAST_NAME__" />
+                                </div>
+                            </div>
+                            {if !invitationInfo.email}
+                                <div class="form-group">
+                                    <label class="col-md-5 control-label" for="signup-createaccount-email">__MSG__EMAIL_COLON__</label>
+                                    <div class="col-md-7">
+                                        <input type="text" id="signup-createaccount-email" name="email" autocapitalize="off" class="form-control required email maxlength-short" placeholder="__MSG__YOUR_EMAIL_ADDRESS__" />
+                                    </div>
+                                </div>
+                            {/if}
+                            <div id="signup-createaccount-username-container" class="form-group">
+                                <label class="col-md-5 control-label" for="signup-createaccount-username">__MSG__USERNAME_COLON__</label>
+                                <div class="col-md-7">
+                                    <div id="signup-createaccount-username-controls">
+                                        <input type="text" id="signup-createaccount-username" name="username" autocapitalize="off" class="form-control required maxlength-short" placeholder="__MSG__ENTER_YOUR_USERNAME__" />
+                                        <i id="signup-createaccount-username-available" class="fa fa-times"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-5 control-label" for="signup-createaccount-password">__MSG__PASSWORD_COLON__</label>
+                                <div class="col-md-7">
+                                    <input type="password" id="signup-createaccount-password" name="password" class="form-control required maxlength-short" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-5 control-label" for="signup-createaccount-password-repeat">__MSG__RE_TYPE_PASSWORD__</label>
+                                <div class="col-md-7">
+                                    <input type="password" id="signup-createaccount-password-repeat" name="password_repeat" class="form-control required maxlength-short" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" />
+                                </div>
+                            </div>
+                            {if recaptchaEnabled}
+                                <div id="signup-createaccount-recaptcha-container" class="form-group">
+                                    <div class="col-xs-12 col-md-7 pull-right">
+                                        <div id="recaptcha_image"></div>
+                                        <div class="signup-createaccount-recaptcha-buttons pull-right">
+                                            <span>
+                                                <a class="btn" href="javascript:Recaptcha.reload()" title="__MSG__GET_A_NEW_CHALLENGE__">
+                                                    <i class="fa fa-refresh"></i>
+                                                </a>
+                                            </span>
+                                            <span class="recaptcha_only_if_image">
+                                                <a class="btn" href="javascript:Recaptcha.switch_type('audio')" title="__MSG__GET_AN_AUDIO_CHALLENGE__">
+                                                    <i class="fa fa-volume-up"></i>
+                                                </a>
+                                            </span>
+                                            <span class="recaptcha_only_if_audio">
+                                                <a class="btn" href="javascript:Recaptcha.switch_type('image')" title="__MSG__GET_A_VISUAL_CHALLENGE__">
+                                                    <i class="fa fa-font"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="signup-createaccount-recaptcha-input-container">
+                                            <label for="recaptcha_response_field" class="control-label sr-only">__MSG__ENTER_THE_TEXT__</label>
+                                            <input type="text" id="recaptcha_response_field" class="form-control" autocapitalize="off" name="recaptcha_response_field" placeholder="__MSG__ENTER_THE_TEXT__"/>
+                                        </div>
+                                        <label id="signup-createaccount-recaptcha-error" class="hide help help-block" for="recaptcha_response_field">__MSG__CAPTCHA_ERROR__</label>
+                                    </div>
+                                </div>
+                            {/if}
+                            {if termsAndConditionsEnabled}
+                                <div id="signup-createaccount-termsandconditions-container" class="form-group">
+                                    <div class="col-xs-12 col-md-7 pull-right">
+                                        {var termsAndConditionsLink = '<button type="button" class="btn btn-link oae-trigger-termsandconditions">__MSG__TERMS_AND_CONDITIONS__</button>'}
+                                        <label for="signup-createaccount-accept-terms-and-conditions" class="checkbox control-label">
+                                            <input type="checkbox" id="signup-createaccount-accept-terms-and-conditions" class="required" name="termsandconditions"/>__MSG__I_AGREE_TO_THE_TERMS_AND_CONDITIONS__
+                                        </label>
+                                        <div class="help help-block"></div>
+                                    </div>
+                                </div>
+                            {/if}
+                            <div class="form-group">
+                                <div class="col-xs-12 col-md-7 pull-right">
+                                    <button class="btn btn-primary">__MSG__SIGN_UP__</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {/if}
+            --></div>
+        </main>
+
+        <!-- FOOTER -->
+        <div data-widget="footer"><!-- --></div>
+
+        <!-- JAVASCRIPT -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" data-loadmodule="/ui/js/signup.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
+    </body>
+</html>

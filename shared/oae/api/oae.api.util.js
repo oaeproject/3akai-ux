@@ -71,14 +71,14 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
     };
 
     /**
-     * Replace the given profilePath with a link to `/me` if the profilePath matches the logged in user's profilePath. This avoids
-     * the back button problems caused by the redirect to `/me` when linking to the current user's profilePath directly.
+     * Replace the given profilePath with a link to `/` if the profilePath matches the logged in user's profilePath. This avoids
+     * the back button problems caused by the redirect to `/` when linking to the current user's profilePath directly.
      *
-     * @param  {String}    profilePath    The profilePath to replace with `/me` if it matches the current logged in user's profilePath
-     * @return {String}                   Returns either `/me` or the passed in profilePath string
+     * @param  {String}    profilePath    The profilePath to replace with `/` if it matches the current logged in user's profilePath
+     * @return {String}                   Returns either `/` or the passed in profilePath string
      */
     var profilePath = exports.profilePath = function(profilePath) {
-        return profilePath === require('oae.core').data.me.profilePath ? '/me' : profilePath;
+        return profilePath === require('oae.core').data.me.profilePath ? '/' : profilePath;
     };
 
     /**
@@ -175,24 +175,26 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * @api private
          */
         var init = function(callback) {
-            // List all macro files available in /shared/oae/macros to this list to have them
-            // available for JST templates
-            var macroFiles = ['header.html', 'list.html'];
+            // Note: These need to have their full URLs in the file in order for minification to
+            // rewrite them with a hash
+            var macroPaths = [
+                'text!/shared/oae/macros/list.html',
+                'text!/shared/oae/macros/header.html',
+                'text!/shared/oae/macros/auth.html'
+            ];
 
-            // Load all macros using the `require` command
-            var macros = _.map(macroFiles, function(macroFile) {
-                return 'text!/shared/oae/macros/' + macroFile;
-            });
-            require(macros, function() {
+            // Load the activity summary and lists macros through the RequireJS Text plugin
+            require(macroPaths, function() {
                 // Translate and cache the macros. We require the i18n API here to avoid creating
                 // a cyclic dependency
                 var i18nAPI = require('oae.api.i18n');
-
-                // All loaded macros will come back as the arguments of the callback. Dynamically
-                // add them all to the global macros list
-                _.chain(arguments).toArray().each(function(macro) {
-                    globalMacros.push(i18nAPI.translate(macro));
-                });
+                _.chain(arguments)
+                    .toArray()
+                    .map(i18nAPI.translate)
+                    .each(function(macro) {
+                        globalMacros.push(macro);
+                    })
+                    .value();
 
                 callback();
             });
@@ -496,6 +498,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
      */
     var validation = exports.validation = function() {
 
+        // A regular expression that can be used to match and validate an email address
+        var REGEX_EMAIL = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+        // Regex used to validate a url
+        var REGEX_URL = /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
+
         /**
          * Initialize the validation utility functions by adding some custom validators
          * to jquery.validate
@@ -719,10 +727,42 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             return true;
         };
 
+        /**
+         * Check whether a provided string is a valid email
+         *
+         * @param  {String}             email       The string to check
+         * @return {Boolean}                        `true` when the email is valid, `false` otherwise
+         */
+        var isValidEmail = function(email) {
+            if (!email) {
+                return false;
+            }
+
+            return REGEX_EMAIL.test(email);
+        };
+
+        /**
+         * Check whether a provided string is a valid host
+         *
+         * @param  {String}             host        The host to check
+         * @return {Boolean}                        `true` when the host is valid, `false` otherwise
+         */
+        var isValidHost = function(host) {
+            if (!host) {
+                return false;
+            }
+
+            // Since a host shouldn't include include the scheme, prepend a scheme and simply run
+            // it against the URL validator
+            return REGEX_URL.test('http://' + host);
+        };
+
         return {
             'clear': clear,
             'init': init,
             'isValidDisplayName': isValidDisplayName,
+            'isValidEmail': isValidEmail,
+            'isValidHost': isValidHost,
             'validate': validate
         };
     };
@@ -820,6 +860,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          */
         var defaultOptions = {
             'canGenerateNewSelections': false,
+            'emptyText': '',
+            'limitText': '',
             'minChars': 2,
             'neverSubmit': true,
             'retrieveLimit': 10,
@@ -891,6 +933,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          *
          * @param  {Element|String}     $element                        jQuery element or jQuery selector for that element that represents the element on which the autosuggest should be initialized
          * @param  {Object}             [options]                       JSON Object containing options to pass to the autosuggest component. It supports all of the standard options documented at https://github.com/wuyuntao/jquery-autosuggest
+         * @param  {Boolean}            [options.allowEmail]            Allow arbitrary email addresses to be entered as well as autosuggest items
          * @param  {Object[]}           [options.preFill]               Items that should be pre-filled into the autosuggest field upon initialization
          * @param  {Boolean}            [options.preFill[i].fixed]      Whether or not the pre-filled item should be undeleteable from the selection list
          * @param  {Object[]}           [options.ghost]                 Ghost items that should be added to the autosuggest field upon initialization. This has the same format as `options.preFill`
@@ -922,8 +965,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     options.startText = placeholder ? placeholder : i18nAPI.translate('__MSG__ENTER_NAME_HERE__');
                 }
                 // The `emptyText` is the text that will be shown when no suggested items could be found.
-                // If no `emptyText` has been provided, we fall back to a default string
-                if (!options.emptyText) {
+                // If no `emptyText` has been provided, we fall back to a default string unless email
+                // addresses are allowed
+                if (!options.emptyText && !options.allowEmail) {
                     options.emptyText = i18nAPI.translate('__MSG__NO_RESULTS_FOUND__');
                 }
 
@@ -981,12 +1025,14 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 options.retrieveComplete = function(data) {
                     // Get the query from the request URL on the Ajax object, as that is the only provided clue
                     // for finding out the search query
-                    var query = $.url(this.url).param('q');
+                    var query = url(this.url).param('q');
+                    var isValidEmail = validation().isValidEmail(query);
+
 
                     data.results = _.chain(data.results)
                         // Remove any results in the exclusion list
                         .filter(function(result) {
-                            return !_.contains(options.exclude, result.id);
+                            return (!_.contains(options.exclude, result.id));
                         })
                         // Enhance the results for the autosuggest template
                         .each(function(result) {
@@ -995,6 +1041,17 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                             return result;
                         })
                         .value();
+
+                    // If there are no search results and the query is an email address, present an
+                    // option for the user to have the email address as an option
+                    if (options.allowEmail && isValidEmail && _.isEmpty(data.results)) {
+                        data.results.push({
+                            'id': query,
+                            'displayName': query,
+                            'query': query,
+                            'resourceType': 'email'
+                        });
+                    }
 
                     if (retrieveComplete) {
                         return retrieveComplete(data);
@@ -1064,6 +1121,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 }
                 options.selectionAdded = function(elem) {
                     var $elem = $(elem);
+
                     // Wrap the element text in a 'oae-threedots' span element to prevent overflowing
                     $elem.contents().filter(function() {
                         return this.nodeType === 3;
@@ -1086,15 +1144,26 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     if (selectionAdded) {
                         selectionAdded(elem);
                     }
+
                     // Trigger the custom selection changed function
                     if (options.selectionChanged) {
                         options.selectionChanged();
                     }
                 };
 
+                // If we're allowing email in the input, we have to switch to user email search
+                // whenever we detect that the search query is an email
+                var optionsUrl = options.url;
+                if (options.allowEmail) {
+                    optionsUrl = function(q) {
+                        return (validation().isValidEmail(q)) ? '/api/search/email' : options.url;
+                    };
+                }
+
                 // Initialize the autoSuggest field
-                var $autoSuggest = $element.autoSuggest(options.url, options);
+                var $autoSuggest = $element.autoSuggest(optionsUrl, options);
                 var $list = $autoSuggest.parents('ul.as-selections');
+                var $suggestions = $list.siblings('.as-results');
 
                 // Remove the delete (x) button from the fixed fields
                 if (options.preFill) {
@@ -1109,7 +1178,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 if (options.ghosts) {
                     $.each(options.ghosts, function(index, ghostItem) {
                         // Create the list item. An `as-ghost-selected` class will be added to selected ghosts
-                        $list.prepend(template().render($('#autosuggest-selected-template', $autosuggestTemplates), {
+                        $list.prepend(template().render($('#autosuggest-ghost-template', $autosuggestTemplates), {
                             'index': index,
                             'ghostItem': ghostItem,
                             'options': options
@@ -1131,6 +1200,149 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
                 // Add a label to the autosuggest input field for accessibility
                 $('.as-input', $list).before('<label class="sr-only" for="' + $('.as-input', $list).attr('id') + '">' + options.startText + '</label>');
+
+                /**
+                 * Parse the current auto-suggest input into comma or space-separated tokens
+                 *
+                 * @return {String[]}  An array of all user-inputted tokens
+                 * @api private
+                 */
+                var getTokens = function() {
+                    return $element.val().split(/[\s,]+/);
+                };
+
+                /**
+                 * Insert the specified email address as invitation entries in the auto-suggest
+                 * field
+                 *
+                 * @param  {String[]}   emailAddresses  The email addresses to embed into the field
+                 * @api private
+                 */
+                var insertEmails = function(emailAddresses) {
+                    _.each(emailAddresses, function(emailAddress) {
+                        // Render the template for the email invitation entry
+                        var $li = $(template().render($('#autosuggest-email-template', $autosuggestTemplates), {
+                            'emailAddress': emailAddress
+                        }).trim());
+
+                        // Insert the template onto the DOM
+                        $element.parent('li.as-original').before($li);
+
+                        // Attach our data to the entry
+                        $li.data({
+                            'originalData': {
+                                'resourceType': 'email',
+                                'id': emailAddress,
+                                'dipslayName': emailAddress
+                            }
+                        });
+
+                        // Bind the remove event to the entry. The AutoSuggest plugin does this
+                        // internally for each result in its `add_selected_item` function but
+                        // doesn't provide any way to access it for custom use, so we'll have to
+                        // work it in here
+                        $('a.as-close', $li).click(function() {
+                            options.selectionRemoved.call($element, $li);
+                            $li.remove();
+                            $element.focus();
+                            return false;
+                        });
+
+                        // Run this new entry through the `selectionAdded` callback
+                        options.selectionAdded.call($element, $li);
+                    });
+                };
+
+                /**
+                 * Handle the scenario when a user copy/pastes content into an auto-suggest field
+                 *
+                 * @param  {String[]}   tokens  The space/comma separated tokens of the user's input
+                 * @api private
+                 */
+                var handleCopyPaste = function(tokens) {
+                    // If every token in the copy/paste is an email address, add an invitation entry
+                    // for each one
+                    tokens = _.compact(tokens);
+                    if (_.every(tokens, validation().isValidEmail)) {
+                        insertEmails(tokens);
+                        $element.val('');
+                    }
+                };
+
+                /**
+                 * Handle the scenario when a user enters a termination key
+                 *
+                 * @param  {String[]}   tokens      The space/comma separated tokens of the user's current input
+                 * @param  {Number}     keyCode     The termination key code the user entered to trigger the event
+                 * @return {Boolean}                Whether or not the key event should continue default event processing after this
+                 * @api private
+                 */
+                var handleTerminationKey = function(tokens, keyCode) {
+                    var isEnterKey = (keyCode === 13);
+                    var isSpaceKey = (keyCode === 32);
+                    var isCommaKey = (keyCode === 188);
+
+                    var firstResultItem = $suggestions.find('li.as-result-item:first').get(0);
+                    var activeResultItem = $suggestions.find('li.as-result-item.active:first').get(0);
+
+                    // If there is no suggestion panel available to the user, don't do anything
+                    // special with termination keys
+                    if (!$suggestions.is(':visible')) {
+                        return true;
+                    }
+
+                    // If enter is pressed and there is an active item, just let auto-suggest
+                    // handle the addition of the selected item the way it normally would
+                    if (isEnterKey && activeResultItem) {
+                        return true;
+                    }
+
+                    // If we're doing a hard termination (enter or comma), we always choose a result
+                    // if there any available
+                    if (isEnterKey || isCommaKey) {
+                        // If there is a selected item, use it. Otherwise use the first item in the
+                        // list. If there are no results at all, then we bypass this case
+                        var selectionResultItem = (activeResultItem || firstResultItem);
+                        if (selectionResultItem) {
+                            selectionResultItem.click();
+                            return false;
+                        }
+                    }
+
+                    // If we're doing any kind of termination and we have all emails and we allow
+                    // them as entries, insert them all into the field
+                    tokens = _.compact(tokens);
+                    if (options.allowEmail && _.every(tokens, validation().isValidEmail)) {
+                        insertEmails(tokens);
+                        $element.val('');
+                        return false;
+                    }
+
+                    return true;
+                };
+
+                $element.on('cut paste', function() {
+                    // Cut and paste events are triggered before the input
+                    // element is actually updated, so delay processing until
+                    // execution stack is exhausted
+                    setTimeout(function() {
+                        handleCopyPaste(getTokens());
+                    });
+                });
+
+                $element.on('keydown', function(evt) {
+                    switch (evt.keyCode) {
+                        case 13:  // Enter key
+                        case 32:  // Space key
+                        case 188: // Comma key
+                            var result = handleTerminationKey(getTokens(), evt.keyCode);
+                            if (!result) {
+                                evt.preventDefault();
+                                evt.stopImmediatePropagation();
+                            }
+                            break;
+                    }
+                });
 
                 // Trigger the callback function
                 if (_.isFunction(callback)) {
@@ -1180,19 +1392,32 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 // jQuery autosuggest will always prepare an empty item for the next item that needs to be
                 // added to the list. Therefore, it is possible that an item in the list is empty
                 if (id && selectionData) {
-                    // In case this is a ghost item, we can only add it when it has been selected.
+                    // In case this is a ghost item, we can only add it when it has been selected
                     if (!isGhostItem || (isGhostItem && $selection.hasClass('as-ghost-selected'))) {
-                        selectedItems.push({
+                        var selectedItem = {
                             'id': id,
-                            'displayName': selectionData.displayName,
+                            'displayName': selectionData.displayName || id,
                             'profilePath': selectionData.profilePath,
                             'resourceType': selectionData.resourceType,
                             'thumbnailUrl': selectionData.thumbnailUrl,
                             'visibility': selectionData.visibility
-                        });
+                        };
+
+                        // Help the consumer determine what to use to use to share with this
+                        // selected item. Items that are identified by their email address can be
+                        // shared with regardless of their profile visibility
+                        if (selectionData.resourceType === 'user' && validation().isValidEmail(selectionData.query)) {
+                            selectedItem.email = selectionData.query;
+                            selectedItem.shareId = selectionData.query + ':' + selectionData.id;
+                        } else {
+                            selectedItem.shareId = selectedItem.id;
+                        }
+
+                        selectedItems.push(selectedItem);
                     }
                 }
             });
+
             return selectedItems;
         };
 
@@ -1342,6 +1567,39 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
     ///////////////
 
     /**
+     * Convenience function for safely parsing either the original window URL or a specified URL,
+     * while working around encoding issues in the `$.url` utility.
+     *
+     * Specifically, `$.url` first runs urls through `decodeURI` before it parses the URL. This
+     * results in an inconsistent decoding of the full URL representation. For example:
+     *
+     *  1. I have an email address: mrvisser@gmail.com
+     *  2. I want to send a user to OAE with it in the query string: /?email=mrvisser%40gmail.com
+     *  3. OAE notices you are not authenticated, then redirects you to sign up: /signup?url=%2Fme%3Femail%3Dmrvisser%2540gmail.com
+     *  4. When running that location through `$.url` alone, it will:
+     *      a. Run `encodeURI` on it, which decodes only `%25`s and not other things (inconsistent!): /signup?url=%2Fme%3Femail%3Dmrvisser%40gmail.com
+     *      b. Now, you get the `url` querystring parameter.. `$.url` will do a regular `decodeURIComponent` on it: /?email=mrvisser@gmail.com (notice the @ is no longer encoded)
+     *      c. Now, you try and parse the redirect URL as a URL, but it fails! Because the `@` has been inconsistently decoded by the initial `decodeURI` and it is not a safe URI character
+     *
+     *
+     * To resolve this inconsistent decoding, we have this helper that first runs `encodeURI` on the
+     * location before running it through `$.url`.
+     *
+     * Note that by default, the *original* `window.location` string is used as the url to parse and
+     * return. If the `window.location` has changed since the page loaded (e.g., History.js state
+     * modifications), then the result of this call is different than what is currently present in
+     * the address bar. If you need to parse the *current* address bar location, you should
+     * explicitly pass in `window.location.toString()` as the first parameter.
+     *
+     * @param  {String}     [location]  The URL location to parse. If unspecified, the *initial* page load window location will be used
+     */
+    var url = exports.url = function(location) {
+        location = location || require('oae.core').data.location;
+        return $.url(encodeURI(location));
+    };
+
+
+    /**
      * All functionality related to redirecting users to error pages, etc.
      */
     var redirect = exports.redirect = function() {
@@ -1351,14 +1609,17 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * a page that requires login.
          */
         var login = function() {
-            window.location = '/?url=' + $.url().attr('relative');
+            var relative = url().attr('relative');
+            var redirectUrl = '/?url=' + encodeURIComponent(relative);
+            window.location = redirectUrl;
         };
 
         /**
-         * Redirect the currently user to the me page.
+         * Redirect the current user to the home page. For anonymous users it's the tenant landing
+         * page, while for authenticated users it is their activity page
          */
-        var me = function() {
-            window.location = '/me';
+        var home = function() {
+            window.location = '/';
         };
 
         /**
@@ -1367,7 +1628,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * the user can be redirected here when signing in.
          */
         var accessdenied = function() {
-            window.location = '/accessdenied?url=' + $.url().attr('path');
+            window.location = '/accessdenied?url=' + url().attr('path');
         };
 
         /**
@@ -1396,7 +1657,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
         return {
             'login': login,
-            'me': me,
+            'home': home,
             'accessdenied': accessdenied,
             'notfound': notfound,
             'unavailable': unavailable,

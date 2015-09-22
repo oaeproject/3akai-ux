@@ -17,7 +17,7 @@
     <body>
 
          <!-- HEADER -->
-        <div data-widget="topnavigation"><!-- --></div>
+        <div data-widget="topnavigation" data-autologin="true"><!-- --></div>
 
         <!-- BODY -->
         <main class="oae-branding-container oae-main-content">
@@ -31,20 +31,10 @@
                         <div id="error-quote-container">
                             <div class="oae-panel-tertiary">
                                 <p id="error-quote">&quot;__MSG__QUOTE_ACCESS_DENIED__&quot;</p>
-
-                                <p id="error-signin-container"><!-- --></p>
-                                <div id="error-signin-template"><!--
-                                    {if singleInstitutionalAuth}
-                                        <form action="${singleInstitutionalAuth.url}" method="POST">
-                                            <input type="hidden" name="redirectUrl" value="${redirectUrl|encodeForHTMLAttribute}" />
-                                            <button type="submit" class="btn btn-primary">__MSG__SIGN_IN__</button>
-                                        </form>
-                                    {else}
-                                        <button id="error-signin-dropdown" class="btn btn-primary">__MSG__SIGN_IN__</button>
-                                    {/if}
+                                <p id="error-signin-container">
+                                    <button id="error-signin" class="btn btn-primary">__MSG__SIGN_IN__</button>
                                     <span class="error-instruction">__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_OUT__</span>
-                                --></div>
-
+                                </p>
                                 <p>
                                     <a href="/search" class="btn btn-primary">__MSG__SEARCH__</a> <span class="error-instruction">__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__</span>
                                 </p>

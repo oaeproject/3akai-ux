@@ -17,7 +17,7 @@
  * Utility plugin that handles the "switch tab" component interactions.
  */
 
-define(['jquery', 'jquery.history'], function (jQuery, oaeUtil) {
+define(['jquery', 'oae.api.util', 'jquery.history'], function (jQuery, oaeUtil) {
     (function($) {
 
         /**
@@ -82,7 +82,7 @@ define(['jquery', 'jquery.history'], function (jQuery, oaeUtil) {
          */
         var getIdFromState = function($switchtab) {
             var id = null;
-            var path = $.url(History.getState().cleanUrl).attr('path');
+            var path = oaeUtil.url(History.getState().cleanUrl).attr('path');
             $switchtab.find('a').each(function(i, el) {
                 var $el = $(el);
                 var elPath = $el.attr('href');

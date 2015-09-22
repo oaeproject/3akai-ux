@@ -24,14 +24,37 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     // should match with those fields on a different activity before both activities can be aggregated into
     // one activity
     var AGGREGATION_RULES = {
-        'content-comment': ['target'],
-        'content-create': ['actor', 'target'],
-        'content-revision': ['object'],
-        'content-share': ['actor'],
-        'discussion-message': ['target'],
-        'folder-add-to-folder': ['target'],
-        'folder-create': ['actor', 'target'],
-        'folder-share': ['actor']
+        'content-comment': {
+            'target': true
+        },
+        'content-create': {
+            'actor': true,
+            'target': true
+        },
+        'content-revision': {
+            'object': true
+        },
+        'content-share': {
+            'actor': true
+        },
+        'discussion-message': {
+            'target': true
+        },
+        'folder-add-to-folder': {
+            'target': true
+        },
+        'folder-create': {
+            'actor': true,
+            'target': true
+        },
+        'folder-share': {
+            'actor': true
+        },
+        'invitation-accept': {
+            'actor': true,
+            'object': true,
+            'target': 'objectType'
+        }
     };
 
     // Time in milliseconds during which aggregatable activities should be aggregated before calling
@@ -92,6 +115,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     // Variable that keeps track of the timeouts per resource and stream type
     var timers = {};
 
+    // Variable to hold the sockjs client
+    var sockjs = null;
+
     /**
      * Initialize all push notification functionality by establishing the websocket connection
      * and authenticating. SockJS is used to provide a cross-browser and cross-domain communication
@@ -102,8 +128,17 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
      * @api private
      */
     var init = exports.init = function(callback) {
+        callback = callback || function(err) {
+            if (err) {
+                throw new Error('Could not initialize the push API');
+            }
+        };
+
         // Push notifications are only enabled for authenticated users
         if (require('oae.core').data.me.anon) {
+            return callback();
+        } else if (sockjs) {
+            // Ensure we only initialize once
             return callback();
         }
 
@@ -114,10 +149,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
 
         // Bind the event handlers that will be called when the websocket
         // connection has been established and when new incoming messages arrive
-        sockjs.onopen = authenticateSocket;
+        sockjs.onopen = authenticateSocket(callback);
         sockjs.onmessage = incomingMessage;
-
-        callback();
     };
 
     /**
@@ -125,27 +158,49 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
      * The websocket is authenticated and any messages that were received before the connection
      * was established are submitted over the websocket.
      *
-     * @throws {Error}                     Error thrown when the websocket could not be authenticated
+     * @param  {Function}   callback        Invoked when the socket is either authenticated or when authentication fails
+     * @param  {Object}     callback.err    An error that occurred during authentication, if any
      * @api private
      */
-    var authenticateSocket = function() {
-        // Get the me object for the current user
-        var me = require('oae.core').data.me;
+    var authenticateSocket = function(callback) {
+        return function() {
+            // Get the me object for the current user
+            var me = require('oae.core').data.me;
 
-        // Authenticate the websocket
-        sendMessage('authentication', {'userId': me.id, 'tenantAlias': me.tenant.alias, 'signature': me.signature }, function(err) {
-            if (err) {
-                throw new Error('Could not authenticate the websocket');
-            }
+            // Authenticate the websocket
+            sendMessage('authentication', {'userId': me.id, 'tenantAlias': me.tenant.alias, 'signature': me.signature}, function(err) {
+                if (err) {
+                    return callback(err);
+                }
 
-            // Indicate that the connection and authentication was successful
-            websocketEstablished = true;
+                // Indicate that the connection and authentication was successful
+                websocketEstablished = true;
 
-            // Send all messages that were received before the websocket connection was established
-            _.each(deferredMessages, function(message) {
-                sendMessage(message.name, message.payload, message.callback);
+                // Keep track of how many deferred messages have called back (i.e., have been
+                // received by the server)
+                var numCalledBack = 0;
+
+                // Send all messages that were received before the websocket connection was established
+                _.each(deferredMessages, function(message) {
+                    sendMessage(message.name, message.payload, function() {
+                        // First invoke the message callback for this deferred message
+                        message.callback.apply(null, _.toArray(arguments));
+
+                        // Only after all the deferred message callbacks have been invoked do we
+                        // call the authentication callback. Practically speaking, these messages
+                        // will be subscriptions to things like activity stream, notification
+                        // stream, etc... Since we perform activity-generating actions on page load
+                        // (e.g., accepting an invitation to the system), we need to ensure these
+                        // subscriptions are registered before the activity-generating actions are
+                        // performed
+                        numCalledBack++;
+                        if (numCalledBack === deferredMessages.length) {
+                            callback();
+                        }
+                    });
+                });
             });
-        });
+        };
     };
 
     /**
@@ -359,7 +414,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
         // we've already seen activities or not
         var aggregatedActivities = null;
 
-        // If we've seen activities previously, we need to to aggregate the new activities
+        // If we've seen activities previously, we need to aggregate the new activities
         // with those previously seen activities
         if (!_.isEmpty(activities[resourceId][streamType])) {
             // Get the activities we've already seen who can aggregate with activities
@@ -372,9 +427,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
             });
 
             // Aggregate the two sets of activities. The `aggreateActivities` function
-            // will inline any activities into the `oldActivitiesOfSameType` set. Because
-            // these activities are passed by reference, the global `activities` object
-            // that contains the activities per activity stream will be updated as well
+            // will inline any activities into the `oldActivitiesOfSameType` set
             aggregatedActivities = aggregateActivities(oldActivitiesOfSameType.concat(inlineAggregatedActivities));
 
             // We now roll in our aggregated activities with *all* the activities of our
@@ -396,7 +449,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
         // We wait a little bit before returing to the caller so we can aggregate with
         // activities from messages that will arrive later
         timers[resourceId][streamType] = setTimeout(function() {
-            return callback(aggregatedActivities);
+            var activitiesToNotify = activities[resourceId][streamType];
+
+            // Clean up the activities we're caching internally
+            delete activities[resourceId][streamType];
+            if (_.isEmpty(activities[resourceId])) {
+                delete activities[resourceId];
+            }
+
+            return callback(activitiesToNotify);
         }, AGGREGATION_TIMEOUT);
     };
 
@@ -485,11 +546,18 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
      */
     var getAggregateKey = function(activity) {
         var aggregateKey = [];
-        _.each(AGGREGATION_RULES[activity['oae:activityType']], function(activityField) {
+        _.each(AGGREGATION_RULES[activity['oae:activityType']], function(aggregationSpec, activityField) {
+            // Having a "true" aggregation spec implicitly means to aggregate on the id of the
+            // entity. However by specifying a string, it is possible to aggregate on other
+            // entity fields
+            if (aggregationSpec === true) {
+                aggregationSpec = 'oae:id';
+            }
+
             // Depending of the context the activity was created in, some
             // activities (content-create, folder-create) do not always have a target
-            if (activity[activityField] && activity[activityField]['oae:id']) {
-                aggregateKey.push(activity[activityField]['oae:id']);
+            if (activity[activityField] && activity[activityField][aggregationSpec]) {
+                aggregateKey.push(activity[activityField][aggregationSpec]);
             } else {
                 aggregateKey.push('__null__');
             }

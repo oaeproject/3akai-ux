@@ -15,7 +15,7 @@
  *  `$('.oae-list-header-badge').text(15).show()`
  *
  * @param  {String}     title                       The title of the header
- * @param  {Boolean}    [showSearch]                Whether or not a search box should show. The search box is accessible on the DOM with CSS class `oae-list-selectall`. Default: `true`
+ * @param  {Boolean}    [showSearch]                Whether or not a search box should show. The search box is accessible on the DOM with CSS class `oae-list-header-search-query`. Default: `true`
  * @param  {Object[]}   [actions]                   A list of objects that represent action buttons that can be performed in the header
  * @param  {String}     [actions[i].icon]           The icon class that represents the action (e.g., `fa-times`)
  * @param  {String}     [actions[i].label]          The label of the action
@@ -158,20 +158,22 @@
             <!-- DETAILED LIST VIEW -->
             <div class="oae-list-details-item">
                 <div class="oae-listitem">
-                    ${renderCheckbox(entityData, 'details', displayOptions.showCheckbox)}
-                    <div class="oae-listitem-primary-thumbnail">
-                        ${displayOptions.addVisibilityIcon = true|eat}
-                        ${displayOptions.size = "small"|eat}
-                        ${displayOptions.threedotTitle = true|eat}
-                        ${renderThumbnail(entityData, displayOptions)}
-                    </div>
-                    {if displayOptions.listItemActions}
-                        <div class="oae-listitem-actions">
-                            ${displayOptions.listItemActions()}
+                    <div class="oae-listitem-inner">
+                        ${renderCheckbox(entityData, 'details', displayOptions.showCheckbox)}
+                        <div class="oae-listitem-primary-thumbnail">
+                            ${displayOptions.addVisibilityIcon = true|eat}
+                            ${displayOptions.size = "small"|eat}
+                            ${displayOptions.threedotTitle = true|eat}
+                            ${renderThumbnail(entityData, displayOptions)}
                         </div>
-                    {/if}
-                    <div class="oae-listitem-metadata">
-                        ${renderMetadata(entityData, displayOptions)}
+                        {if displayOptions.listItemActions}
+                            <div class="oae-listitem-actions">
+                                ${displayOptions.listItemActions()}
+                            </div>
+                        {/if}
+                        <div class="oae-listitem-metadata">
+                            ${renderMetadata(entityData, displayOptions)}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -179,17 +181,23 @@
             <!-- COMPACT LIST VIEW -->
             <div class="oae-list-compact-item">
                 <div class="oae-listitem">
-                    ${renderCheckbox(entityData, 'compact', displayOptions.showCheckbox)}
-                    <div class="oae-listitem-primary-thumbnail">
-                        ${renderThumbnail(entityData, displayOptions)}
-                    </div>
-                    {if displayOptions.listItemActions}
-                        <div class="oae-listitem-actions">
-                            ${displayOptions.listItemActions()}
+                    <div class="oae-listitem-inner">
+                        ${renderCheckbox(entityData, 'compact', displayOptions.showCheckbox)}
+                        {if entityData.resourceType !== 'email'}
+                            <div class="oae-listitem-primary-thumbnail">
+                                ${renderThumbnail(entityData, displayOptions)}
+                            </div>
+                        {else}
+                            <i class="oae-listitem-primary-thumbnail fa fa-envelope"></i>
+                        {/if}
+                        {if displayOptions.listItemActions}
+                            <div class="oae-listitem-actions">
+                                ${displayOptions.listItemActions()}
+                            </div>
+                        {/if}
+                        <div class="oae-listitem-metadata">
+                            ${renderMetadata(entityData, displayOptions)}
                         </div>
-                    {/if}
-                    <div class="oae-listitem-metadata">
-                        ${renderMetadata(entityData, displayOptions)}
                     </div>
                 </div>
             </div>

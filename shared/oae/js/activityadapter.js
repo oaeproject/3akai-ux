@@ -40,11 +40,13 @@ var _expose = function(exports) {
      * @param  {Function}               sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML tag
      * @param  {Function}               sanitization.encodeForHTMLAttribute     Encode a value such that it is safe to be embedded into an HTML attribute
      * @param  {Function}               sanitization.encodeForURL               Encode a value such that it is safe to be used as a URL fragment
+     * @param  {Object}                 [opts]                                  Optional arguments
+     * @param  {String}                 [opts.resourceHrefOverride]             When specified, any `<a href="...">` tag in the generated HTML content will have its `href` attribute rewritten to this value. This can be used to control outbound links in different contexts (e.g., email invitation)
      * @return {ActivityViewModel[]}                                            The adapted activities
      */
-    var adapt = exports.adapt = function(context, me, activities, sanitization) {
+    var adapt = exports.adapt = function(context, me, activities, sanitization, opts) {
         return activities.map(function(activity) {
-            return _adaptActivity(context, me, activity, sanitization);
+            return _adaptActivity(context, me, activity, sanitization, opts);
         });
     };
 
@@ -58,15 +60,17 @@ var _expose = function(exports) {
      * @param  {Function}               sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML tag
      * @param  {Function}               sanitization.encodeForHTMLAttribute     Encode a value such that it is safe to be embedded into an HTML attribute
      * @param  {Function}               sanitization.encodeForURL               Encode a value such that it is safe to be used as a URL fragment
+     * @param  {Object}                 [opts]                                  Optional arguments
+     * @param  {String}                 [opts.resourceHrefOverride]             When specified, this value will replace any URL specified for an entity. This can be used to control outbound links in different contexts (e.g., email invitation)
      * @return {ActivityViewModel}                                              The adapted activity
      * @api private
      */
-    var _adaptActivity = function(context, me, activity, sanitization) {
+    var _adaptActivity = function(context, me, activity, sanitization, opts) {
         // Move the relevant items (comments, previews, ..) to the top
         _prepareActivity(me, activity);
 
         // Generate an i18nable summary for this activity
-        var summary = _generateSummary(me, activity, sanitization);
+        var summary = _generateSummary(me, activity, sanitization, opts);
 
         // Generate the primary actor view
         var primaryActor = _generatePrimaryActor(me, activity);
@@ -499,21 +503,30 @@ var _expose = function(exports) {
      * @api private
      */
     var _generateActivityPreviewItems = function(context, activity) {
+        var activityType = activity['oae:activityType'];
 
         // Comment activities should always show the target as the activity preview
         var previewObj = null;
-        if (COMMENT_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1) {
+        if (COMMENT_ACTIVITY_TYPES.indexOf(activityType) !== -1) {
             previewObj = activity.target;
         // Share activities are considered to be a special social activity, where the
         // users and groups the item is shared with are preferred as a preview over
         // the object that is being shared
-        } else if (SHARE_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1) {
+        } else if (SHARE_ACTIVITY_TYPES.indexOf(activityType) !== -1) {
             previewObj = activity.target;
             // When the current context is part of the target entities, we prefer
             // to use the activity's object as the activity preview instead. This
             // will avoid showing a picture and link for an item in its own context
             if (_isContextInActivityEntities(context, previewObj)) {
                 previewObj = activity.object;
+            }
+        // When a user is accepting an invitation to join target(s), we show the targets, unless the
+        // target is the context, in which case we show the user who is accepting the invitation
+        } else if (activityType === 'invitation-accept') {
+            previewObj = activity.target;
+
+            if (_isContextInActivityEntities(context, previewObj)) {
+                previewObj = activity.actor;
             }
         // Otherwise, we always want to show the activity object as the activity preview
         } else if (activity.object) {
@@ -551,9 +564,13 @@ var _expose = function(exports) {
      * @param  {Function}   sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML tag
      * @param  {Function}   sanitization.encodeForHTMLAttribute     Encode a value such that it is safe to be embedded into an HTML attribute
      * @param  {Function}   sanitization.encodeForURL               Encode a value such that it is safe to be used as a URL fragment
+     * @param  {Object}     [opts]                                  Optional arguments
+     * @param  {String}     [opts.resourceHrefOverride]             When specified, this value will replace any URL specified for an entity. This can be used to control outbound links in different contexts (e.g., email invitation)
      * @api private
      */
-    var _setSummaryPropertiesForEntity = function(properties, propertyKey, entity, sanitization) {
+    var _setSummaryPropertiesForEntity = function(properties, propertyKey, entity, sanitization, opts) {
+        opts = opts || {};
+
         var displayNameKey = propertyKey;
         var profilePathKey = propertyKey + 'URL';
         var displayLinkKey = propertyKey + 'Link';
@@ -561,7 +578,7 @@ var _expose = function(exports) {
 
         // This holds the "display name" of the entity
         properties[displayNameKey] = sanitization.encodeForHTML(entity.displayName);
-        properties[profilePathKey] = entity['oae:profilePath'];
+        properties[profilePathKey] = opts.resourceHrefOverride || entity['oae:profilePath'];
 
         // If the profile path was set, it indicates that we have access to view the user, therefore
         // we should display a link. If not specified, we should show plain-text
@@ -585,10 +602,12 @@ var _expose = function(exports) {
      * @param  {Function}               sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML tag
      * @param  {Function}               sanitization.encodeForHTMLAttribute     Encode a value such that it is safe to be embedded into an HTML attribute
      * @param  {Function}               sanitization.encodeForURL               Encode a value such that it is safe to be used as a URL fragment
+     * @param  {Object}                 [opts]                                  Optional arguments
+     * @param  {String}                 [opts.resourceHrefOverride]             When specified, this value will replace any URL specified for an entity. This can be used to control outbound links in different contexts (e.g., email invitation)
      * @return {ActivityViewSummary}                                            The summary for the given activity
      * @api private
      */
-    var _generateSummary = function(me, activity, sanitization) {
+    var _generateSummary = function(me, activity, sanitization, opts) {
         // The dictionary that can be used to translate the dynamic values in the i18n keys
         var properties = {};
 
@@ -603,14 +622,14 @@ var _expose = function(exports) {
                 properties.actorCountMinusOne = properties.actorCount - 1;
 
                 // Apply additional actor information
-                _setSummaryPropertiesForEntity(properties, 'actor2', activity.actor['oae:collection'][1], sanitization);
+                _setSummaryPropertiesForEntity(properties, 'actor2', activity.actor['oae:collection'][1], sanitization, opts);
             }
         } else {
             actor1Obj = activity.actor;
         }
 
         // Apply the actor1 information to the summary properties
-        _setSummaryPropertiesForEntity(properties, 'actor1', actor1Obj, sanitization);
+        _setSummaryPropertiesForEntity(properties, 'actor1', actor1Obj, sanitization, opts);
 
         // Prepare the object-related variables that will be present in the i18n keys
         var object1Obj = null;
@@ -623,14 +642,14 @@ var _expose = function(exports) {
                 properties.objectCountMinusOne = properties.objectCount - 1;
 
                 // Apply additional object information
-                _setSummaryPropertiesForEntity(properties, 'object2', activity.object['oae:collection'][1], sanitization);
+                _setSummaryPropertiesForEntity(properties, 'object2', activity.object['oae:collection'][1], sanitization, opts);
             }
         } else {
             object1Obj = activity.object;
         }
 
         // Apply the object1 information to the summary properties
-        _setSummaryPropertiesForEntity(properties, 'object1', object1Obj, sanitization);
+        _setSummaryPropertiesForEntity(properties, 'object1', object1Obj, sanitization, opts);
 
         // Prepare the target-related variables that will be present in the i18n keys
         var target1Obj = null;
@@ -644,14 +663,14 @@ var _expose = function(exports) {
                     properties.targetCountMinusOne = properties.targetCount - 1;
 
                     // Apply additional target information
-                    _setSummaryPropertiesForEntity(properties, 'target2', activity.target['oae:collection'][1], sanitization);
+                    _setSummaryPropertiesForEntity(properties, 'target2', activity.target['oae:collection'][1], sanitization, opts);
                 }
             } else {
                 target1Obj = activity.target;
             }
 
             // Apply the target1 information to the summary properties
-            _setSummaryPropertiesForEntity(properties, 'target1', target1Obj, sanitization);
+            _setSummaryPropertiesForEntity(properties, 'target1', target1Obj, sanitization, opts);
         }
 
         // Depending on the activity type, we render a different template that is specific to that activity,
@@ -719,6 +738,8 @@ var _expose = function(exports) {
             return _generateGroupUpdateMemberRoleSummary(me, activity, properties);
         } else if (activityType === 'group-update-visibility') {
             return _generateGroupUpdateVisibilitySummary(me, activity, properties);
+        } else if (activityType === 'invite' || activityType === 'invitation-accept') {
+            return _generateInvitationSummary(me, activity, properties);
         // Fall back on the default activity summary if no specific template is found for the activity type
         } else {
             return _generateDefaultSummary(me, activity, properties);
@@ -729,9 +750,10 @@ var _expose = function(exports) {
      * Render the end-user friendly, internationalized summary of an activity for which no specific handling is available. This will
      * use the activity verb to construct the summary.
      *
-     * @param  {Activity}               activity    Standard activity object as specified by the activitystrea.ms specification, representing the unrecognized activity, for which to generate the activity summary
-     * @param  {Object}                 properties  A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the unrecognized activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateDefaultSummary = function(me, activity, properties) {
@@ -751,9 +773,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of an add to content library activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateContentAddToLibrarySummary = function(me, activity, properties) {
@@ -777,9 +800,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a content comment activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the content comment activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content comment activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateContentCommentSummary = function(me, activity, properties) {
@@ -815,9 +839,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a content creation activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the content creation activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content creation activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateContentCreateSummary = function(me, activity, properties) {
@@ -889,9 +914,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a restored content revision activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the restore content revision activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the restore content revision activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateContentRestoredRevision = function(activity, properties) {
@@ -919,9 +945,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a new content version activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the content revision creation activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content revision creation activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateContentRevisionSummary = function(me, activity, properties) {
@@ -957,9 +984,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a content share activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the content share activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content share activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateContentShareSummary = function(me, activity, properties) {
@@ -1023,9 +1051,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a content member role update activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the content members update activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content members update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateContentUpdateMemberRoleSummary = function(me, activity, properties) {
@@ -1073,9 +1102,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a content update activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the content update activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateContentUpdateSummary = function(me, activity, properties) {
@@ -1111,9 +1141,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a visibility update activity for content.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the content visibility update activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content visibility update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateContentUpdateVisibilitySummary = function(me, activity, properties) {
@@ -1149,9 +1180,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of an add to library activity for a discussion.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to discussion library activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the add to discussion library activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateDiscussionAddToLibrarySummary = function(me, activity, properties) {
@@ -1169,9 +1201,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a discussion creation activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion creation activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the discussion creation activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateDiscussionCreateSummary = function(me, activity, properties) {
@@ -1189,9 +1222,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a discussion post activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion message activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the discussion message activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateDiscussionMessageSummary = function(me, activity, properties) {
@@ -1209,9 +1243,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a discussion share activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion share activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the discussion share activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateDiscussionShareSummary = function(me, activity, properties) {
@@ -1249,9 +1284,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a discussion member role update activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion member update activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the discussion member update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateDiscussionUpdateMemberRoleSummary = function(me, activity, properties) {
@@ -1273,9 +1309,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a discussion update activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion update activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the discussion update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateDiscussionUpdateSummary = function(me, activity, properties) {
@@ -1293,9 +1330,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a visibility update activity for a discussion.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion visibility update activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the discussion visibility update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateDiscussionUpdateVisibilitySummary = function(me, activity, properties) {
@@ -1313,9 +1351,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of an add to folder activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to folder activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the add to folder activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateFolderAddToFolderSummary = function(me, activity, properties) {
@@ -1339,9 +1378,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of an add to library activity for a folder.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to folder library activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the add to folder library activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateFolderAddToLibrarySummary = function(me, activity, properties) {
@@ -1359,9 +1399,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a folder comment activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the folder comment activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the folder comment activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateFolderCommentSummary = function(me, activity, properties) {
@@ -1379,9 +1420,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a folder creation activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the folder creation activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the folder creation activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateFolderCreateSummary = function(me, activity, properties) {
@@ -1421,9 +1463,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a folder share activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the folder share activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the folder share activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateFolderShareSummary = function(me, activity, properties) {
@@ -1461,9 +1504,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a folder update activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the folder update activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the folder update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateFolderUpdateSummary = function(me, activity, properties) {
@@ -1481,9 +1525,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a folder member role update activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the folder member update activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the folder member update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateFolderUpdateMemberRoleSummary = function(me, activity, properties) {
@@ -1505,9 +1550,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a visibility update activity for a folder.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the folder visibility update activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the folder visibility update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateFolderUpdateVisibilitySummary = function(me, activity, properties) {
@@ -1525,9 +1571,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of an update for a user following another user
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the following activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the following activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateFollowingSummary = function(me, activity, properties) {
@@ -1565,9 +1612,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a group member add activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add group member activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the add group member activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateGroupAddMemberSummary = function(me, activity, properties) {
@@ -1589,9 +1637,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a group member role update activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the group member update activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the group member update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateGroupUpdateMemberRoleSummary = function(me, activity, properties) {
@@ -1613,9 +1662,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a group creation activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the group creation activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the group creation activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateGroupCreateSummary = function(me, activity, properties) {
@@ -1633,9 +1683,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a group join activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the group join activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the group join activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateGroupJoinSummary = function(me, activity, properties) {
@@ -1653,9 +1704,10 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a group update activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the group update activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the group update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateGroupUpdateSummary = function(me, activity, properties) {
@@ -1671,11 +1723,12 @@ var _expose = function(exports) {
     };
 
     /**
-     * Render the end-user friendly, internationalized summary of  a visibility update activity for a group.
+     * Render the end-user friendly, internationalized summary of a visibility update activity for a group.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the group visibility update activity, for which to generate the activity summary
-     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
-     * @return {ActivityViewSummary}                  A sumary object
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the group visibility update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
     var _generateGroupUpdateVisibilitySummary = function(me, activity, properties) {
@@ -1687,6 +1740,142 @@ var _expose = function(exports) {
         } else {
             i18nKey = '__MSG__ACTIVITY_GROUP_VISIBILITY_PRIVATE__';
         }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary related to invitation activities. The
+     * blueprint for the invitation activity should be of the form:
+     *
+     *  * Only one actor
+     *  * Only one object, it must be a user (either who is invited, or who is accepting)
+     *  * Multiple targets of the same resource type (either the resources to which a user is being
+     *    invited, or is accepting an invitation)
+     *
+     * The resulting summary will have the standard actor/object/target properties, as well as a
+     * summary i18n key of the form:
+     *
+     *  `ACTIVITY_${activityLabel}_${whoLabel}_${resourceType}_${numTargets}`
+     *
+     * Which renders all the following i18n key possibilities:
+     *
+     *  * ACTIVITY_INVITE_COLLABDOC_1
+     *  * ACTIVITY_INVITE_FILE_1
+     *  * ACTIVITY_INVITE_LINK_1
+     *  * ACTIVITY_INVITE_CONTENT_2
+     *  * ACTIVITY_INVITE_CONTENT_2+
+     *  * ACTIVITY_INVITE_DISCUSSION_1
+     *  * ACTIVITY_INVITE_DISCUSSION_2
+     *  * ACTIVITY_INVITE_DISCUSSION_2+
+     *  * ACTIVITY_INVITE_FOLDER_1
+     *  * ACTIVITY_INVITE_FOLDER_2
+     *  * ACTIVITY_INVITE_FOLDER_2+
+     *  * ACTIVITY_INVITE_GROUP_1
+     *  * ACTIVITY_INVITE_GROUP_2
+     *  * ACTIVITY_INVITE_GROUP_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_COLLABDOC_1
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_FILE_1
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_LINK_1
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_CONTENT_2
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_CONTENT_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_DISCUSSION_1
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_DISCUSSION_2
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_DISCUSSION_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_FOLDER_1
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_FOLDER_2
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_FOLDER_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_GROUP_1
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_GROUP_2
+     *  * ACTIVITY_INVITATION_ACCEPT_YOU_OTHER_GROUP_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_COLLABDOC_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_FILE_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_LINK_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_CONTENT_2
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_CONTENT_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_DISCUSSION_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_DISCUSSION_2
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_DISCUSSION_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_FOLDER_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_FOLDER_2
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_FOLDER_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_GROUP_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_GROUP_2
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_YOU_GROUP_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_COLLABDOC_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_FILE_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_LINK_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_CONTENT_2
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_CONTENT_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_DISCUSSION_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_DISCUSSION_2
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_DISCUSSION_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_FOLDER_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_FOLDER_2
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_FOLDER_2+
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_GROUP_1
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_GROUP_2
+     *  * ACTIVITY_INVITATION_ACCEPT_OTHER_OTHER_GROUP_2+
+     *
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the invite activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
+     * @api private
+     */
+    var _generateInvitationSummary = function(me, activity, properties) {
+        var labels = ['ACTIVITY'];
+        var activityType = activity['oae:activityType'];
+        var actorId = activity.actor['oae:id'];
+        var objectId = activity.object['oae:id'];
+
+        if (activityType === 'invite') {
+            labels.push('INVITE');
+        } else if (activityType === 'invitation-accept') {
+            labels.push('INVITATION_ACCEPT');
+
+            // Find the "who" label, which indicates if the current user in context is either the
+            // inviter or the invited user. When that is the case, we alter the language to be in
+            // the form "You"/"Your" as opposed to the display name of the user. This is only
+            // applicable for the invitation accept activity because the invite is only seen by the
+            // user who was invited
+            if (me.id === actorId) {
+                labels.push('YOU_OTHER');
+            } else if (me.id === objectId) {
+                labels.push('OTHER_YOU');
+            } else {
+                labels.push('OTHER_OTHER');
+            }
+        } else {
+            throw new Error('Invalid activity type provided for invitation activity: ' + activityType);
+        }
+
+        // Find the count label
+        var countLabel = properties.targetCount;
+        if (countLabel > 2) {
+            countLabel = '2+';
+        }
+
+        // Find any target object so we can inspect its `objectType` or `resourceSubType`
+        var target = null;
+        if (countLabel === 1) {
+            target = activity.target;
+        } else {
+            target = activity.target['oae:collection'][0];
+        }
+
+        // Find the type label (e.g., LINK, DISCUSSION, GROUP, etc...)
+        var typeLabel = target.objectType.toUpperCase();
+        if (typeLabel === 'CONTENT' && countLabel === 1) {
+            typeLabel = target['oae:resourceSubType'].toUpperCase();
+        }
+
+        // Gather the rest of the labels together to form the i18n key
+        labels.push(typeLabel);
+        labels.push(countLabel);
+
+        // Generate the activity i18n key according to the labels we determined
+        var i18nKey = '__MSG__' + labels.join('_') + '__';
+
         return new ActivityViewSummary(i18nKey, properties);
     };
 };

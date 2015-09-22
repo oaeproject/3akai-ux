@@ -17,15 +17,16 @@ require(['jquery', 'oae.core'], function($, oae) {
 
     // Get the user id from the URL. The expected URL is `/user/<tenantId>/<resourceId>`.
     // The user id will then be `u:<tenantId>:<resourceId>`
-    var userId = 'u:' + $.url().segment(2) + ':' + $.url().segment(3);
+    var url = oae.api.util.url();
+    var userId = 'u:' + url.segment(2) + ':' + url.segment(3);
 
-    // Redirect to /me if the requested user is the currently logged in user
+    // Redirect to / if the requested user is the currently logged in user
     if (userId === oae.data.me.id) {
-        window.location = '/me';
+        window.location = '/';
     }
 
     // Variable used to cache the user's base URL
-    var baseUrl = '/user/' + $.url().segment(2) + '/' + $.url().segment(3);
+    var baseUrl = '/user/' + url.segment(2) + '/' + url.segment(3);
 
     // Variable used to cache the requested user's profile
     var userProfile = null;

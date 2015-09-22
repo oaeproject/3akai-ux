@@ -372,6 +372,58 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
     };
 
     /**
+     * Get all the invitations for a content item
+     *
+     * @param  {String}         contentId                       Id of the content item we're trying to retrieve the invitations for
+     * @param  {Function}       callback                        Standard callback function
+     * @param  {Object}         callback.err                    Error object containing error code and error message
+     * @param  {Object}         callback.invitations            Response object containing the content invitations
+     * @param  {Invitation[]}   callback.invitations.results    Every invitation associated to the content item
+     * @throws {Error}                                          Error thrown when no content id has been provided
+     */
+    var getInvitations = exports.getInvitations = function(contentId, callback) {
+        if (!contentId) {
+            throw new Error('A content id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/'+ contentId + '/invitations',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Resend an invitation that invites an email into a content item
+     *
+     * @param  {String}     contentId        Id of the content item whose invitation to resend
+     * @param  {String}     email           The email of the invitation to resend
+     * @param  {Function}   callback        Standard callback function
+     * @param  {Object}     callback.err    Error object containing error code and error message
+     * @throws {Error}                      Error thrown when no content id has been provided
+     */
+    var resendInvitation = exports.resendInvitation = function(contentId, email, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId + '/invitations/' + email + '/resend',
+            'type': 'POST',
+            'success': function() {
+                callback();
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
      * Get the viewers and managers of a content item
      *
      * @param  {String}          contentId                      Id of the content item we're trying to retrieve the members for

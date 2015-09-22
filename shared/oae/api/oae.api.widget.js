@@ -254,6 +254,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
      * @api private
      */
     var locateWidgets = function($container, showSettings, widgetData, callback) {
+        widgetData = widgetData || {};
+
         // Locate the available widgets in the container. This is done by getting
         // all tags with a `data-widget` attribute
         var widgetsToLoad = {};
@@ -265,6 +267,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
             var widgetName = $element.attr('data-widget');
             var widget = getWidgetManifest(widgetName);
             var widgetId = $element.attr('id');
+            var locatedWidgetData = $element.data();
 
             // Generate a unique id for the widget if it doesn't have one set
             if (!widgetId) {
@@ -274,6 +277,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
 
             // The data-widget attribute is removed, to avoid the widget being rendered again
             $element.removeAttr('data-widget');
+
+            // Merge the specified widget data values with any data that was specified on the
+            // `data-widget` widget. The custom widget data specified via the `widgetData` parameter
+            // will override any widget data specified on the `data-widget` element
+            widgetData[widgetId] = $.extend({}, $element.data(), widgetData[widgetId]);
 
             // If the widget's resource have already been loaded,
             // we just render the widget
@@ -429,6 +437,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
                     'html': widgetHTML,
                     'widgetFunction': widgetFunction
                 };
+
                 // Load all of the declared instances for this widget
                 for (var i = 0; i < loadData.instances.length; i++) {
                     // Render the widget instance, and pass in the widget data for the widget instance
@@ -500,5 +509,4 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
         // Load the widget
         loadWidgets($container, showSettings, widgetDataToPassIn, callback);
     };
-
 });

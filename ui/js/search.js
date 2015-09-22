@@ -31,7 +31,7 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
      * @return {String}     queryData.tenant    The tenant alias in which to search
      */
     var getQueryData = function() {
-        var params = $.url(History.getState().cleanUrl).param();
+        var params = oae.api.util.url(History.getState().cleanUrl).param();
         var q = params.q;
         var tenant = params.tenant;
         var types = [];
@@ -153,7 +153,7 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
         });
 
         var tenant = $('#search-refine-tenant input[type="checkbox"]:checked').attr('data-tenant');
-        var path = $.url(History.getState().cleanUrl).attr('path');
+        var path = oae.api.util.url(History.getState().cleanUrl).attr('path');
         var params = {};
 
         if (query) {
@@ -187,7 +187,7 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
         // We should intelligently detect that if someone goes to /search/<search query>, we should
         // automatically send them to /search/all?q=<search query>
         var state = History.getState()
-        var url = $.url(History.getState().cleanUrl);
+        var url = oae.api.util.url(History.getState().cleanUrl);
         var path = url.attr('path').split('/');
         var queryString = url.attr('query');
 

@@ -22,7 +22,9 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
      * animations, etc.
      *
      * The template used to render the result should put each item into its own `li` tag and should have a `data-id` attribute containing
-     * the item's id.
+     * the item's id. This goes the same for the "initialContent" template, however it is recommended that the initial content item be
+     * tagged with class `oae-list-initial` so that when calculating whether or not there are any result rows in the list, the initial
+     * content can be omitted from that calculation.
      *
      * By default, the infinite scroll plug-in will use the `nextToken` key for paging when provided in the back-end feed response. When
      * no `nextToken` is provided, the index of the last rendered item will be used instead.
@@ -152,7 +154,6 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                 },
                 'error': function() {
                     hideLoadingContainer();
-                    console.error('An error has occured while retrieving the list of results');
                 }
             });
         };
@@ -260,9 +261,11 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                         canRequestMoreData = true;
                         checkLoadNext();
                     } else {
-                        // Don't do any more searches when scrolling
+                        // Don't do any more searches when scrolling. We omit items with
+                        // `oae-list-initial` as we are specifically looking for data items rather
+                        // than any kind of initial item that was provided (e.g., a header)
                         canRequestMoreData = false;
-                        if ($('li', $listContainer).length === 0) {
+                        if ($('li:not(.oae-list-initial)', $listContainer).length === 0) {
                             if (options.emptyListProcessor) {
                                 options.emptyListProcessor();
                             }
@@ -306,7 +309,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
          */
         var prependItems = function(items, update) {
             // In case the list was previously empty, we need to remove the "no results" message
-            if ($('li', $listContainer).length === 0) {
+            if ($('li:not(.oae-list-initial)', $listContainer).length === 0) {
                 $listContainer.empty();
             }
 
@@ -336,7 +339,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                         // Otherwise, we check if the list is now an empty list. In that case,
                         // the empty list placeholder is shown
                         } else {
-                            if ($('li', $listContainer).length === 0) {
+                            if ($('li:not(.oae-list-initial)', $listContainer).length === 0) {
                                 if (options.emptyListProcessor) {
                                     options.emptyListProcessor();
                                 }
