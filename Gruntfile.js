@@ -325,7 +325,7 @@ module.exports = function(grunt) {
                         }
                     },
                     {
-                        'from': /(href)="\/(.+?)"/ig,
+                        'from': /(<link.*?href)="\/(.+?)"/ig,
                         'to': function(matchedWord, index, fullText, regexMatches) {
                             return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
                         }
@@ -694,7 +694,7 @@ module.exports = function(grunt) {
         // and give them the proper names so no config changes in Hilary need to occur
         grunt.task.run('copyReleaseArtifacts:' + outputDir);
     });
-    
+
     // Lint tasks (JavaScript only for now, too many errors in css)
     grunt.registerTask('lint', ['jshint' /*, 'csslint' */ ]);
 
@@ -715,7 +715,7 @@ module.exports = function(grunt) {
         grunt.task.run('contrib-qunit');
     });
 
-    // Task to run an individual CasperJS test
+    // Task to start prerequisites for CasperJS tests
     grunt.registerTask('startDependencies', function(path) {
         grunt.task.run('exec:startDependencies');
     });
@@ -728,7 +728,7 @@ module.exports = function(grunt) {
         path = path || grunt.option('path');
 
         if (!path) {
-            return grunt.fail.fatal('Please provide a path to a CasperJS test file. e.g. `grunt test-file --path node_modules/oae-core/preferences/tests/preferences.js`');
+            return grunt.fail.fatal('Please provide a path to a CasperJS test file. e.g. `grunt test-file --path=node_modules/oae-core/preferences/tests/preferences.js`');
         }
 
         grunt.task.run('exec:runCasperTest:' + path);
