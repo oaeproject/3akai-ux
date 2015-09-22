@@ -18,7 +18,7 @@
  */
 
 var argv = require('optimist')
-    .usage('Usage: $0 -k1 <original i18n key name> -k2 <new i18n key name> -f <bundle directory>')
+    .usage('Usage: $0 -f <original i18n key name> -t <new i18n key name> -b <bundle directory>')
 
     .demand('f')
     .alias('f', 'fromI18nKey')

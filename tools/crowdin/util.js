@@ -144,22 +144,22 @@ var addKeyToBundles = exports.addKeyToBundles = function(bundles, i18nEntries, c
  * bundles
  *
  * @param  {Object}     bundles             Object containing parsed bundles in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
- * @param  {String}     sourceKey           The key to rename
- * @param  {String}     destinationKey      The new name for the key
+ * @param  {String}     fromKey             The key to rename
+ * @param  {String}     toKey               The new name for the key
  * @param  {Function}   callback            Standard callback function
  * @param  {Error}      callback.err        Error object
  * @param  {Object}     callback.bundles    Object containing the bundles with the provided key renamed. Returns in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
  */
-var renameKeyInBundles = exports.renameKeyInBundles = function(bundles, sourceKey, destinationKey, callback) {
-    sourceKey = sourceKey.trim();
-    destinationKey = destinationKey.trim();
+var renameKeyInBundles = exports.renameKeyInBundles = function(bundles, fromKey, toKey, callback) {
+    fromKey = fromKey.trim();
+    toKey = toKey.trim();
 
     // Make sure that the destination key isn't already present in the bundles
     // to avoid overwriting an existing key
     var exists = [];
     _.each(bundles, function(bundle, bundlePath) {
         _.each(bundle, function(i18nEntry) {
-            if (i18nEntry.split('=')[0].trim() === destinationKey) {
+            if (i18nEntry.split('=')[0].trim() === toKey) {
                 exists.push(bundlePath);
             }
         });
@@ -176,11 +176,11 @@ var renameKeyInBundles = exports.renameKeyInBundles = function(bundles, sourceKe
         // with the destination name instead
         _.each(bundle, function(i18nEntry) {
             var i18nEntryName = i18nEntry.split('=')[0].trim();
-            if (_.isString(i18nEntry) && i18nEntryName === sourceKey) {
+            if (_.isString(i18nEntry) && i18nEntryName === fromKey) {
                 // Do a `String.replace` because we need to make sure we don't
                 // remove any trimming that may have existed before. This is a
                 // much less aggressive change to the bundles
-                newBundle.push(i18nEntry.replace(sourceKey, destinationKey));
+                newBundle.push(i18nEntry.replace(fromKey, toKey));
             } else {
                 newBundle.push(i18nEntry);
             }
