@@ -28,6 +28,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         host                                The host name of the tenant to create
      * @param  {Object}         [opts]                              Optional arguments
      * @param  {String}         [opts.emailDomain]                  The email domain to assign to the tenant
+     * @param  {String}         [opts.countryCode]                  The ISO-3166-1 Country Code to which the tenant belongs
      * @param  {Function}       [callback]                          Standard callback method
      * @param  {Object}         [callback.err]                      Error object containing error code and error message
      * @param  {Tenant}         [callback.tenant]                   A Tenant object representing the created tenant
@@ -55,6 +56,10 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
         if (opts.emailDomain) {
             data.emailDomain = opts.emailDomain;
+        }
+
+        if (opts.countryCode) {
+            data.countryCode = opts.countryCode;
         }
 
         // Create the tenant
