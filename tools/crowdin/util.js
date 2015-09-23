@@ -140,6 +140,60 @@ var addKeyToBundles = exports.addKeyToBundles = function(bundles, i18nEntries, c
 };
 
 /**
+ * Rename a key from the source key to the destination key in the specified
+ * bundles
+ *
+ * @param  {Object}     bundles             Object containing parsed bundles in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
+ * @param  {String}     fromKey             The key to rename
+ * @param  {String}     toKey               The new name for the key
+ * @param  {Function}   callback            Standard callback function
+ * @param  {Error}      callback.err        Error object
+ * @param  {Object}     callback.bundles    Object containing the bundles with the provided key renamed. Returns in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
+ */
+var renameKeyInBundles = exports.renameKeyInBundles = function(bundles, fromKey, toKey, callback) {
+    fromKey = fromKey.trim();
+    toKey = toKey.trim();
+
+    // Make sure that the destination key isn't already present in the bundles
+    // to avoid overwriting an existing key
+    var exists = [];
+    _.each(bundles, function(bundle, bundlePath) {
+        _.each(bundle, function(i18nEntry) {
+            if (i18nEntry.split('=')[0].trim() === toKey) {
+                exists.push(bundlePath);
+            }
+        });
+    });
+
+    if (exists.length > 0) {
+        return callback(new Error('The key to add is already present in ' + exists))
+    }
+
+    // Rename the entry in the different bundles
+    _.each(bundles, function(bundle, bundlePath) {
+        var newBundle = [];
+        // Loop over every line and, if the key matches the source key, add it
+        // with the destination name instead
+        _.each(bundle, function(i18nEntry) {
+            var i18nEntryName = i18nEntry.split('=')[0].trim();
+            if (_.isString(i18nEntry) && i18nEntryName === fromKey) {
+                // Do a `String.replace` because we need to make sure we don't
+                // remove any trimming that may have existed before. This is a
+                // much less aggressive change to the bundles
+                newBundle.push(i18nEntry.replace(fromKey, toKey));
+            } else {
+                newBundle.push(i18nEntry);
+            }
+        });
+        bundles[bundlePath] = newBundle;
+    });
+
+    sortBundles(bundles, function(bundles) {
+        callback(null, bundles);
+    });
+};
+
+/**
  * Delete a given key from the provided bundles
  *
  * @param  {Object}      bundles             Object containing parsed bundles in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
