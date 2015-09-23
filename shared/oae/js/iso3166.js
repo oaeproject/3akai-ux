@@ -19,8 +19,6 @@
  * list of countries in the iso-3166-2 module:
  *
  *  https://github.com/olahol/iso-3166-2.js
- *
- * @param  {Object}     exports   Properties that are added on this object are exported
  */
 define(['exports'], function(exports) {
     exports.countries = [
@@ -46,7 +44,6 @@ define(['exports'], function(exports) {
         {'name': 'Bermuda', 'code': 'BM', 'icon': '/shared/vendor/img/flags/BM.png'},
         {'name': 'Bhutan', 'code': 'BT', 'icon': '/shared/vendor/img/flags/BT.png'},
         {'name': 'Bolivia', 'code': 'BO', 'icon': '/shared/vendor/img/flags/BO.png'},
-        {'name': 'Bonaire, Sint Eustatius and Saba', 'code': 'BQ', 'icon': '/shared/vendor/img/flags/BQ.png'},
         {'name': 'Bosnia and Herzegovina', 'code': 'BA', 'icon': '/shared/vendor/img/flags/BA.png'},
         {'name': 'Botswana', 'code': 'BW', 'icon': '/shared/vendor/img/flags/BW.png'},
         {'name': 'Brazil', 'code': 'BR', 'icon': '/shared/vendor/img/flags/BR.png'},
@@ -218,7 +215,6 @@ define(['exports'], function(exports) {
         {'name': 'United Arab Emirates', 'code': 'AE', 'icon': '/shared/vendor/img/flags/AE.png'},
         {'name': 'United Kingdom', 'code': 'GB', 'icon': '/shared/vendor/img/flags/GB.png'},
         {'name': 'United States', 'code': 'US', 'icon': '/shared/vendor/img/flags/US.png'},
-        {'name': 'United States Minor Outlying Islands', 'code': 'UM', 'icon': '/shared/vendor/img/flags/UM.png'},
         {'name': 'Uruguay', 'code': 'UY', 'icon': '/shared/vendor/img/flags/UY.png'},
         {'name': 'Uzbekistan', 'code': 'UZ', 'icon': '/shared/vendor/img/flags/UZ.png'},
         {'name': 'Vanuatu', 'code': 'VU', 'icon': '/shared/vendor/img/flags/VU.png'},
