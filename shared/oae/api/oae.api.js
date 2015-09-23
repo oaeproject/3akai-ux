@@ -135,6 +135,20 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                                         // initial widget loading have finished
                                         $('body').css('visibility', 'visible');
 
+                                        // Apply auto-focus after the core HTML widgets have loaded.
+                                        // The rendering will cause HTML5 autofocus to be lost, so
+                                        // we re-inforce it here
+                                        var $focus = $('[autofocus]:first');
+                                        if ($focus.is('input')) {
+                                            // Ensure that, when focussed, the
+                                            // cursor will be positioned at the
+                                            // end of the input content
+                                            var val = $focus.val();
+                                            $focus[0].selectionStart = val.length;
+                                            $focus[0].selectionEnd = val.length;
+                                        }
+                                        $focus.focus();
+
                                         // Initialize websocket push API, unless we're on the
                                         // global admin tenant
                                         if (oae.data.me.tenant.alias !== 'admin') {
