@@ -49,7 +49,6 @@ var _expose = function(exports) {
         {'name': 'Bermuda', 'code': 'BM', 'icon': '/shared/vendor/img/flags/BM.png'},
         {'name': 'Bhutan', 'code': 'BT', 'icon': '/shared/vendor/img/flags/BT.png'},
         {'name': 'Bolivia', 'code': 'BO', 'icon': '/shared/vendor/img/flags/BO.png'},
-        {'name': 'Bonaire, Sint Eustatius and Saba', 'code': 'BQ'},
         {'name': 'Bosnia and Herzegovina', 'code': 'BA', 'icon': '/shared/vendor/img/flags/BA.png'},
         {'name': 'Botswana', 'code': 'BW', 'icon': '/shared/vendor/img/flags/BW.png'},
         {'name': 'Bouvet Island', 'code': 'BV'},
