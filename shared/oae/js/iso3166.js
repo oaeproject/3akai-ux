@@ -20,7 +20,7 @@
  *
  *  https://github.com/olahol/iso-3166-2.js
  */
-define(['exports'], function(exports) {
+var _expose = function(exports) {
     exports.countries = [
         {'name': 'Afghanistan', 'code': 'AF', 'icon': '/shared/vendor/img/flags/AF.png'},
         {'name': 'Åland Islands', 'code': 'AX', 'icon': '/shared/vendor/img/flags/AX.png'},
@@ -271,4 +271,14 @@ define(['exports'], function(exports) {
         {'name': 'Zambia', 'code': 'ZM', 'icon': '/shared/vendor/img/flags/ZM.png'},
         {'name': 'Zimbabwe', 'code': 'ZW', 'icon': '/shared/vendor/img/flags/ZW.png'}
     ];
-});
+};
+
+(function() {
+    if (typeof define !== 'function') {
+        // This gets executed in the backend
+        _expose(module.exports);
+    } else {
+        // This gets executed in the browser
+        define(['exports'], _expose);
+    }
+})();
