@@ -259,6 +259,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
                 'token': token
             },
             'success': function(data) {
+                // Accepting an invitation will set a verified email if there wasn't one already,
+                // so do that here to avoid giving the user a pop-up
+                require('oae.core').data.me.email = require('oae.core').data.me.email || data.email;
+
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {

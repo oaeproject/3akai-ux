@@ -185,8 +185,9 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                 return;
             }
 
-            // Perform any invitation accepting if instructed
-            acceptInvitation(function(resources) {
+            // Perform any invitation accepting if instructed and if possible
+            acceptInvitation(function() {
+
                 // Perform any email verification if instructed before we try and determine if the
                 // user's profile info is valid
                 verifyEmail(function() {
@@ -209,11 +210,14 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
          * Accept the invitation if the query string indicates there is an invitation to be accepted
          *
          * @param  {Function}       callback            Invoked when the accept invitation request is complete
-         * @param  {Resource[]}     callback.resources  Indicates the resources that were accepted. If the request failed, this will be unspecified
          */
         var acceptInvitation = function(callback) {
             var invitationToken = oae.api.util.url().param('invitationToken');
             if (!invitationToken) {
+                return callback();
+            } else if (oae.data.me.needsToAcceptTC) {
+                // Do not attempt to accept an invitation when we still need to
+                // accept the T&C
                 return callback();
             }
 
@@ -233,11 +237,7 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                         return callback();
                     }
 
-                    // Accepting an invitation will set a verified email if there wasn't one already,
-                    // so do that here to avoid giving the user a pop-up
-                    oae.data.me.email = oae.data.me.email || result.email;
-
-                    return callback(result.resources);
+                    return callback();
                 });
             });
         };
