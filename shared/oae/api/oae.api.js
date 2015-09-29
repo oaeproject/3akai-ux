@@ -175,22 +175,21 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
          * and Conditions widget will be triggered.
          */
         var setupPreUseActions = function() {
-            // Anonymous users can be ignored as the don't need to perform any
-            // pre-use actions
-            if (oae.data.me.anon) {
-                return;
-
-            // Global admins don't need to perform any pre-use actions either
-            } else if (oae.data.me.isGlobalAdmin) {
+            // Global admins don't have to perform any pre-use actions
+            if (oae.data.me.isGlobalAdmin) {
                 return;
             }
 
-            // Perform any invitation accepting if instructed and if possible
-            acceptInvitation(function() {
+            // Perform any email verification if instructed before we try and determine if the
+            // user's profile info is valid
+            verifyEmail(function() {
+                // No other pre-use actions are applicable to anonymous users
+                if (oae.data.me.anon) {
+                    return;
+                }
 
-                // Perform any email verification if instructed before we try and determine if the
-                // user's profile info is valid
-                verifyEmail(function() {
+                // Perform any invitation accepting if instructed and if possible
+                acceptInvitation(function() {
                     var needsToProvideDisplayName = !oae.api.util.validation().isValidDisplayName(oae.data.me.displayName);
                     var needsToProvideEmail = !oae.data.me.email;
 
@@ -253,6 +252,10 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
             var emailToken = oae.api.util.url().param('verifyEmail');
             if (!emailToken) {
                 return callback();
+            } else if (oae.data.me.anon) {
+                // If we are anonymous, we have to login first, so refresh with
+                // a redirect url that indicates we should invoke signin
+                return oae.api.util.redirect().login();
             }
 
             var previousEmail = oae.data.me.email;
