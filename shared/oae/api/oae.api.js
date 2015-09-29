@@ -180,18 +180,16 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                 return;
             }
 
-            // Perform any invitation accepting if instructed and if possible
-            acceptInvitation(function() {
+            // Perform any email verification if instructed before we try and determine if the
+            // user's profile info is valid
+            verifyEmail(function() {
+                // No other pre-use actions are applicable to anonymous users
+                if (oae.data.me.anon) {
+                    return;
+                }
 
-                // Perform any email verification if instructed before we try and determine if the
-                // user's profile info is valid
-                verifyEmail(function() {
-                    // Do not make an anonymous user clean up their profile or
-                    // accept T&C
-                    if (oae.data.me.anon) {
-                        return;
-                    }
-
+                // Perform any invitation accepting if instructed and if possible
+                acceptInvitation(function() {
                     var needsToProvideDisplayName = !oae.api.util.validation().isValidDisplayName(oae.data.me.displayName);
                     var needsToProvideEmail = !oae.data.me.email;
 
@@ -213,12 +211,6 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
          * @param  {Function}       callback            Invoked when the accept invitation request is complete
          */
         var acceptInvitation = function(callback) {
-            // We cannot accept an invitation as the anonymous user. Let the
-            // signup page handle it
-            if (oae.data.me.anon) {
-                return callback();
-            }
-
             var invitationToken = oae.api.util.url().param('invitationToken');
             if (!invitationToken) {
                 return callback();
