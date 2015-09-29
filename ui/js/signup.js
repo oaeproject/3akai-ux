@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
+require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso3166) {
 
     var DEFAULT_SIGN_UP_REDIRECT_URL = '/';
 
@@ -342,6 +342,34 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     };
 
     /**
+     * Initialize the signup institution search template
+     */
+    var renderSignUpInstitutionSearch = function() {
+        if (!oae.data.me.tenant.isGuestTenant) {
+            // Don't render institution search at all if we're not on the guest
+            // tenant
+            return;
+        }
+
+        oae.api.util.template().render($('#signup-institution-template'),
+            null, $('#signup-institution-container'));
+
+        oae.api.util.autoSuggest().setup($('#signup-institution-search-field'), {
+            'url': '/api/search/tenants',
+            'formatList': function(data, $el) {
+                console.log(JSON.stringify(data, null, 2));
+                var countryInfo = _.findWhere(iso3166.countries, {'code': data.countryCode});
+                oae.api.util.template().render($('#signup-autosuggest-tenant-template'), {
+                    'tenant': _.extend({}, data, {
+                        'flag': (countryInfo && countryInfo.icon)
+                    })
+                }, $el);
+                return $el;
+            }
+        });
+    }
+
+    /**
      * Initialize the signup options template
      */
     var renderSignUpOptions = function() {
@@ -378,4 +406,5 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     init();
     renderPageTitle();
     renderSignUpOptions();
+    renderSignUpInstitutionSearch();
 });

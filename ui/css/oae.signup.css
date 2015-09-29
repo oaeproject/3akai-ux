@@ -28,6 +28,56 @@ main > h3 {
     padding-bottom: 10px;
 }
 
+/**************************
+ ** INSTITUTIONAL SEARCH **
+ **************************/
+
+/** Layout **/
+
+#signup-institution {
+    background-color: #F5F5F5;
+    border: solid 1px #DADADA;
+    border-radius: 3px;
+    display: -webkit-flex;
+    display:  -ms-flexbox;
+    display:         flex;
+    padding: 50px;
+    margin: 20px;
+}
+
+#signup-institution-instruction {
+    margin-right: 50px;
+    width: 400px;
+}
+
+#signup-institution-instruction > h4 {
+    margin: 0;
+}
+
+#signup-institution-search {
+    width: 100%;
+}
+
+#signup-institution-search > label {
+    width: 100%;
+}
+
+#signup-institution-search > label > span {
+    display: block;
+}
+
+/** Suggestion items **/
+
+
+
+#signup-institution .signup-tenant-item {
+    display: table;
+}
+
+#signup-institution .signup-tenant-item > div.signup-tenant-flag {
+
+}
+
 /******************************
  ** SIGNUP OPTIONS CONTAINER **
  ******************************/

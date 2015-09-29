@@ -28,6 +28,22 @@
                 ${title}
             --></div>
 
+            <div id="signup-institution-container"><!-- --></div>
+            <div id="signup-institution-template"><!--
+                <div id="signup-institution">
+                    <div id="signup-institution-instruction">
+                        <h4>Already at an institution?</h4>
+                        <div>Choose your instution and sign in with the same details you use there.</div>
+                    </div>
+                    <div id="signup-institution-search">
+                        <label for="signup-institution-search-field">
+                            <span>Type and select your institution</span>
+                            <input id="signup-institution-search-field" type="text" placeholder="e.g., University of Cambridge" />
+                        </label>
+                    </div>
+                </div>
+            --></div>
+
             <div id="signup-options-container"><!-- --></div>
             <div id="signup-options-template"><!--
                 {if authStrategyInfo.hasExternalAuth}
@@ -155,6 +171,19 @@
                         </div>
                     </div>
                 {/if}
+            --></div>
+
+            <div id="signup-autosuggest-tenant-template"><!--
+                <div class="signup-tenant-item">
+                    <div class="signup-tenant-flag">
+                        {if tenant.flag}
+                            <img src="${tenant.flag|encodeForHTMLAttribute}" />
+                        {/if}
+                    </div>
+                    <div class="signup-tenant-name">
+                        ${tenant.displayName}
+                    </div>
+                </div>
             --></div>
         </main>
 
