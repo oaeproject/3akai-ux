@@ -175,13 +175,8 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
          * and Conditions widget will be triggered.
          */
         var setupPreUseActions = function() {
-            // Anonymous users can be ignored as the don't need to perform any
-            // pre-use actions
-            if (oae.data.me.anon) {
-                return;
-
-            // Global admins don't need to perform any pre-use actions either
-            } else if (oae.data.me.isGlobalAdmin) {
+            // Global admins don't have to perform any pre-use actions
+            if (oae.data.me.isGlobalAdmin) {
                 return;
             }
 
@@ -191,6 +186,12 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                 // Perform any email verification if instructed before we try and determine if the
                 // user's profile info is valid
                 verifyEmail(function() {
+                    // Do not make an anonymous user clean up their profile or
+                    // accept T&C
+                    if (oae.data.me.anon) {
+                        return;
+                    }
+
                     var needsToProvideDisplayName = !oae.api.util.validation().isValidDisplayName(oae.data.me.displayName);
                     var needsToProvideEmail = !oae.data.me.email;
 
@@ -212,6 +213,12 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
          * @param  {Function}       callback            Invoked when the accept invitation request is complete
          */
         var acceptInvitation = function(callback) {
+            // We cannot accept an invitation as the anonymous user. Let the
+            // signup page handle it
+            if (oae.data.me.anon) {
+                return callback();
+            }
+
             var invitationToken = oae.api.util.url().param('invitationToken');
             if (!invitationToken) {
                 return callback();
@@ -253,6 +260,10 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
             var emailToken = oae.api.util.url().param('verifyEmail');
             if (!emailToken) {
                 return callback();
+            } else if (oae.data.me.anon) {
+                // If we are anonymous, we have to login first, so refresh with
+                // a redirect url that indicates we should invoke signin
+                return oae.api.util.redirect().login();
             }
 
             var previousEmail = oae.data.me.email;
