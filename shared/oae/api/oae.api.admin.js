@@ -79,14 +79,18 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Get a tenant by alias
      *
-     * @param  {String}      alias              The alias of the tenant to get
+     * @param  {String}      [alias]            The alias of the tenant to get, if falsy the current tenant will be returned
      * @param  {Function}    callback           Standard callback method
      * @param  {Object}      callback.err       Error object containing error code and error message
      * @param  {Tenant}      callback.tenant    The requested tenant
      */
     var getTenant = exports.getTenant = function(alias, callback) {
+        var url = '/api/tenant';
+        if (alias) {
+            url += '/' + alias;
+        }
         $.ajax({
-            'url': '/api/tenant/' + alias,
+            'url': url,
             'type': 'GET',
             'success': function(data) {
                 callback(null, data);

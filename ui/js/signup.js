@@ -36,6 +36,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     // Variable that specifies if the terms and conditions are enabled
     var termsAndConditionsEnabled = oae.api.config.getValue('oae-principals', 'termsAndConditions', 'enabled');
 
+    // Variable that will hold the regular expression that can be used to validate the email domain
+    var emailDomain = null;
+
     /**
      * Convenience function to get the desired redirect URL after signup
      *
@@ -199,6 +202,13 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             return;
         }
 
+        // Get the email domain for the tenant (if any) so we can validate the email
+        oae.api.admin.getTenant(null, function(err, tenant) {
+            if (!err && tenant.emailDomain) {
+                emailDomain = new RegExp(tenant.emailDomain + '$');
+            }
+        });
+
         // Don't run recaptcha if the tenant doesn't have it enabled or if local auth is disabled,
         // but also don't require recaptcha if an invitation token is provided, as it will validate
         // user account creation on its own
@@ -239,6 +249,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 },
                 'password_repeat': {
                     'equalTo': '#signup-createaccount-password'
+                },
+                'email': {
+                    'emaildomain': true
                 }
             },
             'messages': {
@@ -291,6 +304,18 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                         return response;
                     },
                     'text': oae.api.i18n.translate('__MSG__THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN__')
+                },
+                'emaildomain': {
+                    'method': function(value, element) {
+                        // Not all tenants have an email domain
+                        if (!emailDomain) {
+                            return true;
+                        }
+
+                        // Verify the entered email address matches the configured email domain
+                        return (emailDomain.test(value));
+                    },
+                    'text': oae.api.i18n.translate('__MSG__THIS_EMAIL_DOMAIN_IS_NOT_ALLOWED__')
                 }
             },
             'submitHandler': createUser
