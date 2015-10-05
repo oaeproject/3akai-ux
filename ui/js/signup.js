@@ -357,7 +357,6 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
         oae.api.util.autoSuggest().setup($('#signup-institution-search-field'), {
             'url': '/api/search/tenants',
             'formatList': function(data, $el) {
-                console.log(JSON.stringify(data, null, 2));
                 var countryInfo = _.findWhere(iso3166.countries, {'code': data.countryCode});
                 oae.api.util.template().render($('#signup-autosuggest-tenant-template'), {
                     'tenant': _.extend({}, data, {
@@ -365,6 +364,17 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
                     })
                 }, $el);
                 return $el;
+            },
+            'selectionAdded': function(el) {
+                var tenant = $(el).data().originalData;
+                var $selections = $('#signup-institution-search ul.as-selections');
+
+                $selections.addClass('signup-institution-search-loading');
+                $selections.html(oae.api.util.template().render($('#signup-autosuggest-redirecting-template'), {
+                    'tenant': tenant
+                }));
+
+                oae.api.util.redirect().tenant(tenant);
             }
         });
     }

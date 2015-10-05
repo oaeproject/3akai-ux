@@ -1628,6 +1628,17 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
     var redirect = exports.redirect = function() {
 
         /**
+         * Redirect the current user to the same page on the specified tenant
+         *
+         * @param  {Tenant}     tenant  The tenant to which to redirect the user
+         */
+        var tenant = function(tenant) {
+            var relative = url().attr('relative');
+            var target = window.location.protocol + '//' + tenant.host + relative;
+            window.location = target;
+        };
+
+        /**
          * Redirect the currently logged in user to the landing/login page. This can be used when an anonymous user tries to access
          * a page that requires login.
          */
@@ -1679,6 +1690,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
         };
 
         return {
+            'tenant': tenant,
             'login': login,
             'home': home,
             'accessdenied': accessdenied,

@@ -68,14 +68,51 @@ main > h3 {
 
 /** Suggestion items **/
 
-
-
-#signup-institution .signup-tenant-item {
-    display: table;
+#signup-institution-search ul.as-selections.signup-institution-search-loading {
+    background-color: #EFEFEF;
 }
 
-#signup-institution .signup-tenant-item > div.signup-tenant-flag {
+#signup-institution-search ul.as-selections.signup-institution-search-loading > li > i {
+    line-height: 35px;
+    margin: 0 5px;
+    vertical-align: middle;
+}
 
+#signup-institution-search .as-selection-item {
+    display: none;
+}
+
+#signup-institution-search .as-results {
+    position: relative;
+}
+
+#signup-institution-search ul.as-list {
+    width: 100% !important;
+}
+
+#signup-institution-search ul.as-list li.as-result-item {
+    /* Replace padding with table border spacing */
+    padding: 0;
+}
+
+#signup-institution-search .signup-tenant-item {
+    border-spacing: 10px;
+    display: table;
+    width: 100%;
+}
+
+#signup-institution-search .signup-tenant-item > .signup-tenant-item-inner {
+    display: table-row;
+}
+
+#signup-institution-search .signup-tenant-item > .signup-tenant-item-inner > div {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#signup-institution-search .signup-tenant-flag {
+    text-align: center;
+    width: 60px;
 }
 
 /******************************

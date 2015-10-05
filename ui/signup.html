@@ -175,15 +175,25 @@
 
             <div id="signup-autosuggest-tenant-template"><!--
                 <div class="signup-tenant-item">
-                    <div class="signup-tenant-flag">
-                        {if tenant.flag}
-                            <img src="${tenant.flag|encodeForHTMLAttribute}" />
-                        {/if}
-                    </div>
-                    <div class="signup-tenant-name">
-                        ${tenant.displayName}
+                    <div class="signup-tenant-item-inner">
+                        <div class="signup-tenant-flag">
+                            {if tenant.flag}
+                                <img src="${tenant.flag|encodeForHTMLAttribute}" />
+                            {/if}
+                        </div>
+                        <div class="signup-tenant-name">
+                            ${tenant.displayName}
+                        </div>
                     </div>
                 </div>
+            --></div>
+
+            <div id="signup-autosuggest-redirecting-template"><!--
+                {var displayName = tenant.displayName}
+                <li>
+                    <i class="fa fa-spinner fa-spin"></i>
+                    <span>__MSG__REDIRECTING_TO_TENANT__</span>
+                </li>
             --></div>
         </main>
 
