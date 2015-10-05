@@ -60,7 +60,7 @@
                         <h4>__MSG__CREATE_A_NEW_ACCOUNT_COLON__</h4>
                         <form id="signup-createaccount-form" class="form-horizontal" role="form">
                             {if invitationInfo.email}
-                                <input type="hidden" id="signup-createaccount-email" name="email" class="form-control required email maxlength-short" value="${invitationInfo.email|encodeForHTMLAttribute}" />
+                                <input type="hidden" id="signup-createaccount-email" name="email" class="form-control required email maxlength-short emaildomain" value="${invitationInfo.email|encodeForHTMLAttribute}" />
                             {/if}
                             {if invitationInfo.token}
                                 <input type="hidden" id="signup-createaccount-invitationtoken" name="invitationToken" class="form-control" value="${invitationInfo.invitationToken|encodeForHTMLAttribute}" />
@@ -82,7 +82,7 @@
                                 <div class="form-group">
                                     <label class="col-md-5 control-label" for="signup-createaccount-email">__MSG__EMAIL_COLON__</label>
                                     <div class="col-md-7">
-                                        <input type="text" id="signup-createaccount-email" name="email" autocapitalize="off" class="form-control required email maxlength-short" placeholder="__MSG__YOUR_EMAIL_ADDRESS__" />
+                                        <input type="text" id="signup-createaccount-email" name="email" autocapitalize="off" class="form-control required email maxlength-short emaildomain" placeholder="__MSG__YOUR_EMAIL_ADDRESS__" />
                                     </div>
                                 </div>
                             {/if}

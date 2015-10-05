@@ -202,13 +202,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             return;
         }
 
-        // Get the email domain for the tenant (if any) so we can validate the email
-        oae.api.admin.getTenant(null, function(err, tenant) {
-            if (!err && tenant.emailDomain) {
-                emailDomain = new RegExp(tenant.emailDomain + '$');
-            }
-        });
-
         // Don't run recaptcha if the tenant doesn't have it enabled or if local auth is disabled,
         // but also don't require recaptcha if an invitation token is provided, as it will validate
         // user account creation on its own
@@ -249,9 +242,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 },
                 'password_repeat': {
                     'equalTo': '#signup-createaccount-password'
-                },
-                'email': {
-                    'emaildomain': true
                 }
             },
             'messages': {
@@ -307,15 +297,26 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 },
                 'emaildomain': {
                     'method': function(value, element) {
-                        // Not all tenants have an email domain
-                        if (!emailDomain) {
+                        var configuredEmailDomain = oae.data.me.tenant.emailDomain;
+
+                        // If the tenant has not been configured with an email domain, any email address
+                        // can be used to sign up
+                        if (!configuredEmailDomain) {
                             return true;
                         }
 
+                        // Only accept email addresses that are either an exact match or who have the
+                        // configured email domain as the suffix
+                        var enteredEmailDomain = value.split('@')[1];
+                        var exactMatch = (enteredEmailDomain === configuredEmailDomain);
+                        var emailDomainSuffix = '.' + configuredEmailDomain;
+                        var suffixPosition = enteredEmailDomain.indexOf(emailDomainSuffix);
+                        var suffixMatch = (suffixPosition > 0 && suffixPosition === (enteredEmailDomain.length - emailDomainSuffix.length));
+
                         // Verify the entered email address matches the configured email domain
-                        return (emailDomain.test(value));
+                        return (exactMatch || suffixMatch);
                     },
-                    'text': oae.api.i18n.translate('__MSG__THIS_EMAIL_DOMAIN_IS_NOT_ALLOWED__')
+                    'text': oae.api.i18n.translate('__MSG__YOU_CAN_ONLY_REGISTER_WITH_AN_EMAIL_ADDRESS_ENDING_IN_EMAIL_DOMAIN__', null, {'emailDomain': oae.data.me.tenant.emailDomain})
                 }
             },
             'submitHandler': createUser
