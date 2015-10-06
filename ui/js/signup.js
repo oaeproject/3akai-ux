@@ -360,20 +360,27 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
                 var countryInfo = _.findWhere(iso3166.countries, {'code': data.countryCode});
                 oae.api.util.template().render($('#signup-autosuggest-tenant-template'), {
                     'tenant': _.extend({}, data, {
-                        'flag': (countryInfo && countryInfo.icon)
+                        'countryName': (countryInfo && countryInfo.name),
+                        'countryFlag': (countryInfo && countryInfo.icon)
                     })
                 }, $el);
                 return $el;
             },
             'selectionAdded': function(el) {
+                // When a selection is added by choosing a tenant, we don't add
+                // an item to the auto-suggest selection, instead we redirect
+                // to the equivalent page on that tenant
                 var tenant = $(el).data().originalData;
                 var $selections = $('#signup-institution-search ul.as-selections');
 
+                // Indicate that we are "loading" the selection (i.e., waiting
+                // for redirection request)
                 $selections.addClass('signup-institution-search-loading');
                 $selections.html(oae.api.util.template().render($('#signup-autosuggest-redirecting-template'), {
                     'tenant': tenant
                 }));
 
+                // Perform the actual redirection
                 oae.api.util.redirect().tenant(tenant);
             }
         });

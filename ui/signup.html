@@ -34,13 +34,13 @@
             <div id="signup-institution-template"><!--
                 <div id="signup-institution">
                     <div id="signup-institution-instruction">
-                        <h4>Already at an institution?</h4>
-                        <div>Choose your instution and sign in with the same details you use there.</div>
+                        <h4>__MSG__ALREADY_AT_AN_INSTITUTION__</h4>
+                        <div>__MSG__ALREADY_AT_AN_INSTITUTION_INSTRUCTION__</div>
                     </div>
                     <div id="signup-institution-search">
                         <label for="signup-institution-search-field">
-                            <h4>Type and select your institution</h4>
-                            <input id="signup-institution-search-field" type="text" placeholder="e.g., University of Cambridge" />
+                            <h4>__MSG__TYPE_AND_SELECT_YOUR_INSTITUTION__</h4>
+                            <input id="signup-institution-search-field" type="text" placeholder="__MSG__E_G_UNIVERSITY_OF_CAMBRIDGE__" />
                         </label>
                     </div>
                 </div>
@@ -50,8 +50,8 @@
                 <div id="signup-options">
                     {if oae.data.me.tenant.isGuestTenant}
                         <div id="signup-options-instruction">
-                            <h4>Can't find your institution?</h4>
-                            <div>Sign up for an account using one of the following methods.</div>
+                            <h4>__MSG__CANNOT_FIND_YOUR_INSTITUTION__</h4>
+                            <div>__MSG__CANNOT_FIND_YOUR_INSTITUTION_INSTRUCTION__</div>
                         </div>
                     {/if}
 
@@ -187,8 +187,8 @@
                 <div class="signup-tenant-item">
                     <div class="signup-tenant-item-inner">
                         <div class="signup-tenant-flag">
-                            {if tenant.flag}
-                                <img src="${tenant.flag|encodeForHTMLAttribute}" />
+                            {if tenant.countryFlag}
+                                <img src="${tenant.countryFlag|encodeForHTMLAttribute}" alt="${tenant.countryName|encodeForHTMLAttribute}"/>
                             {/if}
                         </div>
                         <div class="signup-tenant-name">

@@ -87,10 +87,6 @@ main h4 {
     width: 100%;
 }
 
-#signup-institution-search > label > span {
-    display: block;
-}
-
 /** Suggestion items **/
 
 #signup-institution-search ul.as-selections.signup-institution-search-loading {
