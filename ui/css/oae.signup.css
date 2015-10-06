@@ -19,6 +19,14 @@ main > h3 {
     margin-right: 20px
 }
 
+main h4 {
+    color: #888;
+    font-size: 15px;
+    font-weight: normal;
+    margin: 0 0 5px 0;
+    text-align: left;
+}
+
 /***********
  ** TITLE **
  ***********/
@@ -28,33 +36,50 @@ main > h3 {
     padding-bottom: 10px;
 }
 
+#signup-institution-container,
+#signup-options-container {
+    margin: 0 20px;
+    padding: 40px;
+}
+
+#signup-institution,
+#signup-options {
+    margin: auto;
+    max-width: 992px;
+}
+
+
 /**************************
  ** INSTITUTIONAL SEARCH **
  **************************/
 
 /** Layout **/
 
+#signup-institution-container {
+    border-bottom: solid 1px #DADADA;
+    display: none;
+}
+
 #signup-institution {
-    background-color: #F5F5F5;
-    border: solid 1px #DADADA;
-    border-radius: 3px;
     display: -webkit-flex;
     display:  -ms-flexbox;
     display:         flex;
-    padding: 50px;
-    margin: 20px;
+}
+
+#signup-institution > div {
+    /* IE10 defaults to 1 0 auto, so set this */
+    -ms-flex: 0 1 auto;
 }
 
 #signup-institution-instruction {
     margin-right: 50px;
-    width: 400px;
-}
-
-#signup-institution-instruction > h4 {
-    margin: 0;
+    min-width: 250px;
 }
 
 #signup-institution-search {
+    /* This `min-width` is needed to ensure the item doesn't expand beyond the
+       bounds of its parent when the tenant name is extremely long */
+    min-width: 0;
     width: 100%;
 }
 
@@ -72,10 +97,20 @@ main > h3 {
     background-color: #EFEFEF;
 }
 
-#signup-institution-search ul.as-selections.signup-institution-search-loading > li > i {
+#signup-institution-search ul.as-selections.signup-institution-search-loading > li {
     line-height: 35px;
-    margin: 0 5px;
-    vertical-align: middle;
+    width: 100%;
+}
+
+#signup-institution-search ul.as-selections.signup-institution-search-loading > li > i {
+    display: block;
+    float: left;
+    line-height: 35px;
+    margin: -35px 10px 0 10px;
+}
+
+#signup-institution-search ul.as-selections.signup-institution-search-loading > li > div {
+    padding-left: 40px;
 }
 
 #signup-institution-search .as-selection-item {
@@ -119,34 +154,28 @@ main > h3 {
  ** SIGNUP OPTIONS CONTAINER **
  ******************************/
 
-#signup-options-container {
+#signup-options {
     display: -webkit-flex;
     display:  -ms-flexbox;
     display:         flex;
-    -webkit-justify-content: center;
-              -ms-flex-pack: center;
-            justify-content: center;
-    margin: 50px auto;
+    -webkit-justify-content: space-between;
+              -ms-flex-pack: justify;
+            justify-content: space-between;
 }
 
-/* Fluid space between sign up options */
-#signup-options-container > div {
-    margin-right: 5%;
-}
-
-/* Don't give a right-margin to the last item since there is container padding */
-#signup-options-container > div:last-child {
-    margin-right: 0;
-}
-
-/* Headers for individual signup option sections (i.e., external auth or create account) */
-#signup-options-container h4 {
-    color: #888;
-    font-size: 15px;
-    font-weight: normal;
+#signup-options h4 {
     margin-bottom: 35px;
-    margin-top: 0;
-    text-align: left;
+}
+
+#signup-options-external,
+#signup-options-divider-vertical {
+    margin-right: 15px;
+}
+
+#signup-options-local:only-child,
+#signup-options-external:only-child {
+    margin-right: auto;
+    margin-left: auto;
 }
 
 /****************************
@@ -162,7 +191,11 @@ main > h3 {
 }
 
 #signup-options-external > ul.nav > li {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+#signup-options-external > ul.nav > li .btn-external-auth {
+    padding: 10px 20px;
 }
 
 /*************************************
@@ -221,7 +254,11 @@ main > h3 {
  *************************/
 
 #signup-options-local {
-    min-width: 500px;
+    min-width: 460px;
+}
+
+#signup-options-instruction {
+    display: none;
 }
 
 #signup-createaccount-username-available {
@@ -285,8 +322,16 @@ main > h3 {
 }
 
 @media (max-width: 991px) {
-    #signup-options-container > div {
-        margin-right: 10%;
+
+    #signup-institution-container,
+    #signup-options-container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    #signup-institution,
+    #signup-options {
+        max-width: 768px;
     }
 
     #signup-options-local {
@@ -301,23 +346,51 @@ main > h3 {
 @media (max-width: 767px) {
 
     /* Switch to vertical stacking at <768px width */
+    #signup-institution-container,
     #signup-options-container {
+        padding: 0;
+    }
+
+    #signup-institution,
+    #signup-options {
         -webkit-flex-direction: column;
             -ms-flex-direction: column;
                 flex-direction: column;
-        margin: 25px auto;
-        max-width: 400px
+        margin: 25px 0;
     }
 
-    #signup-options-container > div,
-    #signup-options-container > div:last-child {
-        margin-left: 20px;
-        margin-right: 20px;
+    #signup-institution,
+    #signup-institution-instruction,
+    #signup-options-instruction,
+    #signup-options-external,
+    #signup-options-local {
+        max-width: 400px;
+        width: 100%;
     }
 
-    #signup-options-container h4 {
-        margin-bottom: 15px;
-        text-align: center;
+    #signup-institution,
+    #signup-options-instruction,
+    #signup-options-external,
+    #signup-options-local {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #signup-institution-instruction {
+        margin: 0 0 10px 0;
+    }
+
+    #signup-institution-search h4 {
+        display: none;
+    }
+
+    #signup-options h4 {
+        margin: 0 0 5px 0;
+    }
+
+    #signup-options-instruction {
+        display: block;
+        margin-bottom: 30px;
     }
 
     #signup-options-external {
@@ -338,6 +411,7 @@ main > h3 {
 
     #signup-options-divider-horizontal {
         display: block;
+        width: 100%;
     }
 
     #signup-options-local {
@@ -373,17 +447,29 @@ main > h3 {
 
 /* IE9 Support */
 
-.ie-lt10 #signup-options-container {
+.ie-lt10 #signup-institution-search h4 {
+    display: none;
+}
+
+.ie-lt10 #signup-institution-instruction {
+    margin-bottom: 5px;
+}
+
+.ie-lt10 #signup-options {
     height: 100%;
-    margin: 30px 0 30px 10%;
 }
 
-.ie-lt10 #signup-options-container > div {
-    margin-right: 8%;
+.ie-lt10 #signup-options-external,
+.ie-lt10 #signup-options-divider-vertical {
+    margin-right: 10%;
 }
 
-.ie-lt10 #signup-options-container > div:last-child {
-    margin-right: 0;
+.ie-lt10 #signup-options-external:only-child {
+    margin-right: auto;
+}
+
+.ie-lt10 #signup-options-instruction {
+    margin-bottom: 15px;
 }
 
 .ie-lt10 #signup-options-external {
@@ -406,8 +492,18 @@ main > h3 {
 
 .ie-lt10 #signup-options-local {
     float: left;
-    min-width: auto;
+    min-width: 350px;
     width: 44%;
+}
+
+.ie-lt10 #signup-options-local:only-child,
+.ie-lt10 #signup-options-external:only-child {
+    float: none;
+}
+
+.ie-lt10 #signup-options-local:only-child {
+    min-width: auto;
+    width: 325px;
 }
 
 .ie-lt10 #signup-createaccount-form {
@@ -415,34 +511,35 @@ main > h3 {
 }
 
 @media (max-width: 991px) {
-    .ie-lt10 #signup-options-container {
-        margin: 30px 0;
-        padding: 0 30px;
+    .ie-lt10 #signup-options {
         width: 100%;
     }
 
-    .ie-lt10 #signup-options-container > div {
-        margin-right: 5%;
+    .ie-lt10 #signup-options-external,
+    .ie-lt10 #signup-options-divider-vertical {
+        margin-right: 6%;
     }
 
-    .ie-lt10 #signup-options-container > div:last-child {
-        margin-right: 0;
+    .ie-lt10 #signup-options-external:only-child {
+        margin-right: auto;
     }
 
     .ie-lt10 #signup-options-local {
+        min-width: 300px;
         width: auto;
     }
 }
 
 @media (max-width: 767px) {
-    .ie-lt10 #signup-options-container {
+    .ie-lt10 #signup-options,
+    .ie-lt10 #signup-options > div,
+    .ie-lt10 #signup-options > div:last-child {
+        float: none;
         margin-left: auto;
         margin-right: auto;
     }
 
-    .ie-lt10 #signup-options-container > div,
-    .ie-lt10 #signup-options-container > div:last-child {
-        float: none;
-        margin: 0 auto;
+    .ie-lt10 #signup-options-local {
+        min-width: auto;
     }
 }

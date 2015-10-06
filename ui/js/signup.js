@@ -377,6 +377,8 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
                 oae.api.util.redirect().tenant(tenant);
             }
         });
+
+        $('#signup-institution-container').show();
     }
 
     /**
