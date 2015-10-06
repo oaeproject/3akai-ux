@@ -21,6 +21,7 @@
  *        on raw strings
  *      - Fixed boolean bug in `opts.showResultListWhenNoMatch`. Previously, it would show the
  *        results pane when there was no results. Now, it does not render it at all.
+ *      - Trim search query before performing a search
  *
  *
  * Forked by Wu Yuntao
@@ -92,6 +93,7 @@
         var request = null;
         if(typeof data == "string" || typeof data == "function") {
             d_fetcher = function(query, next) {
+                query = $.trim(query);
                 var baseUrl = (typeof data == "string") ? data : data(query);
                 var limit = "";
                 if(opts.retrieveLimit){
