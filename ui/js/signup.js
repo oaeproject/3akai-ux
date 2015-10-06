@@ -36,9 +36,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     // Variable that specifies if the terms and conditions are enabled
     var termsAndConditionsEnabled = oae.api.config.getValue('oae-principals', 'termsAndConditions', 'enabled');
 
-    // Variable that will hold the regular expression that can be used to validate the email domain
-    var emailDomain = null;
-
     /**
      * Convenience function to get the desired redirect URL after signup
      *
@@ -307,7 +304,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
                         // Only accept email addresses that are either an exact match or who have the
                         // configured email domain as the suffix
-                        var enteredEmailDomain = value.split('@')[1];
+                        var enteredEmailDomain = value.split('@').pop();
                         var exactMatch = (enteredEmailDomain === configuredEmailDomain);
                         var emailDomainSuffix = '.' + configuredEmailDomain;
                         var suffixPosition = enteredEmailDomain.indexOf(emailDomainSuffix);
