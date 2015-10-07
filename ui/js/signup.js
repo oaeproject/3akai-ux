@@ -291,6 +291,29 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                         return response;
                     },
                     'text': oae.api.i18n.translate('__MSG__THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN__')
+                },
+                'emaildomain': {
+                    'method': function(value, element) {
+                        var configuredEmailDomain = oae.data.me.tenant.emailDomain;
+
+                        // If the tenant has not been configured with an email domain, any email address
+                        // can be used to sign up
+                        if (!configuredEmailDomain) {
+                            return true;
+                        }
+
+                        // Only accept email addresses that are either an exact match or who have the
+                        // configured email domain as the suffix
+                        var enteredEmailDomain = value.split('@').pop();
+                        var exactMatch = (enteredEmailDomain === configuredEmailDomain);
+                        var emailDomainSuffix = '.' + configuredEmailDomain;
+                        var suffixPosition = enteredEmailDomain.indexOf(emailDomainSuffix);
+                        var suffixMatch = (suffixPosition > 0 && suffixPosition === (enteredEmailDomain.length - emailDomainSuffix.length));
+
+                        // Verify the entered email address matches the configured email domain
+                        return (exactMatch || suffixMatch);
+                    },
+                    'text': oae.api.i18n.translate('__MSG__YOU_CAN_ONLY_REGISTER_WITH_AN_EMAIL_ADDRESS_ENDING_IN_EMAIL_DOMAIN__', null, {'emailDomain': oae.data.me.tenant.emailDomain})
                 }
             },
             'submitHandler': createUser
