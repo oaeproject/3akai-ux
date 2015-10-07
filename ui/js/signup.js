@@ -302,7 +302,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                             return true;
                         }
 
-                        // Only accept email addresses that are either an exact match or who have the
+                        // Only accept email addresses that are either an exact match or have the
                         // configured email domain as the suffix
                         var enteredEmailDomain = value.split('@').pop();
                         var exactMatch = (enteredEmailDomain === configuredEmailDomain);
@@ -313,7 +313,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                         // Verify the entered email address matches the configured email domain
                         return (exactMatch || suffixMatch);
                     },
-                    'text': oae.api.i18n.translate('__MSG__YOU_CAN_ONLY_REGISTER_WITH_AN_EMAIL_ADDRESS_ENDING_IN_EMAIL_DOMAIN__', null, {'emailDomain': oae.data.me.tenant.emailDomain})
+                    'text': oae.api.i18n.translate('__MSG__YOU_CAN_ONLY_REGISTER_WITH_A_TENANT_EMAIL_ADDRESS__', null, {'emailDomain': oae.data.me.tenant.emailDomain})
                 }
             },
             'submitHandler': createUser
