@@ -866,6 +866,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             'neverSubmit': true,
             'retrieveLimit': 10,
             'url': '/api/search/general',
+            'usePlaceholder': true,
             'scroll': 190,
             'searchObjProps': 'id, displayName',
             'selectedItemProp': 'displayName',
@@ -1634,7 +1635,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          */
         var tenant = function(tenant) {
             var relative = url().attr('relative');
-            var target = window.location.protocol + '//' + tenant.host + relative;
+            var target = '//' + tenant.host + relative;
             window.location = target;
         };
 

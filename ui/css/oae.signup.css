@@ -14,7 +14,7 @@
  */
 
 main > h3 {
-    border-bottom: 1px #EEE solid;
+    border-bottom: 1px #DADADA solid;
     margin-left: 20px;
     margin-right: 20px
 }
@@ -110,6 +110,8 @@ main h4 {
 }
 
 #signup-institution-search .as-selection-item {
+    /* Hide the selection pill item since items that are selected won't show
+       this way. Instead, we will redirect them to the chosen tenant */
     display: none;
 }
 
@@ -143,7 +145,7 @@ main h4 {
 
 #signup-institution-search .signup-tenant-flag {
     text-align: center;
-    width: 60px;
+    width: 40px;
 }
 
 /******************************
@@ -198,10 +200,15 @@ main h4 {
  ** SIGNUP OPTIONS VERTICAL DIVIDER **
  *************************************/
 
+#signup-options div.oae-hr > span:before,
+#signup-options div.oae-hr > span:after {
+    background-color: #DFDFDF;
+}
+
 /* Use flexbox for the inner divider construction so we can get a full fluid-height divider for
    wide screens */
 #signup-options-divider-vertical {
-    border-left: solid 1px #CCC;
+    border-left: solid 1px #DFDFDF;
     position: relative;
 
     /* For the outer container, we only need the border, so any inner width will only uncenter it */
@@ -223,7 +230,7 @@ main h4 {
 }
 
 #signup-options-divider-vertical > div > i.fa.fa-circle:before {
-    color: #CCC;
+    color: #DFDFDF;
     display: inline-block;
     font-size: 50px;
     margin-top: 5px;
@@ -415,8 +422,7 @@ main h4 {
     }
 
     #signup-createaccount-form {
-        margin: 0 auto;
-        width: 300px
+        margin: 15px 0 0 0;
     }
 }
 
