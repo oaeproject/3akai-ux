@@ -359,6 +359,23 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
     };
 
     /**
+     * Enable or disable the signup options by enabling/disabling the elements
+     * and using transparency
+     *
+     * @param  {Boolean}    enable  Whether to enable or disable the signup options
+     */
+    var toggleSignupOptions = function(enable) {
+        var $signupOptions = $('#signup-options');
+        if (enable) {
+            $signupOptions.css('opacity', '1');
+            $signupOptions.find('*').prop('disabled', false);
+        } else {
+            $signupOptions.css('opacity', '0.3');
+            $signupOptions.find('*').prop('disabled', true);
+        }
+    };
+
+    /**
      * Initialize the signup institution search template
      */
     var renderSignUpInstitutionSearch = function() {
@@ -404,24 +421,27 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
                 $('#signup-institution-search ul.as-selections .as-values').val('');
                 $('#signup-institution-search ul.as-selections .as-input').val(tenant.query);
 
-                // Toggle the template into selected mode and mask the signup
+                // Toggle the template into selected mode and disable the signup
                 // options
                 $selections.addClass('signup-institution-search-selected');
-                $('#signup-options-mask').show();
+                toggleSignupOptions(false);
+
+                $('#signup-as-go > button').focus();
             }
         }, null, function() {
             // Add the action items to the autosuggest field
             var actionItems = oae.api.util.template().render($('#signup-as-actions-template'));
             $('#signup-institution-search ul.as-selections').append(actionItems);
 
-            // When the selected item is clicked, it cancels the selection and
-            // re-reveals the signup options
-            $('#signup-as-selection').click(function() {
+            // When the selected item is clicked or typed over, it cancels the
+            // selection and re-reveals the signup options
+            $('#signup-as-selection').on('click keypress', function() {
                 $('#signup-institution-search ul.as-selections').removeClass('signup-institution-search-selected');
-                $('#signup-options-mask').hide();
+                $('#signup-institution-search ul.as-selections .as-input').focus();
+                toggleSignupOptions(true);
             });
 
-            // When the "Go" button is clicked, go to the equivalent page of the
+            // When the "Go" button is pressed, go to the equivalent page of the
             // selected tenant
             $('#signup-as-go > button').click(function() {
                 oae.api.util.redirect().tenant($('#signup-as-selection').data().tenant);

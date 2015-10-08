@@ -180,22 +180,6 @@ main h4 {
  ** SIGNUP OPTIONS CONTAINER **
  ******************************/
 
-#signup-options-container {
-    position: relative;
-}
-
-#signup-options-mask {
-    background-color: #FFF;
-    display: none;
-    height: 100%;
-    left: 0;
-    opacity: 0.6;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 1;
-}
-
 #signup-options {
     display: -webkit-flex;
     display:  -ms-flexbox;
@@ -503,12 +487,6 @@ main h4 {
 
 .ie-lt10 #signup-options {
     height: 100%;
-}
-
-.ie-lt10 #signup-options-mask {
-    /* Full height is unreliable for IE9, so don't mask the signup options form
-       in IE9 when a tenant is chosen */
-    display: none !important;
 }
 
 .ie-lt10 #signup-options-external,

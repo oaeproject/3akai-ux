@@ -181,7 +181,6 @@
                         </div>
                     {/if}
                 </div>
-                <div id="signup-options-mask"></div>
             --></div>
 
             <div id="signup-as-tenant-template"><!--
@@ -200,7 +199,7 @@
             --></div>
 
             <div id="signup-as-actions-template"><!--
-                <li id="signup-as-selection"></li>
+                <li id="signup-as-selection" tabindex="0"></li>
                 <li id="signup-as-search" class="signup-as-action">
                     <i class="fa fa-search"></i>
                 </li>
@@ -213,7 +212,7 @@
                 {if tenant.countryFlag}
                     <img src="${tenant.countryFlag|encodeForHTMLAttribute}" alt="${tenant.countryName|encodeForHTMLAttribute}"/>
                 {/if}
-                <div class="oae-threedots" data-alias="${tenant.alias|encodeForHTMLAttribute}">${tenant.displayName}</div>
+                <div class="oae-threedots">${tenant.displayName}</div>
             --></div>
         </main>
 
