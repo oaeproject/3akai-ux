@@ -186,11 +186,11 @@
             <div id="signup-as-tenant-template"><!--
                 <div class="signup-tenant-item">
                     <div class="signup-tenant-item-inner">
-                        <div class="signup-tenant-flag">
-                            {if tenant.countryFlag}
+                        {if tenant.countryFlag}
+                            <div class="signup-tenant-flag">
                                 <img src="${tenant.countryFlag|encodeForHTMLAttribute}" alt="${tenant.countryName|encodeForHTMLAttribute}"/>
-                            {/if}
-                        </div>
+                            </div>
+                        {/if}
                         <div class="signup-tenant-name">
                             ${tenant.displayName}
                         </div>

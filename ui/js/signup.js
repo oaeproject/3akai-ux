@@ -376,6 +376,16 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
     };
 
     /**
+     * Cancel the currently selected institution in the auto-suggest control
+     */
+    var cancelInstitutionSelect = function() {
+        $('#signup-institution-search ul.as-selections').removeClass('signup-institution-search-selected');
+        $('#signup-institution-search ul.as-selections .as-input').focus();
+        toggleSignupOptions(true);
+        return false;
+    };
+
+    /**
      * Initialize the signup institution search template
      */
     var renderSignUpInstitutionSearch = function() {
@@ -433,12 +443,18 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
             var actionItems = oae.api.util.template().render($('#signup-as-actions-template'));
             $('#signup-institution-search ul.as-selections').append(actionItems);
 
-            // When the selected item is clicked or typed over, it cancels the
-            // selection and re-reveals the signup options
-            $('#signup-as-selection').on('click keypress', function() {
-                $('#signup-institution-search ul.as-selections').removeClass('signup-institution-search-selected');
-                $('#signup-institution-search ul.as-selections .as-input').focus();
-                toggleSignupOptions(true);
+            // Add keyboard bindings to cancel the selection and re-reveals the
+            // signup options
+            $('#signup-as-selection').on('click keydown', cancelInstitutionSelect);
+            $('#signup-as-go > button').keydown(function(evt) {
+                // Cancel selection if the user hits escape, delete or backspace
+                // on the "Go" button
+                var isDeleteKey = (evt.keyCode === 46);
+                var isEscapeKey = (evt.keyCode === 27);
+                var isBackspaceKey = (evt.keyCode === 8);
+                if (isEscapeKey || isBackspaceKey) {
+                    return cancelInstitutionSelect();
+                }
             });
 
             // When the "Go" button is pressed, go to the equivalent page of the

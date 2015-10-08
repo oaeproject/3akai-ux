@@ -92,6 +92,10 @@ main h4 {
     position: relative;
 }
 
+#signup-institution-search .as-selections .as-input {
+    font-size: 14px;
+}
+
 #signup-institution-search .as-selections .as-selection-item {
     display: none;
 }
@@ -104,10 +108,14 @@ main h4 {
     width: 100%;
 }
 
-#signup-institution-search .as-selections #signup-as-selection img {
+#signup-institution-search .as-selections #signup-as-selection > img {
     float: left;
     height: 32px;
     margin: 2px 10px 0 10px;
+}
+
+#signup-institution-search .as-selections #signup-as-selection > div {
+    margin-left: 10px;
 }
 
 #signup-institution-search .as-selections .signup-as-action {
@@ -157,7 +165,7 @@ main h4 {
 }
 
 #signup-institution-search .signup-tenant-item {
-    border-spacing: 10px;
+    border-spacing: 12px;
     display: table;
     width: 100%;
 }
@@ -168,12 +176,13 @@ main h4 {
 
 #signup-institution-search .signup-tenant-item > .signup-tenant-item-inner > div {
     display: table-cell;
+    height: 32px;
     vertical-align: middle;
 }
 
 #signup-institution-search .signup-tenant-flag {
     text-align: center;
-    width: 40px;
+    width: 32px;
 }
 
 /******************************
