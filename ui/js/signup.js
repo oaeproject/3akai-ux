@@ -367,10 +367,10 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
     var toggleSignupOptions = function(enable) {
         var $signupOptions = $('#signup-options');
         if (enable) {
-            $signupOptions.css('opacity', '1');
+            $signupOptions.removeClass('signup-options-disabled');
             $signupOptions.find('*').prop('disabled', false);
         } else {
-            $signupOptions.css('opacity', '0.3');
+            $signupOptions.addClass('signup-options-disabled');
             $signupOptions.find('*').prop('disabled', true);
         }
     };

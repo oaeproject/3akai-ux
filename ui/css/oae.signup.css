@@ -198,6 +198,10 @@ main h4 {
             justify-content: space-between;
 }
 
+#signup-options.signup-options-disabled {
+    opacity: 0.3;
+}
+
 #signup-options h4 {
     margin-bottom: 35px;
 }
