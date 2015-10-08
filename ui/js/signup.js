@@ -452,7 +452,7 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
                 var isDeleteKey = (evt.keyCode === 46);
                 var isEscapeKey = (evt.keyCode === 27);
                 var isBackspaceKey = (evt.keyCode === 8);
-                if (isEscapeKey || isBackspaceKey) {
+                if (isEscapeKey || isBackspaceKey || isDeleteKey) {
                     return cancelInstitutionSelect();
                 }
             });
