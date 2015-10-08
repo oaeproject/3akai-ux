@@ -342,6 +342,23 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
     };
 
     /**
+     * Return a tenant that contains the specified tenant values as well as the
+     * country info to which the tenant is associated, if known
+     *
+     * @param  {Tenant}     tenant                  The tenant whose country info to apply
+     * @return {Tenant}     tenant                  The tenant object with the country info applied
+     * @return {String}     [tenant.countryName]    The name of the country to which the tenant belongs, if known
+     * @return {String}     [tenant.countryFlag]    The absolute url path to the flag image associated to the country to which the tenant belongs, if known
+     */
+    var withCountryInfo = function(tenant) {
+        var countryInfo = _.findWhere(iso3166.countries, {'code': tenant.countryCode});
+        return _.extend({}, tenant, {
+            'countryName': (countryInfo && countryInfo.name),
+            'countryFlag': (countryInfo && countryInfo.icon)
+        });
+    };
+
+    /**
      * Initialize the signup institution search template
      */
     var renderSignUpInstitutionSearch = function() {
@@ -351,18 +368,17 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
             return;
         }
 
+        // Render the tenant search container
         oae.api.util.template().render($('#signup-institution-template'),
             null, $('#signup-institution-container'));
 
+        // Initialize the tenant search auto-suggest
         oae.api.util.autoSuggest().setup($('#signup-institution-search-field'), {
             'url': '/api/search/tenants',
+            'searchObjProps': 'alias',
             'formatList': function(data, $el) {
-                var countryInfo = _.findWhere(iso3166.countries, {'code': data.countryCode});
-                oae.api.util.template().render($('#signup-autosuggest-tenant-template'), {
-                    'tenant': _.extend({}, data, {
-                        'countryName': (countryInfo && countryInfo.name),
-                        'countryFlag': (countryInfo && countryInfo.icon)
-                    })
+                oae.api.util.template().render($('#signup-as-tenant-template'), {
+                    'tenant': withCountryInfo(data)
                 }, $el);
                 return $el;
             },
@@ -372,20 +388,48 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
                 // to the equivalent page on that tenant
                 var tenant = $(el).data().originalData;
                 var $selections = $('#signup-institution-search ul.as-selections');
+                var $selection = $('#signup-as-selection');
 
-                // Indicate that we are "loading" the selection (i.e., waiting
-                // for redirection request)
-                $selections.addClass('signup-institution-search-loading');
-                $selections.html(oae.api.util.template().render($('#signup-autosuggest-redirecting-template'), {
-                    'tenant': tenant
-                }));
+                // Render the tenant template into the selected item
+                oae.api.util.template().render($('#signup-as-selection-template'), {
+                    'tenant': withCountryInfo(tenant)
+                }, $selection);
 
-                // Perform the actual redirection
-                oae.api.util.redirect().tenant(tenant);
+                // Put the tenant data on the selection item
+                $selection.data().tenant = tenant;
+
+                // Remove the element value since we would want it to be able to
+                // appear in the results again, and add the previous back into
+                // the field
+                $('#signup-institution-search ul.as-selections .as-values').val('');
+                $('#signup-institution-search ul.as-selections .as-input').val(tenant.query);
+
+                // Toggle the template into selected mode and mask the signup
+                // options
+                $selections.addClass('signup-institution-search-selected');
+                $('#signup-options-mask').show();
             }
-        });
+        }, null, function() {
+            // Add the action items to the autosuggest field
+            var actionItems = oae.api.util.template().render($('#signup-as-actions-template'));
+            $('#signup-institution-search ul.as-selections').append(actionItems);
 
-        $('#signup-institution-container').show();
+            // When the selected item is clicked, it cancels the selection and
+            // re-reveals the signup options
+            $('#signup-as-selection').click(function() {
+                $('#signup-institution-search ul.as-selections').removeClass('signup-institution-search-selected');
+                $('#signup-options-mask').hide();
+            });
+
+            // When the "Go" button is clicked, go to the equivalent page of the
+            // selected tenant
+            $('#signup-as-go > button').click(function() {
+                oae.api.util.redirect().tenant($('#signup-as-selection').data().tenant);
+            });
+
+            // Show the container now that everything is initialized
+            $('#signup-institution-container').show();
+        });
     }
 
     /**

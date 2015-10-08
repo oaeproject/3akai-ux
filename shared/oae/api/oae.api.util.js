@@ -1029,7 +1029,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     var query = url(this.url).param('q');
                     var isValidEmail = validation().isValidEmail(query);
 
-
                     data.results = _.chain(data.results)
                         // Remove any results in the exclusion list
                         .filter(function(result) {

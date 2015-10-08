@@ -177,13 +177,14 @@
                                         <button class="btn btn-primary">__MSG__SIGN_UP__</button>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     {/if}
                 </div>
+                <div id="signup-options-mask"></div>
             --></div>
 
-            <div id="signup-autosuggest-tenant-template"><!--
+            <div id="signup-as-tenant-template"><!--
                 <div class="signup-tenant-item">
                     <div class="signup-tenant-item-inner">
                         <div class="signup-tenant-flag">
@@ -198,12 +199,21 @@
                 </div>
             --></div>
 
-            <div id="signup-autosuggest-redirecting-template"><!--
-                {var displayName = tenant.displayName}
-                <li>
-                    <div class="oae-threedots">__MSG__REDIRECTING_TO_TENANT__</div>
-                    <i class="fa fa-spinner fa-spin"></i>
+            <div id="signup-as-actions-template"><!--
+                <li id="signup-as-selection"></li>
+                <li id="signup-as-search" class="signup-as-action">
+                    <i class="fa fa-search"></i>
                 </li>
+                <li id="signup-as-go" class="signup-as-action">
+                    <button class="btn btn-primary">__MSG__GO__</button>
+                </li>
+            --></div>
+
+            <div id="signup-as-selection-template"><!--
+                {if tenant.countryFlag}
+                    <img src="${tenant.countryFlag|encodeForHTMLAttribute}" alt="${tenant.countryName|encodeForHTMLAttribute}"/>
+                {/if}
+                <div class="oae-threedots" data-alias="${tenant.alias|encodeForHTMLAttribute}">${tenant.displayName}</div>
             --></div>
         </main>
 

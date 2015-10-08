@@ -27,15 +27,6 @@ main h4 {
     text-align: left;
 }
 
-/***********
- ** TITLE **
- ***********/
-
-#signup-title-container {
-    margin-bottom: 0;
-    padding-bottom: 10px;
-}
-
 #signup-institution-container,
 #signup-options-container {
     margin: 0 20px;
@@ -48,6 +39,14 @@ main h4 {
     max-width: 992px;
 }
 
+/***********
+ ** TITLE **
+ ***********/
+
+#signup-title-container {
+    margin-bottom: 0;
+    padding-bottom: 10px;
+}
 
 /**************************
  ** INSTITUTIONAL SEARCH **
@@ -89,30 +88,59 @@ main h4 {
 
 /** Suggestion items **/
 
-#signup-institution-search ul.as-selections.signup-institution-search-loading {
-    background-color: #EFEFEF;
+#signup-institution-search .as-selections {
+    position: relative;
 }
 
-#signup-institution-search ul.as-selections.signup-institution-search-loading > li {
-    line-height: 35px;
+#signup-institution-search .as-selections .as-selection-item {
+    display: none;
+}
+
+#signup-institution-search .as-selections #signup-as-selection {
+    cursor: pointer;
+    display: none;
+    line-height: 38px;
+    padding-right: 80px;
     width: 100%;
 }
 
-#signup-institution-search ul.as-selections.signup-institution-search-loading > li > i {
-    display: block;
+#signup-institution-search .as-selections #signup-as-selection img {
     float: left;
-    line-height: 35px;
-    margin: -35px 10px 0 10px;
+    height: 32px;
+    margin: 2px 10px 0 10px;
 }
 
-#signup-institution-search ul.as-selections.signup-institution-search-loading > li > div {
-    padding-left: 40px;
+#signup-institution-search .as-selections .signup-as-action {
+    position: absolute;
+    right: 1px;
 }
 
-#signup-institution-search .as-selection-item {
-    /* Hide the selection pill item since items that are selected won't show
-       this way. Instead, we will redirect them to the chosen tenant */
+#signup-institution-search .as-selections .signup-as-action > i {
+    font-size: 25px;
+    line-height: 38px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+#signup-institution-search .as-selections .signup-as-action > button {
+    height: 38px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#signup-institution-search .as-selections #signup-as-go {
     display: none;
+}
+
+#signup-institution-search .as-selections.signup-institution-search-selected #signup-as-selection,
+#signup-institution-search .as-selections.signup-institution-search-selected #signup-as-go {
+    display: block;
+}
+
+#signup-institution-search .as-selections.signup-institution-search-selected #signup-as-search,
+#signup-institution-search .as-selections.signup-institution-search-selected .as-original,
+#signup-institution-search .as-selections.signup-institution-search-selected + .as-results {
+    display: none !important;
 }
 
 #signup-institution-search .as-results {
@@ -151,6 +179,22 @@ main h4 {
 /******************************
  ** SIGNUP OPTIONS CONTAINER **
  ******************************/
+
+#signup-options-container {
+    position: relative;
+}
+
+#signup-options-mask {
+    background-color: #FFF;
+    display: none;
+    height: 100%;
+    left: 0;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
 
 #signup-options {
     display: -webkit-flex;
@@ -459,6 +503,12 @@ main h4 {
 
 .ie-lt10 #signup-options {
     height: 100%;
+}
+
+.ie-lt10 #signup-options-mask {
+    /* Full height is unreliable for IE9, so don't mask the signup options form
+       in IE9 when a tenant is chosen */
+    display: none !important;
 }
 
 .ie-lt10 #signup-options-external,
