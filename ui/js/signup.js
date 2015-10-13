@@ -293,27 +293,8 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
                     'text': oae.api.i18n.translate('__MSG__THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN__')
                 },
                 'emaildomain': {
-                    'method': function(value, element) {
-                        var configuredEmailDomain = oae.data.me.tenant.emailDomain;
-
-                        // If the tenant has not been configured with an email domain, any email address
-                        // can be used to sign up
-                        if (!configuredEmailDomain) {
-                            return true;
-                        }
-
-                        // Only accept email addresses that are either an exact match or have the
-                        // configured email domain as the suffix
-                        var enteredEmailDomain = value.split('@').pop();
-                        var exactMatch = (enteredEmailDomain === configuredEmailDomain);
-                        var emailDomainSuffix = '.' + configuredEmailDomain;
-                        var suffixPosition = enteredEmailDomain.indexOf(emailDomainSuffix);
-                        var suffixMatch = (suffixPosition > 0 && suffixPosition === (enteredEmailDomain.length - emailDomainSuffix.length));
-
-                        // Verify the entered email address matches the configured email domain
-                        return (exactMatch || suffixMatch);
-                    },
-                    'text': oae.api.i18n.translate('__MSG__YOU_CAN_ONLY_REGISTER_WITH_A_TENANT_EMAIL_ADDRESS__', null, {'emailDomain': oae.data.me.tenant.emailDomain})
+                    'method': oae.api.util.validation().isValidEmailDomainForTenant,
+                    'text': oae.api.i18n.translate('__MSG__YOU_CAN_ONLY_REGISTER_WITH_A_TENANT_EMAIL_ADDRESS__', null, {'emailDomain': oae.data.me.tenant.emailDomain.toLowerCase()})
                 }
             },
             'submitHandler': createUser
@@ -479,13 +460,22 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
             }
         };
 
+        // If the email address in the invitation info is valid for the current
+        // tenant, automatically use it for purposes of filling out the local
+        // authentication form
+        var useEmail = null;
+        if (oae.api.util.validation().isValidEmailDomainForTenant(invitationInfo.email)) {
+            useEmail = invitationInfo.email;
+        }
+
         // Render the signup options
         oae.api.util.template().render($('#signup-options-template'), {
             'authStrategyInfo': authStrategyInfo,
             'externalAuthOpts': externalAuthOpts,
             'invitationInfo': invitationInfo,
             'recaptchaEnabled': recaptchaEnabled,
-            'termsAndConditionsEnabled': termsAndConditionsEnabled
+            'termsAndConditionsEnabled': termsAndConditionsEnabled,
+            'useEmail': useEmail
         }, $('#signup-options-container'));
 
         // For IE9, since we can't use flexbox, we need to have an explicit height to have a full-
