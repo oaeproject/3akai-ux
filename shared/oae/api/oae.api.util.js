@@ -742,6 +742,45 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
         };
 
         /**
+         * Check whether the domain of the given email matches the current
+         * tenant. If this results in `true`, it means one of the following:
+         *
+         *  * The current tenant has no email domain configured for it
+         *  * The domain of the given email address is equal to or is a sub-
+         *    domain of the current tenant's configured email domain
+         *
+         * This does not validate that the given string is a valid email
+         * address, that should first be done with `isValidEmail`
+         *
+         * @param  {String}     email   The email to check
+         * @return {Boolean}            `true` when the current tenant has an email domain of which the given email address is a sub-domain
+         */
+        var isValidEmailDomainForTenant = function(email) {
+            // If the tenant has not been configured with an email domain, any email address
+            // can be used to sign up
+            var configuredEmailDomain = require('oae.core').data.me.tenant.emailDomain;
+            if (!configuredEmailDomain) {
+                return true;
+            }
+
+            configuredEmailDomain = configuredEmailDomain.toLowerCase();
+
+            // If the email domain is an exact match, it's a success
+            var givenEmailDomain = email.split('@').pop().toLowerCase();
+            if (givenEmailDomain === configuredEmailDomain) {
+                return true;
+            }
+
+            var emailDomainSuffix = '.' + configuredEmailDomain;
+            var suffixPosition = givenEmailDomain.indexOf(emailDomainSuffix);
+            var suffixMatch = (suffixPosition > 0 && suffixPosition === (givenEmailDomain.length - emailDomainSuffix.length));
+
+            // If the configured email domain is a suffix of the email domain,
+            // it's a success
+            return suffixMatch;
+        };
+
+        /**
          * Check whether a provided string is a valid host
          *
          * @param  {String}             host        The host to check
@@ -762,6 +801,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             'init': init,
             'isValidDisplayName': isValidDisplayName,
             'isValidEmail': isValidEmail,
+            'isValidEmailDomainForTenant': isValidEmailDomainForTenant,
             'isValidHost': isValidHost,
             'validate': validate
         };
