@@ -226,6 +226,11 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
      * Set up the validation on the create account form, including the error messages
      */
     var setUpCreateAccountValidation = function() {
+        var tenantEmailDomain = oae.data.me.tenant.emailDomain;
+        if (tenantEmailDomain) {
+            tenantEmailDomain = tenantEmailDomain.toLowerCase();
+        }
+
         var validateOpts = {
             'rules': {
                 'username': {
@@ -294,7 +299,7 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
                 },
                 'emaildomain': {
                     'method': oae.api.util.validation().isValidEmailDomainForTenant,
-                    'text': oae.api.i18n.translate('__MSG__YOU_CAN_ONLY_REGISTER_WITH_A_TENANT_EMAIL_ADDRESS__', null, {'emailDomain': oae.data.me.tenant.emailDomain.toLowerCase()})
+                    'text': oae.api.i18n.translate('__MSG__YOU_CAN_ONLY_REGISTER_WITH_A_TENANT_EMAIL_ADDRESS__', null, {'emailDomain': tenantEmailDomain})
                 }
             },
             'submitHandler': createUser
@@ -464,7 +469,7 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
         // tenant, automatically use it for purposes of filling out the local
         // authentication form
         var useEmail = null;
-        if (oae.api.util.validation().isValidEmailDomainForTenant(invitationInfo.email)) {
+        if (invitationInfo.email && oae.api.util.validation().isValidEmailDomainForTenant(invitationInfo.email)) {
             useEmail = invitationInfo.email;
         }
 
