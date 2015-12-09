@@ -226,12 +226,9 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
      * Set up the validation on the create account form, including the error messages
      */
     var setUpCreateAccountValidation = function() {
-        var tenantEmailDomains = oae.data.me.tenant.emailDomains;
-        if (!_.isEmpty(tenantEmailDomains.length)) {
-            tenantEmailDomains = _.map(tenantEmailDomains, function(emailDomain) {
-                return emailDomain.toLowerCase();
-            });
-        }
+        var tenantEmailDomains = _.map(oae.data.me.tenant.emailDomains, function(emailDomain) {
+            return emailDomain.toLowerCase();
+        });
 
         var validateOpts = {
             'rules': {
@@ -305,7 +302,7 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
                         if (tenantEmailDomains.length === 1) {
                             return oae.api.i18n.translate('__MSG__YOU_CAN_ONLY_REGISTER_WITH_AN_EMAIL_ADDRESS_ENDING_IN__', null, {'emailDomain': tenantEmailDomains[0]});
                         } else {
-                            return oae.api.i18n.translate('__MSG__YOU_MUST_HAVE_AN_EMAIL_ADDRESS_THAT_ENDS_IN_ONE_OF__', null, {'emailDomains': tenantEmailDomains.join(', ')});
+                            return oae.api.i18n.translate('__MSG__YOU_CAN_ONLY_REGISTER_WITH_AN_EMAIL_ADDRESS_ENDING_IN_ONE_OF__', null, {'emailDomains': tenantEmailDomains.join(', ')});
                         }
                     }
                 }
