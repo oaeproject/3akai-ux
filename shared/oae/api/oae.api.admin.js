@@ -55,7 +55,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         };
 
         if (opts.emailDomains) {
-            data.emailDomain = opts.emailDomains;
+            data.emailDomains = opts.emailDomains;
         }
 
         if (opts.countryCode) {
