@@ -758,26 +758,29 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
         var isValidEmailDomainForTenant = function(email) {
             // If the tenant has not been configured with an email domain, any email address
             // can be used to sign up
-            var configuredEmailDomain = require('oae.core').data.me.tenant.emailDomain;
-            if (!configuredEmailDomain) {
+            var configuredEmailDomains = require('oae.core').data.me.tenant.emailDomains;
+            if (_.isEmpty(configuredEmailDomains)) {
                 return true;
             }
 
-            configuredEmailDomain = configuredEmailDomain.toLowerCase();
+            configuredEmailDomains = _.map(configuredEmailDomains, function(emailDomain) {
+                return emailDomain.toLowerCase();
+            });
 
-            // If the email domain is an exact match, it's a success
             var givenEmailDomain = email.split('@').pop().toLowerCase();
-            if (givenEmailDomain === configuredEmailDomain) {
-                return true;
-            }
+            var matchingEmailDomain = _.find(configuredEmailDomains, function(configuredEmailDomain) {
+                // If the email domain is an exact match, it's a success
+                if (givenEmailDomain === configuredEmailDomain) {
+                    return true;
+                }
 
-            var emailDomainSuffix = '.' + configuredEmailDomain;
-            var suffixPosition = givenEmailDomain.indexOf(emailDomainSuffix);
-            var suffixMatch = (suffixPosition > 0 && suffixPosition === (givenEmailDomain.length - emailDomainSuffix.length));
+                // Check this configured email domain is a suffix of the given email domain
+                var emailDomainSuffix = '.' + configuredEmailDomain;
+                var suffixPosition = givenEmailDomain.indexOf(emailDomainSuffix);
+                return (suffixPosition > 0 && suffixPosition === (givenEmailDomain.length - emailDomainSuffix.length));
+            });
 
-            // If the configured email domain is a suffix of the email domain,
-            // it's a success
-            return suffixMatch;
+            return !_.isUndefined(matchingEmailDomain);
         };
 
         /**
