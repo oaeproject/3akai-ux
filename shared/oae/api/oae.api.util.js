@@ -1087,7 +1087,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
                     // If there are no search results and the query is an email address, present an
                     // option for the user to have the email address as an option
-                    if (options.allowEmail && isValidEmail && _.isEmpty(data.results)) {
+                    var allowInvitingGuests = configAPI.getValue('oae-tenants', 'guests', 'allow');
+                    if (options.allowEmail && isValidEmail && _.isEmpty(data.results) && allowInvitingGuests) {
                         data.results.push({
                             'id': query,
                             'displayName': query,
