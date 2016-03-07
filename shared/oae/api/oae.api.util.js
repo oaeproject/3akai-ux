@@ -1017,7 +1017,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 // The `emptyText` is the text that will be shown when no suggested items could be found.
                 // If no `emptyText` has been provided, we fall back to a default string unless email
                 // addresses are allowed
-                if (!options.emptyText && (!options.allowEmail || !allowInvitingGuests)) {
+                if (!options.emptyText && options.showResultListWhenNoMatch) {
                     options.emptyText = i18nAPI.translate('__MSG__NO_RESULTS_FOUND__');
                 }
 
