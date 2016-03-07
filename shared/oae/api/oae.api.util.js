@@ -994,6 +994,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 throw new Error('A valid input element should be provided.');
             }
 
+            // Whether guests can be invited to this tenant through an email address
+            var allowInvitingGuests = configAPI.getValue('oae-tenants', 'guests', 'allow');
+            if (!allowInvitingGuests) {
+                options.showResultListWhenNoMatch = true;
+            }
+
             // Load the autosuggest templates in case they haven't been loaded yet
             getAutosuggestTemplates(function() {
 
@@ -1011,7 +1017,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 // The `emptyText` is the text that will be shown when no suggested items could be found.
                 // If no `emptyText` has been provided, we fall back to a default string unless email
                 // addresses are allowed
-                if (!options.emptyText && !options.allowEmail) {
+                if (!options.emptyText && options.showResultListWhenNoMatch) {
                     options.emptyText = i18nAPI.translate('__MSG__NO_RESULTS_FOUND__');
                 }
 
@@ -1087,7 +1093,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
                     // If there are no search results and the query is an email address, present an
                     // option for the user to have the email address as an option
-                    if (options.allowEmail && isValidEmail && _.isEmpty(data.results)) {
+                    if (options.allowEmail && isValidEmail && _.isEmpty(data.results) && allowInvitingGuests) {
                         data.results.push({
                             'id': query,
                             'displayName': query,
