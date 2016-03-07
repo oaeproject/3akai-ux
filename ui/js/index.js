@@ -131,6 +131,12 @@ require(['jquery','oae.core'], function($, oae) {
                     'class': 'oae-trigger-createfolder'
                 },
                 {
+                    'icon': 'fa-clock-o',
+                    'title': oae.api.i18n.translate('__MSG__DOODLE__'),
+                    'closeNav': true,
+                    'class': 'oae-trigger-createdoodle'
+                },
+                {
                     'icon': 'fa-link',
                     'title': oae.api.i18n.translate('__MSG__LINK__'),
                     'closeNav': true,

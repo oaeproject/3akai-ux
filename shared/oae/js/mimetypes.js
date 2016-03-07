@@ -52,6 +52,9 @@ var _expose = function(exports) {
             'description': '__MSG__CSS_FILE__',
             'regex': 'text/css'
         },
+        'doodle': {
+            'description': '__MSG__DOODLE__'
+        },
         'image': {
             'description': '__MSG__IMAGE__',
             'regex': 'image/*'
