@@ -1092,8 +1092,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         .value();
 
                     // If there are no search results and the query is an email address, present an
-                    // option for the user to have the email address as an option
-                    if (options.allowEmail && isValidEmail && _.isEmpty(data.results) && allowInvitingGuests) {
+                    // option for the user to have the email address as an option. An email address
+                    // is only allowed if the tenant has enabled inviting guest or if the invitation
+                    // does not end up on the guest tenant
+                    var allowEmailAddress = allowInvitingGuests || (data.tenant && !data.tenant.isGuestTenant);
+                    if (options.allowEmail && isValidEmail && _.isEmpty(data.results) && allowEmailAddress) {
                         data.results.push({
                             'id': query,
                             'displayName': query,
@@ -1313,8 +1316,67 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     // for each one
                     tokens = _.compact(tokens);
                     if (_.every(tokens, validation().isValidEmail)) {
-                        insertEmails(tokens);
-                        $element.val('');
+                        // Insert the emails if guests can be invited
+                        if (allowInvitingGuests) {
+                            insertEmails(tokens);
+
+                        // Otherwise we need to validate whether the email address
+                        // would end up on a tenant with a configured email domain.
+                        // We only do this when a user pastes more than 1 email
+                        // address. If they paste 1 email address the regular search
+                        // endpoint can deal with it. That also has the benefit that
+                        // if the email ends up on the guest tenant a "No results found"
+                        // box will be shown rather than a notification.
+                        } else if (tokens.length > 1) {
+                            // clear the text box so the search doesn't get triggered
+                            $element.val('');
+
+                            // Get the tenant for each email address
+                            $.ajax({
+                                'type': 'GET',
+                                'url': '/api/tenantsByEmail',
+                                'data': {
+                                    'emails': tokens
+                                },
+                                'success': function(tenants) {
+                                    // Add the email address that end up on a tenant
+                                    // with that configured email domain
+                                    _.each(tenants, function(tenant, email) {
+                                        if (!tenant.isGuestTenant) {
+                                            insertEmails([email])
+                                            delete tenants[email];
+                                        }
+                                    });
+
+                                    // Show an error notification for the remaining tenants
+                                    var remainingEmails = _.keys(tenants);
+                                    if (!_.isEmpty(remainingEmails)) {
+                                        var msg = '';
+                                        if (remainingEmails.length === 1) {
+                                            msg = i18nAPI.translate('__MSG__YOU_ARE_NOT_ABLE_TO_ADD_EMAIL_ADDRESSES_1__', null, {
+                                                'emailAddress1': remainingEmails[0]
+                                            });
+                                        } else if (remainingEmails.length ===2 ) {
+                                            msg = i18nAPI.translate('__MSG__YOU_ARE_NOT_ABLE_TO_ADD_EMAIL_ADDRESSES_2__', null, {
+                                                'emailAddress1': remainingEmails[0],
+                                                'emailAddress2': remainingEmails[1]
+                                            });
+                                        } else {
+                                            msg = i18nAPI.translate('__MSG__YOU_ARE_NOT_ABLE_TO_ADD_EMAIL_ADDRESSES_2+__', null, {
+                                                'emailAddress1': remainingEmails[0],
+                                                'emailAddressesMinusOne': remainingEmails.length - 1
+                                            });
+                                        }
+                                        notification(
+                                            i18nAPI.translate('__MSG__EMAIL_INVITATION_FAILED__'),
+                                            msg,
+                                            'error'
+                                        );
+                                    }
+
+                                }
+                            });
+                        }
                     }
                 };
 
