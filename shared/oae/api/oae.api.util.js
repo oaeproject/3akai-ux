@@ -1343,7 +1343,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                                     // with that configured email domain
                                     _.each(tenants, function(tenant, email) {
                                         if (!tenant.isGuestTenant) {
-                                            insertEmails([email])
+                                            insertEmails([email]);
                                             delete tenants[email];
                                         }
                                     });
