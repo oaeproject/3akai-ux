@@ -39,9 +39,9 @@ var userUtil = (function() {
                 var createUser = function() {
                     var rndString = mainUtil.generateRandomString();
                     var rndPassword = mainUtil.generateRandomString();
-                    var params = ['user-' + rndString, rndPassword, rndString, {
+                    var email = rndString + '@example.com';
+                    var params = ['user-' + rndString, rndPassword, rndString, email, {
                         'visibility': 'public',
-                        'email': 'roy@example.com',
                         'locale': 'en_GB',
                         'publicAlias': 'Roy',
                         'acceptedTC': true
