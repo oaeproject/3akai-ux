@@ -276,6 +276,14 @@ require(['jquery','oae.core'], function($, oae) {
         }
     };
 
+    var setUpOptionalFeatures = function () {
+
+        // Loodle feature
+        if (!oae.api.doodle.isEnabled())
+            $('.oae-trigger-createdoodle').toggleClass('hidden');
+
+    };
+
 
     ////////////////////////
     // GENERAL PAGE SETUP //
@@ -309,6 +317,9 @@ require(['jquery','oae.core'], function($, oae) {
 
         // Show user preferences if, e.g., it's deep-linked via the URL
         showPreferences();
+
+        // Set up optional features
+        setUpOptionalFeatures();
 
     }
 });
