@@ -457,7 +457,7 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
             // Show the container now that everything is initialized
             $('#signup-institution-container').show();
         });
-    }
+    };
 
     /**
      * Initialize the signup options template

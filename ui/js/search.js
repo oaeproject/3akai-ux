@@ -186,7 +186,7 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
 
         // We should intelligently detect that if someone goes to /search/<search query>, we should
         // automatically send them to /search/all?q=<search query>
-        var state = History.getState()
+        var state = History.getState();
         var url = oae.api.util.url(History.getState().cleanUrl);
         var path = url.attr('path').split('/');
         var queryString = url.attr('query');
