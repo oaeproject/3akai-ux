@@ -103,18 +103,11 @@ var userUtil = (function() {
      */
     var doLogIn = function(username, password) {
 
-        casper.echo('doLogIn');
-        casper.echo('username : ' + username);
-        casper.echo('password : ' + password);
-
         casper.then(function() {
             var err = null;
             var loggedIn = false;
 
             mainUtil.callInternalAPI('authentication', 'localLogin', [username, password], function(_err) {
-
-                casper.echo('mainUtil.callInternalAPI DONE');
-
                 if (_err) {
                     casper.echo('Could not log in with ' + username + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
                     err = _err;
