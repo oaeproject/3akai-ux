@@ -1318,6 +1318,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     if (_.every(tokens, validation().isValidEmail)) {
                         // Insert the emails if guests can be invited
                         if (allowInvitingGuests) {
+                            // clear the text box so the search doesn't get triggered
+                            $element.val('');
                             insertEmails(tokens);
 
                         // Otherwise we need to validate whether the email address
@@ -1328,7 +1330,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         // if the email ends up on the guest tenant a "No results found"
                         // box will be shown rather than a notification.
                         } else if (tokens.length > 1) {
-                            // clear the text box so the search doesn't get triggered
+                            // Clear the text box so the search doesn't get triggered
                             $element.val('');
 
                             // Get the tenant for each email address
