@@ -1426,7 +1426,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                             // If there is a selected item, we handle it a bit
                             // differently if it is an email versus if it is a
                             // user result
-                            if (options.allowEmail && validation().isValidEmail(selectionResultItemId)) {
+                            if (options.allowEmail && allowInvitingGuests && validation().isValidEmail(selectionResultItemId)) {
                                 // If the current item is an email, use the
                                 // final result of the text field to avoid any
                                 // issue with the result list delaying to update
@@ -1448,7 +1448,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
                     // If we're doing any kind of termination and we have all emails and we allow
                     // them as entries, insert them all into the field
-                    if (options.allowEmail && _.every(tokens, validation().isValidEmail)) {
+                    if (options.allowEmail && allowInvitingGuests && _.every(tokens, validation().isValidEmail)) {
                         insertEmails(tokens);
                         $element.val('');
                         return false;
