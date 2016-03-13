@@ -1353,18 +1353,20 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                                     if (!_.isEmpty(remainingEmails)) {
                                         var msg = '';
                                         if (remainingEmails.length === 1) {
-                                            msg = i18nAPI.translate('__MSG__YOU_ARE_NOT_ABLE_TO_ADD_EMAIL_ADDRESSES_1__', null, {
+                                            msg = i18nAPI.translate('__MSG__UNABLE_TO_ADD_EMAIL_ADDRESSES_1__', null, {
                                                 'emailAddress1': remainingEmails[0]
                                             });
                                         } else if (remainingEmails.length ===2 ) {
-                                            msg = i18nAPI.translate('__MSG__YOU_ARE_NOT_ABLE_TO_ADD_EMAIL_ADDRESSES_2__', null, {
+                                            msg = i18nAPI.translate('__MSG__UNABLE_TO_ADD_EMAIL_ADDRESSES_2__', null, {
                                                 'emailAddress1': remainingEmails[0],
                                                 'emailAddress2': remainingEmails[1]
                                             });
                                         } else {
-                                            msg = i18nAPI.translate('__MSG__YOU_ARE_NOT_ABLE_TO_ADD_EMAIL_ADDRESSES_2+__', null, {
-                                                'emailAddress1': remainingEmails[0],
-                                                'emailAddressesMinusOne': remainingEmails.length - 1
+                                            var emailAddresesFinal = remainingEmails.pop();
+                                            var emailAddressesComma = remainingEmails.join(', ');
+                                            msg = i18nAPI.translate('__MSG__UNABLE_TO_ADD_EMAIL_ADDRESSES_2+__', null, {
+                                                'emailAddressesComma': emailAddressesComma,
+                                                'emailAddressesFinal': emailAddresesFinal
                                             });
                                         }
                                         notification(
