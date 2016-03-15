@@ -13,7 +13,9 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery'], function(exports, $) {
+define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) {
+
+    var LOODLE_ACTIVITY = exports.LOODLE_ACTIVITY = 'activity';
 
     /**
      * Add schedule to the specified loodle
@@ -122,5 +124,9 @@ define(['exports', 'jquery'], function(exports, $) {
             'error': callback
         });
 
+    };
+
+    var isEnabled = exports.isEnabled = function () {
+        return configAPI.getValue('oae-doodle', LOODLE_ACTIVITY, 'enabled');
     };
 });

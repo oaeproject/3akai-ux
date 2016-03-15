@@ -319,7 +319,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 'setVisibility': oae.api.content.updateContent
             }
         };
-        // Collabdocs and doodles have a special editor role
+        // Collabdocs have a special editor role
         if (contentProfile.resourceSubType === 'collabdoc') {
             widgetData.roles.splice(1, 0, {'id': 'editor', 'name': oae.api.i18n.translate('__MSG__CAN_EDIT__')});
             widgetData.defaultRole = 'manager';
