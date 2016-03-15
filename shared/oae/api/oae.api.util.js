@@ -620,7 +620,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             // We register the submit handler. This will be called when the overall form
             // validation has succeeded
             options.submitHandler = function($thisForm, validator) {
-                // We clear all the old validation styles
+                // Clear all the old validation styles
                 clear($form);
                 // Call the cached invalid handler callback
                 if (submitCallback) {
@@ -632,7 +632,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             // We register the invalid handler. This will be called once when the overall
             // form validation has failed
             options.invalidHandler = function($thisForm, validator) {
-                // We clear all the old validation styles
+                // Clear all the old validation styles
                 clear($form);
                 // Call the cached invalid handler callback
                 if (invalidCallback) {
@@ -1318,7 +1318,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     if (_.every(tokens, validation().isValidEmail)) {
                         // Insert the emails if guests can be invited
                         if (allowInvitingGuests) {
-                            // clear the text box so the search doesn't get triggered
+                            // Clear the text box so the search doesn't get triggered
                             $element.val('');
                             insertEmails(tokens);
 
