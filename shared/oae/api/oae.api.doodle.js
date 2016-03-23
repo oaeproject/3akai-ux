@@ -76,10 +76,6 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
      */
     var updateVotes = exports.updateVotes = function (votes, loodleId, callback) {
 
-        console.log('updateVotes');
-        console.log('loodleId : ', loodleId);
-        console.log('votes : ', votes);
-
         $.ajax({
             'url': '/api/doodle/' + loodleId + '/votes',
             'type': 'PUT',
@@ -87,8 +83,8 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
             'success': function () {
                 return callback();
             },
-            'error': function (err) {
-                return callback(err);
+            'error': function (xhr, status, error) {
+                return callback(xhr.responseText);
             }
         });
 
@@ -122,6 +118,28 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
                 return callback(null, data);
             },
             'error': callback
+        });
+
+    };
+
+    var addMemberWithVotes = exports.addMemberWithVotes = function (loodleId, firstName, lastName, votes, callback) {
+
+        var data = {
+            'firstName': firstName,
+            'lastName': lastName,
+            'votes': JSON.stringify(votes)
+        };
+
+        $.ajax({
+            'url': '/api/doodle/' + loodleId + '/user',
+            'type': 'POST',
+            'data': data,
+            'success': function (data) {
+                callback(null, data);
+            },
+            'error': function (xhr, status, error) {
+                callback(xhr.responseText);
+            }
         });
 
     };
