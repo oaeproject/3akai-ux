@@ -133,7 +133,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         } else if (contentProfile.resourceSubType === 'collabdoc') {
             return 'etherpad';
         } else if (contentProfile.resourceSubType === 'doodle') {
-            return 'doodle';
+            return 'loodle';
         }
     };
 
