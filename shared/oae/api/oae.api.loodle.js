@@ -33,7 +33,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
         };
 
         $.ajax({
-            'url': '/api/doodle/' + loodleId + '/schedule',
+            'url': '/api/loodle/' + loodleId + '/schedule',
             'type': 'POST',
             'data': data,
             'success': function () {
@@ -56,7 +56,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     var deleteSchedule = exports.deleteSchedule = function (loodleId, scheduleId, callback) {
 
         $.ajax({
-            'url': '/api/doodle/' + loodleId + '/schedule/' + scheduleId,
+            'url': '/api/loodle/' + loodleId + '/schedule/' + scheduleId,
             'type': 'DELETE',
             'success': function () {
                 return callback();
@@ -77,7 +77,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     var updateVotes = exports.updateVotes = function (votes, loodleId, callback) {
 
         $.ajax({
-            'url': '/api/doodle/' + loodleId + '/votes',
+            'url': '/api/loodle/' + loodleId + '/votes',
             'type': 'PUT',
             'data': votes,
             'success': function () {
@@ -100,7 +100,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     var sendNotifications = exports.sendNotifications = function (contentId, notificationType, callback) {
 
         $.ajax({
-            'url': '/api/doodle/' + contentId + '/notifications',
+            'url': '/api/loodle/' + contentId + '/notifications',
             'type': 'POST',
             'data': {'notificationType' : notificationType},
             'success': callback,
@@ -112,7 +112,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     var getData = exports.getData = function (loodleId, callback) {
 
         $.ajax({
-            'url': '/api/doodle/' + loodleId,
+            'url': '/api/loodle/' + loodleId,
             'type': 'GET',
             'success': function (data) {
                 return callback(null, data);
@@ -131,7 +131,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
         };
 
         $.ajax({
-            'url': '/api/doodle/' + loodleId + '/user',
+            'url': '/api/loodle/' + loodleId + '/user',
             'type': 'POST',
             'data': data,
             'success': function (data) {
@@ -145,6 +145,6 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     };
 
     var isEnabled = exports.isEnabled = function () {
-        return configAPI.getValue('oae-doodle', LOODLE_ACTIVITY, 'enabled');
+        return configAPI.getValue('oae-loodle', LOODLE_ACTIVITY, 'enabled');
     };
 });

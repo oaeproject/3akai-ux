@@ -128,7 +128,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
         callback = callback || function() {};
 
         var data = {
-            'resourceSubType': 'doodle',
+            'resourceSubType': 'loodle',
             'displayName': displayName,
             'description': description,
             'visibility': visibility,
