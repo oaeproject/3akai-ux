@@ -160,6 +160,12 @@ require(['jquery', 'oae.core'], function($, oae) {
                         'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
                         'closeNav': true,
                         'class': 'oae-trigger-creatediscussion'
+                    },
+                    {
+                        'icon': 'fa-clock-o',
+                        'title': oae.api.i18n.translate('__MSG__DOODLE__'),
+                        'closeNav': true,
+                        'class': 'oae-trigger-createloodle'
                     }
                 ]
             });

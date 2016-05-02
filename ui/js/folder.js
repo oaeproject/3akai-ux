@@ -59,6 +59,12 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                         'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
                         'closeNav': true,
                         'class': 'oae-trigger-createcollabdoc'
+                    },
+                    {
+                        'icon': 'fa-clock-o',
+                        'title': oae.api.i18n.translate('__MSG__DOODLE__'),
+                        'closeNav': true,
+                        'class': 'oae-trigger-createloodle'
                     }
                 ]
             });
