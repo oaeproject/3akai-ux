@@ -1071,8 +1071,8 @@ div.oae-thumbnail i.fa {
 }
 
 .oae-tile .oae-thumbnail.oae-thumbnail-large:before {
-    margin-top: -48px;
-    padding-top: 80px;
+    margin-top: 0;
+    padding-top: 32px;
 }
 
 .oae-tile .oae-thumbnail img {
