@@ -131,12 +131,6 @@ require(['jquery','oae.core'], function($, oae) {
                     'class': 'oae-trigger-createfolder'
                 },
                 {
-                    'icon': 'fa-clock-o',
-                    'title': oae.api.i18n.translate('__MSG__DOODLE__'),
-                    'closeNav': true,
-                    'class': 'oae-trigger-createloodle'
-                },
-                {
                     'icon': 'fa-link',
                     'title': oae.api.i18n.translate('__MSG__LINK__'),
                     'closeNav': true,
@@ -156,6 +150,15 @@ require(['jquery','oae.core'], function($, oae) {
                 }
             ]
         }];
+
+        if (oae.api.loodle.isEnabled()) {
+            lhNavActions[1].children.push({
+                'icon': 'fa-clock-o',
+                'title': oae.api.i18n.translate('__MSG__DOODLE__'),
+                'closeNav': true,
+                'class': 'oae-trigger-createloodle'
+            });
+        }
 
         // Structure that will be used to construct the left hand navigation pages
         var lhNavPages = [

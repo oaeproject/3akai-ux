@@ -160,15 +160,18 @@ require(['jquery', 'oae.core'], function($, oae) {
                         'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
                         'closeNav': true,
                         'class': 'oae-trigger-creatediscussion'
-                    },
-                    {
-                        'icon': 'fa-clock-o',
-                        'title': oae.api.i18n.translate('__MSG__DOODLE__'),
-                        'closeNav': true,
-                        'class': 'oae-trigger-createloodle'
                     }
                 ]
             });
+
+            if (oae.api.loodle.isEnabled()) {
+                lhNavActions[1].children.push({
+                    'icon': 'fa-clock-o',
+                    'title': oae.api.i18n.translate('__MSG__DOODLE__'),
+                    'closeNav': true,
+                    'class': 'oae-trigger-createloodle'
+                });
+            }
         }
 
         // Add the join option when a user can join the group
@@ -454,7 +457,6 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Loodle feature
         if (!oae.api.loodle.isEnabled())
             $('.oae-trigger-createloodle').parent().remove();
-
     };
 
 
