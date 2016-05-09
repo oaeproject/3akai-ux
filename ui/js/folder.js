@@ -295,7 +295,15 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         setUpClips();
     });
 
+    var setUpOptionalFeatures = function () {
+
+        // Loodle feature
+        if (!oae.api.loodle.isEnabled())
+            $('.oae-trigger-createloodle').parent().remove();
+
+    };
+
 
     getFolderProfile();
-
+    setUpOptionalFeatures();
 });

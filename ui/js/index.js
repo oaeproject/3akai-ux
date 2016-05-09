@@ -280,7 +280,7 @@ require(['jquery','oae.core'], function($, oae) {
 
         // Loodle feature
         if (!oae.api.loodle.isEnabled())
-            $('.oae-trigger-createloodle').toggleClass('hidden');
+            $('.oae-trigger-createloodle').parent().remove();
 
     };
 

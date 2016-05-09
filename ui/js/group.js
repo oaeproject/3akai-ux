@@ -449,7 +449,16 @@ require(['jquery', 'oae.core'], function($, oae) {
         $(document).trigger('oae.context.update', groupProfile);
     });
 
+    var setUpOptionalFeatures = function () {
+
+        // Loodle feature
+        if (!oae.api.loodle.isEnabled())
+            $('.oae-trigger-createloodle').parent().remove();
+
+    };
+
 
     setUpGroupProfile();
+    setUpOptionalFeatures();
 
 });
