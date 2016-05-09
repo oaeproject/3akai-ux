@@ -39,7 +39,7 @@ define([
         'oae.api.content',
         'oae.api.comment',
         'oae.api.discussion',
-        'oae.api.doodle',
+        'oae.api.loodle',
         'oae.api.folder',
         'oae.api.follow',
         'oae.api.group',

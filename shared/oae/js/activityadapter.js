@@ -795,7 +795,7 @@ var _expose = function(exports) {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_FILE__';
             } else if (activity.object['oae:resourceSubType'] === 'link') {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_LINK__';
-            } else if (activity.object['oae:resourceSubType'] === 'doodle') {
+            } else if (activity.object['oae:resourceSubType'] === 'loodle') {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_DOODLE__';
             }
         } else if (properties.objectCount === 2) {
@@ -841,7 +841,7 @@ var _expose = function(exports) {
             } else {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_LINK_2+__';
             }
-        } else if (activity.target['oae:resourceSubType'] === 'doodle') {
+        } else if (activity.target['oae:resourceSubType'] === 'loodle') {
             if (properties.actorCount === 1) {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_DOODLE_1__';
             } else if (properties.actorCount === 2) {
@@ -875,7 +875,7 @@ var _expose = function(exports) {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_YOU__';
                     } else if (activity.object['oae:resourceSubType'] === 'link') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_YOU__';
-                    } else if (activity.object['oae:resourceSubType'] === 'doodle') {
+                    } else if (activity.object['oae:resourceSubType'] === 'loodle') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_DOODLE_YOU__';
                     }
                 } else if (properties.objectCount === 2) {
@@ -891,7 +891,7 @@ var _expose = function(exports) {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_FOLDER__';
                     } else if (activity.object['oae:resourceSubType'] === 'link') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_FOLDER__';
-                    } else if (activity.object['oae:resourceSubType'] === 'doodle') {
+                    } else if (activity.object['oae:resourceSubType'] === 'loodle') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_DOODLE_FOLDER__';
                     }
                 } else if (properties.objectCount === 2) {
@@ -907,7 +907,7 @@ var _expose = function(exports) {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_GROUP__';
                     } else if (activity.object['oae:resourceSubType'] === 'link') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_GROUP__';
-                    } else if (activity.object['oae:resourceSubType'] === 'doodle') {
+                    } else if (activity.object['oae:resourceSubType'] === 'loodle') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_DOODLE_GROUP__';
                     }
                 } else if (properties.objectCount === 2) {
@@ -924,7 +924,7 @@ var _expose = function(exports) {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE__';
                 } else if (activity.object['oae:resourceSubType'] === 'link') {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK__';
-                } else if (activity.object['oae:resourceSubType'] === 'doodle') {
+                } else if (activity.object['oae:resourceSubType'] === 'loodle') {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_DOODLE__';
                 }
             } else if (properties.objectCount === 2) {
@@ -1002,7 +1002,7 @@ var _expose = function(exports) {
             } else {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_LINK_2+__';
             }
-        } else if (activity.object['oae:resourceSubType'] === 'doodle') {
+        } else if (activity.object['oae:resourceSubType'] === 'loodle') {
             if (properties.actorCount === 1) {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_DOODLE_1__';
             } else if (properties.actorCount === 2) {
@@ -1062,7 +1062,7 @@ var _expose = function(exports) {
                 } else {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LINK_2+__';
                 }
-            } else if (activity.object['oae:resourceSubType'] === 'doodle') {
+            } else if (activity.object['oae:resourceSubType'] === 'loodle') {
                 if (properties.targetCount === 1) {
                     if (activity.target['oae:id'] === me.id) {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_DOODLE_YOU__';
@@ -1140,7 +1140,7 @@ var _expose = function(exports) {
             } else {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_2+__';
             }
-        } else if (activity.target['oae:resourceSubType'] === 'doodle') {
+        } else if (activity.target['oae:resourceSubType'] === 'loodle') {
             if (properties.objectCount === 1) {
                 if (activity.object['oae:id'] === me.id) {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_DOODLE_YOU__';
@@ -1191,7 +1191,7 @@ var _expose = function(exports) {
             } else {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_LINK_2+__';
             }
-        } else if (activity.object['oae:resourceSubType'] === 'doodle') {
+        } else if (activity.object['oae:resourceSubType'] === 'loodle') {
             if (properties.actorCount === 1) {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_DOODLE_1__';
             } else if (properties.actorCount === 2) {
@@ -1238,7 +1238,7 @@ var _expose = function(exports) {
             } else {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_LINK_PRIVATE__';
             }
-        } else if (activity.object['oae:resourceSubType'] === 'doodle') {
+        } else if (activity.object['oae:resourceSubType'] === 'loodle') {
             if (activity.object['oae:visibility'] === 'public') {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_DOODLE_PUBLIC__';
             } else if (activity.object['oae:visibility'] === 'loggedin') {
@@ -1439,7 +1439,7 @@ var _expose = function(exports) {
                 i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_FILE__';
             } else if (activity.object['oae:resourceSubType'] === 'link') {
                 i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_LINK__';
-            } else if (activity.object['oae:resourceSubType'] === 'doodle') {
+            } else if (activity.object['oae:resourceSubType'] === 'loodle') {
                 i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_DOODLE__';
             }
         } else if (properties.objectCount === 2) {

@@ -52,7 +52,7 @@ var _expose = function(exports) {
             'description': '__MSG__CSS_FILE__',
             'regex': 'text/css'
         },
-        'doodle': {
+        'loodle': {
             'description': '__MSG__DOODLE__'
         },
         'image': {

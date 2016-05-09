@@ -17,6 +17,38 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
 
     var LOODLE_ACTIVITY = exports.LOODLE_ACTIVITY = 'activity';
 
+    var createLoodle = exports.createLoodle = function (displayName, description, visibility, managers, viewers, folders, callback) {
+
+        if (!displayName) {
+            throw new Error('A valid document name should be provided');
+        }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        var data = {
+            'resourceSubType': 'loodle',
+            'displayName': displayName,
+            'description': description,
+            'visibility': visibility,
+            'managers': managers,
+            'viewers': viewers,
+            'folders': folders
+        };
+
+        $.ajax({
+            'url': '/api/content/create',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
     /**
      * Add schedule to the specified loodle
      *
@@ -33,7 +65,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
         };
 
         $.ajax({
-            'url': '/api/doodle/' + loodleId + '/schedule',
+            'url': '/api/loodle/' + loodleId + '/schedule',
             'type': 'POST',
             'data': data,
             'success': function () {
@@ -56,7 +88,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     var deleteSchedule = exports.deleteSchedule = function (loodleId, scheduleId, callback) {
 
         $.ajax({
-            'url': '/api/doodle/' + loodleId + '/schedule/' + scheduleId,
+            'url': '/api/loodle/' + loodleId + '/schedule/' + scheduleId,
             'type': 'DELETE',
             'success': function () {
                 return callback();
@@ -76,19 +108,15 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
      */
     var updateVotes = exports.updateVotes = function (votes, loodleId, callback) {
 
-        console.log('updateVotes');
-        console.log('loodleId : ', loodleId);
-        console.log('votes : ', votes);
-
         $.ajax({
-            'url': '/api/doodle/' + loodleId + '/votes',
+            'url': '/api/loodle/' + loodleId + '/votes',
             'type': 'PUT',
             'data': votes,
             'success': function () {
                 return callback();
             },
-            'error': function (err) {
-                return callback(err);
+            'error': function (xhr, status, error) {
+                return callback(xhr.responseText);
             }
         });
 
@@ -104,7 +132,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     var sendNotifications = exports.sendNotifications = function (contentId, notificationType, callback) {
 
         $.ajax({
-            'url': '/api/doodle/' + contentId + '/notifications',
+            'url': '/api/loodle/' + contentId + '/notifications',
             'type': 'POST',
             'data': {'notificationType' : notificationType},
             'success': callback,
@@ -116,7 +144,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     var getData = exports.getData = function (loodleId, callback) {
 
         $.ajax({
-            'url': '/api/doodle/' + loodleId,
+            'url': '/api/loodle/' + loodleId,
             'type': 'GET',
             'success': function (data) {
                 return callback(null, data);
@@ -126,7 +154,29 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
 
     };
 
+    var addMemberWithVotes = exports.addMemberWithVotes = function (loodleId, firstName, lastName, votes, callback) {
+
+        var data = {
+            'firstName': firstName,
+            'lastName': lastName,
+            'votes': JSON.stringify(votes)
+        };
+
+        $.ajax({
+            'url': '/api/loodle/' + loodleId + '/user',
+            'type': 'POST',
+            'data': data,
+            'success': function (data) {
+                callback(null, data);
+            },
+            'error': function (xhr, status, error) {
+                callback(xhr.responseText);
+            }
+        });
+
+    };
+
     var isEnabled = exports.isEnabled = function () {
-        return configAPI.getValue('oae-doodle', LOODLE_ACTIVITY, 'enabled');
+        return configAPI.getValue('oae-loodle', LOODLE_ACTIVITY, 'enabled');
     };
 });

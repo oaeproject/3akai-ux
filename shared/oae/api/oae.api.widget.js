@@ -70,6 +70,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
      * @return {Object}                     JSON object where the keys represent all of the available widgets and the values are the widget's manifest files.
      */
     var getWidgetManifests = exports.getWidgetManifests = function(properties) {
+
         if (!properties) {
             return manifests;
         }

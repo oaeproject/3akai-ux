@@ -131,12 +131,6 @@ require(['jquery','oae.core'], function($, oae) {
                     'class': 'oae-trigger-createfolder'
                 },
                 {
-                    'icon': 'fa-clock-o',
-                    'title': oae.api.i18n.translate('__MSG__DOODLE__'),
-                    'closeNav': true,
-                    'class': 'oae-trigger-createdoodle'
-                },
-                {
                     'icon': 'fa-link',
                     'title': oae.api.i18n.translate('__MSG__LINK__'),
                     'closeNav': true,
@@ -156,6 +150,15 @@ require(['jquery','oae.core'], function($, oae) {
                 }
             ]
         }];
+
+        if (oae.api.loodle.isEnabled()) {
+            lhNavActions[1].children.push({
+                'icon': 'fa-clock-o',
+                'title': oae.api.i18n.translate('__MSG__DOODLE__'),
+                'closeNav': true,
+                'class': 'oae-trigger-createloodle'
+            });
+        }
 
         // Structure that will be used to construct the left hand navigation pages
         var lhNavPages = [
@@ -279,8 +282,8 @@ require(['jquery','oae.core'], function($, oae) {
     var setUpOptionalFeatures = function () {
 
         // Loodle feature
-        if (!oae.api.doodle.isEnabled())
-            $('.oae-trigger-createdoodle').toggleClass('hidden');
+        if (!oae.api.loodle.isEnabled())
+            $('.oae-trigger-createloodle').parent().remove();
 
     };
 
