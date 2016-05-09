@@ -118,38 +118,6 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
         });
     };
 
-    var createDoodle = exports.createDoodle = function (displayName, description, visibility, managers, viewers, folders, callback) {
-
-        if (!displayName) {
-            throw new Error('A valid document name should be provided');
-        }
-
-        // Set a default callback function in case no callback function has been provided
-        callback = callback || function() {};
-
-        var data = {
-            'resourceSubType': 'loodle',
-            'displayName': displayName,
-            'description': description,
-            'visibility': visibility,
-            'managers': managers,
-            'viewers': viewers,
-            'folders': folders
-        };
-
-        $.ajax({
-            'url': '/api/content/create',
-            'type': 'POST',
-            'data': data,
-            'success': function(data) {
-                callback(null, data);
-            },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
-        });
-    };
-
     /**
      * Create a new file
      *
