@@ -165,7 +165,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
          * the postProcessor as well.
          *
          * @param  {Object}      data           List of items to add to the infinite scroll list
-         * @param  {Objet}      [opts]          Optional arguments
+         * @param  {Object}     [opts]          Optional arguments
          * @param  {Boolean}    [opts.prepend]  `true` when we want to prepend the new items to the list, otherwise items are appended
          * @param  {Boolean}    [opts.update]   `true` when we want to update existing items in place (identified by attribute `data-id`), otherwise existing items are removed then re-added with the updated version
          */
@@ -253,11 +253,11 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                 // prepended. When they were prepended, this indicates an in-memory user action which should
                 // be independent of the main list infinite scrolling
                 if (!opts.prepend) {
-                    // Determine if the number of returned results is the same as the number of requested
-                    // results. If this is the case, we can assume that more results should be fetched when
-                    // reaching the appropriate scroll position. However, we pause for a second, as to
-                    // not to send too many requests at once
-                    if (data.results.length === parameters.limit) {
+                    // Determine if the nextToken is truthy or the number of returned results is the same as
+                    // the number of requested results. If either of these is the case, we can assume that more
+                    // results should be fetched when reaching the appropriate scroll position. However, we pause
+                    // for a second, as to not to send too many requests at once
+                    if (nextToken || data.results.length === parameters.limit) {
                         canRequestMoreData = true;
                         checkLoadNext();
                     } else {
