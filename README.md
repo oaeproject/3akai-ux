@@ -1,6 +1,7 @@
-# Open Academic Environment (OAE Project)
+# Open Academic Environment (OAE Project) with a Doodle-like functionality.
 
 3akai-ux is the front-end for the Open Academic Environment project.
+This repository contains a modified version of 3akai-ux with a Doodle-like functionality integrated.
 
 ## Build status
 [![Build Status](https://travis-ci.org/oaeproject/3akai-ux.png?branch=master)](https://travis-ci.org/oaeproject/3akai-ux)
