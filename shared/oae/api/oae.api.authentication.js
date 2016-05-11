@@ -238,7 +238,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
         // Use the `auth.html` `authExternalButton` macro to create a form that performs this
         // authentication
         var $template = $('<div><!--'
-                          +   '<div class="hide">'
+                          +   '<div class="hide" id="oae-auth-external">'
                           +     '${authExternalButton(strategy, opts)}'
                           +   '</div>'
                           + '--></div>');
@@ -254,7 +254,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
 
         // Submit the form
         $($.trim(form)).appendTo('body');
-        $('.btn-external-auth').click();
+        $('#oae-auth-external').find('.btn-external-auth').click();
     };
 
     /**
