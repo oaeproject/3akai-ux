@@ -53,7 +53,7 @@ var _expose = function(exports) {
             'regex': 'text/css'
         },
         'loodle': {
-            'description': '__MSG__DOODLE__'
+            'description': '__MSG__LOODLE__'
         },
         'image': {
             'description': '__MSG__IMAGE__',

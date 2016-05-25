@@ -796,7 +796,7 @@ var _expose = function(exports) {
             } else if (activity.object['oae:resourceSubType'] === 'link') {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_LINK__';
             } else if (activity.object['oae:resourceSubType'] === 'loodle') {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_DOODLE__';
+                i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_LOODLE__';
             }
         } else if (properties.objectCount === 2) {
             i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_2__';
@@ -843,11 +843,11 @@ var _expose = function(exports) {
             }
         } else if (activity.target['oae:resourceSubType'] === 'loodle') {
             if (properties.actorCount === 1) {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_DOODLE_1__';
+                i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_LOODLE_1__';
             } else if (properties.actorCount === 2) {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_DOODLE_2__';
+                i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_LOODLE_2__';
             } else {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_DOODLE_2+__';
+                i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_LOODLE_2+__';
             }
         }
         return new ActivityViewSummary(i18nKey, properties);
@@ -876,7 +876,7 @@ var _expose = function(exports) {
                     } else if (activity.object['oae:resourceSubType'] === 'link') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_YOU__';
                     } else if (activity.object['oae:resourceSubType'] === 'loodle') {
-                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_DOODLE_YOU__';
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LOODLE_YOU__';
                     }
                 } else if (properties.objectCount === 2) {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_YOU__';
@@ -892,7 +892,7 @@ var _expose = function(exports) {
                     } else if (activity.object['oae:resourceSubType'] === 'link') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_FOLDER__';
                     } else if (activity.object['oae:resourceSubType'] === 'loodle') {
-                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_DOODLE_FOLDER__';
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LOODLE_FOLDER__';
                     }
                 } else if (properties.objectCount === 2) {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_FOLDER__';
@@ -908,7 +908,7 @@ var _expose = function(exports) {
                     } else if (activity.object['oae:resourceSubType'] === 'link') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_GROUP__';
                     } else if (activity.object['oae:resourceSubType'] === 'loodle') {
-                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_DOODLE_GROUP__';
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LOODLE_GROUP__';
                     }
                 } else if (properties.objectCount === 2) {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_GROUP__';
@@ -925,7 +925,7 @@ var _expose = function(exports) {
                 } else if (activity.object['oae:resourceSubType'] === 'link') {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK__';
                 } else if (activity.object['oae:resourceSubType'] === 'loodle') {
-                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_DOODLE__';
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LOODLE__';
                 }
             } else if (properties.objectCount === 2) {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2__';
@@ -1004,11 +1004,11 @@ var _expose = function(exports) {
             }
         } else if (activity.object['oae:resourceSubType'] === 'loodle') {
             if (properties.actorCount === 1) {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_DOODLE_1__';
+                i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_LOODLE_1__';
             } else if (properties.actorCount === 2) {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_DOODLE_2__';
+                i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_LOODLE_2__';
             } else {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_DOODLE_2+__';
+                i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_LOODLE_2+__';
             }
         }
         return new ActivityViewSummary(i18nKey, properties);
@@ -1065,14 +1065,14 @@ var _expose = function(exports) {
             } else if (activity.object['oae:resourceSubType'] === 'loodle') {
                 if (properties.targetCount === 1) {
                     if (activity.target['oae:id'] === me.id) {
-                        i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_DOODLE_YOU__';
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LOODLE_YOU__';
                     } else {
-                        i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_DOODLE_1__';
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LOODLE_1__';
                     }
                 } else if (properties.targetCount === 2) {
-                    i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_DOODLE_2__';
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LOODLE_2__';
                 } else {
-                    i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_DOODLE_2+__';
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LOODLE_2+__';
                 }
             }
         } else {
@@ -1143,14 +1143,14 @@ var _expose = function(exports) {
         } else if (activity.target['oae:resourceSubType'] === 'loodle') {
             if (properties.objectCount === 1) {
                 if (activity.object['oae:id'] === me.id) {
-                    i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_DOODLE_YOU__';
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LOODLE_YOU__';
                 } else {
-                    i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_DOODLE_1__';
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LOODLE_1__';
                 }
             } else if (properties.objectCount === 2) {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_DOODLE_2__';
+                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LOODLE_2__';
             } else {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_DOODLE_2+__';
+                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LOODLE_2+__';
             }
         }
         return new ActivityViewSummary(i18nKey, properties);
@@ -1193,11 +1193,11 @@ var _expose = function(exports) {
             }
         } else if (activity.object['oae:resourceSubType'] === 'loodle') {
             if (properties.actorCount === 1) {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_DOODLE_1__';
+                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_LOODLE_1__';
             } else if (properties.actorCount === 2) {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_DOODLE_2__';
+                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_LOODLE_2__';
             } else {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_DOODLE_2+__';
+                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_LOODLE_2+__';
             }
         }
         return new ActivityViewSummary(i18nKey, properties);
@@ -1240,11 +1240,11 @@ var _expose = function(exports) {
             }
         } else if (activity.object['oae:resourceSubType'] === 'loodle') {
             if (activity.object['oae:visibility'] === 'public') {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_DOODLE_PUBLIC__';
+                i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_LOODLE_PUBLIC__';
             } else if (activity.object['oae:visibility'] === 'loggedin') {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_DOODLE_LOGGEDIN__';
+                i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_LOODLE_LOGGEDIN__';
             } else {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_DOODLE_PRIVATE__';
+                i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_LOODLE_PRIVATE__';
             }
         }
         return new ActivityViewSummary(i18nKey, properties);
@@ -1440,7 +1440,7 @@ var _expose = function(exports) {
             } else if (activity.object['oae:resourceSubType'] === 'link') {
                 i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_LINK__';
             } else if (activity.object['oae:resourceSubType'] === 'loodle') {
-                i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_DOODLE__';
+                i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_LOODLE__';
             }
         } else if (properties.objectCount === 2) {
             i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_2__';
@@ -1956,14 +1956,14 @@ var _expose = function(exports) {
 
     var _generateLoodleUpdateVotesSummary = function (me, activity, properties) {
 
-        var i18nKey = '__MSG__ACTIVITY_DOODLE_UPDATE_VOTES__';
+        var i18nKey = '__MSG__ACTIVITY_LOODLE_UPDATE_VOTES__';
         return new ActivityViewSummary(i18nKey, properties);
 
     };
 
     var _generateLoodleUpdateSchedulesSummary = function (me, activity, properties) {
 
-        var i18nKey = '__MSG__ACTIVITY_DOODLE_UPDATE_SCHEDULES__';
+        var i18nKey = '__MSG__ACTIVITY_LOODLE_UPDATE_SCHEDULES__';
         return new ActivityViewSummary(i18nKey, properties);
 
     };

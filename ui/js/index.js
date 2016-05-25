@@ -154,7 +154,7 @@ require(['jquery','oae.core'], function($, oae) {
         if (oae.api.loodle.isEnabled()) {
             lhNavActions[1].children.push({
                 'icon': 'fa-clock-o',
-                'title': oae.api.i18n.translate('__MSG__DOODLE__'),
+                'title': oae.api.i18n.translate('__MSG__LOODLE__'),
                 'closeNav': true,
                 'class': 'oae-trigger-createloodle'
             });
