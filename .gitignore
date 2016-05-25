@@ -9,6 +9,7 @@ Thumbs.db
 dump.rdb
 
 nginx/nginx.*
+!nginx/nginx.conf
 
 node_modules/*
 !node_modules/oae-core
