@@ -620,7 +620,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             // We register the submit handler. This will be called when the overall form
             // validation has succeeded
             options.submitHandler = function($thisForm, validator) {
-                // We clear all the old validation styles
+                // Clear all the old validation styles
                 clear($form);
                 // Call the cached invalid handler callback
                 if (submitCallback) {
@@ -632,7 +632,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             // We register the invalid handler. This will be called once when the overall
             // form validation has failed
             options.invalidHandler = function($thisForm, validator) {
-                // We clear all the old validation styles
+                // Clear all the old validation styles
                 clear($form);
                 // Call the cached invalid handler callback
                 if (invalidCallback) {
@@ -715,12 +715,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 return false;
             }
 
-            // Display names that contain `http://`, `https://`, or `@` are indicative of Shibboleth
+            // Display names that contain `http://`, `https://`, `@` or `shibboleth!` are indicative of Shibboleth
             // not releasing an attribute that could be used as the display name. This is not
             // considered to be valid
-            if (/https?:\/\//i.test(displayName)) {
-                return false;
-            } else if (/@/.test(displayName)) {
+            if (/https?:\/\/|shibboleth!|@/i.test(displayName)) {
                 return false;
             }
 
@@ -758,26 +756,29 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
         var isValidEmailDomainForTenant = function(email) {
             // If the tenant has not been configured with an email domain, any email address
             // can be used to sign up
-            var configuredEmailDomain = require('oae.core').data.me.tenant.emailDomain;
-            if (!configuredEmailDomain) {
+            var configuredEmailDomains = require('oae.core').data.me.tenant.emailDomains;
+            if (_.isEmpty(configuredEmailDomains)) {
                 return true;
             }
 
-            configuredEmailDomain = configuredEmailDomain.toLowerCase();
+            configuredEmailDomains = _.map(configuredEmailDomains, function(emailDomain) {
+                return emailDomain.toLowerCase();
+            });
 
-            // If the email domain is an exact match, it's a success
             var givenEmailDomain = email.split('@').pop().toLowerCase();
-            if (givenEmailDomain === configuredEmailDomain) {
-                return true;
-            }
+            var matchingEmailDomain = _.find(configuredEmailDomains, function(configuredEmailDomain) {
+                // If the email domain is an exact match, it's a success
+                if (givenEmailDomain === configuredEmailDomain) {
+                    return true;
+                }
 
-            var emailDomainSuffix = '.' + configuredEmailDomain;
-            var suffixPosition = givenEmailDomain.indexOf(emailDomainSuffix);
-            var suffixMatch = (suffixPosition > 0 && suffixPosition === (givenEmailDomain.length - emailDomainSuffix.length));
+                // Check this configured email domain is a suffix of the given email domain
+                var emailDomainSuffix = '.' + configuredEmailDomain;
+                var suffixPosition = givenEmailDomain.indexOf(emailDomainSuffix);
+                return (suffixPosition > 0 && suffixPosition === (givenEmailDomain.length - emailDomainSuffix.length));
+            });
 
-            // If the configured email domain is a suffix of the email domain,
-            // it's a success
-            return suffixMatch;
+            return !_.isUndefined(matchingEmailDomain);
         };
 
         /**
@@ -991,6 +992,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 throw new Error('A valid input element should be provided.');
             }
 
+            // Whether guests can be invited to this tenant through an email address
+            var allowInvitingGuests = configAPI.getValue('oae-tenants', 'guests', 'allow');
+            if (!allowInvitingGuests) {
+                options.showResultListWhenNoMatch = true;
+            }
+
             // Load the autosuggest templates in case they haven't been loaded yet
             getAutosuggestTemplates(function() {
 
@@ -1008,7 +1015,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 // The `emptyText` is the text that will be shown when no suggested items could be found.
                 // If no `emptyText` has been provided, we fall back to a default string unless email
                 // addresses are allowed
-                if (!options.emptyText && !options.allowEmail) {
+                if (!options.emptyText && options.showResultListWhenNoMatch) {
                     options.emptyText = i18nAPI.translate('__MSG__NO_RESULTS_FOUND__');
                 }
 
@@ -1083,8 +1090,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         .value();
 
                     // If there are no search results and the query is an email address, present an
-                    // option for the user to have the email address as an option
-                    if (options.allowEmail && isValidEmail && _.isEmpty(data.results)) {
+                    // option for the user to have the email address as an option. An email address
+                    // is only allowed if the tenant has enabled inviting guest or if the invitation
+                    // does not end up on the guest tenant
+                    var allowEmailAddress = allowInvitingGuests || (data.tenant && !data.tenant.isGuestTenant);
+                    if (options.allowEmail && isValidEmail && _.isEmpty(data.results) && allowEmailAddress) {
                         data.results.push({
                             'id': query,
                             'displayName': query,
@@ -1304,8 +1314,71 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     // for each one
                     tokens = _.compact(tokens);
                     if (_.every(tokens, validation().isValidEmail)) {
-                        insertEmails(tokens);
-                        $element.val('');
+                        // Insert the emails if guests can be invited
+                        if (allowInvitingGuests) {
+                            // Clear the text box so the search doesn't get triggered
+                            $element.val('');
+                            insertEmails(tokens);
+
+                        // Otherwise we need to validate whether the email address
+                        // would end up on a tenant with a configured email domain.
+                        // We only do this when a user pastes more than 1 email
+                        // address. If they paste 1 email address the regular search
+                        // endpoint can deal with it. That also has the benefit that
+                        // if the email ends up on the guest tenant a "No results found"
+                        // box will be shown rather than a notification.
+                        } else if (tokens.length > 1) {
+                            // Clear the text box so the search doesn't get triggered
+                            $element.val('');
+
+                            // Get the tenant for each email address
+                            $.ajax({
+                                'type': 'GET',
+                                'url': '/api/tenantsByEmail',
+                                'data': {
+                                    'emails': tokens
+                                },
+                                'success': function(tenants) {
+                                    // Add the email address that end up on a tenant
+                                    // with that configured email domain
+                                    _.each(tenants, function(tenant, email) {
+                                        if (!tenant.isGuestTenant) {
+                                            insertEmails([email]);
+                                            delete tenants[email];
+                                        }
+                                    });
+
+                                    // Show an error notification for the remaining tenants
+                                    var remainingEmails = _.keys(tenants);
+                                    if (!_.isEmpty(remainingEmails)) {
+                                        var msg = '';
+                                        if (remainingEmails.length === 1) {
+                                            msg = i18nAPI.translate('__MSG__UNABLE_TO_ADD_EMAIL_ADDRESSES_1__', null, {
+                                                'emailAddress1': remainingEmails[0]
+                                            });
+                                        } else if (remainingEmails.length ===2 ) {
+                                            msg = i18nAPI.translate('__MSG__UNABLE_TO_ADD_EMAIL_ADDRESSES_2__', null, {
+                                                'emailAddress1': remainingEmails[0],
+                                                'emailAddress2': remainingEmails[1]
+                                            });
+                                        } else {
+                                            var emailAddresesFinal = remainingEmails.pop();
+                                            var emailAddressesComma = remainingEmails.join(', ');
+                                            msg = i18nAPI.translate('__MSG__UNABLE_TO_ADD_EMAIL_ADDRESSES_2+__', null, {
+                                                'emailAddressesComma': emailAddressesComma,
+                                                'emailAddressesFinal': emailAddresesFinal
+                                            });
+                                        }
+                                        notification(
+                                            i18nAPI.translate('__MSG__EMAIL_INVITATION_FAILED__'),
+                                            msg,
+                                            'error'
+                                        );
+                                    }
+
+                                }
+                            });
+                        }
                     }
                 };
 
@@ -1353,7 +1426,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                             // If there is a selected item, we handle it a bit
                             // differently if it is an email versus if it is a
                             // user result
-                            if (options.allowEmail && validation().isValidEmail(selectionResultItemId)) {
+                            if (options.allowEmail && allowInvitingGuests && validation().isValidEmail(selectionResultItemId)) {
                                 // If the current item is an email, use the
                                 // final result of the text field to avoid any
                                 // issue with the result list delaying to update
@@ -1375,7 +1448,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
                     // If we're doing any kind of termination and we have all emails and we allow
                     // them as entries, insert them all into the field
-                    if (options.allowEmail && _.every(tokens, validation().isValidEmail)) {
+                    if (options.allowEmail && allowInvitingGuests && _.every(tokens, validation().isValidEmail)) {
                         insertEmails(tokens);
                         $element.val('');
                         return false;

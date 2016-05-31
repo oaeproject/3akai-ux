@@ -226,10 +226,9 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
      * Set up the validation on the create account form, including the error messages
      */
     var setUpCreateAccountValidation = function() {
-        var tenantEmailDomain = oae.data.me.tenant.emailDomain;
-        if (tenantEmailDomain) {
-            tenantEmailDomain = tenantEmailDomain.toLowerCase();
-        }
+        var tenantEmailDomains = _.map(oae.data.me.tenant.emailDomains, function(emailDomain) {
+            return emailDomain.toLowerCase();
+        });
 
         var validateOpts = {
             'rules': {
@@ -299,7 +298,13 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
                 },
                 'emaildomain': {
                     'method': oae.api.util.validation().isValidEmailDomainForTenant,
-                    'text': oae.api.i18n.translate('__MSG__YOU_CAN_ONLY_REGISTER_WITH_A_TENANT_EMAIL_ADDRESS__', null, {'emailDomain': tenantEmailDomain})
+                    'text': function() {
+                        if (tenantEmailDomains.length === 1) {
+                            return oae.api.i18n.translate('__MSG__YOU_CAN_ONLY_REGISTER_WITH_AN_EMAIL_ADDRESS_ENDING_IN__', null, {'emailDomain': tenantEmailDomains[0]});
+                        } else {
+                            return oae.api.i18n.translate('__MSG__YOU_CAN_ONLY_REGISTER_WITH_AN_EMAIL_ADDRESS_ENDING_IN_ONE_OF__', null, {'emailDomains': tenantEmailDomains.join(', ')});
+                        }
+                    }
                 }
             },
             'submitHandler': createUser
@@ -452,7 +457,7 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
             // Show the container now that everything is initialized
             $('#signup-institution-container').show();
         });
-    }
+    };
 
     /**
      * Initialize the signup options template

@@ -65,7 +65,7 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function (jQuery, oaeUtil) 
          */
         $.fn.switchtabId = function() {
             return getIdFromState($(this));
-        }
+        };
 
         /*!
          * Get the querystring of the current page as a string
@@ -103,7 +103,7 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function (jQuery, oaeUtil) 
         var pushIdToState = function($switchtab, id, init) {
             var $target = pushIdToElement($switchtab, id);
             var data = History.getState().data;
-            var path = $target.attr('href')
+            var path = $target.attr('href');
             var queryString = getQueryString();
             if (queryString) {
                 path += '?' + queryString;
@@ -128,7 +128,7 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function (jQuery, oaeUtil) 
             $target.parent('li').addClass('active');
             $switchtab.find('a[aria-controls!="' + id + '"]').parent('li').removeClass('active');
             return $target;
-        }
+        };
 
     })(jQuery);
 });
