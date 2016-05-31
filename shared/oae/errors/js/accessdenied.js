@@ -19,6 +19,9 @@ require(['jquery','oae.core'], function($, oae) {
     oae.api.util.setBrowserTitle('__MSG__ACCESS_DENIED__');
 
     if (oae.data.me.anon) {
+        // Display the sign in button
+        $('#error-signin-container').show();
+
         // Pass on the click of the error-signin button to the topnav sign in action
         $(document).on('click', '#error-signin', function() {
             $('.topnavigation-signin-action').click();
