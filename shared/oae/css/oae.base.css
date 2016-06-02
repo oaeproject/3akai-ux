@@ -897,3 +897,31 @@ ul.as-list li.as-result-item.active {
 .oae-markdown-embedded p:first-child {
     margin-top: 0;
 }
+
+/**
+ * Markdown table styles
+ */
+
+.oae-markdown-embedded table {
+    border-bottom: 1px solid #ECECEC;
+    font-size: 14px;
+    margin: 20px 0;
+}
+
+.oae-markdown-embedded table th {
+    background-color: transparent;
+    border-bottom: 1px solid #999;
+    border-top: 1px solid #ECECEC;
+    font-weight: bolder;
+    padding: 10px 0;
+}
+
+.oae-markdown-embedded table td {
+    font-weight: normal;
+    height: 22px;
+    padding: 6px 20px 6px 0;
+}
+
+.oae-markdown-embedded table tr:nth-child(odd) {
+    background-color: #ECECEC;
+}

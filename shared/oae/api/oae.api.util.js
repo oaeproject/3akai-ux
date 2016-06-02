@@ -1654,12 +1654,16 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 return '';
             } else {
 
+                // Escape asterisks instead of treating them as italics markers
+                input = input.replace(/\*/g, "\\*").replace(/\\\\/g, "\\");
+
                 // Convert the Markdown input string to HTML using marked.js. `gfm`
                 // automatically recognizes text beginning with http: or https: as a URL
                 // and converts it to a link. We also specify that the input should be sanitized.
                 // @see https://github.com/chjj/marked
                 input = markdown(input.toString(), {
                     'gfm': true,
+                    'tables': true,
                     'breaks': true,
                     'sanitize': true
                 });
