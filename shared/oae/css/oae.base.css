@@ -909,11 +909,11 @@ ul.as-list li.as-result-item.active {
 }
 
 .oae-markdown-embedded table th {
-    background-color: transparent;
+    background-color: #FFF;
     border-bottom: 1px solid #999;
     border-top: 1px solid #ECECEC;
     font-weight: bolder;
-    padding: 10px 0;
+    padding: 10px;
 }
 
 .oae-markdown-embedded table td {
@@ -922,6 +922,6 @@ ul.as-list li.as-result-item.active {
     padding: 6px 20px 6px 0;
 }
 
-.oae-markdown-embedded table tr:nth-child(odd) {
+.oae-markdown-embedded table tr:nth-child(even) {
     background-color: #ECECEC;
 }
