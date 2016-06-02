@@ -903,24 +903,23 @@ ul.as-list li.as-result-item.active {
  */
 
 .oae-markdown-embedded table {
-    margin: 20px 0;
     border-bottom: 1px solid #ECECEC;
-    color: #333;
     font-size: 14px;
+    margin: 20px 0;
 }
 
 .oae-markdown-embedded table th {
-    background-color: #FFF;
-    border-top: 1px solid #ECECEC;
+    background-color: transparent;
     border-bottom: 1px solid #999;
-    padding: 10px 0;
+    border-top: 1px solid #ECECEC;
     font-weight: bolder;
+    padding: 10px 0;
 }
 
 .oae-markdown-embedded table td {
-    padding: 5px 20px 6px 0;
     font-weight: normal;
     height: 22px;
+    padding: 6px 20px 6px 0;
 }
 
 .oae-markdown-embedded table tr:nth-child(odd) {
