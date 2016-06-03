@@ -904,7 +904,6 @@ ul.as-list li.as-result-item.active {
 
 .oae-markdown-embedded table {
     border-bottom: 1px solid #ECECEC;
-    font-size: 14px;
     margin: 20px 0;
 }
 
@@ -912,16 +911,20 @@ ul.as-list li.as-result-item.active {
     background-color: #FFF;
     border-bottom: 1px solid #999;
     border-top: 1px solid #ECECEC;
-    font-weight: bolder;
+    font-weight: 500;
     padding: 10px;
 }
 
 .oae-markdown-embedded table td {
     font-weight: normal;
     height: 22px;
-    padding: 6px 20px 6px 0;
+    padding: 6px 10px;
 }
 
 .oae-markdown-embedded table tr:nth-child(even) {
     background-color: #ECECEC;
+}
+
+.oae-markdown-embedded table tr:nth-child(odd) {
+    background-color: #FFF;
 }
