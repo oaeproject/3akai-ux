@@ -1657,7 +1657,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             } else {
 
                 // Escape asterisks instead of treating them as italics markers
-                input = input.replace(/(\*)(?=[RU])/g, "\\*").replace(/(?:\s)(\*)(?=\s)/g, " \\*").replace(/\\\\/g, "\\");
+                input = input.replace(/(\*)(?=Research|Unity)/g, "\\*").replace(/(?:\s)(\*)(?=\s)/g, " \\*").replace(/\\\\/g, "\\");
 
                 // Convert the Markdown input string to HTML using marked.js. `gfm`
                 // automatically recognizes text beginning with http: or https: as a URL
