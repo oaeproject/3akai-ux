@@ -1,5 +1,8 @@
 define(['exports', 'jquery'], function(exports, $) {
 
+    /**
+     * Create a new meeting.
+     */
     var createMeeting = exports.createMeeting = function (displayName, description, chat, contactList, visibility, managers, members, callback) {
 
         if (!displayName) {
@@ -23,6 +26,25 @@ define(['exports', 'jquery'], function(exports, $) {
             'url': '/api/meetingJitsi/create',
             'type': 'POST',
             'data': data,
+            'success': function (data) {
+                return callback(null, data);
+            },
+            'error': function (jqXHR, textStatus) {
+                return callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+
+    };
+
+    /**
+     * Get a meeting data.
+     */
+    var getMeeting = exports.getMeeting = function (meetingId, callback) {
+
+        if (!meetingId) throw new Error('A valid meeting id should be provided');
+
+        $.ajax({
+            'url': '/api/meeting-jitsi/' + meetingId,
             'success': function (data) {
                 return callback(null, data);
             },
