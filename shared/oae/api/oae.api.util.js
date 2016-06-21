@@ -1655,9 +1655,29 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             if (!input) {
                 return '';
             } else {
-
+                var nonWord = /\W/;
                 // Escape asterisks instead of treating them as italics markers
-                input = input.replace(/(\*)(?=Research|Unity)/g, "\\*").replace(/(?:\s)(\*)(?=\s)/g, " \\*").replace(/\\\\/g, "\\");
+                input = input.replace(/\*/g, function(match, index) {
+                    var prevChar = input.charAt(index - 1);
+
+                    // Is this an asterisk used at the start of a line to indicate a bulleted list?
+                    if (prevChar.match(/./)) {
+                        var nextPosition = input.indexOf('*', index + 1);
+
+                        // Is this the starting asterisk followed by a letter and accompanied by a closing asterisk?
+                        if (nextPosition === -1 || input.charAt(index + 1).match(nonWord) || input.charAt(nextPosition - 1).match(nonWord) ) {
+                            var previousPosition = input.lastIndexOf('*', index - 1);
+
+                            // Is this the closing asterisk preceded by a letter and accompanied by a starting asterisk?
+                            if (previousPosition === -1 || prevChar.match(nonWord) || input.charAt(previousPosition + 1).match(nonWord) ) {
+                                // If not, escape it
+                                return '\\' + match;
+                            }
+                        }
+                    }
+
+                    return match;
+                }).replace(/\\{2,}/g, '\\');
 
                 // Convert the Markdown input string to HTML using marked.js. `gfm`
                 // automatically recognizes text beginning with http: or https: as a URL
