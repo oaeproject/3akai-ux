@@ -137,14 +137,14 @@ require(['jquery', 'oae.core'], function ($, oae) {
     /** 
      * Trigger the manageaccess widget and pass in context data 
      */
-    $(document).on('click', '.meeting-trigger-manageaccess', function () {
+    $(document).on('click', '.meeting-jitsi-trigger-manageaccess', function () {
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
     });
 
     /** 
      * Trigger the manageaccess widget in 'add members' view and pass in context data 
      */
-    $(document).on('click', '.meeting-trigger-manageaccess-add', function () {
+    $(document).on('click', '.meeting-jitsi-trigger-manageaccess-add', function () {
         $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
     });
 
