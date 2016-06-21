@@ -8,12 +8,48 @@ require(['jquery', 'oae.core'], function ($, oae) {
     var baseUrl = '/meeting-jitsi/' + $.url().segment(2) + '/' + $.url().segment(3);
 
     /**
+     * Create the widgetData object to send to the manageaccess widget that contains all
+     * variable values needed by the widget.
+     *
+     * @return {Object}    The widgetData to be passed into the manageaccess widget
+     * @see manageaccess#initManageAccess
+     */
+    var getManageAccessData = function () {
+        return {
+            'contextProfile': meetingProfile,
+            'messages': {
+                'accessNotUpdatedBody': oae.api.i18n.translate('__MSG__MEETING_ACCESS_COULD_NOT_BE_UPDATED__'),
+                'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__MEETING_ACCESS_NOT_UPDATED__'),
+                'accessUpdatedBody': oae.api.i18n.translate('__MSG__MEETING_ACCESS_SUCCESSFULLY_UPDATED__'),
+                'accessUpdatedTitle': oae.api.i18n.translate('__MSG__MEETING_ACCESS_UPDATED__'),
+                'membersTitle': oae.api.i18n.translate('__MSG__SHARED_WITH__'),
+                'private': oae.api.i18n.translate('__MSG__PRIVATE__'),
+                'loggedin': oae.api.util.security().encodeForHTML(meetingProfile.tenant.displayName),
+                'public': oae.api.i18n.translate('__MSG__PUBLIC__'),
+                'privateDescription': oae.api.i18n.translate('__MSG__MEETING_PRIVATE_DESCRIPTION__'),
+                'loggedinDescription': oae.api.i18n.translate('__MSG__MEETING_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(meetingProfile.tenant.displayName)}),
+                'publicDescription': oae.api.i18n.translate('__MSG__MEETING_PUBLIC_DESCRIPTION__')
+            },
+            'defaultRole': 'member',
+            'roles': [
+                {'id': 'member', 'name': oae.api.i18n.translate('__MSG__CAN_VIEW__')},
+                {'id': 'manager', 'name': oae.api.i18n.translate('__MSG__CAN_MANAGE__')}
+            ],
+            'api': {
+                'getMembersURL': '/api/meeting-jitsi/'+ meetingProfile.id + '/members',
+                'setMembers': oae.api.meetingJitsi.updateMembers,
+                'getInvitations': oae.api.meetingJitsi.getInvitations,
+                'resendInvitation': oae.api.meetingJitsi.resendInvitation,
+                'setVisibility': oae.api.meetingJitsi.updateMeeting
+            }
+        };
+    };
+
+    /**
      * Set up the context. 
      */
     var setUpContext = function () {
         $(document).on('oae.context.get', function (e, widgetId) {
-            console.log('widgetId : ', widgetId);
-            console.log('meetingProfile : ', meetingProfile);
             if (widgetId)
                 $(document).trigger('oae.context.send.' + widgetId, meetingProfile);
             else
@@ -69,6 +105,10 @@ require(['jquery', 'oae.core'], function ($, oae) {
     var getMeetingProfile = function () {
         oae.api.meetingJitsi.getMeeting(meetingId, function (err, profile) {
 
+            console.log('err : ', err);
+            console.log('profile : ', profile);
+            console.log('oae : ', oae);
+
             if (err) {
                 if (err.code === 401) 
                     oae.api.util.redirect().accessdenied();
@@ -93,6 +133,10 @@ require(['jquery', 'oae.core'], function ($, oae) {
              */
         });
     };
+
+    $(document).on('click', '.meeting-trigger-manageaccess', function () {
+        $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
+    });
 
     getMeetingProfile();
 

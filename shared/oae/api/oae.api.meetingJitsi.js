@@ -55,4 +55,23 @@ define(['exports', 'jquery'], function(exports, $) {
 
     };
 
+    /**
+     * Get all the invitations for a meeting.
+     */
+    var getInvitations = exports.getInvitations = function (meetingId, callback) {
+
+        if (!meetingId) throw new Error('A valid meeting id should be provided');
+        
+        $.ajax({
+            'url': '/api/meeting-jitsi/' + meetingId + '/invitations',
+            'success': function (data) {
+                return callback(null, data);
+            },
+            'error': function (jqXHR, textStatus) {
+                return callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+
+    };
+
 });
