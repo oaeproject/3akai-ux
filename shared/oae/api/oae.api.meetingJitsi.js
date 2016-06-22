@@ -162,9 +162,9 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             },
             'error': function (jqXHR, textStatus) {
                 return callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            } 
+            }
         });
-        
+
     };
 
     /**
@@ -181,5 +181,39 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         return callback('not implemented yet');
 
     }
+
+
+    /**
+     * Change the members and managers of a meeting
+     * 
+     * @param  {String}       meetingId             Id of the meeting we're trying to update the members of
+     * @param  {Object}       updatedMembers        JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
+     * @param  {Function}     [callback]            Standard callback function
+     * @param  {Object}       [callback.err]        Error object containing error code and error message
+     * @throws {Error}                              Error thrown when not all of the required parameters have been provided
+     */
+    var updateMembers = exports.updateMembers = function (meetingId, updatedMembers, callback) {
+
+        if (!meetingId) 
+            throw new Error('A valid meeting id should be provided');
+        else if (!updatedMembers || _.keys(updatedMembers).length === 0)
+            throw new Error('The updatedmembers hash should contain at least 1 update');
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/meeting-jitsi/' + meetingId + '/members',
+            'type': 'PUT',
+            'data': updatedMembers,
+            'success': function () {
+                return callback(null);
+            },
+            'error': function (jqXHR, textStatus) {
+                return callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        })
+
+    };
 
 });

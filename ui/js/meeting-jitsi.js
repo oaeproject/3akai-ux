@@ -37,7 +37,7 @@ require(['jquery', 'oae.core'], function ($, oae) {
             ],
             'api': {
                 'getMembersURL': '/api/meeting-jitsi/'+ meetingProfile.id + '/members',
-                'setMembers': oae.api.meetingJitsi.updateMembers, // to do
+                'setMembers': oae.api.meetingJitsi.updateMembers,
                 'getInvitations': oae.api.meetingJitsi.getInvitations,
                 'resendInvitation': oae.api.meetingJitsi.resendInvitation, // to do
                 'setVisibility': oae.api.meetingJitsi.updateMeeting
