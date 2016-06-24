@@ -216,4 +216,30 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
     };
 
+    /**
+     * Start a meeting
+     * 
+     * @param {any} meetingId
+     * @param {any} callback
+     */
+    var startMeeting = exports.startMeeting = function (meetingId, callback) {
+
+        if (!meetingId) throw new Error('A valid meeting id should be provided');
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/meeting-jitsi/' + meetingId + '/start',
+            'type': 'GET',
+            'success': function () {
+                return callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                return callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+
+    };
+
 });

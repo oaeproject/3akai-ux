@@ -29,6 +29,7 @@ requirejs.config({
         'bootstrap.notify': 'vendor/js/bootstrap-plugins/bootstrap.notify.oae-edited',
         'globalize': 'vendor/js/l10n/globalize',
         'iso3166': 'oae/js/iso3166',
+        'JitsiMeetExternalAPI': 'vendor/js/JitsiMeetExternalAPI',
         'jquery.autosize': 'vendor/js/jquery-plugins/jquery.autosize',
         'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest',
         'jquery.dotdot': 'vendor/js/jquery-plugins/jquery.dotdotdot',

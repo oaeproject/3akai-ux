@@ -4,6 +4,9 @@ require(['jquery', 'oae.core'], function ($, oae) {
     // The meeting id will then be `d:<tenantId>:<resourceId>`
     var meetingId = 'd:' + $.url().segment(2) + ':' + $.url().segment(3);
 
+    // Variable used to cache the requested meeting profile
+    var meetingProfile = null;
+
     // Variable used to cache the meeting's base URL
     var baseUrl = '/meeting-jitsi/' + $.url().segment(2) + '/' + $.url().segment(3);
 
@@ -103,11 +106,8 @@ require(['jquery', 'oae.core'], function ($, oae) {
     };
 
     var getMeetingProfile = function () {
-        oae.api.meetingJitsi.getMeeting(meetingId, function (err, profile) {
 
-            console.log('err : ', err);
-            console.log('profile : ', profile);
-            console.log('oae : ', oae);
+        oae.api.meetingJitsi.getMeeting(meetingId, function (err, profile) {
 
             if (err) {
                 if (err.code === 401) 
@@ -132,6 +132,7 @@ require(['jquery', 'oae.core'], function ($, oae) {
             setUpPushNotifications();
              */
         });
+
     };
 
     /** 
