@@ -740,10 +740,34 @@ var _expose = function(exports) {
             return _generateGroupUpdateVisibilitySummary(me, activity, properties);
         } else if (activityType === 'invite' || activityType === 'invitation-accept') {
             return _generateInvitationSummary(me, activity, properties);
+        } else if (activityType === 'meeting-jitsi-create') {
+            return _generateMeetingJitsiCreateSummary(me, activity, properties);
         // Fall back on the default activity summary if no specific template is found for the activity type
         } else {
             return _generateDefaultSummary(me, activity, properties);
         }
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a meeting creation activity.
+     *
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the meeting creation activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
+     * @api private
+     */
+    var _generateMeetingJitsiCreateSummary = function (me, activity, properties) {
+        var i18nKey = null;
+        if (properties.objectCount === 1) {
+            i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_1__';
+        } else if (properties.objectCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2__';            
+        } else {
+            i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2+__';
+        }
+
+        return new ActivityViewSummary(i18nKey, properties);
     };
 
     /**
