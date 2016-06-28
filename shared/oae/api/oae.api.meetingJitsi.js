@@ -36,7 +36,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         };
 
         $.ajax({
-            'url': '/api/meetingJitsi/create',
+            'url': '/api/meeting-jitsi/create',
             'type': 'POST',
             'data': data,
             'success': function (data) {
