@@ -28,7 +28,7 @@ var _expose = function(exports) {
     var COMMENT_ACTIVITY_TYPES = ['content-comment', 'folder-comment', 'discussion-message'];
 
     // Variable that keeps track of the different activity types that are used for sharing activities
-    var SHARE_ACTIVITY_TYPES = ['content-share', 'discussion-share', 'folder-share'];
+    var SHARE_ACTIVITY_TYPES = ['content-share', 'discussion-share', 'folder-share', 'meeting-jitsi-share'];
 
     /**
      * Adapt a set of activities in activitystrea.ms format to a simpler view model
@@ -742,6 +742,8 @@ var _expose = function(exports) {
             return _generateInvitationSummary(me, activity, properties);
         } else if (activityType === 'meeting-jitsi-create') {
             return _generateMeetingJitsiCreateSummary(me, activity, properties);
+        } else if (activityType === 'meeting-jitsi-share') {
+            return _generateMeetingJitsiShareSummary(me, activity, properties);
         // Fall back on the default activity summary if no specific template is found for the activity type
         } else {
             return _generateDefaultSummary(me, activity, properties);
@@ -767,6 +769,47 @@ var _expose = function(exports) {
             i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2+__';
         }
 
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a meeting share activity.
+     *
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the meeting share activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
+     * @api private
+     */
+    var _generateMeetingJitsiShareSummary = function(me, activity, properties) {
+        var i18nKey = null;
+        if (properties.objectCount === 1) {
+            if (properties.targetCount === 1) {
+                if (activity.target['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_MEETING_SHARE_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_MEETING_SHARE_1__';
+                }
+            } else if (properties.targetCount === 2) {
+                i18nKey = '__MSG__ACTIVITY_MEETING_SHARE_2__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_MEETING_SHARE_2+__';
+            }
+        } else {
+            if (properties.objectCount === 2) {
+                if (activity.target['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_MEETINGS_SHARE_2_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_MEETINGS_SHARE_2__';
+                }
+            } else {
+                if (activity.target['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_MEETINGS_SHARE_2+_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_MEETINGS_SHARE_2+__';
+                }
+            }
+        }
         return new ActivityViewSummary(i18nKey, properties);
     };
 
