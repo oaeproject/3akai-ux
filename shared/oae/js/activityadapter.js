@@ -761,12 +761,37 @@ var _expose = function(exports) {
      */
     var _generateMeetingJitsiCreateSummary = function (me, activity, properties) {
         var i18nKey = null;
-        if (properties.objectCount === 1) {
-            i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_1__';
-        } else if (properties.objectCount === 2) {
-            i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2__';            
-        } else {
-            i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2+__';
+
+        // Add the target to the activity summary when a targer is present on the
+        // activity and the target is not an user different from the current user
+        if (properties.targetCount === 1 && !(activity.target.objectType === 'user' && activity.target['oae:id'] !== me.id)) {
+            if (activity.target['oae:id'] === me.id) {
+                if (properties.objectCount === 1) {
+                    i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_1_YOU__';
+                } else if (properties.objectCount === 2) {
+                    i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2_YOU__';            
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2+_YOU__';
+                }
+            }
+            else if (activity.target.objectType === 'group') {
+                if (properties.objectCount === 1) {
+                    i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_1_GROUP__';
+                } else if (properties.objectCount === 2) {
+                    i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2_GROUP__';            
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2+_GROUP__';
+                }
+            }
+        }
+        else {
+            if (properties.objectCount === 1) {
+                i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_1__';
+            } else if (properties.objectCount === 2) {
+                i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2__';            
+            } else {
+                i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2+__';
+            }
         }
 
         return new ActivityViewSummary(i18nKey, properties);
