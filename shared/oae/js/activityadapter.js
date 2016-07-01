@@ -25,7 +25,7 @@
 var _expose = function(exports) {
 
     // Variable that keeps track of the different activity types that are used for comment activities
-    var COMMENT_ACTIVITY_TYPES = ['content-comment', 'folder-comment', 'discussion-message'];
+    var COMMENT_ACTIVITY_TYPES = ['content-comment', 'folder-comment', 'discussion-message', 'meeting-jitsi-message'];
 
     // Variable that keeps track of the different activity types that are used for sharing activities
     var SHARE_ACTIVITY_TYPES = ['content-share', 'discussion-share', 'folder-share', 'meeting-jitsi-share'];
@@ -742,12 +742,39 @@ var _expose = function(exports) {
             return _generateInvitationSummary(me, activity, properties);
         } else if (activityType === 'meeting-jitsi-create') {
             return _generateMeetingJitsiCreateSummary(me, activity, properties);
+        } else if (activityType === 'meeting-jitsi-message') {
+            return _generateMeetingJitsiMessageSummary(me, activity, properties);
         } else if (activityType === 'meeting-jitsi-share') {
             return _generateMeetingJitsiShareSummary(me, activity, properties);
         // Fall back on the default activity summary if no specific template is found for the activity type
         } else {
             return _generateDefaultSummary(me, activity, properties);
         }
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a meeting post activity.
+     *
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the meeting message activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
+     * @api private
+     */
+    var _generateMeetingJitsiMessageSummary = function (me, activity, properties) {
+        var i18nKey = null;
+
+        if (properties.actorCount === 1) {
+            i18nKey = '__MSG__ACTIVITY_MEETING_MESSAGE_1__';
+        }
+        else if (properties.actorCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_MEETING_MESSAGE_2__';
+        }
+        else {
+            i18nKey = '__MSG__ACTIVITY_MEETING_MESSAGE_2+__';
+        }
+
+        return new ActivityViewSummary(i18nKey, properties);
     };
 
     /**
