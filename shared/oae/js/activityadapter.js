@@ -746,10 +746,83 @@ var _expose = function(exports) {
             return _generateMeetingJitsiMessageSummary(me, activity, properties);
         } else if (activityType === 'meeting-jitsi-share') {
             return _generateMeetingJitsiShareSummary(me, activity, properties);
+        } else if (activityType === 'meeting-jitsi-update') {
+            return _generateMeetingJitsiUpdateSummary(me, activity, properties);
+        } else if (activityType === 'meeting-jitsi-update-member-role') {
+            return _generateMeetingJitsiUpdateMemberRoleSummary(me, activity, properties);
+        } else if (activityType === 'meeting-jitsi-update-visibility') {
+            return _generateMeetingJitsiUpdateVisibilitySummary(me, activity, properties);
         // Fall back on the default activity summary if no specific template is found for the activity type
         } else {
             return _generateDefaultSummary(me, activity, properties);
         }
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a visibility update activity for a meeting.
+     *
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the meeting visibility update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
+     * @api private
+     */
+    var _generateMeetingJitsiUpdateVisibilitySummary = function (me, activity, properties) {
+        var i18nKey = null;
+        if (activity.object['oae:visibility'] === 'public') {
+            i18nKey = '__MSG__ACTIVITY_MEETING_VISIBILITY_PUBLIC__';
+        } else if (activity.object['oae:visibility'] === 'loggedin') {
+            i18nKey = '__MSG__ACTIVITY_MEETING_VISIBILITY_LOGGEDIN__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_MEETING_VISIBILITY_PRIVATE__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a meeting member role update activity.
+     *
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the meeting member update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
+     * @api private
+     */
+    var _generateMeetingJitsiUpdateMemberRoleSummary = function (me, activity, properties) {
+        var i18nKey = null;
+        if (properties.objectCount === 1) {
+            if (activity.object['oae:id'] === me.id) {
+                i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_MEMBER_ROLE_YOU__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_MEMBER_ROLE_1__';
+            }
+        } else if (properties.objectCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_MEMBER_ROLE_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_MEMBER_ROLE_2+__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a meeting update activity.
+     *
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the meeting update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
+     * @api private
+     */
+    var _generateMeetingJitsiUpdateSummary = function(me, activity, properties) {
+        var i18nKey = null;
+        if (properties.actorCount === 1) {
+            i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_1__';
+        } else if (properties.actorCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_2+__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
     };
 
     /**
