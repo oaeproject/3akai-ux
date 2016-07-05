@@ -178,9 +178,26 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      */
     var deleteMeetingFromLibrary = exports.deleteMeetingFromLibrary = function (principalId, meetingId, callback) {
     
-        return callback('not implemented yet');
+        if (!principalId)
+            throw new Error('A valid user or group id should be provided');
+        else if (!meetingId)
+            throw new Error('A valid meeting id should be provided');
 
-    }
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/meeting-jitsi/library/' + principalId + '/' + meetingId,
+            'type': 'DELETE',
+            'success': function () {
+                return callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                return callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+
+    };
 
 
     /**
