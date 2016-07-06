@@ -149,7 +149,7 @@ require(['jquery','oae.core'], function($, oae) {
                     'class': 'oae-trigger-creatediscussion'
                 },
                 {
-                    'icon': 'fa-eye',
+                    'icon': 'fa-video-camera',
                     'title': oae.api.i18n.translate('__MSG__MEETING__'),
                     'closeNav': true,
                     'class': 'oae-trigger-createmeeting-jitsi'
