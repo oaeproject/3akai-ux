@@ -107,6 +107,10 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
             $('#search-refine-tenant input[type="checkbox"][data-tenant="' + queryData.tenant + '"]').prop('checked', true);
         }
 
+        // Hide the 'within tenant' checkbox for private tenants
+        if (oae.api.config.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate')) {
+            $('#search-refine-tenant').hide();
+        }
 
         var searchParams = {
             'limit': 12,
