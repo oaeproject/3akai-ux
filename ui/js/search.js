@@ -101,15 +101,16 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
             $('#search-refine-type input[type="checkbox"][data-type="' + type + '"]').prop('checked', true);
         });
 
-        // Ensure only the selected tenant is chosen, if at all
-        $('#search-refine-tenant input[type="checkbox"]').removeAttr('checked');
-        if (queryData.tenant) {
-            $('#search-refine-tenant input[type="checkbox"][data-tenant="' + queryData.tenant + '"]').prop('checked', true);
-        }
-
         // Hide the 'within tenant' checkbox for private tenants
-        if (oae.api.config.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate')) {
+        var isPrivate = oae.api.config.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate');
+        if (isPrivate) {
             $('#search-refine-tenant').hide();
+        } else {
+            // Ensure only the selected tenant is chosen, if at all
+            $('#search-refine-tenant input[type="checkbox"]').removeAttr('checked');
+            if (queryData.tenant) {
+                $('#search-refine-tenant input[type="checkbox"][data-tenant="' + queryData.tenant + '"]').prop('checked', true);
+            } 
         }
 
         var searchParams = {
@@ -123,8 +124,9 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
             // "My" search never includes users, and will be harmful if only "user" is selected from
             // the "Everything" tab. Just always filter it out
             searchParams.resourceTypes = _.without(searchParams.resourceTypes, 'user');
-        } else if (searchParams.scope === '_all' && queryData.tenant) {
-            // If a tenant is specified, we search by the tenant
+        } else if (searchParams.scope === '_all' && (queryData.tenant || isPrivate)) {
+            // If a tenant is specified or the current tenant is private, we search by the tenant
+            queryData.tenant = queryData.tenant ? queryData.tenant : $('#search-refine-tenant input[type="checkbox"]').attr('data-tenant');
             searchParams.scope = queryData.tenant;
         }
 
