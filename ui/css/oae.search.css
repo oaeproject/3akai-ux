@@ -59,7 +59,7 @@
 }
 
 #search-content-container.search-my .search-refine-type-user,
-#search-content-container.search-my #search-refine-tenant {
+#search-refine-tenant {
     display: none;
 }
 
