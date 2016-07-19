@@ -82,8 +82,6 @@ define(
 
             JitsiMeetExternalAPI.id++;
 
-            console.log('this.url : ', this.url);
-
             this.frame = document.createElement("iframe");
             this.frame.src = this.url;
             this.frame.name = this.frameName;
@@ -92,8 +90,6 @@ define(
             this.frame.height = "100%";
             this.frame.setAttribute("allowFullScreen","true");
             this.frame = this.iframeHolder.appendChild(this.frame);
-
-            console.log('this.iframe : ', this.frame);
 
             this.frameLoaded = false;
             this.initialCommands = [];
@@ -112,16 +108,12 @@ define(
          * @param object the object to be sent
          */
         JitsiMeetExternalAPI.prototype.sendMessage = function(object) {
-            console.log('--------------------------------');
-            console.log('sendMessage : ', object);
             if (this.frameLoaded) {
                 this.frame.contentWindow.postMessage(
                     JSON.stringify(object), this.frame.src);
-                console.log('done');
             }
             else {
                 this.initialCommands.push(object);
-                console.log('pushed to initialCommands');
             }
 
         };
@@ -264,7 +256,6 @@ define(
             = function (event) {
             if(!this.eventHandlers[event])
             {
-                console.error("The event " + event + " is not registered.");
                 return;
             }
             var message = {type: "event", action: "remove", events: [event]};
@@ -284,7 +275,6 @@ define(
                 var event = events[i];
                 if(!this.eventHandlers[event])
                 {
-                    console.error("The event " + event + " is not registered.");
                     continue;
                 }
                 delete this.eventHandlers[event];
