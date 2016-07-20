@@ -58,6 +58,7 @@ require(['jquery', 'oae.core'], function ($, oae) {
             else
                 $(document).trigger('oae.context.send', meetingProfile);
         });
+        $(document).trigger('oae.context.send', meetingProfile);
     };
 
     /**
@@ -147,6 +148,48 @@ require(['jquery', 'oae.core'], function ($, oae) {
      */
     $(document).on('click', '.meeting-jitsi-trigger-manageaccess-add', function () {
         $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
+    });
+
+    //////////////////
+    // EDIT MEETING //
+    //////////////////
+
+    /**
+     * Refresh the meeting topic by emptying the existing meeting topic container and rendering a new one
+     * (for now its useless, but in case one day we should refresh the widget container we let it)
+     */
+    var refreshMeetingTopic = function () {
+        // Empty the preview container
+        var $widgetContainer = $('#lhnavigation-widget-meeting-jitsi');
+        $widgetContainer.empty();
+
+        // Insert the new updated meeting widget
+        oae.api.widget.insertWidget('meeting-jitsi', null, $widgetContainer, null, meetingProfile);
+    };
+
+    /**
+     * Refresh the meeting profile by updating the clips and meeting topic
+     * 
+     * @param {Meeting}     updatedMeeting      Meeting profile of the updated meeting item@
+     */
+    var refreshMeetingProfile = function (updatedMeeting) {
+        // Cache the meeting profile data
+        meetingProfile = updatedMeeting;
+        // Refresh the meeting topic
+        // refreshMeetingTopic();
+        // Refresh the clip
+        setUpClip();
+    };
+
+    //////////////////
+    // EDIT DETAILS //
+    //////////////////
+
+    /**
+     * Re-render the meeting's clip when the details have been updated.
+     */
+    $(document).on('oae.editmeeting-jitsi.done', function(ev, updatedMeeting) {
+        refreshMeetingProfile(updatedMeeting);
     });
 
     getMeetingProfile();
