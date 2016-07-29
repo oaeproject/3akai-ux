@@ -39,3 +39,6 @@
 /* Import the OAE Component Styles. These contain OAE specific re-usable styles that,
    combined with basic bootstrap, should make it easy to quickly put new widgets together */
 @import url('../../oae/css/oae.components.css');
+
+/* Import the Video.js CSS file */
+@import url('../../vendor/css/video-js.css');
