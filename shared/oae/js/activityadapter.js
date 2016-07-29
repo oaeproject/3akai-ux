@@ -740,6 +740,8 @@ var _expose = function(exports) {
             return _generateGroupUpdateVisibilitySummary(me, activity, properties);
         } else if (activityType === 'invite' || activityType === 'invitation-accept') {
             return _generateInvitationSummary(me, activity, properties);
+        } else if (activityType === 'meetup-join') {
+            return _generateMeetupJoinSummary(me, activity, properties);
         // Fall back on the default activity summary if no specific template is found for the activity type
         } else {
             return _generateDefaultSummary(me, activity, properties);
@@ -1876,6 +1878,27 @@ var _expose = function(exports) {
         // Generate the activity i18n key according to the labels we determined
         var i18nKey = '__MSG__' + labels.join('_') + '__';
 
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a meetup join activity.
+     *
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the meetup join activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
+     * @api private
+     */
+    var _generateMeetupJoinSummary = function(me, activity, properties) {
+        var i18nKey = null;
+        if (properties.actorCount === 1) {
+            i18nKey = '__MSG__ACTIVITY_MEETUP_JOIN_1__';
+        } else if (properties.actorCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_MEETUP_JOIN_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_MEETUP_JOIN_2+__';
+        }
         return new ActivityViewSummary(i18nKey, properties);
     };
 };
