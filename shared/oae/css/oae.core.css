@@ -41,4 +41,4 @@
 @import url('../../oae/css/oae.components.css');
 
 /* Import the Video.js CSS file */
-@import url('../../vendor/css/video-js.css');
+@import url('../../vendor/css/videojs/video-js.css');
