@@ -102,7 +102,6 @@ var userUtil = (function() {
      * @param  {String}    password    The password of the user to log in
      */
     var doLogIn = function(username, password) {
-
         casper.then(function() {
             var err = null;
             var loggedIn = false;

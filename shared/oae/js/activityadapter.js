@@ -25,10 +25,10 @@
 var _expose = function(exports) {
 
     // Variable that keeps track of the different activity types that are used for comment activities
-    var COMMENT_ACTIVITY_TYPES = ['content-comment', 'folder-comment', 'discussion-message'];
+    var COMMENT_ACTIVITY_TYPES = ['content-comment', 'folder-comment', 'discussion-message', 'meeting-jitsi-message'];
 
     // Variable that keeps track of the different activity types that are used for sharing activities
-    var SHARE_ACTIVITY_TYPES = ['content-share', 'discussion-share', 'folder-share'];
+    var SHARE_ACTIVITY_TYPES = ['content-share', 'discussion-share', 'folder-share', 'meeting-jitsi-share'];
 
     /**
      * Adapt a set of activities in activitystrea.ms format to a simpler view model
@@ -66,7 +66,6 @@ var _expose = function(exports) {
      * @api private
      */
     var _adaptActivity = function(context, me, activity, sanitization, opts) {
-
         // Move the relevant items (comments, previews, ..) to the top
         _prepareActivity(me, activity);
 
@@ -609,7 +608,6 @@ var _expose = function(exports) {
      * @api private
      */
     var _generateSummary = function(me, activity, sanitization, opts) {
-
         // The dictionary that can be used to translate the dynamic values in the i18n keys
         var properties = {};
 
@@ -678,7 +676,6 @@ var _expose = function(exports) {
         // Depending on the activity type, we render a different template that is specific to that activity,
         // to make sure that the summary is as accurate and descriptive as possible
         var activityType = activity['oae:activityType'];
-
         if (activityType === 'content-add-to-library') {
             return _generateContentAddToLibrarySummary(me, activity, properties);
         } else if (activityType === 'content-comment') {
@@ -743,14 +740,202 @@ var _expose = function(exports) {
             return _generateGroupUpdateVisibilitySummary(me, activity, properties);
         } else if (activityType === 'invite' || activityType === 'invitation-accept') {
             return _generateInvitationSummary(me, activity, properties);
-        } else if (activityType === 'loodle-update-votes') {
-            return _generateLoodleUpdateVotesSummary(me, activity, properties);
-        } else if (activityType === 'loodle-update-schedules') {
-            return _generateLoodleUpdateSchedulesSummary(me, activity, properties);
+        } else if (activityType === 'meeting-jitsi-create') {
+            return _generateMeetingJitsiCreateSummary(me, activity, properties);
+        } else if (activityType === 'meeting-jitsi-message') {
+            return _generateMeetingJitsiMessageSummary(me, activity, properties);
+        } else if (activityType === 'meeting-jitsi-share') {
+            return _generateMeetingJitsiShareSummary(me, activity, properties);
+        } else if (activityType === 'meeting-jitsi-update') {
+            return _generateMeetingJitsiUpdateSummary(me, activity, properties);
+        } else if (activityType === 'meeting-jitsi-update-member-role') {
+            return _generateMeetingJitsiUpdateMemberRoleSummary(me, activity, properties);
+        } else if (activityType === 'meeting-jitsi-update-visibility') {
+            return _generateMeetingJitsiUpdateVisibilitySummary(me, activity, properties);
         // Fall back on the default activity summary if no specific template is found for the activity type
         } else {
             return _generateDefaultSummary(me, activity, properties);
         }
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a visibility update activity for a meeting.
+     *
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the meeting visibility update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
+     * @api private
+     */
+    var _generateMeetingJitsiUpdateVisibilitySummary = function (me, activity, properties) {
+        var i18nKey = null;
+        if (activity.object['oae:visibility'] === 'public') {
+            i18nKey = '__MSG__ACTIVITY_MEETING_VISIBILITY_PUBLIC__';
+        } else if (activity.object['oae:visibility'] === 'loggedin') {
+            i18nKey = '__MSG__ACTIVITY_MEETING_VISIBILITY_LOGGEDIN__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_MEETING_VISIBILITY_PRIVATE__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a meeting member role update activity.
+     *
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the meeting member update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
+     * @api private
+     */
+    var _generateMeetingJitsiUpdateMemberRoleSummary = function (me, activity, properties) {
+        var i18nKey = null;
+        if (properties.objectCount === 1) {
+            if (activity.object['oae:id'] === me.id) {
+                i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_MEMBER_ROLE_YOU__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_MEMBER_ROLE_1__';
+            }
+        } else if (properties.objectCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_MEMBER_ROLE_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_MEMBER_ROLE_2+__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a meeting update activity.
+     *
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the meeting update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
+     * @api private
+     */
+    var _generateMeetingJitsiUpdateSummary = function(me, activity, properties) {
+        var i18nKey = null;
+        if (properties.actorCount === 1) {
+            i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_1__';
+        } else if (properties.actorCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_2+__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a meeting post activity.
+     *
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the meeting message activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
+     * @api private
+     */
+    var _generateMeetingJitsiMessageSummary = function (me, activity, properties) {
+        var i18nKey = null;
+
+        if (properties.actorCount === 1) {
+            i18nKey = '__MSG__ACTIVITY_MEETING_MESSAGE_1__';
+        }
+        else if (properties.actorCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_MEETING_MESSAGE_2__';
+        }
+        else {
+            i18nKey = '__MSG__ACTIVITY_MEETING_MESSAGE_2+__';
+        }
+
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a meeting creation activity.
+     *
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the meeting creation activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
+     * @api private
+     */
+    var _generateMeetingJitsiCreateSummary = function (me, activity, properties) {
+        var i18nKey = null;
+
+        // Add the target to the activity summary when a targer is present on the
+        // activity and the target is not an user different from the current user
+        if (properties.targetCount === 1 && !(activity.target.objectType === 'user' && activity.target['oae:id'] !== me.id)) {
+            if (activity.target['oae:id'] === me.id) {
+                if (properties.objectCount === 1) {
+                    i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_1_YOU__';
+                } else if (properties.objectCount === 2) {
+                    i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2_YOU__';            
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2+_YOU__';
+                }
+            }
+            else if (activity.target.objectType === 'group') {
+                if (properties.objectCount === 1) {
+                    i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_1_GROUP__';
+                } else if (properties.objectCount === 2) {
+                    i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2_GROUP__';            
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2+_GROUP__';
+                }
+            }
+        }
+        else {
+            if (properties.objectCount === 1) {
+                i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_1__';
+            } else if (properties.objectCount === 2) {
+                i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2__';            
+            } else {
+                i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2+__';
+            }
+        }
+
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a meeting share activity.
+     *
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the meeting share activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
+     * @api private
+     */
+    var _generateMeetingJitsiShareSummary = function(me, activity, properties) {
+        var i18nKey = null;
+        if (properties.objectCount === 1) {
+            if (properties.targetCount === 1) {
+                if (activity.target['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_MEETING_SHARE_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_MEETING_SHARE_1__';
+                }
+            } else if (properties.targetCount === 2) {
+                i18nKey = '__MSG__ACTIVITY_MEETING_SHARE_2__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_MEETING_SHARE_2+__';
+            }
+        } else {
+            if (properties.objectCount === 2) {
+                if (activity.target['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_MEETINGS_SHARE_2_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_MEETINGS_SHARE_2__';
+                }
+            } else {
+                if (activity.target['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_MEETINGS_SHARE_2+_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_MEETINGS_SHARE_2+__';
+                }
+            }
+        }
+        return new ActivityViewSummary(i18nKey, properties);
     };
 
     /**
@@ -795,8 +980,6 @@ var _expose = function(exports) {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_FILE__';
             } else if (activity.object['oae:resourceSubType'] === 'link') {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_LINK__';
-            } else if (activity.object['oae:resourceSubType'] === 'loodle') {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_LOODLE__';
             }
         } else if (properties.objectCount === 2) {
             i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_2__';
@@ -841,14 +1024,6 @@ var _expose = function(exports) {
             } else {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_LINK_2+__';
             }
-        } else if (activity.target['oae:resourceSubType'] === 'loodle') {
-            if (properties.actorCount === 1) {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_LOODLE_1__';
-            } else if (properties.actorCount === 2) {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_LOODLE_2__';
-            } else {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_LOODLE_2+__';
-            }
         }
         return new ActivityViewSummary(i18nKey, properties);
     };
@@ -875,8 +1050,6 @@ var _expose = function(exports) {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_YOU__';
                     } else if (activity.object['oae:resourceSubType'] === 'link') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_YOU__';
-                    } else if (activity.object['oae:resourceSubType'] === 'loodle') {
-                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LOODLE_YOU__';
                     }
                 } else if (properties.objectCount === 2) {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_YOU__';
@@ -891,8 +1064,6 @@ var _expose = function(exports) {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_FOLDER__';
                     } else if (activity.object['oae:resourceSubType'] === 'link') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_FOLDER__';
-                    } else if (activity.object['oae:resourceSubType'] === 'loodle') {
-                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LOODLE_FOLDER__';
                     }
                 } else if (properties.objectCount === 2) {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_FOLDER__';
@@ -907,8 +1078,6 @@ var _expose = function(exports) {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_GROUP__';
                     } else if (activity.object['oae:resourceSubType'] === 'link') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_GROUP__';
-                    } else if (activity.object['oae:resourceSubType'] === 'loodle') {
-                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LOODLE_GROUP__';
                     }
                 } else if (properties.objectCount === 2) {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_GROUP__';
@@ -924,8 +1093,6 @@ var _expose = function(exports) {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE__';
                 } else if (activity.object['oae:resourceSubType'] === 'link') {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK__';
-                } else if (activity.object['oae:resourceSubType'] === 'loodle') {
-                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LOODLE__';
                 }
             } else if (properties.objectCount === 2) {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2__';
@@ -1002,14 +1169,6 @@ var _expose = function(exports) {
             } else {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_LINK_2+__';
             }
-        } else if (activity.object['oae:resourceSubType'] === 'loodle') {
-            if (properties.actorCount === 1) {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_LOODLE_1__';
-            } else if (properties.actorCount === 2) {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_LOODLE_2__';
-            } else {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_LOODLE_2+__';
-            }
         }
         return new ActivityViewSummary(i18nKey, properties);
     };
@@ -1061,18 +1220,6 @@ var _expose = function(exports) {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LINK_2__';
                 } else {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LINK_2+__';
-                }
-            } else if (activity.object['oae:resourceSubType'] === 'loodle') {
-                if (properties.targetCount === 1) {
-                    if (activity.target['oae:id'] === me.id) {
-                        i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LOODLE_YOU__';
-                    } else {
-                        i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LOODLE_1__';
-                    }
-                } else if (properties.targetCount === 2) {
-                    i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LOODLE_2__';
-                } else {
-                    i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LOODLE_2+__';
                 }
             }
         } else {
@@ -1140,18 +1287,6 @@ var _expose = function(exports) {
             } else {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_2+__';
             }
-        } else if (activity.target['oae:resourceSubType'] === 'loodle') {
-            if (properties.objectCount === 1) {
-                if (activity.object['oae:id'] === me.id) {
-                    i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LOODLE_YOU__';
-                } else {
-                    i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LOODLE_1__';
-                }
-            } else if (properties.objectCount === 2) {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LOODLE_2__';
-            } else {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LOODLE_2+__';
-            }
         }
         return new ActivityViewSummary(i18nKey, properties);
     };
@@ -1191,14 +1326,6 @@ var _expose = function(exports) {
             } else {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_LINK_2+__';
             }
-        } else if (activity.object['oae:resourceSubType'] === 'loodle') {
-            if (properties.actorCount === 1) {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_LOODLE_1__';
-            } else if (properties.actorCount === 2) {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_LOODLE_2__';
-            } else {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_LOODLE_2+__';
-            }
         }
         return new ActivityViewSummary(i18nKey, properties);
     };
@@ -1237,14 +1364,6 @@ var _expose = function(exports) {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_LINK_LOGGEDIN__';
             } else {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_LINK_PRIVATE__';
-            }
-        } else if (activity.object['oae:resourceSubType'] === 'loodle') {
-            if (activity.object['oae:visibility'] === 'public') {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_LOODLE_PUBLIC__';
-            } else if (activity.object['oae:visibility'] === 'loggedin') {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_LOODLE_LOGGEDIN__';
-            } else {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_LOODLE_PRIVATE__';
             }
         }
         return new ActivityViewSummary(i18nKey, properties);
@@ -1439,8 +1558,6 @@ var _expose = function(exports) {
                 i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_FILE__';
             } else if (activity.object['oae:resourceSubType'] === 'link') {
                 i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_LINK__';
-            } else if (activity.object['oae:resourceSubType'] === 'loodle') {
-                i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_LOODLE__';
             }
         } else if (properties.objectCount === 2) {
             i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_2__';
@@ -1953,21 +2070,6 @@ var _expose = function(exports) {
 
         return new ActivityViewSummary(i18nKey, properties);
     };
-
-    var _generateLoodleUpdateVotesSummary = function (me, activity, properties) {
-
-        var i18nKey = '__MSG__ACTIVITY_LOODLE_UPDATE_VOTES__';
-        return new ActivityViewSummary(i18nKey, properties);
-
-    };
-
-    var _generateLoodleUpdateSchedulesSummary = function (me, activity, properties) {
-
-        var i18nKey = '__MSG__ACTIVITY_LOODLE_UPDATE_SCHEDULES__';
-        return new ActivityViewSummary(i18nKey, properties);
-
-    };
-
 };
 
 (function() {

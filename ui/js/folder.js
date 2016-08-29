@@ -62,15 +62,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                     }
                 ]
             });
-
-            if (oae.api.loodle.isEnabled()) {
-                lhNavActions[1].children.push({
-                    'icon': 'fa-clock-o',
-                    'title': oae.api.i18n.translate('__MSG__LOODLE__'),
-                    'closeNav': true,
-                    'class': 'oae-trigger-createloodle'
-                });
-            }
         }
 
         var lhNavPages = [{
@@ -298,15 +289,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         setUpClips();
     });
 
-    var setUpOptionalFeatures = function () {
-
-        // Loodle feature
-        if (!oae.api.loodle.isEnabled())
-            $('.oae-trigger-createloodle').parent().remove();
-
-    };
-
 
     getFolderProfile();
-    setUpOptionalFeatures();
+
 });

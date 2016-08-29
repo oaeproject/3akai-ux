@@ -30,7 +30,6 @@ var mainUtil = (function() {
      * @api private
      */
     var callInternalAPI = function(api, apiFunction, params, callback) {
-
         // Before continuing we need to make sure that the internal API has loaded.
         // The last thing the UI does before it's initialized is showing the body
         casper.waitFor(function() {

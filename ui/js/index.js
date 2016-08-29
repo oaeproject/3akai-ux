@@ -147,18 +147,15 @@ require(['jquery','oae.core'], function($, oae) {
                     'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
                     'closeNav': true,
                     'class': 'oae-trigger-creatediscussion'
+                },
+                {
+                    'icon': 'fa-video-camera',
+                    'title': oae.api.i18n.translate('__MSG__MEETING__'),
+                    'closeNav': true,
+                    'class': 'oae-trigger-createmeeting-jitsi'
                 }
             ]
         }];
-
-        if (oae.api.loodle.isEnabled()) {
-            lhNavActions[1].children.push({
-                'icon': 'fa-clock-o',
-                'title': oae.api.i18n.translate('__MSG__LOODLE__'),
-                'closeNav': true,
-                'class': 'oae-trigger-createloodle'
-            });
-        }
 
         // Structure that will be used to construct the left hand navigation pages
         var lhNavPages = [
@@ -261,6 +258,26 @@ require(['jquery','oae.core'], function($, oae) {
                         ]
                     }
                 ]
+            },
+            {
+                  'id': 'meetings-jitsi',
+                  'title': oae.api.i18n.translate('__MSG__MY_MEETINGS__'),
+                  'icon': 'fa-video-camera',
+                  'closeNav': true,
+                  'layout': [
+                      {
+                          'width': 'col-md-12',
+                          'widgets': [
+                              {
+                                  'name': 'meetings-jitsi-library',
+                                  'settings': {
+                                      'context': oae.data.me,
+                                      'canManage': true
+                                  }
+                              }
+                          ]
+                      }
+                  ]
             }
         ];
 
@@ -277,14 +294,6 @@ require(['jquery','oae.core'], function($, oae) {
         if (oae.api.util.url().attr('query') === 'emailpreferences') {
             $(document).trigger('oae.trigger.preferences');
         }
-    };
-
-    var setUpOptionalFeatures = function () {
-
-        // Loodle feature
-        if (!oae.api.loodle.isEnabled())
-            $('.oae-trigger-createloodle').parent().remove();
-
     };
 
 
@@ -320,9 +329,6 @@ require(['jquery','oae.core'], function($, oae) {
 
         // Show user preferences if, e.g., it's deep-linked via the URL
         showPreferences();
-
-        // Set up optional features
-        setUpOptionalFeatures();
 
     }
 });

@@ -132,8 +132,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             return 'linkpreview';
         } else if (contentProfile.resourceSubType === 'collabdoc') {
             return 'etherpad';
-        } else if (contentProfile.resourceSubType === 'loodle') {
-            return 'loodle';
         }
     };
 
@@ -281,16 +279,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                     'privateDescription': oae.api.i18n.translate('__MSG__DOCUMENT_PRIVATE_DESCRIPTION__'),
                     'loggedinDescription': oae.api.i18n.translate('__MSG__DOCUMENT_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName)}),
                     'publicDescription': oae.api.i18n.translate('__MSG__DOCUMENT_PUBLIC_DESCRIPTION__')
-                });
-            case 'loodle':
-                return _.extend(messages, {
-                    'accessNotUpdatedBody': oae.api.i18n.translate('__MSG__LOODLE_ACCESS_COULD_NOT_BE_UPDATED__'),
-                    'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__LOODLE_ACCESS_NOT_UPDATED__'),
-                    'accessUpdatedBody': oae.api.i18n.translate('__MSG__LOODLE_ACCESS_SUCCESSFULLY_UPDATED__'),
-                    'accessUpdatedTitle': oae.api.i18n.translate('__MSG__LOODLE_ACCESS_UPDATED__'),
-                    'privateDescription': oae.api.i18n.translate('__MSG__LOODLE_PRIVATE_DESCRIPTION__'),
-                    'loggedinDescription': oae.api.i18n.translate('__MSG__LOODLE_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName)}),
-                    'publicDescription': oae.api.i18n.translate('__MSG__LOODLE_PUBLIC_DESCRIPTION__')
                 });
         }
     };

@@ -52,9 +52,6 @@ var _expose = function(exports) {
             'description': '__MSG__CSS_FILE__',
             'regex': 'text/css'
         },
-        'loodle': {
-            'description': '__MSG__LOODLE__'
-        },
         'image': {
             'description': '__MSG__IMAGE__',
             'regex': 'image/*'
