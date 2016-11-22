@@ -99,6 +99,32 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
     };
 
     /**
+     * Get a user's login ids
+     *
+     * @param  {String}     userId              The id of the user to return the login ids for
+     * @param  {Function}   callback            Standard callback function
+     * @param  {Object}     callback.err        Error object containing error code and error message
+     * @param  {Object}     callback.loginIds   Hash object containing the user's login ids
+     * @throws {Error}                          Error thrown when not all of the required parameters have been provided
+     */
+    var getAuthLoginIds = exports.getAuthLoginIds = function(userId, callback) {
+        if (!userId) {
+            throw new Error('A valid user id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/auth/loginIds/' + userId,
+            'type': 'GET',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
      * Get the list of all enabled authentication strategies for the current tenant
      *
      * @param  {String}     [contextLabel]  Specifies in which context the strategy info is being requested. Either "SIGN_IN" or "SIGN_UP" (Default: SIGN_IN)
