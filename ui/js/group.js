@@ -178,7 +178,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         var lhNavPages = [];
 
         // Check if Meetups are enabled
-        var meetupsEnabled = oae.api.config.getValue('oae-bbb', 'bbb', 'enabled');
+        var meetupsEnabled = oae.api.config.getValue('oae-meetups', 'bbb', 'enabled');
 
         // Show the activity and about widgets on the main page
         lhNavPages.push({
