@@ -1,0 +1,20 @@
+{
+    "userpages": true,
+    "userdashboard": true,
+    "grouppages": true,
+    "groupdashboard": true,
+    "description":"Bulletin Board System widget",
+    "id":"bbs",
+    "img":"/devwidgets/bbs/images/bbs.png",
+    "i18n": {
+        "default": "/devwidgets/bbs/bundles/default.properties",
+        "en_US": "/devwidgets/bbs/bundles/en_US.properties",
+        "zh_CN": "/devwidgets/bbs/bundles/zh_CN.properties"
+    },
+    "name":"Bulletin Board System",
+    "showinsakaigoodies":true,
+    "hasSettings": true,
+    "type":"sakai",
+    "enabled":true,
+    "url":"/devwidgets/bbs/bbs"
+}
