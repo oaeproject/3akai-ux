@@ -1,0 +1,22 @@
+{
+    "userpages": true,
+    "userdashboard": true,
+    "grouppages": true,
+    "groupdashboard": true,
+    "hasSettings":false,
+    "id":"commentswall",
+    "i18n": {
+        "default": {
+            "bundle": "/devwidgets/commentswall/bundles/default.properties",
+            "name":"Comments wall",
+            "description":"Comments wall"
+        }
+    },
+    "img":"/devwidgets/commentswall/images/commentswall.png",
+    "showinsakaigoodies":true,
+    "siteportal":true,
+    "type":"sakai",
+    "enabled":true,
+    "sakaidocs": true,
+    "url":"/devwidgets/commentswall/commentswall.html"
+}
