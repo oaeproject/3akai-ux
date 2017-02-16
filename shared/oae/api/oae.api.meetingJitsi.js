@@ -1,3 +1,18 @@
+/*!
+ * Copyright 2014 Apereo Foundation (AF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://opensource.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
     /**
@@ -5,7 +20,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      *
      * @param  {String}         displayName               Topic for the meeting
      * @param  {String}         [description]             The meeting's description
-     * @param  {String}         [record]       		        Flag indicating that the meeting may be recorded
+     * @param  {String}         [record]       		      Flag indicating that the meeting may be recorded
      * @param  {String}         [allModerators]           Flag indicating that all users join as moderators
      * @param  {String}         [waitModerator]           Flag indicating that viewers must wait until a moderator joins
      * @param  {String}         [visibility]              The meeting's visibility. This can be public, loggedin or private
@@ -19,7 +34,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     var createMeeting = exports.createMeeting = function (displayName, description, chat, contactList, visibility, managers, members, callback) {
 
         if (!displayName) {
-            throw new Error('A valid document name should be provided');
+            throw new Error('A valid display name should be provided');
         }
 
         // Set a default callback function in case no callback function has been provided
@@ -199,7 +214,6 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
     };
 
-
     /**
      * Change the members and managers of a meeting
      * 
@@ -229,7 +243,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'error': function (jqXHR, textStatus) {
                 return callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
-        })
+        });
 
     };
 
@@ -240,6 +254,8 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param {any} callback
      */
     var startMeeting = exports.startMeeting = function (meetingId, callback) {
+
+        console.log("I'm starting a meeting fuckers! " + meetingId);
 
         if (!meetingId) throw new Error('A valid meeting id should be provided');
 
