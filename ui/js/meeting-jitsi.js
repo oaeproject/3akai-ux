@@ -106,34 +106,42 @@ require(['jquery', 'oae.core'], function ($, oae) {
         }, $('#meeting-jitsi-clip-container'));
     };
 
+    /**
+     * TODO
+     */
     var getMeetingProfile = function () {
 
         oae.api.meetingJitsi.getMeeting(meetingId, function (err, profile) {
 
             if (err) {
-                if (err.code === 401) 
+                if (err.code === 401) {
                     oae.api.util.redirect().accessdenied();
-                else 
+                } else {
                     oae.api.util.redirect().notfound();
+                }
                 return;
             }
             
             // Cache the meeting profile data
             meetingProfile = profile;
+
             // Render the entity information
             setUpClip();
+
             // Set up the page
             setUpNavigation();
+
             // Set up the context event exchange
             setUpContext();
+
             // We can now unhide the page
             oae.api.util.showPage();
+
             /**
             // Set up the meeting push notifications
             setUpPushNotifications();
              */
         });
-
     };
 
     /** 
