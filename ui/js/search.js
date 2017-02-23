@@ -101,12 +101,20 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
             $('#search-refine-type input[type="checkbox"][data-type="' + type + '"]').prop('checked', true);
         });
 
-        // Ensure only the selected tenant is chosen, if at all
-        $('#search-refine-tenant input[type="checkbox"]').removeAttr('checked');
-        if (queryData.tenant) {
-            $('#search-refine-tenant input[type="checkbox"][data-tenant="' + queryData.tenant + '"]').prop('checked', true);
-        }
+        // Hide the 'within tenant' checkbox for private tenants
+        var isPrivate = oae.api.config.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate');
+        if (!isPrivate && currSwitchtabId === 'all') {
+            // Ensure only the selected tenant is chosen, if at all
+            $('#search-refine-tenant').show();
 
+            $('#search-refine-tenant input[type="checkbox"]').removeAttr('checked');
+            if (queryData.tenant) {
+                $('#search-refine-tenant input[type="checkbox"][data-tenant="' + queryData.tenant + '"]').prop('checked', true);
+            } 
+        } else if (currSwitchtabId === 'my') {
+            // Need to hide this again explicitly in case user switches back to 'my' tab
+            $('#search-refine-tenant').hide();
+        }
 
         var searchParams = {
             'limit': 12,
@@ -119,8 +127,11 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
             // "My" search never includes users, and will be harmful if only "user" is selected from
             // the "Everything" tab. Just always filter it out
             searchParams.resourceTypes = _.without(searchParams.resourceTypes, 'user');
-        } else if (searchParams.scope === '_all' && queryData.tenant) {
-            // If a tenant is specified, we search by the tenant
+        } else if (searchParams.scope === '_all' && (queryData.tenant || isPrivate)) {
+            // If a tenant is specified or the current tenant is private, we search by the tenant
+            if (!queryData.tenant) {
+                queryData.tenant = oae.data.me.tenant.alias;
+            }
             searchParams.scope = queryData.tenant;
         }
 
