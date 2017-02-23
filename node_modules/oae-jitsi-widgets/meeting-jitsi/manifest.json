@@ -1,0 +1,6 @@
+{
+    "i18n": {
+        "default": "bundles/default.properties"
+    },
+    "src": "meeting-jitsi.html"
+}
