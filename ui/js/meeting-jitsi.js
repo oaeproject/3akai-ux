@@ -49,14 +49,15 @@ require(['jquery', 'oae.core'], function ($, oae) {
     };
 
     /**
-     * Set up the context. 
+     * Set up the context.
      */
     var setUpContext = function () {
         $(document).on('oae.context.get', function (e, widgetId) {
-            if (widgetId)
+            if (widgetId) {
                 $(document).trigger('oae.context.send.' + widgetId, meetingProfile);
-            else
+            } else {
                 $(document).trigger('oae.context.send', meetingProfile);
+            }
         });
         $(document).trigger('oae.context.send', meetingProfile);
     };
@@ -121,7 +122,7 @@ require(['jquery', 'oae.core'], function ($, oae) {
                 }
                 return;
             }
-            
+
             // Cache the meeting profile data
             meetingProfile = profile;
 
@@ -144,15 +145,15 @@ require(['jquery', 'oae.core'], function ($, oae) {
         });
     };
 
-    /** 
-     * Trigger the manageaccess widget and pass in context data 
+    /**
+     * Trigger the manageaccess widget and pass in context data
      */
     $(document).on('click', '.meeting-jitsi-trigger-manageaccess', function () {
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
     });
 
-    /** 
-     * Trigger the manageaccess widget in 'add members' view and pass in context data 
+    /**
+     * Trigger the manageaccess widget in 'add members' view and pass in context data
      */
     $(document).on('click', '.meeting-jitsi-trigger-manageaccess-add', function () {
         $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
@@ -177,7 +178,7 @@ require(['jquery', 'oae.core'], function ($, oae) {
 
     /**
      * Refresh the meeting profile by updating the clips and meeting topic
-     * 
+     *
      * @param {Meeting}     updatedMeeting      Meeting profile of the updated meeting item@
      */
     var refreshMeetingProfile = function (updatedMeeting) {
