@@ -73,6 +73,8 @@ require(['jquery', 'oae.core'], function($, oae) {
                 setUpNavigation();
                 // Set up the group push notifications to update this group profile on the fly
                 setUpPushNotifications();
+                // Set up meetings
+                setUpMeeting();
             }
         });
     };
@@ -119,6 +121,17 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
+     * Meeting
+     */
+    var setUpMeeting = function() {
+        activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host');
+        if(activateMeeting !== ""){
+            oae.api.util.template().render($('#activate-meeting-template'), {
+            }, $('#activate-meeting-container'));
+        }
+    };
+
+    /**
      * Set up the left hand navigation with the group space page structure
      */
     var setUpNavigation = function() {
@@ -160,12 +173,6 @@ require(['jquery', 'oae.core'], function($, oae) {
                         'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
                         'closeNav': true,
                         'class': 'oae-trigger-creatediscussion'
-                    },
-                    {
-                        'icon': 'fa-video-camera',
-                        'title': oae.api.i18n.translate('__MSG__MEETING__'),
-                        'closeNav': true,
-                        'class': 'oae-trigger-createmeeting-jitsi'
                     }
                 ]
             });
@@ -278,28 +285,40 @@ require(['jquery', 'oae.core'], function($, oae) {
                     ]
                 }
             ]
-        },
-        {
-                  'id': 'meetings-jitsi',
-                  'title': oae.api.i18n.translate('__MSG__MEETINGS__'),
-                  'icon': 'fa-video-camera',
-                  'closeNav': true,
-                  'layout': [
-                      {
-                          'width': 'col-md-12',
-                          'widgets': [
-                              {
-                                  'name': 'meetings-jitsi-library',
-                                  'settings': {
-                                      'context': groupProfile,
-                                      'canAdd': groupProfile.isMember,
-                                      'canManage': groupProfile.isManager
-                                  }
-                              }
-                          ]
-                      }
-                  ]
+        });
+
+        // If Jitsi config value equals to "yes", then display meetings on navigation and on the left hand navigation pages
+        activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host');
+        if(activateMeeting !== ""){
+            lhNavActions[1].children.push({
+                'icon': 'fa-video-camera',
+                'title': oae.api.i18n.translate('__MSG__MEETING__'),
+                'closeNav': true,
+                'class': 'oae-trigger-createmeeting-jitsi'
             });
+
+            lhNavPages.push({
+                'id': 'meetings-jitsi',
+                'title': oae.api.i18n.translate('__MSG__MEETINGS__'),
+                'icon': 'fa-video-camera',
+                'closeNav': true,
+                'layout': [
+                    {
+                        'width': 'col-md-12',
+                        'widgets': [
+                            {
+                                'name': 'meetings-jitsi-library',
+                                'settings': {
+                                    'context': groupProfile,
+                                    'canAdd': groupProfile.isMember,
+                                    'canManage': groupProfile.isManager
+                                }
+                            }
+                        ]
+                    }
+                ]
+            });
+        }
 
         $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
         $(window).on('oae.ready.lhnavigation', function() {

@@ -109,7 +109,7 @@ require(['jquery','oae.core'], function($, oae) {
         activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host');
         if(activateMeeting !== ""){
             oae.api.util.template().render($('#activate-meeting-template'), {
-            }, $('#activate-meeting-container'));            
+            }, $('#activate-meeting-container'));
         }
     };
 
@@ -267,7 +267,7 @@ require(['jquery','oae.core'], function($, oae) {
         ];
 
         // If Jitsi config value equals to "yes", then display meetings on navigation and on the left hand navigation pages
-        activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host'); 
+        activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host');
         if(activateMeeting !== ""){
             lhNavActions[1].children.push({
                 'icon': 'fa-video-camera',

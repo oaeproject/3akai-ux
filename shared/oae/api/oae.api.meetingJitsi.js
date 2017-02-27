@@ -1,5 +1,5 @@
 /*!
- * Copyright 2014 Apereo Foundation (AF) Licensed under the
+ * Copyright 2017 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -75,7 +75,9 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      */
     var getMeeting = exports.getMeeting = function (meetingId, callback) {
 
-        if (!meetingId) throw new Error('A valid meeting id should be provided');
+        if (!meetingId) {
+            throw new Error('A valid meeting id should be provided');
+        }
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
@@ -104,11 +106,13 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      */
     var getInvitations = exports.getInvitations = function (meetingId, callback) {
 
-        if (!meetingId) throw new Error('A valid meeting id should be provided');
+        if (!meetingId) {
+            throw new Error('A valid meeting id should be provided');
+        }
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
-        
+
         $.ajax({
             'url': '/api/meeting-jitsi/' + meetingId + '/invitations',
             'success': function (data) {
@@ -133,11 +137,12 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      */
     var updateMeeting = exports.updateMeeting = function (meetingId, params, callback) {
 
-        if (!meetingId) 
+        if (!meetingId) {
             throw new Error('A valid meeting id should be provided');
-        else if (!params || _.keys(params).length === 0)
+        } else if (!params || _.keys(params).length === 0) {
             throw new Error('At least one update parameter should be updated');
-        
+        }
+
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
@@ -157,14 +162,16 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
     /**
      * Delete a meeting
-     * 
+     *
      * @param   {String}      meetingId         Id of the meeting we're trying to delete
      * @param   {function}    [callback]        Standard callback function
      * @throws  {Error}                         Error thrown when not all of the required parameters have been provided
      */
     var deleteMeeting = exports.deleteMeeting = function (meetingId, callback) {
 
-        if (!meetingId) throw new Error('A valid meeting id should be provided');
+        if (!meetingId) {
+            throw new Error('A valid meeting id should be provided');
+        }
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
@@ -184,7 +191,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
     /**
      * Delete a meeting from a meeting library
-     * 
+     *
      * @param   {String}      principalId 	        User or group id for the library from which we want to delete the meeting
      * @param   {String}      meetingId             Id of the meeting we're trying to delete from the library
      * @param   {Function}    [callback]            Standard callback function
@@ -192,11 +199,12 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @throws  {Error}                             Error thrown when not all of the required parameters have been provided
      */
     var deleteMeetingFromLibrary = exports.deleteMeetingFromLibrary = function (principalId, meetingId, callback) {
-    
-        if (!principalId)
+
+        if (!principalId) {
             throw new Error('A valid user or group id should be provided');
-        else if (!meetingId)
+        } else if (!meetingId) {
             throw new Error('A valid meeting id should be provided');
+        }
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
@@ -216,7 +224,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
     /**
      * Change the members and managers of a meeting
-     * 
+     *
      * @param  {String}       meetingId             Id of the meeting we're trying to update the members of
      * @param  {Object}       updatedMembers        JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
      * @param  {Function}     [callback]            Standard callback function
@@ -225,10 +233,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      */
     var updateMembers = exports.updateMembers = function (meetingId, updatedMembers, callback) {
 
-        if (!meetingId) 
+        if (!meetingId) {
             throw new Error('A valid meeting id should be provided');
-        else if (!updatedMembers || _.keys(updatedMembers).length === 0)
+        }  else if (!updatedMembers || _.keys(updatedMembers).length === 0) {
             throw new Error('The updatedmembers hash should contain at least 1 update');
+        }
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
@@ -249,15 +258,15 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
     /**
      * Start a meeting
-     * 
+     *
      * @param {any} meetingId
      * @param {any} callback
      */
     var startMeeting = exports.startMeeting = function (meetingId, callback) {
 
-        console.log("I'm starting a meeting fuckers! " + meetingId);
-
-        if (!meetingId) throw new Error('A valid meeting id should be provided');
+        if (!meetingId) {
+            throw new Error('A valid meeting id should be provided');
+        }
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
@@ -272,7 +281,5 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
                 return callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
-
     };
-
 });
