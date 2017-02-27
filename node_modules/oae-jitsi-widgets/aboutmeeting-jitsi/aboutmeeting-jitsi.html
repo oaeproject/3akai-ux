@@ -1,0 +1,67 @@
+<!-- CSS -->
+<link rel="stylesheet" href="css/aboutmeeting-jitsi.css">
+
+<!-- MODAL -->
+<div id="aboutmeeting-jitsi-modal" class="modal fade" tabindex="-1" aria-labelledby="aboutmeeting-jitsi-modal-title" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="__MSG__CLOSE__">
+                    <span aria-hidden="true">&#215;</span>
+                </button>
+                <h3 id="aboutmeeting-jitsi-modal-title">__MSG__ABOUT__</h3>
+            </div>
+            <div class="modal-body">
+                <div id="aboutmeeting-jitsi-container"><!-- --></div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
+<div id="aboutmeeting-jitsi-template"><!--
+    <div class="row">
+        <div class="col-xs-12">
+            <ul class="oae-list oae-list-details">
+                <li data-id="${meetingProfile.createdBy.id}">
+                    <div class="oae-list-details-item">
+                        <div class="oae-listitem">
+                            <div class="oae-listitem-primary-thumbnail">
+                                ${renderThumbnail(meetingProfile.createdBy, displayOptions)}
+                            </div>
+                            <div class="oae-listitem-metadata">
+                                {var displayName = oae.api.util.security().encodeForHTML(meetingProfile.createdBy.displayName)}
+                                <h3 class="oae-threedots">
+                                    {if meetingProfile.createdBy.profilePath}
+                                        {var displayNameLink = '<a href="' + oae.api.util.profilePath(meetingProfile.createdBy.profilePath) + '" target="_blank">' + displayName + '</a>'}
+                                    {else}
+                                        {var displayNameLink = displayName}
+                                    {/if}
+                                    __MSG__ADDED_BY_DISPLAYNAME__
+                                </h3>
+                                <small class="oae-threedots">${meetingProfile.tenant.displayName|encodeForHTML}</small>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div id="aboutmeeting-jitsi-metadata-container" class="col-xs-12">
+            <h3 id="aboutmeeting-jitsi-title">${meetingProfile.displayName|encodeForHTML}</h3>
+            <div id="aboutmeeting-jitsi-created">
+                <span class="muted">__MSG__ADDED_COLON__</span> <time>${oae.api.l10n.transformDate(meetingProfile.created)}</time>
+            </div>
+            {if meetingProfile.resourceSubType === 'link'}
+                <div id="aboutmeeting-jitsi-link">
+                    <a href="${meetingProfile.link}" {if meetingProfile.displayName !== meetingProfile.link} title="${meetingProfile.displayName|encodeForHTMLAttribute}" {/if} target="_blank">${meetingProfile.link|encodeForHTML}</a>
+                </div>
+            {/if}
+            {if meetingProfile.description}
+                <div id="aboutmeeting-jitsi-description">${oae.api.util.security().encodeForHTMLWithLinks(meetingProfile.description)}</div>
+            {/if}
+        </div>
+    </div>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="js/aboutmeeting-jitsi.js"></script>

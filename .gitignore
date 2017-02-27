@@ -1,4 +1,4 @@
-.DS_STORE
+.DS_Store
 .project
 .idea
 *.kpf
@@ -16,6 +16,8 @@ node_modules/*
 !node_modules/oae-admin/*
 !node_modules/oae-core
 !node_modules/oae-core/*
+!node_modules/oae-jitsi-widgets
+!node_modules/oae-jitsi-widgets/*
 
 target/
 
