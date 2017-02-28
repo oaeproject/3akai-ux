@@ -41,8 +41,6 @@ require(['jquery', 'oae.core'], function ($, oae) {
             'api': {
                 'getMembersURL': '/api/meeting-jitsi/'+ meetingProfile.id + '/members',
                 'setMembers': oae.api.meetingJitsi.updateMembers,
-                'getInvitations': oae.api.meetingJitsi.getInvitations,
-                'resendInvitation': oae.api.meetingJitsi.resendInvitation, // to do
                 'setVisibility': oae.api.meetingJitsi.updateMeeting
             }
         };
@@ -107,9 +105,6 @@ require(['jquery', 'oae.core'], function ($, oae) {
         }, $('#meeting-jitsi-clip-container'));
     };
 
-    /**
-     * TODO
-     */
     var getMeetingProfile = function () {
 
         oae.api.meetingJitsi.getMeeting(meetingId, function (err, profile) {
@@ -137,11 +132,6 @@ require(['jquery', 'oae.core'], function ($, oae) {
 
             // We can now unhide the page
             oae.api.util.showPage();
-
-            /**
-            // Set up the meeting push notifications
-            setUpPushNotifications();
-             */
         });
     };
 
