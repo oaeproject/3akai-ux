@@ -1,8 +1,8 @@
 require(['jquery', 'oae.core'], function ($, oae) {
 
     // Get the meeting id from the URL. The expected URL is `/meeting-jitsi/<tenantId>/<resourceId>/<action>`. [view|close]
-    // The meeting id will then be `d:<tenantId>:<resourceId>`
-    var meetingId = 'd:' + $.url().segment(2) + ':' + $.url().segment(3);
+    // The meeting id will then be `m:<tenantId>:<resourceId>`
+    var meetingId = 'm:' + $.url().segment(2) + ':' + $.url().segment(3);
 
     // Variable used to cache the requested meeting profile
     var meetingProfile = null;
