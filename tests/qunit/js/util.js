@@ -396,6 +396,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/api/oae.api.i18n.js': null,
                 '/shared/oae/api/oae.api.js': null,
                 '/shared/oae/api/oae.api.l10n.js': null,
+                '/shared/oae/api/oae.api.meetup.js': null,
                 '/shared/oae/api/oae.api.push.js': null,
                 '/shared/oae/api/oae.api.user.js': null,
                 '/shared/oae/api/oae.api.util.js': null,
