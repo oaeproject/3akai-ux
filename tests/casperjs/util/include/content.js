@@ -222,13 +222,14 @@ var contentUtil = (function() {
      * @param  {String}       [description]         The collabdoc's description
      * @param  {String}       [visibility]          The collabdoc's visibility. This can be public, loggedin or private
      * @param  {String[]}     [managers]            Array of user/group ids that should be added as managers to the collabdoc
+     * @param  {String[]}     [editors]             Array of user/group ids that should be added as editors to the collabdoc
      * @param  {String[]}     [viewers]             Array of user/group ids that should be added as viewers to the collabdoc
      * @param  {String[]}     [folders]             Array of folder ids to which the collaborative document should be added
      * @param  {Function}     callback              Standard callback method
      * @param  {Object}       [callback.err]        Error object containing error code and error message
      * @param  {Content}      [callback.content]    Content object representing the created collabdoc
      */
-    var createCollabDoc = function(displayName, description, visibility, managers, viewers, folders, callback) {
+    var createCollabDoc = function(displayName, description, visibility, managers, editors, viewers, folders, callback) {
         casper.then(function() {
             var collabdocProfile = null;
             var err = null;
@@ -236,10 +237,11 @@ var contentUtil = (function() {
             description = description || '';
             visibility = visibility || 'public';
             managers = managers || [];
+            editors = editors || [];
             viewers = viewers || [];
             folders = folders || [];
 
-            mainUtil.callInternalAPI('content', 'createCollabDoc', [displayName, description, visibility, managers, viewers, folders], function(_err, _collabdocProfile) {
+            mainUtil.callInternalAPI('content', 'createCollabDoc', [displayName, description, visibility, managers, editors, viewers, folders], function(_err, _collabdocProfile) {
                 if (_err) {
                     casper.echo('Could not create ' + displayName + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
                     err = _err;

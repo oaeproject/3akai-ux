@@ -17,10 +17,11 @@ require(['jquery','oae.core'], function($, oae) {
 
     // Get the discussion id from the URL. The expected URL is `/discussion/<tenantId>/<resourceId>`.
     // The discussion id will then be `d:<tenantId>:<resourceId>`
-    var discussionId = 'd:' + $.url().segment(2) + ':' + $.url().segment(3);
+    var url = oae.api.util.url();
+    var discussionId = 'd:' + url.segment(2) + ':' + url.segment(3);
 
     // Variable used to cache the discussion's base URL
-    var baseUrl = '/discussion/' + $.url().segment(2) + '/' + $.url().segment(3);
+    var baseUrl = '/discussion/' + url.segment(2) + '/' + url.segment(3);
 
     // Variable used to cache the requested discussion profile
     var discussionProfile = null;
@@ -174,7 +175,7 @@ require(['jquery','oae.core'], function($, oae) {
                 'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_NOT_UPDATED__'),
                 'accessUpdatedBody': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_SUCCESSFULLY_UPDATED__'),
                 'accessUpdatedTitle': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_UPDATED__'),
-                'membersTitle': oae.api.i18n.translate('__MSG__SHARE_WITH__'),
+                'membersTitle': oae.api.i18n.translate('__MSG__SHARED_WITH__'),
                 'private': oae.api.i18n.translate('__MSG__PRIVATE__'),
                 'loggedin': oae.api.util.security().encodeForHTML(discussionProfile.tenant.displayName),
                 'public': oae.api.i18n.translate('__MSG__PUBLIC__'),
@@ -183,12 +184,14 @@ require(['jquery','oae.core'], function($, oae) {
                 'publicDescription': oae.api.i18n.translate('__MSG__DISCUSSION_PUBLIC_DESCRIPTION__')
             },
             'defaultRole': 'member',
-            'roles': {
-                'member': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
-                'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')
-            },
+            'roles': [
+                {'id': 'member', 'name': oae.api.i18n.translate('__MSG__CAN_VIEW__')},
+                {'id': 'manager', 'name': oae.api.i18n.translate('__MSG__CAN_MANAGE__')}
+            ],
             'api': {
                 'getMembersURL': '/api/discussion/'+ discussionProfile.id + '/members',
+                'getInvitations': oae.api.discussion.getInvitations,
+                'resendInvitation': oae.api.discussion.resendInvitation,
                 'setMembers': oae.api.discussion.updateMembers,
                 'setVisibility': oae.api.discussion.updateDiscussion
             }

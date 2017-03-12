@@ -17,10 +17,11 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     // Get the folder id from the URL. The expected URL is `/folder/<tenantId>/<resourceId>`.
     // The folder id will then be `f:<tenantId>:<resourceId>`
-    var folderId = 'f:' + $.url().segment(2) + ':' + $.url().segment(3);
+    var url = oae.api.util.url();
+    var folderId = 'f:' + url.segment(2) + ':' + url.segment(3);
 
     // Variable used to cache the folder's base URL
-    var baseUrl = '/folder/' + $.url().segment(2) + '/' + $.url().segment(3);
+    var baseUrl = '/folder/' + url.segment(2) + '/' + url.segment(3);
 
     // Variable used to cache the requested folder profile
     var folderProfile = null;
@@ -225,7 +226,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__FOLDER_ACCESS_NOT_UPDATED__'),
                 'accessUpdatedBody': oae.api.i18n.translate('__MSG__FOLDER_ACCESS_SUCCESSFULLY_UPDATED__'),
                 'accessUpdatedTitle': oae.api.i18n.translate('__MSG__FOLDER_ACCESS_UPDATED__'),
-                'membersTitle': oae.api.i18n.translate('__MSG__SHARE_WITH__'),
+                'membersTitle': oae.api.i18n.translate('__MSG__SHARED_WITH__'),
                 'private': oae.api.i18n.translate('__MSG__PRIVATE__'),
                 'loggedin': oae.api.util.security().encodeForHTML(folderProfile.tenant.displayName),
                 'public': oae.api.i18n.translate('__MSG__PUBLIC__'),
@@ -234,12 +235,14 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 'publicDescription': oae.api.i18n.translate('__MSG__FOLDER_PUBLIC_DESCRIPTION__')
             },
             'defaultRole': 'viewer',
-            'roles': {
-                'viewer': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
-                'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')
-            },
+            'roles': [
+                {'id': 'viewer', 'name': oae.api.i18n.translate('__MSG__CAN_VIEW__')},
+                {'id': 'manager', 'name': oae.api.i18n.translate('__MSG__CAN_MANAGE__')}
+            ],
             'api': {
                 'getMembersURL': '/api/folder/'+ folderProfile.id + '/members',
+                'getInvitations': oae.api.folder.getInvitations,
+                'resendInvitation': oae.api.folder.resendInvitation,
                 'setMembers': oae.api.folder.updateMembers,
                 'setVisibility': oae.api.folder.updateFolder
             }

@@ -17,10 +17,11 @@ require(['jquery', 'oae.core'], function($, oae) {
 
     // Get the group id from the URL. The expected URL is `/group/<tenantId>/<resourceId>`.
     // The group id will then be `g:<tenantId>:<resourceId>`
-    var groupId = 'g:' + $.url().segment(2) + ':' + $.url().segment(3);
+    var url = oae.api.util.url();
+    var groupId = 'g:' + url.segment(2) + ':' + url.segment(3);
 
     // Variable used to cache the group's base URL
-    var baseUrl = '/group/' + $.url().segment(2) + '/' + $.url().segment(3);
+    var baseUrl = '/group/' + url.segment(2) + '/' + url.segment(3);
 
     // Variable used to cache the requested group's profile
     var groupProfile = null;
@@ -31,20 +32,34 @@ require(['jquery', 'oae.core'], function($, oae) {
     //////////////////////////////////
 
     /**
+     * Get the group's full profile and apply it to the current context (i.e. `groupProfile`). If an
+     * error occurrs getting the group profile, the user will be redirected to the appropriate error
+     * page
+     *
+     * @param  {Function}   callback    Invoked when the group profile has been successfully fetched and applied to the context
+     */
+    var getGroupProfile = function(callback) {
+        oae.api.group.getGroup(groupId, function(err, profile) {
+            if (err && err.code === 404) {
+                return oae.api.util.redirect().notfound();
+            } else if (err && err.code === 401) {
+                return oae.api.util.redirect().accessdenied();
+            }
+
+            groupProfile = profile;
+            return callback();
+        });
+    };
+
+
+    /**
      * Get the group's basic profile and set up the screen. If the group
      * can't be found or is private to the current user, the appropriate
      * error page will be shown
      */
-    var getGroupProfile = function() {
-        oae.api.group.getGroup(groupId, function(err, profile) {
-            if (err && err.code === 404) {
-                oae.api.util.redirect().notfound();
-            } else if (err && err.code === 401) {
-                oae.api.util.redirect().accessdenied();
-            }
-
-            // Cache the group profile data
-            groupProfile = profile;
+    var setUpGroupProfile = function() {
+        // Fetch and cache the most recent group profile information
+        getGroupProfile(function() {
             // Render the entity information
             setUpClip();
             // Set up the context event exchange
@@ -59,7 +74,6 @@ require(['jquery', 'oae.core'], function($, oae) {
                 // Set up the group push notifications to update this group profile on the fly
                 setUpPushNotifications();
             }
-
         });
     };
 
@@ -96,8 +110,10 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Only show the create and upload clips to group members
         if (groupProfile.isMember) {
             $('#group-member-actions').show();
+            $('#group-join-actions').hide();
         // Show the join clip to non-members when the group is joinable
         } else if (!groupProfile.isMember && groupProfile.canJoin) {
+            $('#group-member-actions').hide();
             $('#group-join-actions').show();
         }
     };
@@ -149,8 +165,8 @@ require(['jquery', 'oae.core'], function($, oae) {
             });
         }
 
-        // Add the join clip when not a member and user can join
-        if (!groupProfile.isMember && groupProfile.canJoin) {
+        // Add the join option when a user can join the group
+        if (groupProfile.canJoin) {
             lhNavActions.push({
                 'icon': 'fa-thumb-tack',
                 'title': oae.api.i18n.translate('__MSG__JOIN_GROUP__'),
@@ -160,29 +176,40 @@ require(['jquery', 'oae.core'], function($, oae) {
 
         // Structure that will be used to construct the left hand navigation pages
         var lhNavPages = [];
-        // Only show the recent activity to group members
-        if (groupProfile.isMember) {
-            lhNavPages.push({
-                'id': 'activity',
-                'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
-                'icon': 'fa-tachometer',
-                'closeNav': true,
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'name': 'activity',
-                                'settings': {
-                                    'context': groupProfile,
-                                    'canManage': groupProfile.isManager
-                                }
+
+        // Show the activity and about widgets on the main page
+        lhNavPages.push({
+            'id': 'activity',
+            'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
+            'icon': 'fa-tachometer',
+            'closeNav': true,
+            'layout': [
+                {
+                    'width': 'col-md-8 col-lg-9',
+                    'widgets': [
+                        {
+                            'name': 'activity',
+                            'settings': {
+                                'context': groupProfile,
+                                'canManage': groupProfile.isManager
                             }
-                        ]
-                    }
-                ]
-            });
-        }
+                        }
+                    ]
+                },
+                {
+                    'width': 'hidden-xs hidden-sm col-md-4 col-lg-3',
+                    'widgets': [
+                        {
+                            'name': 'groupprofile',
+                            'settings': {
+                                'context': groupProfile,
+                                'canManage': groupProfile.isManager
+                            }
+                        }
+                    ]
+                }
+            ]
+        });
 
         lhNavPages.push({
             'id': 'library',
@@ -305,12 +332,14 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'publicDescription': oae.api.i18n.translate('__MSG__GROUP_PUBLIC_DESCRIPTION_PRESENT__')
             },
             'defaultRole': 'member',
-            'roles': {
-                'member': oae.api.i18n.translate('__MSG__MEMBER__'),
-                'manager': oae.api.i18n.translate('__MSG__MANAGER__')
-            },
+            'roles': [
+                {'id': 'member', 'name': oae.api.i18n.translate('__MSG__MEMBER__')},
+                {'id': 'manager', 'name': oae.api.i18n.translate('__MSG__MANAGER__')}
+            ],
             'api': {
                 'getMembersURL': '/api/group/' + groupProfile.id + '/members',
+                'getInvitations': oae.api.group.getInvitations,
+                'resendInvitation': oae.api.group.resendInvitation,
                 'setMembers': oae.api.group.updateMembers,
                 'setVisibility': oae.api.group.updateGroup
             }
@@ -335,9 +364,17 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Re-render the group's clip when the permissions have been updated
      */
     $(document).on('oae.manageaccess.done', function(ev) {
-        setUpClip();
-    });
+        // Fetch and cache the most up-to-date group profile information
+        getGroupProfile(function() {
+            // Update the entity clip state
+            setUpClip();
 
+            // When group members have changed, details relative to the user's access will have changed
+            // as well. Because of this we need to invoke a context update. If a user removed their own
+            // access to a private group, they will be redirected to an access denied page
+            $(document).trigger('oae.context.update', groupProfile);
+        });
+    });
 
     ////////////////////////////
     // CHANGE PROFILE PICTURE //
@@ -401,8 +438,12 @@ require(['jquery', 'oae.core'], function($, oae) {
     $(document).on('oae.editgroup.done', function(ev, data) {
         groupProfile = data;
         setUpClip();
+
+        // Transfer the new profile to the groupprofile widget
+        $(document).trigger('oae.context.update', groupProfile);
     });
 
-    getGroupProfile();
+
+    setUpGroupProfile();
 
 });

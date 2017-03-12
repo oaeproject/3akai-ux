@@ -15,7 +15,7 @@
  *  `$('.oae-list-header-badge').text(15).show()`
  *
  * @param  {String}     title                       The title of the header
- * @param  {Boolean}    [showSearch]                Whether or not a search box should show. The search box is accessible on the DOM with CSS class `oae-list-selectall`. Default: `true`
+ * @param  {Boolean}    [showSearch]                Whether or not a search box should show. The search box is accessible on the DOM with CSS class `oae-list-header-search-query`. Default: `true`
  * @param  {Object[]}   [actions]                   A list of objects that represent action buttons that can be performed in the header
  * @param  {String}     [actions[i].icon]           The icon class that represents the action (e.g., `fa-times`)
  * @param  {String}     [actions[i].label]          The label of the action
@@ -30,7 +30,7 @@
     {var showViewOptions = (_showViewOptions !== false)}
     {var showActionsToggle = (actions.length > 0 || showViewOptions)}
 
-    <div class="oae-list-header">
+    <div class="oae-header oae-list-header">
         <div class="row">
             <div class="col-xs-12{if showSearch} col-sm-8{/if}">
                 <button type="button" class="oae-lhnavigation-toggle btn btn-link pull-left hidden-md hidden-lg">
@@ -39,9 +39,9 @@
                 </button>
 
                 {if showActionsToggle}
-                    <button class="oae-list-header-toggle btn" aria-expanded="false" aria-controls="${actionsId}">
+                    <button class="oae-header-title oae-list-header-toggle btn" aria-expanded="false" aria-controls="${actionsId}">
                 {else}
-                    <div class="oae-list-header-toggle">
+                    <div class="oae-header-title oae-list-header-toggle">
                 {/if}
 
                     <h2>
@@ -142,13 +142,14 @@
             <div class="oae-list-grid-item">
                 <div class="oae-tile">
                     ${displayOptions.addVisibilityIcon = false|eat}
-                    ${displayOptions.largeDefault = true|eat}
+                    ${displayOptions.size = "large"|eat}
+                    ${displayOptions.threedotTitle = false|eat}
                     ${renderThumbnail(entityData, displayOptions)}
                     <div class="oae-tile-metadata">
+                        ${renderMetadata(entityData, displayOptions)}
                         {if resourceType !== 'user'}
                             ${renderVisibilityIcon(entityData)}
                         {/if}
-                        ${renderMetadata(entityData, displayOptions)}
                     </div>
                 </div>
                 ${renderCheckbox(entityData, 'grid', displayOptions.showCheckbox)}
@@ -157,19 +158,22 @@
             <!-- DETAILED LIST VIEW -->
             <div class="oae-list-details-item">
                 <div class="oae-listitem">
-                    ${renderCheckbox(entityData, 'details', displayOptions.showCheckbox)}
-                    <div class="oae-listitem-primary-thumbnail">
-                        ${displayOptions.addVisibilityIcon = true|eat}
-                        ${displayOptions.largeDefault = false|eat}
-                        ${renderThumbnail(entityData, displayOptions)}
-                    </div>
-                    {if displayOptions.listItemActions}
-                        <div class="oae-listitem-actions">
-                            ${displayOptions.listItemActions()}
+                    <div class="oae-listitem-inner">
+                        ${renderCheckbox(entityData, 'details', displayOptions.showCheckbox)}
+                        <div class="oae-listitem-primary-thumbnail">
+                            ${displayOptions.addVisibilityIcon = true|eat}
+                            ${displayOptions.size = "small"|eat}
+                            ${displayOptions.threedotTitle = true|eat}
+                            ${renderThumbnail(entityData, displayOptions)}
                         </div>
-                    {/if}
-                    <div class="oae-listitem-metadata">
-                        ${renderMetadata(entityData, displayOptions)}
+                        {if displayOptions.listItemActions}
+                            <div class="oae-listitem-actions">
+                                ${displayOptions.listItemActions()}
+                            </div>
+                        {/if}
+                        <div class="oae-listitem-metadata">
+                            ${renderMetadata(entityData, displayOptions)}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -177,17 +181,23 @@
             <!-- COMPACT LIST VIEW -->
             <div class="oae-list-compact-item">
                 <div class="oae-listitem">
-                    ${renderCheckbox(entityData, 'compact', displayOptions.showCheckbox)}
-                    <div class="oae-listitem-primary-thumbnail">
-                        ${renderThumbnail(entityData, displayOptions)}
-                    </div>
-                    {if displayOptions.listItemActions}
-                        <div class="oae-listitem-actions">
-                            ${displayOptions.listItemActions()}
+                    <div class="oae-listitem-inner">
+                        ${renderCheckbox(entityData, 'compact', displayOptions.showCheckbox)}
+                        {if entityData.resourceType !== 'email'}
+                            <div class="oae-listitem-primary-thumbnail">
+                                ${renderThumbnail(entityData, displayOptions)}
+                            </div>
+                        {else}
+                            <i class="oae-listitem-primary-thumbnail fa fa-envelope"></i>
+                        {/if}
+                        {if displayOptions.listItemActions}
+                            <div class="oae-listitem-actions">
+                                ${displayOptions.listItemActions()}
+                            </div>
+                        {/if}
+                        <div class="oae-listitem-metadata">
+                            ${renderMetadata(entityData, displayOptions)}
                         </div>
-                    {/if}
-                    <div class="oae-listitem-metadata">
-                        ${renderMetadata(entityData, displayOptions)}
                     </div>
                 </div>
             </div>
@@ -198,13 +208,14 @@
 <!--
  * Render an entity thumbnail.
  *
- * @param  {User|Group|Content|Folder|Discussion|String}    entityData                             Standard object representing an OAE entity or a search result for an OAE entity. Alternatively, a string representing the resourceType or resourceSubType (i.e., 'user', 'group', 'content', `folder`, 'file', 'link', 'collabdoc', `discussions`) can be passed in for an empty/anonymous entity thumbnail
- * @param  {Object}                                         [displayOptions]                       Display options for the thumbnail
- * @param  {Boolean}                                        [displayOptions.addVisibilityIcon]     Whether or not the visibility icon should be shown. By default, the visibility icon will be shown. However, users will never show a visibility icon
- * @param  {Boolean}                                        [displayOptions.largeDefault]          Whether or not a large default thumbnail icon should used. By default, a small icon will be used
- * @param  {Boolean}                                        [displayOptions.addLink]               Whether or not a link to the entity profile should be placed on the image. By default, a link will be set
- * @param  {String}                                         [displayOptions.customImage]           URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
- * @param  {String}                                         [displayOptions.linkTarget]            The target of the thumbnail link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
+ * @param  {User|Group|Content|Folder|Discussion|String}    entityData                          Standard object representing an OAE entity or a search result for an OAE entity. Alternatively, a string representing the resourceType or resourceSubType (i.e., 'user', 'group', 'content', `folder`, 'file', 'link', 'collabdoc', `discussions`) can be passed in for an empty/anonymous entity thumbnail
+ * @param  {Object}                                         [displayOptions]                    Display options for the thumbnail
+ * @param  {Boolean}                                        [displayOptions.addLink]            Whether or not a link to the entity profile should be placed on the image. By default, a link will be set
+ * @param  {Boolean}                                        [displayOptions.addVisibilityIcon]  Whether or not the visibility icon should be shown, this does not apply to users who never have a visibility icon. By default, a visibility icon is shown for all resources other than users
+ * @param  {String}                                         [displayOptions.customImage]        URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
+ * @param  {String}                                         [displayOptions.flyover]            The content to put in a fly-over when the mouse hovers over the thumbnail image
+ * @param  {String}                                         [displayOptions.linkTarget]         The target of the thumbnail link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
+ * @param  {String}                                         [displayOptions.size]               If specified, this content will suffix a class `oae-thumbnail-<size>`. Core CSS has support for "small", "medium" and "large". By default it is "small". "large" is recommended for thumbnails larger than 100px, while "medium" is recommended for larger than 50px
 -->
 {macro renderThumbnail(entityData, displayOptions)}
     <!-- If only a string, representing the resourceType, has been passed in. The eval block
@@ -266,15 +277,19 @@
         {var visibility = entityData['oae:visibility']}
     {/if}
 
-    <div class="oae-thumbnail {if displayOptions.largeDefault} oae-thumbnail-large {/if} fa fa-oae-${resourceSubType} fa-oae-${resourceType}" data-id="${resourceId}">
-        {if profilePath && displayOptions.addLink !== false}<a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>{/if}
+    <div class="oae-thumbnail {if displayOptions.size} oae-thumbnail-${displayOptions.size}{/if} fa fa-oae-${resourceSubType} fa-oae-${resourceType}" data-id="${resourceId}">
+        {if profilePath && displayOptions.addLink !== false}
+            <a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>
+        {/if}
         {if thumbnailUrl}
             <div role="img" aria-label="${entityData.displayName|encodeForHTMLAttribute}" style="background-image: url('${thumbnailUrl}');"></div>
         {/if}
         {if displayOptions.addVisibilityIcon !== false && resourceType !== 'user'}
             ${renderVisibilityIcon(entityData)}
         {/if}
-        {if profilePath && displayOptions.addLink !== false}</a>{/if}
+        {if profilePath && displayOptions.addLink !== false}
+            </a>
+        {/if}
     </div>
 {/macro}
 
@@ -286,6 +301,7 @@
  * @param  {String}                                 [displayOptions.metadata]           Line of metadata information that should be displayed underneath the entity name
  * @param  {Boolean}                                [displayOptions.addLink]            Whether or not a link to the entity profile should be placed on the title. By default, a link will be set
  * @param  {String}                                 [displayOptions.linkTarget]         The target of the link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
+ * @param  {Boolean}                                [displayOptions.threedotTitle]      Whether or not the metadata title should be threedotted. By default, threedotting will be applied to the metadata title
 -->
 {macro renderMetadata(entityData, displayOptions)}
 
@@ -324,9 +340,9 @@
     {/if}
 
     {if profilePath && displayOptions.addLink !== false}
-        <h3 class="oae-threedots"><a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>${entityData.displayName|encodeForHTML}</a></h3>
+        <div class="oae-tile-title {if displayOptions.threedotTitle !== false} oae-threedots{/if}"><a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>${entityData.displayName|encodeForHTML}</a></div>
     {else}
-        <h3 class="oae-threedots"><span class="jeditable-field oae-threedots" rel="tooltip" data-placement="right" data-original-title="__MSG__CLICK_TO_RENAME__" tabindex="0">${entityData.displayName|encodeForHTML}</span></h3>
+        <div class="oae-tile-title {if displayOptions.threedotTitle !== false} oae-threedots{/if}"><span class="jeditable-field oae-threedots" rel="tooltip" data-placement="right" data-original-title="__MSG__CLICK_TO_RENAME__" tabindex="0">${entityData.displayName|encodeForHTML}</span></div>
     {/if}
 
     {if metadata}

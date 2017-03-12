@@ -226,6 +226,58 @@ define(['exports', 'jquery'], function(exports, $) {
     };
 
     /**
+     * Get all the invitations for a folder
+     *
+     * @param  {String}         folderId                        Id of the folder we're trying to retrieve the invitations for
+     * @param  {Function}       callback                        Standard callback function
+     * @param  {Object}         callback.err                    Error object containing error code and error message
+     * @param  {Object}         callback.invitations            Response object containing the folder invitations
+     * @param  {Invitation[]}   callback.invitations.results    Every invitation associated to the folder
+     * @throws {Error}                                          Error thrown when no folder id has been provided
+     */
+    var getInvitations = exports.getInvitations = function(folderId, callback) {
+        if (!folderId) {
+            throw new Error('A valid folder id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/folder/' + folderId + '/invitations',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Resend an invitation that invites an email into a folder
+     *
+     * @param  {String}     folderId        Id of the folder whose invitation to resend
+     * @param  {String}     email           The email of the invitation to resend
+     * @param  {Function}   callback        Standard callback function
+     * @param  {Object}     callback.err    Error object containing error code and error message
+     * @throws {Error}                      Error thrown when no folder id has been provided
+     */
+    var resendInvitation = exports.resendInvitation = function(folderId, email, callback) {
+        if (!folderId) {
+            throw new Error('A valid folder id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/folder/' + folderId + '/invitations/' + email + '/resend',
+            'type': 'POST',
+            'success': function() {
+                callback();
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
      * Get the viewers and managers of a folder
      *
      * @param  {String}          folderId                       Id of the folder we're trying to retrieve the members for

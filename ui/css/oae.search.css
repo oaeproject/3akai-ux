@@ -13,36 +13,64 @@
  * permissions and limitations under the License.
  */
 
-/* Search clip overrides */
-
-#search-clip-container .oae-clip-content {
-    padding: 15px;
-}
-
-#search-clip-container .oae-clip {
-    max-width: 550px;
-    width: 80%;
-}
 
 /* Search form */
 
 #search-form {
-    margin: 0 20px;
+    margin: 0 auto 50px auto;
+    max-width: 630px;
+    padding: 0 15px;
+}
+
+.anon #search-form {
+    margin-bottom: 30px;
 }
 
 #search-form #search-search-icon {
-    margin-left: -27px;
+    margin-left: -30px;
     margin-top: 5px;
-    padding: 0px;
     opacity: 0.6;
+
+    /* The typical search icon gets chopped a bit on the left side by the button container, shift it
+       over a little bit */
+    padding: 0 0 0 1px;
 }
 
 #search-form #search-query {
     padding: 0 30px 0 12px;
 }
 
+/* Search scope "switch tabs" */
+
+#search-scope {
+    margin-top: -33px;
+    text-align: center;
+}
+
+/* Anonymous only ever has "Everywhere", so don't show the switches at all */
+.anon #search-scope {
+    display: none;
+}
+
 /* Search container */
 
 #search-content-container {
-    padding: 5px 10px;
+    padding: 15px 10px;
+}
+
+#search-content-container.search-my .search-refine-type-user,
+#search-refine-tenant {
+    display: none;
+}
+
+/* Search left-hand navigation */
+
+#search-lhnavigation li > label > input {
+    margin-top: 4px;
+    position: absolute;
+}
+
+#search-lhnavigation li > label > span {
+    display: inline-block;
+    margin-left: 18px;
 }

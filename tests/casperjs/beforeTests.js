@@ -49,7 +49,7 @@ module.exports = function(callback) {
         var globalAdminRestContext = TestsUtil.createGlobalAdminRestContext();
 
         // Create the test tenant
-        TenantsTestUtil.createTenantAndWait(globalAdminRestContext, 'test', 'CasperJS Tenant', 'test.oae.com', function(err, tenant) {
+        TenantsTestUtil.createTenantAndWait(globalAdminRestContext, 'test', 'CasperJS Tenant', 'test.oae.com', null, function(err, tenant) {
             if (err) {
                 log().error({'err': err});
                 return callback(err);

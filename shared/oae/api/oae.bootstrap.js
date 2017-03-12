@@ -28,8 +28,10 @@ requirejs.config({
         'bootstrap.datepicker': 'vendor/js/bootstrap-plugins/bootstrap-datepicker',
         'bootstrap.notify': 'vendor/js/bootstrap-plugins/bootstrap.notify.oae-edited',
         'globalize': 'vendor/js/l10n/globalize',
+        'iso3166': 'oae/js/iso3166',
         'jquery.autosize': 'vendor/js/jquery-plugins/jquery.autosize',
         'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest',
+        'jquery.dotdot': 'vendor/js/jquery-plugins/jquery.dotdotdot',
         'jquery.encoder': 'vendor/js/jquery-plugins/jquery.encoder',
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
         'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
@@ -66,6 +68,7 @@ requirejs.config({
         'jquery.jeditable-focus': 'oae/js/jquery-plugins/jquery.jeditable-focus',
         'jquery.list': 'oae/js/jquery-plugins/jquery.list',
         'jquery.responsive': 'oae/js/jquery-plugins/jquery.responsive',
+        'jquery.switchtab': 'oae/js/jquery-plugins/jquery.switchtab',
         'jquery.update-picture': 'oae/js/jquery-plugins/jquery.update-picture',
         'mimetypes': 'oae/js/mimetypes',
 

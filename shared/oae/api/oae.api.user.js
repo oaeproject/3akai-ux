@@ -18,28 +18,31 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
     /**
      * Creates a new user with an internal login strategy
      *
-     * @param  {String}         username                        The username this user can login with
-     * @param  {String}         password                        The password for this user
-     * @param  {String}         displayName                     The display name for the user
-     * @param  {Object}         [additionalOptions]             Additional optional parameters that need to be passed in
-     * @param  {String}         [additionalOptions.visibility]  The user's visibility setting. This can be public, loggedin or private
-     * @param  {String}         [additionalOptions.email]       The user's email address
-     * @param  {String}         [additionalOptions.locale]      The user's locale
-     * @param  {String}         [additionalOptions.publicAlias] The publically-available alias for users to see when the user's display name is protected
-     * @param  {String}         recaptchaChallenge              The identifier of the recaptcha challenge that has been presented to the user
-     * @param  {String}         recaptchaResponse               The response for the presented recaptcha challenge
-     * @param  {Function}       [callback]                      Standard callback function
-     * @param  {Object}         [callback.err]                  Error object containing error code and error message
-     * @param  {User}           [callback.user]                 A User object representing the created user
-     * @throws {Error}                                          Error thrown when not all of the required parameters have been provided
+     * @param  {String}         username                                The username this user can login with
+     * @param  {String}         password                                The password for this user
+     * @param  {String}         displayName                             The display name for the user
+     * @param  {String}         email                                   The email address for the user
+     * @param  {Object}         [additionalOptions]                     Additional optional parameters that need to be passed in
+     * @param  {String}         [additionalOptions.visibility]          The user's visibility setting. This can be public, loggedin or private
+     * @param  {String}         [additionalOptions.locale]              The user's locale
+     * @param  {String}         [additionalOptions.publicAlias]         The publically-available alias for users to see when the user's display name is protected
+     * @param  {String}         [additionalOptions.invitationToken]     If the user originated from an email invitation, this token will allow their email to be automatically verified
+     * @param  {String}         recaptchaChallenge                      The identifier of the recaptcha challenge that has been presented to the user
+     * @param  {String}         recaptchaResponse                       The response for the presented recaptcha challenge
+     * @param  {Function}       [callback]                              Standard callback function
+     * @param  {Object}         [callback.err]                          Error object containing error code and error message
+     * @param  {User}           [callback.user]                         A User object representing the created user
+     * @throws {Error}                                                  Error thrown when not all of the required parameters have been provided
      */
-    var createUser = exports.createUser = function(username, password, displayName, additionalOptions, recaptchaChallenge, recaptchaResponse, callback) {
+    var createUser = exports.createUser = function(username, password, displayName, email, additionalOptions, recaptchaChallenge, recaptchaResponse, callback) {
         if (!username) {
             throw new Error('A username should be provided');
         } else if (!password) {
             throw new Error('A password should be provided');
         } else if (!displayName) {
             throw new Error('A display name should be provided');
+        } else if (!email) {
+            throw new Error('An email address should be provided');
         }
 
         // Set a default callback function in case no callback function has been provided
@@ -51,12 +54,13 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
             'username': username,
             'password': password,
             'displayName': displayName,
+            'email': email,
             'recaptchaChallenge': recaptchaChallenge,
             'recaptchaResponse': recaptchaResponse,
             'visibility': additionalOptions.visibility,
-            'email': additionalOptions.email,
             'locale': additionalOptions.locale,
-            'publicAlias': additionalOptions.publicAlias
+            'publicAlias': additionalOptions.publicAlias,
+            'invitationToken': additionalOptions.invitationToken
         };
 
         // If the tenant requires the terms and conditions to be accepted, add it on the data object
@@ -104,7 +108,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {String}         userId              User id of the profile you wish to retrieve
      * @param  {Function}       callback            Standard callback function
      * @param  {Object}         callback.err        Error object containing error code and error message
-     * @param  {User}           callback.response   The user's basic profile
+     * @param  {User}           callback.user       The user's basic profile
      * @throws {Error}                              Error thrown when no userId has been provided
      */
     var getUser = exports.getUser = function(userId, callback) {
@@ -200,6 +204,134 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
             'type': 'POST',
             'success': function(data) {
                 callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Verify an email token on behalf of the specified user
+     *
+     * @param  {String}         userId              The id of the user whose email to verify
+     * @param  {String}         token               The token that verifies the email address
+     * @param  {Function}       [callback]          Standard callback function
+     * @param  {Object}         [callback.err]      Error object containing error code and error message
+     */
+    var verifyEmail = exports.verifyEmail = function(userId, token, callback) {
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/user/' + userId + '/email/verify',
+            'type': 'POST',
+            'data': {
+                'token': token
+            },
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Accept a user invitation with the specified email token
+     *
+     * @param  {String}         token                       The invitation token to use to accept the invitation
+     * @param  {Function}       callback                    Standard callback function
+     * @param  {Object}         callback.err                Error object containing error code and error message
+     * @param  {Object}         callback.result             The accept invitation result
+     * @param  {String}         callback.result.email       The email address that was associated to the token
+     * @param  {Resource[]}     callback.result.resources   The resources that the user was invited into
+     */
+    var acceptInvitation = exports.acceptInvitation = function(token, callback) {
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/invitation/accept',
+            'type': 'POST',
+            'data': {
+                'token': token
+            },
+            'success': function(data) {
+                // Accepting an invitation will set a verified email if there wasn't one already,
+                // so do that here to avoid giving the user a pop-up
+                require('oae.core').data.me.email = require('oae.core').data.me.email || data.email;
+
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Resend an email verification token for the specified user
+     *
+     * @param  {String}         userId              The id of the user whose email token to resend
+     * @param  {Function}       [callback]          Standard callback function
+     * @param  {Object}         [callback.err]      Error object containing error code and error message
+     */
+    var resendEmailToken = exports.resendEmailToken = function(userId, callback) {
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/user/' + userId + '/email/resend',
+            'type': 'POST',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Get the pending email verification status for the current user, if any
+     *
+     * @param  {String}     userId              The id of the user whose pending email verification to get
+     * @param  {Function}   callback            Standard callback function
+     * @param  {Object}     callback.err        Error object containing error code and error message
+     * @param  {String}     [callback.email]    The email address that is pending verification, if any
+     */
+    var getEmailVerificationStatus = exports.getEmailVerificationStatus = function(userId, callback) {
+        $.ajax({
+            'url': '/api/user/' + userId + '/email/token',
+            'type': 'GET',
+            'success': function(data) {
+                callback(null, data.email);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Delete the pending email verification for the current user, if any
+     *
+     * @param  {Function}   [callback]      Standard callback function
+     * @param  {Object}     [callback.err]  Error object containing error code and error message
+     */
+    var deletePendingEmailVerification = exports.deletePendingEmailVerification = function(callback) {
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        var userId = require('oae.core').data.me.id;
+
+        $.ajax({
+            'url': '/api/user/' + userId + '/email/token',
+            'type': 'DELETE',
+            'success': function(data) {
+                callback(null, data.email);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.responseText});

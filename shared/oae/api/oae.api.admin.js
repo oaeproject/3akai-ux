@@ -23,14 +23,17 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Create a new tenant
      *
-     * @param  {String}                alias                               The alias of the tenant to create
-     * @param  {String}                displayName                         The display name of the tenant to create
-     * @param  {String}                host                                The host name of the tenant to create
-     * @param  {Function}              [callback]                          Standard callback method
-     * @param  {Object}                [callback.err]                      Error object containing error code and error message
-     * @param  {Tenant}                [callback.response]                 A Tenant object representing the created tenant
+     * @param  {String}         alias                               The alias of the tenant to create
+     * @param  {String}         displayName                         The display name of the tenant to create
+     * @param  {String}         host                                The host name of the tenant to create
+     * @param  {Object}         [opts]                              Optional arguments
+     * @param  {String}         [opts.emailDomains]                 The email domains to assign to the tenant
+     * @param  {String}         [opts.countryCode]                  The ISO-3166-1 Country Code to which the tenant belongs
+     * @param  {Function}       [callback]                          Standard callback method
+     * @param  {Object}         [callback.err]                      Error object containing error code and error message
+     * @param  {Tenant}         [callback.tenant]                   A Tenant object representing the created tenant
      */
-    var createTenant = exports.createTenant = function(alias, displayName, host, callback) {
+    var createTenant = exports.createTenant = function(alias, displayName, host, opts, callback) {
         if (!alias) {
             throw new Error('A tenant alias should be provided');
         } else if (!displayName) {
@@ -39,18 +42,31 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             throw new Error('A host should be provided');
         }
 
+        // Set a default optional arguments object in case no optional arguments object has been provided
+        opts = opts || {};
+
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
+
+        var data = {
+            'alias': alias,
+            'displayName': displayName,
+            'host': host
+        };
+
+        if (opts.emailDomains) {
+            data.emailDomains = opts.emailDomains;
+        }
+
+        if (opts.countryCode) {
+            data.countryCode = opts.countryCode;
+        }
 
         // Create the tenant
         $.ajax({
             'url': '/api/tenant/create',
             'type': 'POST',
-            'data': {
-                'alias': alias,
-                'displayName': displayName,
-                'host': host
-            },
+            'data': data,
             'success': function(data) {
                 callback(null, data);
             },
@@ -61,15 +77,20 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Get all created tenants
+     * Get a tenant by alias
      *
-     * @param  {Function}    callback             Standard callback method
-     * @param  {Object}      callback.err         Error object containing error code and error message
-     * @param  {Object}      callback.response    Object containing all available tenants in the system
+     * @param  {String}      [alias]            The alias of the tenant to get. By default, the current tenant will be returned
+     * @param  {Function}    callback           Standard callback method
+     * @param  {Object}      callback.err       Error object containing error code and error message
+     * @param  {Tenant}      callback.tenant    The requested tenant
      */
-    var getTenants = exports.getTenants = function(callback) {
+    var getTenant = exports.getTenant = function(alias, callback) {
+        var url = '/api/tenant';
+        if (alias) {
+            url += '/' + alias;
+        }
         $.ajax({
-            'url': '/api/tenants',
+            'url': url,
             'type': 'GET',
             'success': function(data) {
                 callback(null, data);
@@ -92,25 +113,27 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         username                            The username this user can login with
      * @param  {String}         password                            The password for this user
      * @param  {String}         displayName                         The display name for the user
+     * @param  {String}         email                               The email for the user
      * @param  {Object}         [additionalOptions]                 Additional optional parameters that need to be passed in
      * @param  {String}         [additionalOptions.visibility]      The user's visibility setting. This can be public, loggedin or private
-     * @param  {String}         [additionalOptions.email]           The user's email address
      * @param  {String}         [additionalOptions.locale]          The user's locale
      * @param  {String}         [additionalOptions.publicAlias]     The publically-available alias for users to see when the user's display name is protected
      * @param  {Boolean}        [additionalOptions.isGlobalAdmin]   Whether or not the new user should be a global admin
      * @param  {Boolean}        [additionalOptions.isTenantAdmin]   Whether or not the new user should be a tenant admin
      * @param  {Function}       [callback]                          Standard callback function
      * @param  {Object}         [callback.err]                      Error object containing error code and error message
-     * @param  {User}           [callback.response]                 A User object representing the created user
+     * @param  {User}           [callback.user]                     The created user
      * @throws {Error}                                              Error thrown when not all of the required parameters have been provided
      */
-    var createUser = exports.createUser = function(tenantAlias, username, password, displayName, additionalOptions, callback) {
+    var createUser = exports.createUser = function(tenantAlias, username, password, displayName, email, additionalOptions, callback) {
         if (!username) {
             throw new Error('A username should be provided');
         } else if (!password) {
             throw new Error('A password should be provided');
         } else if (!displayName) {
             throw new Error('A display name should be provided');
+        } else if (!email) {
+            throw new Error('An email address should be provided');
         }
 
         // Set a default callback function in case no callback function has been provided
@@ -122,8 +145,8 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'username': username,
             'password': password,
             'displayName': displayName,
+            'email': email,
             'visibility': additionalOptions.visibility,
-            'email': additionalOptions.email,
             'locale': additionalOptions.locale,
             'publicAlias': additionalOptions.publicAlias
         };
@@ -154,22 +177,24 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         username                            The username the global administrator can log in with
      * @param  {String}         password                            The password for the global administrator
      * @param  {String}         displayName                         The display name for the global administrator
+     * @param  {String}         email                               The email for the global administrator
      * @param  {Object}         [additionalOptions]                 Additional optional parameters that need to be passed in
-     * @param  {String}         [additionalOptions.email]           The global administrator's email address
      * @param  {String}         [additionalOptions.locale]          The global administrator's locale
      * @param  {String}         [additionalOptions.publicAlias]     The publically-available alias for users to see when the global administrator's display name is protected
      * @param  {Function}       [callback]                          Standard callback function
      * @param  {Object}         [callback.err]                      Error object containing error code and error message
-     * @param  {User}           [callback.response]                 A User object representing the created global administrator
+     * @param  {User}           [callback.user]                     The created global administrator user
      * @throws {Error}                                              Error thrown when not all of the required parameters have been provided
      */
-    var createGlobalAdminUser = exports.createGlobalAdminUser = function(username, password, displayName, additionalOptions, callback) {
+    var createGlobalAdminUser = exports.createGlobalAdminUser = function(username, password, displayName, email, additionalOptions, callback) {
         if (!username) {
             throw new Error('A username should be provided');
         } else if (!password) {
             throw new Error('A password should be provided');
         } else if (!displayName) {
             throw new Error('A display name should be provided');
+        } else if (!email) {
+            throw new Error('An email address should be provided');
         }
 
         // Set a default callback function in case no callback function has been provided
@@ -181,7 +206,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'username': username,
             'password': password,
             'displayName': displayName,
-            'email': additionalOptions.email,
+            'email': email,
             'locale': additionalOptions.locale,
             'publicAlias': additionalOptions.publicAlias
         };
@@ -207,22 +232,24 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         username                            The username the tenant administrator can log in with
      * @param  {String}         password                            The password for the tenant administrator
      * @param  {String}         displayName                         The display name for the tenant administrator
+     * @param  {String}         email                               The email for the tenant administrator
      * @param  {Object}         [additionalOptions]                 Additional optional parameters that need to be passed in
-     * @param  {String}         [additionalOptions.email]           The tenant administrator's email address
      * @param  {String}         [additionalOptions.locale]          The tenant administrator's locale
      * @param  {String}         [additionalOptions.publicAlias]     The publically-available alias for users to see when the tenant administrator's display name is protected
      * @param  {Function}       [callback]                          Standard callback function
      * @param  {Object}         [callback.err]                      Error object containing error code and error message
-     * @param  {User}           [callback.response]                 A User object representing the created tenant administrator
+     * @param  {User}           [callback.user]                     The created tenant administrator user
      * @throws {Error}                                              Error thrown when not all of the required parameters have been provided
      */
-    var createTenantAdminUser = exports.createTenantAdminUser = function(tenantAlias, username, password, displayName, additionalOptions, callback) {
+    var createTenantAdminUser = exports.createTenantAdminUser = function(tenantAlias, username, password, displayName, email, additionalOptions, callback) {
         if (!username) {
             throw new Error('A username should be provided');
         } else if (!password) {
             throw new Error('A password should be provided');
         } else if (!displayName) {
             throw new Error('A display name should be provided');
+        } else if (!email) {
+            throw new Error('An email address should be provided');
         }
 
         // Set a default callback function in case no callback function has been provided
@@ -234,7 +261,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'username': username,
             'password': password,
             'displayName': displayName,
-            'email': additionalOptions.email,
+            'email': email,
             'locale': additionalOptions.locale,
             'publicAlias': additionalOptions.publicAlias
         };
@@ -266,6 +293,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}         params              Object representing the profile fields that need to be updated
      * @param  {Function}       [callback]          Standard callback function
      * @param  {Object}         [callback.err]      Error object containing error code and error message
+     * @param  {User}           [callback.user]     The updated user profile
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
     var updateUser = exports.updateUser = function(userId, params, callback) {
@@ -284,6 +312,37 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'data': params,
             'success': function(data) {
                 callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
+     * Delete a user. The user will be marked as deleted but will still be accessible in the system
+     * in lists such as members listings. The user can then be restored using the
+     * `POST /api/user/:userId/restore` endpoint, however this functionality is not currently
+     * exposed in the 3akai-ux JS API
+     *
+     * @param  {String}         userId              User id of the user to delete
+     * @param  {Function}       [callback]          Standard callback function
+     * @param  {Object}         [callback.err]      Error object containing error code and error message
+     * @throws {Error}                              Error thrown when not all of the required parameters have been provided
+     */
+    var deleteUser = exports.deleteUser = function(userId, callback) {
+        if (!userId) {
+            throw new Error('A valid user id should be provided');
+        }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/user/' + userId,
+            'type': 'DELETE',
+            'success': function() {
+                callback();
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});

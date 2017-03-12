@@ -4,6 +4,26 @@
  * www.drewwilson.com
  * code.drewwilson.com/entry/autosuggest-jquery-plugin
  *
+ * Forked by Open Academic Environment. The following changes have been applied
+ *
+ *  - Inviting Guests feature:
+ *      - Changed the meaning of providing a function for the "data" parameter (`d_fetcher` or "data
+ *        fetcher"). Previously, providing a function indicated that you specified a full custom
+ *        implementation of `d_fetcher`, the new meaning is that the function returns the data url
+ *        to use to fetch the data. So, when the contents of the auto-suggest search changes to an
+ *        email address, we can change the data url on-the-fly to the email search endpoint instead
+ *        of the general search endpoint
+ *      - Fixed a bug in the client-side search implementation to filter out results on the client.
+ *        Previously, `str.search(query)` was used to determine if the results returned from the
+ *        data fetcher actually do match the query, however `str.search(...)` accepts a regular
+ *        expression, therefore if you have characters such as a `.` or a `$`, `^`, the search
+ *        begins operating in unexpected ways. It has been changed to `indexOf` instead as it works
+ *        on raw strings
+ *      - Fixed boolean bug in `opts.showResultListWhenNoMatch`. Previously, it would show the
+ *        results pane when there was no results. Now, it does not render it at all.
+ *      - Trim search query before performing a search
+ *
+ *
  * Forked by Wu Yuntao
  * github.com/wuyuntao/jquery-autosuggest
  *
@@ -71,15 +91,15 @@
 
         var d_fetcher;
         var request = null;
-        if(typeof data == "function") {
-            d_fetcher = data;
-        } else if(typeof data == "string") {
+        if(typeof data == "string" || typeof data == "function") {
             d_fetcher = function(query, next) {
+                query = $.trim(query);
+                var baseUrl = (typeof data == "string") ? data : data(query);
                 var limit = "";
                 if(opts.retrieveLimit){
                     limit = "&limit="+encodeURIComponent(opts.retrieveLimit);
                 }
-                request = $.getJSON(data+"?"+opts.queryParam+"="+encodeURIComponent(query)+limit+getExtraParams(), function(data){
+                request = $.getJSON(baseUrl+"?"+opts.queryParam+"="+encodeURIComponent(query)+limit+getExtraParams(), function(data){
                     var new_data = opts.retrieveComplete.call(this, data);
                     next(new_data, query);
                 });
@@ -334,9 +354,10 @@
                                 str = str+data[num][name]+" ";
                             }
                         }
+
                         if(str){
                             if (!opts.matchCase){ str = str.toLowerCase(); }
-                            if(str.search(query) != -1 && values_input.val().search(","+data[num][opts.selectedValuesProp]+",") == -1){
+                            if(str.indexOf(query) != -1 && values_input.val().search(","+data[num][opts.selectedValuesProp]+",") == -1){
                                 forward = true;
                             }
                         }
@@ -390,7 +411,7 @@
                             'overflow-y': 'auto'
                         });
                     }
-                    if (matchCount > 0 || !opts.showResultListWhenNoMatch) {
+                    if (matchCount > 0 || opts.showResultListWhenNoMatch) {
                         showResults();
                     }
                     opts.resultsComplete.call(this);
@@ -455,12 +476,12 @@
 
                 function hideResults() {
                     results_holder.attr("aria-expanded","false").hide();
-                    input.removeAttr("aria-activedescendant");                    
+                    input.removeAttr("aria-activedescendant");
                 }
 
                 function showResults() {
                     results_holder.attr("aria-expanded","true").show();
-                    input.attr("aria-activedescendant",results_holder.find(".active").attr("id"));                    
+                    input.attr("aria-activedescendant",results_holder.find(".active").attr("id"));
                 }
 
             });

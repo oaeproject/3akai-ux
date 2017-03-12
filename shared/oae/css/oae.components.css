@@ -50,10 +50,16 @@ a.oae-plain-link:hover {
  * Style that can be used to fake focus on an element. This can for example
  * be used when a hidden element needs to provide visual feedback on a different element.
  */
+
 .oae-focus {
     outline: thin dotted #333;
-    outline: 5px auto -webkit-focus-ring-color;
     outline-offset: -2px;
+}
+
+a.oae-focus,
+input.oae-focus,
+.btn.oae-focus {
+    outline: 5px auto -webkit-focus-ring-color;
 }
 
 
@@ -77,6 +83,50 @@ a.oae-plain-link:hover {
     white-space: nowrap;
 }
 
+/*********************
+ ** HORIZONTAL RULE **
+ *********************/
+
+/**
+ * A custom horizontal rule component that supports having centered text. Useful for compact
+ * horizontal dividers that contain a segue into the next section.
+ *
+ *  e.g. <div class="oae-hr"><span>Segue text here</span></div>
+ *
+ * @see http://stackoverflow.com/a/22603610/2517093
+ */
+
+div.oae-hr {
+    display: block;
+    overflow: hidden;
+    text-align: center;
+    white-space: nowrap;
+}
+
+div.oae-hr > span {
+    display: inline-block;
+    position: relative;
+}
+
+div.oae-hr > span:before,
+div.oae-hr > span:after {
+    background: #ccc;
+    content: "";
+    height: 1px;
+    position: absolute;
+    top: 50%;
+    width: 9999px;
+}
+
+div.oae-hr > span:before {
+    margin-right: 15px;
+    right: 100%;
+}
+
+div.oae-hr > span:after {
+    left: 100%;
+    margin-left: 15px;
+}
 
 /************
  ** PANELS **
@@ -91,10 +141,8 @@ a.oae-plain-link:hover {
  *   e.g. <div class="oae-panel-primary">...</div>
  */
 .oae-panel-primary, .oae-panel-secondary, .oae-panel-tertiary {
+    border-radius: 5px;
     padding: 15px;
-    -webkit-border-radius: 5px;
-       -moz-border-radius: 5px;
-            border-radius: 5px;
 }
 
 /***********
@@ -148,9 +196,7 @@ i.fa-oae-public {
 i.fa-oae-private:before,
 i.fa-oae-loggedin:before,
 i.fa-oae-public:before {
-    -webkit-border-radius: 500px;
-       -moz-border-radius: 500px;
-            border-radius: 500px;
+    border-radius: 500px;
     color: #313131;
     display: inline-block;
     font-size: 15px;
@@ -286,9 +332,7 @@ i.fa.large:before {
 }
 
 .oae-large-options-container label.checked i.fa-check {
-    -webkit-border-radius: 100px;
-       -moz-border-radius: 100px;
-            border-radius: 100px;
+    border-radius: 100px;
     display: block;
     height: 35px;
     margin: 0 auto;
@@ -361,6 +405,9 @@ i.fa.large:before {
  *   `fa-oae-collabdoc` should be added to the `oae-thumbnail` div for collaborative documents.
  *   Even when an image is provided, the entity icon class can still be added as
  *   it will be used when the image cannot be downloaded.
+ * - For medium thumbnails (between 50px and 100px width and height), the `oae-thumbnail-medium`
+ *   class should be added to the `oae-thumbnail` container. It will cause the default thumbnail
+ *   to be larger.
  * - For large thumbnails (> 100px width/height), the `oae-thumbnail-large` class
  *   should be added to the `oae-thumbnail` container. It will cause the default
  *   thumbnail to be larger.
@@ -374,14 +421,12 @@ i.fa.large:before {
 
 div.oae-thumbnail {
     border: 1px solid;
-    width: 100%;
-    height: 100%;
-    text-align: center;
+    border-radius: 4px;
     display: inline-block;
+    height: 100%;
     position: relative;
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
+    text-align: center;
+    width: 100%;
 }
 
 div.oae-thumbnail:before {
@@ -393,9 +438,7 @@ div.oae-thumbnail:before {
 
 div.oae-thumbnail a,
 div.oae-thumbnail div {
-    -webkit-border-radius: 3px;
-       -moz-border-radius: 3px;
-            border-radius: 3px;
+    border-radius: 3px;
     height: 100%;
     left: 0;
     position: absolute;
@@ -417,6 +460,22 @@ div.oae-thumbnail div {
 div.oae-thumbnail.fa-oae-group div,
 div.oae-thumbnail.fa-oae-user div {
     background-position: center;
+}
+
+/* Remove the background and border for email icons */
+div.oae-thumbnail.fa-oae-email {
+    background: none;
+    border: none;
+    filter: none;
+}
+
+div.oae-thumbnail.fa-oae-email:before {
+    color: #333333;
+}
+
+div.oae-thumbnail.oae-thumbnail-medium:before {
+    font-size: 30px;
+    margin-top: -15px;
 }
 
 div.oae-thumbnail.oae-thumbnail-large:before {
@@ -461,14 +520,15 @@ div.oae-thumbnail.fa-oae-user:before {
     content: "\f007";
 }
 
-/* Visibility icon positioning */
+div.oae-thumbnail.fa-oae-email:before {
+    content: "\f0e0";
+}
 
 div.oae-thumbnail i.fa {
     position: absolute;
     bottom: -8px;
     right: -8px;
 }
-
 
 /***********
  ** CLIPS **
@@ -591,9 +651,7 @@ div.oae-thumbnail i.fa {
 }
 
 .oae-clip .oae-clip-fold .oae-clip-fold-inner {
-    -webkit-border-radius: 50px 50px 0 0;
-       -moz-border-radius: 50px 50px 0 0;
-            border-radius: 50px 50px 0 0;
+    border-radius: 50px 50px 0 0;
     float: left;
     height: 6px;
     margin-left: -1px;
@@ -620,15 +678,11 @@ div.oae-thumbnail i.fa {
 /* Clip content */
 
 .oae-clip .oae-clip-content {
-    -webkit-border-radius: 6px 0 6px 6px;
-       -moz-border-radius: 6px 0 6px 6px;
-            border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
 }
 
 .oae-clip.oae-clip-flipped .oae-clip-content {
-    -webkit-border-radius: 0 6px 6px;
-       -moz-border-radius: 0 6px 6px;
-            border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px;
 }
 
 .oae-clip .oae-clip-content > button {
@@ -730,9 +784,7 @@ div.oae-thumbnail i.fa {
 
 .oae-clip .oae-clip-content > div > ul li button,
 .oae-clip .oae-clip-content > div > ul li a {
-    -webkit-border-radius: 6px;
-       -moz-border-radius: 6px;
-            border-radius: 6px;
+    border-radius: 6px;
     display: block;
     font-size: 11px;
     line-height: 23px;
@@ -821,7 +873,7 @@ div.oae-thumbnail i.fa {
  *                  </ul>
  *              </li>
  *              <li class="clearfix active" data-id="dashboard">
- *                  <a href="/me/dashboard" title="__MSG__RECENT_ACTIVITY__">
+ *                  <a href="/dashboard" title="__MSG__RECENT_ACTIVITY__">
  *                      <i class="fa fa-tachometer pull-left"></i>
  *                      <div>__MSG__RECENT_ACTIVITY__</div>
  *                  </a>
@@ -979,9 +1031,9 @@ div.oae-thumbnail i.fa {
  *      </a>
  *      <div class="oae-tile-metadata">
  *          <i class="fa fa-oae-public pull-left"></i>
- *          <h3 class="oae-threedots">
+ *          <div class="oae-tile-title oae-threedots">
  *              <a href="/user/u:cambridge:PPTBPgxSdf">John Librarian</a>
- *          </h3>
+ *          </div>
  *          <small class="oae-threedots">Professor</small>
  *      </div>
  *  </div>
@@ -993,8 +1045,8 @@ div.oae-thumbnail i.fa {
  * - The `oae-threedots` class should be added to metadata elements if you want
  *   to make sure that `...` is shown when the metadata is longer than the available
  *   space in the tile.
- * - The actual content of the metadata div can be pretty much anything, although an
- *   h3 should be used for the tile title.
+ * - The actual content of the metadata div can be pretty much anything, although a
+ *   class of `oae-tile-title` should be used for the tile title.
  * - The `small` element used to add some additional metadata is optional.
  * - The visibility icon can be used as defined in the Visibility icon section, and
  *   can be floated on the left or right.
@@ -1002,11 +1054,8 @@ div.oae-thumbnail i.fa {
 
 .oae-tile,
 .oae-list.oae-list-grid > li.oae-list-actions {
+    border-radius: 3px;
     position: relative;
-    overflow: hidden;
-    -webkit-border-radius: 3px;
-       -moz-border-radius: 3px;
-            border-radius: 3px;
 }
 
 /* Default thumbnail picture positioning */
@@ -1014,9 +1063,7 @@ div.oae-thumbnail i.fa {
 .oae-tile .oae-thumbnail,
 .oae-tile .oae-thumbnail a,
 .oae-tile .oae-thumbnail img {
-    -webkit-border-radius: 0;
-       -moz-border-radius: 0;
-            border-radius: 0;
+    border-radius: 0;
 }
 
 .oae-tile .oae-thumbnail:before {
@@ -1024,8 +1071,8 @@ div.oae-thumbnail i.fa {
 }
 
 .oae-tile .oae-thumbnail.oae-thumbnail-large:before {
-    margin-top: -48px;
-    padding-top: 80px;
+    margin-top: 0;
+    padding-top: 32px;
 }
 
 .oae-tile .oae-thumbnail img {
@@ -1035,25 +1082,27 @@ div.oae-thumbnail i.fa {
 /* Tile metadata */
 
 .oae-tile > .oae-tile-metadata {
-    position: absolute;
     bottom: 0;
-    right: 0;
     left: 0;
     padding: 7px;
+    position: absolute;
+    right: 0;
 }
 
 /* The visibility icon of the tile should be aligned to the right */
 .oae-tile > .oae-tile-metadata > i {
-    float: right;
-    margin-left: 1px;
+    position: absolute;
+    bottom: 7px;
+    right: 5px;
 }
 
-.oae-tile h3,
-.oae-tile h3 a {
+.oae-tile .oae-tile-title,
+.oae-tile .oae-tile-title a {
     font-size: 14px;
     font-weight: 600;
-    line-height: 1.4;
-    margin: 0;
+    line-height: 18px;
+    margin: 0 0 5px;
+    max-height: 45px;
 }
 
 .oae-tile small {
@@ -1061,6 +1110,11 @@ div.oae-thumbnail i.fa {
     font-weight: normal;
     line-height: 1.5;
     text-transform: uppercase;
+}
+
+/* Add space for the visibility icon */
+.oae-tile .oae-thumbnail:not(.fa-oae-user) + .oae-tile-metadata small {
+    margin-right: 25px;
 }
 
 
@@ -1078,20 +1132,22 @@ div.oae-thumbnail i.fa {
  * The following HTML structure should be used to create a list item:
  *
  *  <div class="oae-listitem">
- *      <input type="checkbox" class="pull-left" id="oae-list-details-u:cambridge:PPTBPgxSdf" data-id="u:cambridge:PPTBPgxSdf" />
- *      <label class="sr-only" for="oae-list-details-u:cambridge:PPTBPgxSdf">John Librarian</label>
- *      <div class="oae-listitem-primary-thumbnail">
- *          <div class="oae-thumbnail fa-oae-user">
- *              <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
- *              <i class="fa fa-oae-private"></i>
+ *      <div class="oae-listitem-inner">
+ *          <input type="checkbox" class="pull-left" id="oae-list-details-u:cambridge:PPTBPgxSdf" data-id="u:cambridge:PPTBPgxSdf" />
+ *          <label class="sr-only" for="oae-list-details-u:cambridge:PPTBPgxSdf">John Librarian</label>
+ *          <div class="oae-listitem-primary-thumbnail">
+ *              <div class="oae-thumbnail fa-oae-user">
+ *                  <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
+ *                  <i class="fa fa-oae-private"></i>
+ *              </div>
  *          </div>
- *      </div>
- *      <div class="oae-listitem-metadata">
- *          <h3 class="oae-threedots"><a href="/user/u:cambridge:PPTBPgxSdf">John Librarian</a></h3>
- *          <small class="oae-threedots">Professor</small>
- *      </div>
- *      <div class="oae-listitem-actions">
- *          <button class="btn btn-link" title="Share"><i class="fa fa-share-square-o"></i></button>
+ *          <div class="oae-listitem-metadata">
+ *              <h3 class="oae-threedots"><a href="/user/u:cambridge:PPTBPgxSdf">John Librarian</a></h3>
+ *              <small class="oae-threedots">Professor</small>
+ *          </div>
+ *          <div class="oae-listitem-actions">
+ *              <button class="btn btn-link" title="Share"><i class="fa fa-share-square-o"></i></button>
+ *          </div>
  *      </div>
  *  </div>
  *
@@ -1116,15 +1172,16 @@ div.oae-thumbnail i.fa {
  * - A list item is available in an expanded size and a compact size. By default, the larger expanded
  *   view will be used. In order to use the smaller compact view, the item should be embedded in a
  *   `div` with class `oae-list-compact-item`
+ * - When the list contains a fixed initial item, it is recommended that it's tagged with the class
+ *   `oae-list-initial` so that when calculating whether or not there are any result rows in the list,
+ *   the initial item can be omitted from that calculation
  */
 
 .oae-listitem {
-    padding: 10px;
-    margin-bottom: 10px;
     border: 1px solid;
-    -webkit-border-radius: 3px;
-       -moz-border-radius: 3px;
-            border-radius: 3px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    padding: 10px;
 }
 
 .modal .well li .oae-listitem {
@@ -1148,7 +1205,7 @@ div.oae-thumbnail i.fa {
     margin-top: 6px;
 }
 
-.oae-listitem > div.oae-listitem-metadata .oae-threedots {
+.oae-listitem div.oae-listitem-metadata .oae-threedots {
     display: block;
     -webkit-flex: initial;
        -moz-flex: initial;
@@ -1170,16 +1227,18 @@ div.oae-thumbnail i.fa {
     width: 25px;
 }
 
-/* List item primary thumbnail */
+/* List item primary thumbnail or icon acting as thumbnail */
 
-.oae-listitem > div.oae-listitem-primary-thumbnail {
+.oae-listitem div.oae-listitem-primary-thumbnail,
+.oae-listitem i.oae-listitem-primary-thumbnail {
+    display: block;
     float: left;
     margin-right: 15px;
 }
 
 /* List item metadata */
 
-.oae-listitem > div.oae-listitem-metadata {
+.oae-listitem div.oae-listitem-metadata {
     display: -webkit-flex;
     display: -moz-flex;
     display: -ms-flexbox;
@@ -1187,7 +1246,7 @@ div.oae-thumbnail i.fa {
     display: flex;
 }
 
-.oae-listitem > div.oae-listitem-metadata > h3 {
+.oae-listitem div.oae-listitem-metadata > h3 {
     font-size: 15px;
     font-weight: 500;
     height: 25px;
@@ -1195,14 +1254,14 @@ div.oae-thumbnail i.fa {
     margin: 0;
 }
 
-.oae-listitem > div.oae-listitem-metadata > small {
+.oae-listitem div.oae-listitem-metadata > h3 + small {
     font-size: 12px;
     line-height: 27px;
     text-transform: uppercase;
 }
 
 /* Details view stacks the h3/small in the metadata vertically */
-.oae-list-details-item > .oae-listitem > div.oae-listitem-metadata {
+.oae-list-details-item > .oae-listitem div.oae-listitem-metadata {
     -webkit-flex-direction: column;
        -moz-flex-direction: column;
         -ms-flex-direction: column;
@@ -1211,7 +1270,7 @@ div.oae-thumbnail i.fa {
 }
 
 /* Compact view lines up the h3/small in the metadata horizontally */
-.oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata {
+.oae-list-compact-item > .oae-listitem div.oae-listitem-metadata {
     -webkit-flex-direction: row;
        -moz-flex-direction: row;
         -ms-flex-direction: row;
@@ -1220,13 +1279,13 @@ div.oae-thumbnail i.fa {
 }
 
 /* Give space between the listitem header and the extra metadata that is next to it */
-.oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3 {
+.oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > h3 {
     margin-right: 15px;
 }
 
 /* List item actions */
 
-.oae-listitem > div.oae-listitem-actions {
+.oae-listitem div.oae-listitem-actions {
     display: inline-block;
     -webkit-flex: none;
        -moz-flex: none;
@@ -1235,32 +1294,37 @@ div.oae-thumbnail i.fa {
     float: right;
 }
 
-.oae-listitem > div.oae-listitem-actions > *:not(.hide) {
+.oae-listitem div.oae-listitem-actions > *:not(.hide) {
     border-width: 0;
     display: inline-block;
     height: 100%;
 }
 
-.oae-listitem > div.oae-listitem-actions i.fa {
+.oae-listitem div.oae-listitem-actions i.fa {
     font-size: 18px;
     padding: 4px;
 }
 
-.oae-listitem > div.oae-listitem-actions > .btn {
+.oae-listitem div.oae-listitem-actions > .btn {
+    border-width: 1px;
+}
+
+.oae-listitem div.oae-listitem-actions > .oae-listitem-remove {
     /* Do not apply a top-padding as the browser already gives buttons some padding */
+    border-width: 0;
     padding: 0 4px;
     vertical-align: baseline;
 }
 
 /* Center the actions panel vertically for details items */
-.oae-list-details-item > .oae-listitem > div.oae-listitem-actions {
+.oae-list-details-item > .oae-listitem div.oae-listitem-actions {
     margin-top: 12px;
 }
 
 /* Compact view can have a .form-group. Currently it's an adhoc implementation of
    something needed in the manageaccess widget that may need to be fleshed out
    more for details view */
-.oae-list-compact-item > .oae-listitem > div.oae-listitem-actions .form-group {
+.oae-list-compact-item > .oae-listitem div.oae-listitem-actions .form-group {
     display: inline-block;
     margin-top: 1px;
 }
@@ -1275,41 +1339,41 @@ div.oae-thumbnail i.fa {
     padding-bottom: 10px;
 }
 
-.ie-lt10 .oae-listitem > div.oae-listitem-metadata,
-.ie-lt10 .oae-listitem > div.oae-listitem-actions {
+.ie-lt10 .oae-listitem div.oae-listitem-metadata,
+.ie-lt10 .oae-listitem div.oae-listitem-actions {
     display: block;
     vertical-align: middle;
     width: auto;
 }
 
-.ie-lt10 .oae-listitem > div.oae-listitem-actions {
+.ie-lt10 .oae-listitem div.oae-listitem-actions {
     float: right;
 }
 
 @media (min-width: 900px) {
-    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3,
-    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > small {
+    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > h3,
+    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > small {
         max-width: 500px;
     }
 }
 
 @media (min-width: 550px) and (max-width: 900px) {
-    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3,
-    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > small {
+    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > h3,
+    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > small {
         max-width: 300px;
     }
 }
 
 @media (min-width: 400px) and (max-width: 550px) {
-    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3,
-    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > small {
+    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > h3,
+    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > small {
         max-width: 160px;
     }
 }
 
 @media (max-width: 400px) {
-    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3,
-    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > small {
+    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > h3,
+    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > small {
         max-width: 100px;
     }
 }
@@ -1350,10 +1414,8 @@ ul.oae-list {
 }
 
 ul.oae-list > li {
+    border-radius: 3px;
     list-style: none;
-    -webkit-border-radius: 3px;
-       -moz-border-radius: 3px;
-            border-radius: 3px;
 }
 
 ul.oae-list:not(.oae-list-grid) > li > .oae-list-grid-item,
@@ -1413,6 +1475,52 @@ ul.oae-list > li:first-child .oae-listitem {
     margin-top: 0;
 }
 
+/************
+ ** HEADER **
+ ************/
+
+/**
+ * The generic header is shown as the header for any group of content, providing a title and an
+ * optional action that can be performed.
+ *
+ * The HTML for a header is abstracted into a globally available TrimPath template that can be used
+ * when rendering headers:
+ *
+ *  `${header(title, action)}`
+ *
+ * An explanation of the parameters for the header macro can be found in `shared/oae/macros/header.html`.
+ */
+
+.oae-header {
+    border-bottom: 1px solid #EEE;
+    margin-bottom: 20px;
+}
+
+.oae-header > div {
+    line-height: 30px;
+    margin: 0;
+    clear: both;
+}
+
+.oae-header > div:first-child > * {
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+.oae-header .oae-header-title > h2 {
+    margin: 8px 0 0;
+    font-size: 20px;
+    line-height: 1.2;
+}
+
+.oae-header .oae-header-action {
+    text-align: right;
+}
+
+.oae-header .oae-header-action > button {
+    bottom: -5px;
+    position: relative;
+}
 
 /*****************
  ** LIST HEADER **
@@ -1420,7 +1528,8 @@ ul.oae-list > li:first-child .oae-listitem {
 
 /**
  * The list header is shown as the header for a group of list items, providing a title for the list, as well
- * as possibly a list search form, list actions, view mode switching, etc.
+ * as possibly a list search form, list actions, view mode switching, etc. It extends the generic `oae-header`
+ * component to add features such as expandable actions, view options and optional search box.
  *
  * The HTML for a list header has been abstracted into a globally available TrimPath template that can be
  * used when rendering list items:
@@ -1434,22 +1543,6 @@ ul.oae-list > li:first-child .oae-listitem {
  * `shared/oae/js/jquery-plugins/jquery.list.js` module on the page as well.
  */
 
-.oae-list-header {
-    border-bottom: 1px solid #EEE;
-    margin-bottom: 20px;
-}
-
-.oae-list-header > div {
-    line-height: 30px;
-    margin: 0;
-    clear: both;
-}
-
-.oae-list-header > div:first-child > * {
-    margin-bottom: 10px;
-    padding: 0;
-}
-
 .oae-list-header .oae-list-header-toggle,
 .oae-list-header .btn.oae-list-header-toggle,
 .oae-list-header .btn.oae-list-header-toggle:disabled,
@@ -1458,19 +1551,11 @@ ul.oae-list > li:first-child .oae-listitem {
 .oae-list-header .btn.oae-list-header-toggle:focus {
     background: none;
     border: none;
+    box-shadow: none;
     filter: none;
-    padding: 1px 0;
+    padding: 0;
     text-align: left;
     white-space: normal;
-    -webkit-box-shadow: none;
-       -moz-box-shadow: none;
-            box-shadow: none;
-}
-
-.oae-list-header .oae-list-header-toggle h2 {
-    margin: 8px 0 0;
-    font-size: 20px;
-    line-height: 1.2;
 }
 
 .oae-list-header .oae-list-header-toggle h2 .badge {
@@ -1579,19 +1664,15 @@ ul.oae-list > li:first-child .oae-listitem {
 ul.oae-list.oae-list-grid > li.oae-list-actions {
     border-style: solid;
     border-width: 1px;
-    -webkit-box-shadow: none;
-       -moz-box-shadow: none;
-            box-shadow: none;
+    box-shadow: none;
 }
 
 ul.oae-list.oae-list-grid li.oae-list-actions div.oae-thumbnail {
     background: none;
     border-width: 1px;
     border-style: dashed;
+    box-shadow: none;
     filter: none;
-    -webkit-box-shadow: none;
-       -moz-box-shadow: none;
-            box-shadow: none;
     height: 138px;
     margin: 5px;
     width: 138px;
@@ -1675,4 +1756,62 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
     .oae-lhnavigation.oae-lhnav-expanded + .oae-page .oae-list-grid-item input[type="checkbox"] {
         display: none;
     }
+}
+
+/***************
+ ** SWITCHTAB **
+ ***************/
+
+/**
+ * The switchtab component is a template combined with the custom `$.switchtab` plugin that
+ * implements the interaction of the "Switch Tab" component. A Switch Tab is essentially a set of
+ * tabs that look like a left-to-right switch. There can only be one selected at one time. Back
+ * functionality is also provided.
+ *
+ * Usage:
+ *
+ * You should create a template that is based on the bootstrap pill component, with the one
+ * exception that the root element has the `oae-switchtab` class:
+ *
+ *  ```
+ *  <ul class="oae-switchtab nav nav-pills" role="tablist">
+ *      <li role="presentation">
+ *          <a href="/search/all" aria-controls="all" role="tab" data-toggle="tab">
+ *              <i class="fa fa-globe"></i>
+ *              <span class="oae-switchtab-switch-label">__MSG__EVERYWHERE__</span>
+ *          </a>
+ *      </li>
+ *      <li role="presentation">
+ *          <a href="/search/my"  aria-controls="my" role="tab" data-toggle="tab">
+ *              <i class="fa fa-home"></i>
+ *              <span class="oae-switchtab-switch-label">__MSG__MY_STUFF_ONLY__</span>
+ *          </a>
+ *      </li>
+ *  </ul>
+ *  ```
+ *
+ * Notes:
+ *
+ * - aria-controls (required): Indicates the id of the tab. It is used both internally to
+ *   indentify the element and it is useful for the $.switchtabId() method in order to determine
+ *   which tab is currently selected
+ * - href (required): Indicates not only at what path prefix activates the tab, but also what
+ *   path to push into the History module when the tab is clicked. Note that when navigating to a
+ *   tab, the query string is retained
+ *
+ * To perform an action when the tab is changed, you should listen to `$(window).on('statechange')`
+ * and use `$mySwitchTab.switchtabId()` to get the tab id of the currently active tab.
+ */
+
+/* Icon generally takes up the most vertical baseline space, so shift it down to help align it with
+   the label content */
+.nav.nav-pills > li > a > i {
+    position: relative;
+    top: 1px;
+}
+
+/* Shift the text up one pixel to help align it to the larger button */
+.nav.nav-pills .oae-switchtab-switch-label {
+    bottom: 1px;
+    position: relative;
 }
