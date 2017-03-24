@@ -32,12 +32,15 @@
                             <div class="oae-panel-tertiary">
                                 <p id="error-quote">&quot;__MSG__QUOTE_ACCESS_DENIED__&quot;</p>
                                 <p id="error-signin-container" class="hide">
-                                    <button id="error-signin" class="btn btn-primary">__MSG__SIGN_IN__</button>
+                                    <button id="error-signin" class="btn btn-primary error-quote-btn">__MSG__SIGN_IN__</button>
                                     <span class="error-instruction">__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_OUT__</span>
                                 </p>
-                                <p>
-                                    <a href="/search" class="btn btn-primary">__MSG__SEARCH__</a> <span class="error-instruction">__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__</span>
-                                </p>
+                                <div>
+                                    <a href="/search" class="btn btn-primary error-quote-btn">__MSG__SEARCH__</a> <span class="error-instruction">__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__</span>
+                                </div>
+                                <div>
+                                    <a class="btn btn-primary error-quote-btn" id="error-back-btn">__MSG__BACK__</a> <span class="error-instruction">__MSG__GO_TO_PREVIOUS_PAGE__</span>
+                                </div>
                             </div>
                             <div id="error-quote-author">__MSG__QUOTED_ACCESS_DENIED__</div>
                         </div>
