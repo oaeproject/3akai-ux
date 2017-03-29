@@ -1656,44 +1656,19 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 return '';
             } else {
                 var nonWord = /\W/;
-                // Escape asterisks instead of treating them as italics markers
-                input = input.replace(/\*/g, function(match, index) {
-                    var prevChar = input.charAt(index - 1);
+                input = input.replace(/\\{2,}/g, '\\');
 
-                    // Is this an asterisk used at the start of a line to indicate a bulleted list?
-                    if (prevChar.match(/./)) {
-                        var nextPosition = input.indexOf('*', index + 1);
+                // Convert the Markdown input string to HTML using showdown.js. `setFlavour(github)`
+                // allows for other GitHub -flavoured features like automatically recognizing text
+                // beginning with http: or https: as a URL and converting it to a link. Strikethrough,
+                // tables and tasklists are enabled. All the available options can be found in the
+                // showdown README.md.
+                // @see https://github.com/showdownjs/showdown
+                markdown.setFlavor('github');
+                var converter = new markdown.Converter({strikethrough: true, tables: true, simplifiedAutoLink: true, simpleLineBreaks: true, tasklists: true,
+                    excludeTrailingPunctuationFromURLs: true, noHeaderId: true});
 
-                        // Is this the starting asterisk followed by a letter and accompanied by a closing asterisk?
-                        if (nextPosition === -1 || input.charAt(index + 1).match(nonWord) || input.charAt(nextPosition - 1).match(nonWord) ) {
-                            var previousPosition = input.lastIndexOf('*', index - 1);
-
-                            // Is this the closing asterisk preceded by a letter and accompanied by a starting asterisk?
-                            if (previousPosition === -1 || prevChar.match(nonWord) || input.charAt(previousPosition + 1).match(nonWord) ) {
-                                // If not, escape it
-                                return '\\' + match;
-                            }
-                        }
-                    }
-
-                    return match;
-                }).replace(/\\{2,}/g, '\\');
-
-                // Convert the Markdown input string to HTML using marked.js. `gfm`
-                // automatically recognizes text beginning with http: or https: as a URL
-                // and converts it to a link. We also specify that the input should be sanitized.
-                // @see https://github.com/chjj/marked
-                input = markdown(input.toString(), {
-                    'gfm': true,
-                    'tables': true,
-                    'breaks': true,
-                    'sanitize': true
-                });
-
-                // Also recognize text beginning with "www." as a URL as long
-                // as it's not already within a link
-                var URLPattern = /(^|\s|>)(www\.[A-Z0-9.\-\/]+(\b|$))(?![^<]*>|[^<>]*<\\\/a)/gim;
-                input = input.replace(URLPattern, '$1<a href="http://$2">$2</a>');
+                input = converter.makeHtml(input.toString());
 
                 return input;
             }
