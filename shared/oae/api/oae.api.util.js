@@ -1655,7 +1655,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             if (!input) {
                 return '';
             } else {
-                var nonWord = /\W/;
                 input = input.replace(/\\{2,}/g, '\\');
 
                 // Convert the Markdown input string to HTML using showdown.js. `setFlavour(github)`
