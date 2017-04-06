@@ -1663,7 +1663,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 // @see https://github.com/showdownjs/showdown
                 markdown.setFlavor('github');
                 var converter = new markdown.Converter({strikethrough: true, tables: true, simplifiedAutoLink: true, simpleLineBreaks: true, tasklists: true,
-                    excludeTrailingPunctuationFromURLs: true, noHeaderId: true, encodeEmails: false});
+                    excludeTrailingPunctuationFromURLs: true, noHeaderId: true, encodeEmails: false, literalMidWordAsterisks: true});
 
                 input = converter.makeHtml(input.toString());
 
