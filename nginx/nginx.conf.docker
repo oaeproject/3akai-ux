@@ -358,8 +358,6 @@ http {
         rewrite ^/search        /ui/search.html last;
         rewrite ^/signup        /ui/signup.html last;
         rewrite ^/user          /ui/user.html last;
-        rewrite ^/resetpassword$    /ui/resetpassword.html last;
-        rewrite ^/resetpassword/(.*)    /ui/resetpassword.html last;
 
         ######################
         ## WIDGET RESOURCES ##
