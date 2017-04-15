@@ -354,6 +354,7 @@ input.search-query {
 }
 
 .modal-body {
+    overflow-y: hidden;
     padding: 5px 25px 10px;
 }
 
