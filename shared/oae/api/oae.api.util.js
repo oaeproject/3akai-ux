@@ -1773,8 +1773,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * the user can be redirected here when signing in.
          */
         var accessdenied = function() {
-            window.history.replaceState(null, null, document.referrer);
-            window.location = '/accessdenied?url=' + url().attr('path');
+            window.location.replace('/accessdenied?url=' + url().attr('path'));
         };
 
         /**
@@ -1782,8 +1781,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * that cannot be found.
          */
         var notfound = function() {
-            window.history.replaceState(null, null, document.referrer);
-            window.location = '/notfound';
+            window.location.replace('/notfound');
         };
 
         /**
