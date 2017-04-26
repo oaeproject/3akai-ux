@@ -194,6 +194,7 @@ http {
 
         location /api/ui/staticbatch {
             expires max;
+            proxy_read_timeout 300;
             proxy_pass http://globaladminworkers;
         }
 
@@ -529,6 +530,7 @@ http {
 
         location /api/ui/staticbatch {
             expires max;
+            proxy_read_timeout 300;
             proxy_pass http://tenantworkers;
         }
 
@@ -588,6 +590,7 @@ http {
         # Explicitly don't cache any other API requests
         location /api/ {
             expires -1;
+            proxy_read_timeout 300;
             proxy_pass http://tenantworkers;
         }
 
