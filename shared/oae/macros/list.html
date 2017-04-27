@@ -125,6 +125,9 @@
             {var displayOptions = _.extend(new Object(), displayOptions)}
         {/if}
 
+        <!-- Thumbnail links redundant when next to text links -->
+        ${displayOptions.hideThumbnailLink = true|eat}
+
         {if entityData.resourceType}
             {var resourceType = entityData.resourceType}
         {elseif entityData.objectType}
@@ -208,14 +211,14 @@
 <!--
  * Render an entity thumbnail.
  *
- * @param  {User|Group|Content|Folder|Discussion|String}    entityData                          Standard object representing an OAE entity or a search result for an OAE entity. Alternatively, a string representing the resourceType or resourceSubType (i.e., 'user', 'group', 'content', `folder`, 'file', 'link', 'collabdoc', `discussions`) can be passed in for an empty/anonymous entity thumbnail
- * @param  {Object}                                         [displayOptions]                    Display options for the thumbnail
- * @param  {Boolean}                                        [displayOptions.addLink]            Whether or not a link to the entity profile should be placed on the image. By default, a link will be set
- * @param  {Boolean}                                        [displayOptions.addVisibilityIcon]  Whether or not the visibility icon should be shown, this does not apply to users who never have a visibility icon. By default, a visibility icon is shown for all resources other than users
- * @param  {String}                                         [displayOptions.customImage]        URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
- * @param  {String}                                         [displayOptions.flyover]            The content to put in a fly-over when the mouse hovers over the thumbnail image
- * @param  {String}                                         [displayOptions.linkTarget]         The target of the thumbnail link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
- * @param  {String}                                         [displayOptions.size]               If specified, this content will suffix a class `oae-thumbnail-<size>`. Core CSS has support for "small", "medium" and "large". By default it is "small". "large" is recommended for thumbnails larger than 100px, while "medium" is recommended for larger than 50px
+ * @param  {User|Group|Content|Folder|Discussion|String}    entityData                             Standard object representing an OAE entity or a search result for an OAE entity. Alternatively, a string representing the resourceType or resourceSubType (i.e., 'user', 'group', 'content', `folder`, 'file', 'link', 'collabdoc', `discussions`) can be passed in for an empty/anonymous entity thumbnail
+ * @param  {Object}                                         [displayOptions]                       Display options for the thumbnail
+ * @param  {Boolean}                                        [displayOptions.addVisibilityIcon]     Whether or not the visibility icon should be shown. By default, the visibility icon will be shown. However, users will never show a visibility icon
+ * @param  {Boolean}                                        [displayOptions.largeDefault]          Whether or not a large default thumbnail icon should used. By default, a small icon will be used
+ * @param  {Boolean}                                        [displayOptions.addLink]               Whether or not a link to the entity profile should be placed on the image. By default, a link will be set
+ * @param  {Boolean}                                        [displayOptions.hideThumbnailLink]     Whether or not to hide the link from screen readers (e.g., because the thumbnail is adjacent to a text link and, therefore, redundant for screen readers). By default, the link will be visible to screen readers
+ * @param  {String}                                         [displayOptions.customImage]           URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
+ * @param  {String}                                         [displayOptions.linkTarget]            The target of the thumbnail link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
 -->
 {macro renderThumbnail(entityData, displayOptions)}
     <!-- If only a string, representing the resourceType, has been passed in. The eval block
@@ -279,10 +282,12 @@
 
     <div class="oae-thumbnail {if displayOptions.size} oae-thumbnail-${displayOptions.size}{/if} fa fa-oae-${resourceSubType} fa-oae-${resourceType}" data-id="${resourceId}">
         {if profilePath && displayOptions.addLink !== false}
-            <a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>
+            <a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" 
+                {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if} 
+                {if displayOptions.hideThumbnailLink === true} aria-hidden="true"{/if}>
         {/if}
         {if thumbnailUrl}
-            <div role="img" aria-label="${entityData.displayName|encodeForHTMLAttribute}" style="background-image: url('${thumbnailUrl}');"></div>
+            <div role="img" style="background-image: url('${thumbnailUrl}');"></div>
         {/if}
         {if displayOptions.addVisibilityIcon !== false && resourceType !== 'user'}
             ${renderVisibilityIcon(entityData)}
