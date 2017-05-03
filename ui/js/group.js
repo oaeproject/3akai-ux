@@ -177,6 +177,9 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Structure that will be used to construct the left hand navigation pages
         var lhNavPages = [];
 
+        // Check if Meetups are enabled
+        var meetupsEnabled = oae.api.config.getValue('oae-meetups', 'bbb', 'enabled');
+
         // Show the activity and about widgets on the main page
         lhNavPages.push({
             'id': 'activity',
@@ -273,6 +276,17 @@ require(['jquery', 'oae.core'], function($, oae) {
                 }
             ]
         });
+
+        if (meetupsEnabled) {
+          lhNavPages.push({
+            'id': 'meetup',
+            'title': oae.api.i18n.translate('__MSG__MEETUP__'),
+            'icon': 'fa-video-camera',
+            'closeNav': true,
+            'type': 'link',
+            'link': '/api/meetup/' + groupProfile.id + '/join'
+          });
+        }
 
         $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
         $(window).on('oae.ready.lhnavigation', function() {
