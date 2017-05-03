@@ -1653,25 +1653,19 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             if (!input) {
                 return '';
             } else {
+                input = input.replace(/\\{2,}/g, '\\');
 
-                // Escape asterisks instead of treating them as italics markers
-                input = input.replace(/\*/g, "\\*").replace(/\\\\/g, "\\");
+                // Convert the Markdown input string to HTML using showdown.js. `setFlavour(github)`
+                // allows for other GitHub -flavoured features like automatically recognizing text
+                // beginning with http: or https: as a URL and converting it to a link. Strikethrough,
+                // tables and tasklists are enabled. All the available options can be found in the
+                // showdown README.md.
+                // @see https://github.com/showdownjs/showdown
+                markdown.setFlavor('github');
+                var converter = new markdown.Converter({strikethrough: true, tables: true, simplifiedAutoLink: true, simpleLineBreaks: true, tasklists: true,
+                    excludeTrailingPunctuationFromURLs: true, noHeaderId: true, encodeEmails: false, literalMidWordAsterisks: true});
 
-                // Convert the Markdown input string to HTML using marked.js. `gfm`
-                // automatically recognizes text beginning with http: or https: as a URL
-                // and converts it to a link. We also specify that the input should be sanitized.
-                // @see https://github.com/chjj/marked
-                input = markdown(input.toString(), {
-                    'gfm': true,
-                    'tables': true,
-                    'breaks': true,
-                    'sanitize': true
-                });
-
-                // Also recognize text beginning with "www." as a URL as long
-                // as it's not already within a link
-                var URLPattern = /(^|\s|>)(www\.[A-Z0-9.\-\/]+(\b|$))(?![^<]*>|[^<>]*<\\\/a)/gim;
-                input = input.replace(URLPattern, '$1<a href="http://$2">$2</a>');
+                input = converter.makeHtml(input.toString());
 
                 return input;
             }
@@ -1779,6 +1773,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * the user can be redirected here when signing in.
          */
         var accessdenied = function() {
+            window.history.replaceState(null, null, document.referrer);
             window.location = '/accessdenied?url=' + url().attr('path');
         };
 
@@ -1787,6 +1782,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * that cannot be found.
          */
         var notfound = function() {
+            window.history.replaceState(null, null, document.referrer);
             window.location = '/notfound';
         };
 

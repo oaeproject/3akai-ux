@@ -18,6 +18,12 @@ require(['jquery','oae.core'], function($, oae) {
     // Set the page title
     oae.api.util.setBrowserTitle('__MSG__ACCESS_DENIED__');
 
+    // Set up the back button
+    $('#error-back-btn').click(function(){
+        parent.history.go(-2);
+        return false;
+    });
+
     if (oae.data.me.anon) {
         // Display the sign in button
         $('#error-signin-container').show();

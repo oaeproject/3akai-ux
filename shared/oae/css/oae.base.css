@@ -98,7 +98,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     font-size: 1.5em;
     margin-right: 10px;
     position: relative;
-    top: 8px;
+    top: 6px;
     width: 20px;
 }
 
@@ -183,7 +183,6 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 .fa {
     font-size: 22px;
-    line-height: normal; /* replicate Font Awesome 3.x behavior for consistency */
 }
 
 .hide.fa {
@@ -310,26 +309,6 @@ input.search-query {
 
 .modal .jeditable-field form input::-ms-clear {
     display: none;
-}
-
-/* Add an IE9 fallback for threedots */
-
-@media (min-width: 550px) {
-    .ie-lt10 .modal .jeditable-field {
-        max-width: 375px !important;
-    }
-}
-
-@media (min-width: 400px) and (max-width: 550px) {
-    .ie-lt10 .modal .jeditable-field {
-        max-width: 200px !important;
-    }
-}
-
-@media (max-width: 400px) {
-    .ie-lt10 .modal .jeditable-field {
-        max-width: 120px !important;
-    }
 }
 
 /* MODAL DIALOGS
@@ -551,10 +530,6 @@ ul.as-list li.as-result-item div.oae-thumbnail.fa-oae-email:before {
 
 ul.as-list li.as-result-item .oae-listitem.oae-listitem-email h3 {
     margin-top: 12px;
-}
-
-.ie-lt10 ul.as-list li.as-result-item .oae-listitem.oae-listitem-email {
-    padding-top: 4px;
 }
 
 /* Fixed items */
