@@ -272,7 +272,28 @@ require(['jquery', 'oae.core'], function($, oae) {
                     ]
                 }
             ]
+        },
+        {
+            'id': 'listlti',
+            'title': oae.api.i18n.translate('__MSG__LTI_TOOLS__'),
+            'icon': 'fa-puzzle-piece',
+            'closeNav': true,
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'name': 'listlti',
+                            'settings': {
+                                'groupId': groupProfile.id,
+                                'canManage': groupProfile.isManager
+                            }
+                        }
+                    ]
+                }
+            ]
         });
+
 
         $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
         $(window).on('oae.ready.lhnavigation', function() {

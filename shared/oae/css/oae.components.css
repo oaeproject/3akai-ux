@@ -403,6 +403,7 @@ i.fa.large:before {
  *   `fa-oae-file` should be added to the `oae-thumbnail` div for uploaded files,
  *   `fa-oae-link` should be added to the `oae-thumbnail` div for links and
  *   `fa-oae-collabdoc` should be added to the `oae-thumbnail` div for collaborative documents.
+ *   `fa-oae-ltitool` should be added to the `oae-thumbnail` div for LTI tools
  *   Even when an image is provided, the entity icon class can still be added as
  *   it will be used when the image cannot be downloaded.
  * - For medium thumbnails (between 50px and 100px width and height), the `oae-thumbnail-medium`
@@ -503,11 +504,6 @@ div.oae-thumbnail.fa-oae-collabdoc:before {
     content: "\f044";
 }
 
-div.oae-thumbnail.fa-oae-folder:before {
-    content: "\f07c";
-    margin-left: 2px;
-}
-
 div.oae-thumbnail.fa-oae-discussion:before {
     content: "\f086";
 }
@@ -522,6 +518,10 @@ div.oae-thumbnail.fa-oae-user:before {
 
 div.oae-thumbnail.fa-oae-email:before {
     content: "\f0e0";
+}
+
+div.oae-thumbnail.fa-oae-ltitool:before {
+    content: "\f12e";
 }
 
 div.oae-thumbnail i.fa {
