@@ -47,7 +47,12 @@
                             </button>
                             <div>
                                 <ul id="content-clip-detail" aria-hidden="true">
-                                    <li><button class="oae-trigger-aboutlti"><i class="fa fa-info-circle"></i>__MSG__ABOUT__</button></li>
+                                    {if lti.isManager}
+                                        <li><button class="oae-trigger-deletelti"><i class="fa fa-trash-o"></i>__MSG__DELETE_LTI_TOOL__</button></li>
+                                        <li><button class="oae-trigger-aboutlti"><i class="fa fa-info-circle"></i>__MSG__ABOUT__</button></li>
+                                    {else}
+                                        <li><button class="oae-trigger-aboutlti"><i class="fa fa-info-circle"></i>__MSG__ABOUT__</button></li>
+                                    {/if}
                                 </ul>
                             </div>
                         </div>
