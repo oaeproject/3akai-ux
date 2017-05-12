@@ -13,15 +13,24 @@
  * permissions and limitations under the License.
  */
 
-/* Resource list */
-#deletelti-modal #deletelti-overview-container ul {
-    margin-bottom: 15px;
-    max-height: 220px;
-    overflow: auto;
+#lti-container {
+    display: none;
 }
 
-/* Delete action buttons */
+#lti-template {
+    border: 0;
+    height: 700px;
+    width: 100%;
+}
 
-#deletelti-modal #deletelti-overview-container button {
-    margin-bottom: 5px;
+@media (max-width: 767px) {
+    #lti-template {
+        height: 550px;
+    }
+}
+
+@media (max-width: 400px) {
+    #lti-template {
+        height: 350px;
+    }
 }
