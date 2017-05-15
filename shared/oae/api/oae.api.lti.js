@@ -19,7 +19,6 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * Create a LTI tool
      *
      * @param  {String}            groupId                  The id of the group this LTI tool belongs to
-     * @param  {String}            toolId                   The id of the new LTI tool
      * @param  {String}            url                      The launch URL for the new LTI tool
      * @param  {String}            secret                   The OAUTH secret for the new LTI tool
      * @param  {String}            key                      The OAUTH consumer key for the new LTI tool
@@ -30,11 +29,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @param  {LtiTool}           [callback.ltiTool]       A LTI tool object representing the created LTI tool
      * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
      */
-    var createLtiTool = exports.createLtiTool = function (groupId, toolId, url, secret, key, displayName, description, callback) {
+    var createLtiTool = exports.createLtiTool = function (groupId, url, secret, key, displayName, description, callback) {
         if (!groupId) {
             throw new Error('A group ID should be provided');
-        } else if (!toolId) {
-            throw new Error('A tool ID should be provided');
         } else if (!url) {
             throw new Error('A tool launch URL should be provided');
         } else if (!secret) {
@@ -47,7 +44,6 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
         callback = callback || function() {};
 
         var data = {
-            'toolId': toolId,
             'url': url,
             'secret': secret,
             'key': key,
