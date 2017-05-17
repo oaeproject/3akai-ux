@@ -71,11 +71,22 @@ require(['jquery', 'oae.core'], function ($, oae) {
             var tool = toolProfile.tool;
 
             oae.api.util.setBrowserTitle(tool.displayName);
-            var form = '<form method="POST" id="lti-form" action="' + tool.launchUrl + '" target="lti-name">';
+
+            var form = $('<form/>', {
+                action: tool.launchUrl,
+                target: 'lti-name',
+                method: 'POST',
+                id: 'lti-form'
+            });
             for (var param in launchParams) {
-                form += '<input type="hidden" name="' + param + '" value="' + launchParams[param] + '"/>\n';
+                form.append(
+                    $('<input>', {
+                        type: 'hidden',
+                        name: param,
+                        value: launchParams[param]
+                    })
+                );
             }
-            form += '</form>\n';
             $('#lti-container').empty().append(form);
             $('#lti-form').submit();
 
