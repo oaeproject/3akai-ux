@@ -287,44 +287,92 @@ require(['jquery', 'oae.core'], function($, oae) {
             ]
         });
 
-        // If Jitsi config value equals to "yes", then display meetings on navigation and on the left hand navigation pages
-        activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host');
-        if(activateMeeting !== ""){
-            lhNavActions[1].children.push({
-                'icon': 'fa-video-camera',
-                'title': oae.api.i18n.translate('__MSG__MEETING__'),
-                'closeNav': true,
-                'class': 'oae-trigger-createmeeting-jitsi'
+        setUpJitsiMenu(lhNavPages, function(err, lhNavPages) {
+            setUpLtiToolsMenu(lhNavPages, function(err, lhNavPages) {
+                $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
+                $(window).on('oae.ready.lhnavigation', function() {
+                    $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
+                });
             });
-
-            lhNavPages.push({
-                'id': 'meetings-jitsi',
-                'title': oae.api.i18n.translate('__MSG__MEETINGS__'),
-                'icon': 'fa-video-camera',
-                'closeNav': true,
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'name': 'meetings-jitsi-library',
-                                'settings': {
-                                    'context': groupProfile,
-                                    'canAdd': groupProfile.isMember,
-                                    'canManage': groupProfile.isManager
-                                }
-                            }
-                        ]
-                    }
-                ]
-            });
-        }
-
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
-        $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
         });
     };
+
+
+    /**
+     * Set up Jitsi menu
+     */
+    var setUpJitsiMenu = function(lhNavPages, callback) {
+       // If Jitsi config value equals to "yes", then display meetings on navigation and on the left hand navigation pages
+       var activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host');
+       if (activateMeeting !== "") {
+           lhNavActions[1].children.push({
+               'icon': 'fa-video-camera',
+               'title': oae.api.i18n.translate('__MSG__MEETING__'),
+               'closeNav': true,
+               'class': 'oae-trigger-createmeeting-jitsi'
+           });
+
+           lhNavPages.push({
+               'id': 'meetings-jitsi',
+               'title': oae.api.i18n.translate('__MSG__MEETINGS__'),
+               'icon': 'fa-video-camera',
+               'closeNav': true,
+               'layout': [
+                   {
+                       'width': 'col-md-12',
+                       'widgets': [
+                           {
+                               'name': 'meetings-jitsi-library',
+                               'settings': {
+                                   'context': groupProfile,
+                                   'canAdd': groupProfile.isMember,
+                                   'canManage': groupProfile.isManager
+                               }
+                           }
+                       ]
+                   }
+               ]
+           });
+       }
+       return callback(null, lhNavPages);
+    };
+
+
+    /**
+     * Set up LTI tools menu item if the user is a member of the group and the group has tools available
+     */
+     var setUpLtiToolsMenu = function(lhNavPages, callback) {
+        // Don't show the LTI tools menu to non-members
+        if (!groupProfile.isMember) {
+            return callback(null, lhNavPages);
+        }
+        oae.api.lti.getLtiTools(groupProfile.id, function(err, tools) {
+            if (tools && tools.results && tools.results.length > 0) {
+                lhNavPages.push({
+                    'id': 'listlti',
+                    'title': oae.api.i18n.translate('__MSG__LTI_TOOLS__'),
+                    'icon': 'fa-puzzle-piece',
+                    'closeNav': true,
+                    'layout': [
+                        {
+                            'width': 'col-md-12',
+                            'widgets': [
+                                {
+                                    'name': 'listlti',
+                                    'settings': {
+                                        'groupId': groupProfile.id,
+                                        'canManage': groupProfile.isManager
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                });
+            }
+            return callback(null, lhNavPages);
+        });
+    };
+
 
     /**
      * Subscribe to group activity push notifications, allowing for updating the group profile when changes to the group

@@ -62,6 +62,10 @@
     margin-top: 6px;
 }
 
+#error-content #error-quote-container .error-quote-btn {
+    width: 6em;
+}
+
 #error-content #error-quote-container form {
     display: inline;
 }
@@ -89,13 +93,17 @@
     position: absolute;
 }
 
+#error-signin-container {
+    margin-bottom: 0px;
+}
+
 @media (max-width: 991px) {
     #error-content .row {
         margin: 40px auto;
     }
 
     #error-content #error-quote-container .oae-panel-tertiary {
-        text-align: center;
+        text-align: left;
     }
 
     #error-content #error-quote-container {
