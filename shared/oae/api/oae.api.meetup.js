@@ -39,7 +39,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         }
 
         $.ajax({
-            'url': '/api/meetup/' + meetupId + '/end' ,
+            'url': '/api/meetups/' + meetupId + '/end' ,
             'type': 'POST',
             'success': function(data) {
                 callback(null, data);
@@ -59,7 +59,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         }
 
         $.ajax({
-            'url': '/api/meetup/' + meetupId + '/isMeetingRunning' ,
+            'url': '/api/meetups/' + meetupId + '/isMeetingRunning' ,
             'type': 'GET',
             'success': function(data) {
                 callback(null, data);

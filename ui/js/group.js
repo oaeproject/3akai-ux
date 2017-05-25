@@ -285,6 +285,27 @@ require(['jquery', 'oae.core'], function($, oae) {
                     ]
                 }
             ]
+          },
+          {
+              'id': 'meetup',
+              'title': oae.api.i18n.translate('__MSG__MEETUP__'),
+              'icon': 'fa-video-camera',
+              'closeNav': true,
+              'layout': [
+                  {
+                      'width': 'col-md-12',
+                      'widgets': [
+                          {
+                              'name': 'meetup',
+                              'settings': {
+                                  'context': groupProfile,
+                                  'canJoin': groupProfile.isMember,
+                                  'canManage': groupProfile.isManager
+                              }
+                          }
+                      ]
+                  }
+              ]
         });
 
         setUpJitsiMenu(lhNavPages, lhNavActions, function(err, lhNavPages) {
@@ -313,7 +334,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             'icon': 'fa-video-camera',
             'closeNav': true,
             'type': 'link',
-            'link': '/api/meetup/' + groupProfile.id + '/join'
+            'link': '/api/meetups/' + groupProfile.id + '/join'
           });
         }
         return callback(null, lhNavPages);
