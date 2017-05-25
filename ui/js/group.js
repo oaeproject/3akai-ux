@@ -73,6 +73,8 @@ require(['jquery', 'oae.core'], function($, oae) {
                 setUpNavigation();
                 // Set up the group push notifications to update this group profile on the fly
                 setUpPushNotifications();
+                // Set up meetings
+                setUpMeeting();
             }
         });
     };
@@ -115,6 +117,17 @@ require(['jquery', 'oae.core'], function($, oae) {
         } else if (!groupProfile.isMember && groupProfile.canJoin) {
             $('#group-member-actions').hide();
             $('#group-join-actions').show();
+        }
+    };
+
+    /**
+     * Meeting
+     */
+    var setUpMeeting = function() {
+        activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host');
+        if (activateMeeting) {
+            oae.api.util.template().render($('#activate-meeting-template'), {
+            }, $('#activate-meeting-container'));
         }
     };
 
@@ -176,9 +189,6 @@ require(['jquery', 'oae.core'], function($, oae) {
 
         // Structure that will be used to construct the left hand navigation pages
         var lhNavPages = [];
-
-        // Check if Meetups are enabled
-        var meetupsEnabled = oae.api.config.getValue('oae-meetups', 'bbb', 'enabled');
 
         // Show the activity and about widgets on the main page
         lhNavPages.push({
@@ -277,6 +287,25 @@ require(['jquery', 'oae.core'], function($, oae) {
             ]
         });
 
+        setUpJitsiMenu(lhNavPages, lhNavActions, function(err, lhNavPages) {
+            setUpMeetupsMenu(lhNavPages, function (err, lhNavPages) {
+                setUpLtiToolsMenu(lhNavPages, function(err, lhNavPages) {
+                    $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
+                    $(window).on('oae.ready.lhnavigation', function() {
+                        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
+                    });
+                });
+            });
+        });
+    };
+
+
+    /**
+     * Set up meetups menu
+     */
+     var setUpMeetupsMenu = function (err, lhNavPages, callback) {
+        // Check if Meetups are enabled
+        var meetupsEnabled = oae.api.config.getValue('oae-meetups', 'bbb', 'enabled');
         if (meetupsEnabled) {
           lhNavPages.push({
             'id': 'meetup',
@@ -287,12 +316,84 @@ require(['jquery', 'oae.core'], function($, oae) {
             'link': '/api/meetup/' + groupProfile.id + '/join'
           });
         }
+        return callback(null, lhNavPages);
+     };
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
-        $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
+    /**
+     * Set up Jitsi menu
+     */
+    var setUpJitsiMenu = function(lhNavPages, lhNavActions, callback) {
+       // If Jitsi config value has a value, then display meetings on navigation and on the left hand navigation pages
+       var activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host');
+       if (activateMeeting) {
+           lhNavActions[1].children.push({
+               'icon': 'fa-video-camera',
+               'title': oae.api.i18n.translate('__MSG__MEETING__'),
+               'closeNav': true,
+               'class': 'oae-trigger-createmeeting-jitsi'
+           });
+
+           lhNavPages.push({
+               'id': 'meetings-jitsi',
+               'title': oae.api.i18n.translate('__MSG__MEETINGS__'),
+               'icon': 'fa-video-camera',
+               'closeNav': true,
+               'layout': [
+                   {
+                       'width': 'col-md-12',
+                       'widgets': [
+                           {
+                               'name': 'meetings-jitsi-library',
+                               'settings': {
+                                   'context': groupProfile,
+                                   'canAdd': groupProfile.isMember,
+                                   'canManage': groupProfile.isManager
+                               }
+                           }
+                       ]
+                   }
+               ]
+           });
+       }
+       return callback(null, lhNavPages);
+    };
+
+
+    /**
+     * Set up LTI tools menu item if the user is a member of the group and the group has tools available
+     */
+     var setUpLtiToolsMenu = function(lhNavPages, callback) {
+        // Don't show the LTI tools menu to non-members
+        if (!groupProfile.isMember) {
+            return callback(null, lhNavPages);
+        }
+        oae.api.lti.getLtiTools(groupProfile.id, function(err, tools) {
+            if (tools && tools.results && tools.results.length > 0) {
+                lhNavPages.push({
+                    'id': 'listlti',
+                    'title': oae.api.i18n.translate('__MSG__LTI_TOOLS__'),
+                    'icon': 'fa-puzzle-piece',
+                    'closeNav': true,
+                    'layout': [
+                        {
+                            'width': 'col-md-12',
+                            'widgets': [
+                                {
+                                    'name': 'listlti',
+                                    'settings': {
+                                        'groupId': groupProfile.id,
+                                        'canManage': groupProfile.isManager
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                });
+            }
+            return callback(null, lhNavPages);
         });
     };
+
 
     /**
      * Subscribe to group activity push notifications, allowing for updating the group profile when changes to the group

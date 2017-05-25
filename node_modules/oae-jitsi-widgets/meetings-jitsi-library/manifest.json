@@ -1,0 +1,6 @@
+{
+    "i18n": {
+        "default": "bundles/default.properties"
+    },
+    "src": "meetings-jitsi-library.html"
+}

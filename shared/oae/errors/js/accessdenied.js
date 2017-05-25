@@ -20,7 +20,7 @@ require(['jquery','oae.core'], function($, oae) {
 
     // Set up the back button
     $('#error-back-btn').click(function(){
-        parent.history.go(-2);
+        parent.history.go(-1);
         return false;
     });
 

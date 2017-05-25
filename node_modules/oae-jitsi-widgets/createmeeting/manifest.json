@@ -1,0 +1,11 @@
+{
+    "i18n": {
+        "default": "bundles/default.properties"
+    },
+    "trigger": {
+        "selectors": [
+            ".oae-trigger-createmeeting-jitsi"
+        ]
+    },
+    "src": "createmeeting.html"
+}

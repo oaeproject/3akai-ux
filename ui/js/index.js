@@ -103,6 +103,17 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
+     * Meeting
+     */
+    var setUpMeeting = function() {
+        activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host');
+        if (activateMeeting) {
+            oae.api.util.template().render($('#activate-meeting-template'), {
+            }, $('#activate-meeting-container'));
+        }
+    };
+
+    /**
      * Set up the left hand navigation with the me space page structure
      */
     var setUpNavigation = function() {
@@ -255,6 +266,38 @@ require(['jquery','oae.core'], function($, oae) {
             }
         ];
 
+        // If Jitsi config has a value, then display meetings on navigation and on the left hand navigation pages
+        activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host');
+        if (activateMeeting) {
+            lhNavActions[1].children.push({
+                'icon': 'fa-video-camera',
+                'title': oae.api.i18n.translate('__MSG__MEETING__'),
+                'closeNav': true,
+                'class': 'oae-trigger-createmeeting-jitsi'
+            });
+
+            lhNavPages.push({
+                'id': 'meetings-jitsi',
+                'title': oae.api.i18n.translate('__MSG__MY_MEETINGS__'),
+                'icon': 'fa-video-camera',
+                'closeNav': true,
+                'layout': [
+                    {
+                        'width': 'col-md-12',
+                        'widgets': [
+                            {
+                                'name': 'meetings-jitsi-library',
+                                'settings': {
+                                    'context': oae.data.me,
+                                    'canManage': true
+                                }
+                            }
+                        ]
+                    }
+                ]
+            });
+        }
+
         $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, '/']);
         $(window).on('oae.ready.lhnavigation', function() {
             $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, '/']);
@@ -299,6 +342,7 @@ require(['jquery','oae.core'], function($, oae) {
 
         // Logged in users also have clips and left-hand navigation
         setUpClip();
+        setUpMeeting();
         setUpNavigation();
 
         // Show user preferences if, e.g., it's deep-linked via the URL
