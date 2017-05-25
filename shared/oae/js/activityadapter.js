@@ -839,11 +839,9 @@ var _expose = function(exports) {
 
         if (properties.actorCount === 1) {
             i18nKey = '__MSG__ACTIVITY_MEETING_MESSAGE_1__';
-        }
-        else if (properties.actorCount === 2) {
+        } else if (properties.actorCount === 2) {
             i18nKey = '__MSG__ACTIVITY_MEETING_MESSAGE_2__';
-        }
-        else {
+        } else {
             i18nKey = '__MSG__ACTIVITY_MEETING_MESSAGE_2+__';
         }
 
@@ -869,26 +867,24 @@ var _expose = function(exports) {
                 if (properties.objectCount === 1) {
                     i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_1_YOU__';
                 } else if (properties.objectCount === 2) {
-                    i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2_YOU__';            
+                    i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2_YOU__';
                 } else {
                     i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2+_YOU__';
                 }
-            }
-            else if (activity.target.objectType === 'group') {
+            } else if (activity.target.objectType === 'group') {
                 if (properties.objectCount === 1) {
                     i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_1_GROUP__';
                 } else if (properties.objectCount === 2) {
-                    i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2_GROUP__';            
+                    i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2_GROUP__';
                 } else {
                     i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2+_GROUP__';
                 }
             }
-        }
-        else {
+        } else {
             if (properties.objectCount === 1) {
                 i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_1__';
             } else if (properties.objectCount === 2) {
-                i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2__';            
+                i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2__';
             } else {
                 i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_2+__';
             }
