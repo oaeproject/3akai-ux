@@ -45,6 +45,7 @@ define([
         'oae.api.i18n',
         'oae.api.l10n',
         'oae.api.lti',
+        'oae.api.meetingJitsi',
         'oae.api.push',
         'oae.api.user',
         'oae.api.util',

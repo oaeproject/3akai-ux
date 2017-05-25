@@ -474,6 +474,10 @@ div.oae-thumbnail.fa-oae-email:before {
     color: #333333;
 }
 
+div.oae-thumbnail.fa-oae-meeting-jitsi:before {
+  content: "\f03d";
+}
+
 div.oae-thumbnail.oae-thumbnail-medium:before {
     font-size: 30px;
     margin-top: -15px;

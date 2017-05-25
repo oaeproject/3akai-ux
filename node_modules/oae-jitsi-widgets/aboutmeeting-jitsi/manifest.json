@@ -1,0 +1,11 @@
+{
+    "i18n": {
+        "default": "bundles/default.properties"
+    },
+    "src": "aboutmeeting-jitsi.html",
+    "trigger": {
+        "selectors": [
+            ".oae-trigger-aboutmeeting-jitsi"
+        ]
+    }
+}

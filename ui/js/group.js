@@ -73,6 +73,8 @@ require(['jquery', 'oae.core'], function($, oae) {
                 setUpNavigation();
                 // Set up the group push notifications to update this group profile on the fly
                 setUpPushNotifications();
+                // Set up meetings
+                setUpMeeting();
             }
         });
     };
@@ -115,6 +117,17 @@ require(['jquery', 'oae.core'], function($, oae) {
         } else if (!groupProfile.isMember && groupProfile.canJoin) {
             $('#group-member-actions').hide();
             $('#group-join-actions').show();
+        }
+    };
+
+    /**
+     * Meeting
+     */
+    var setUpMeeting = function() {
+        activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host');
+        if (activateMeeting) {
+            oae.api.util.template().render($('#activate-meeting-template'), {
+            }, $('#activate-meeting-container'));
         }
     };
 
@@ -274,12 +287,54 @@ require(['jquery', 'oae.core'], function($, oae) {
             ]
         });
 
-        setUpLtiToolsMenu(lhNavPages, function(err, lhNavPages) {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
-            $(window).on('oae.ready.lhnavigation', function() {
+        setUpJitsiMenu(lhNavPages, lhNavActions, function(err, lhNavPages) {
+            setUpLtiToolsMenu(lhNavPages, function(err, lhNavPages) {
                 $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
+                $(window).on('oae.ready.lhnavigation', function() {
+                    $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
+                });
             });
         });
+    };
+
+
+    /**
+     * Set up Jitsi menu
+     */
+    var setUpJitsiMenu = function(lhNavPages, lhNavActions, callback) {
+       // If Jitsi config value has a value, then display meetings on navigation and on the left hand navigation pages
+       var activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host');
+       if (activateMeeting) {
+           lhNavActions[1].children.push({
+               'icon': 'fa-video-camera',
+               'title': oae.api.i18n.translate('__MSG__MEETING__'),
+               'closeNav': true,
+               'class': 'oae-trigger-createmeeting-jitsi'
+           });
+
+           lhNavPages.push({
+               'id': 'meetings-jitsi',
+               'title': oae.api.i18n.translate('__MSG__MEETINGS__'),
+               'icon': 'fa-video-camera',
+               'closeNav': true,
+               'layout': [
+                   {
+                       'width': 'col-md-12',
+                       'widgets': [
+                           {
+                               'name': 'meetings-jitsi-library',
+                               'settings': {
+                                   'context': groupProfile,
+                                   'canAdd': groupProfile.isMember,
+                                   'canManage': groupProfile.isManager
+                               }
+                           }
+                       ]
+                   }
+               ]
+           });
+       }
+       return callback(null, lhNavPages);
     };
 
 
