@@ -239,8 +239,6 @@
         {var resourceId = entityData['oae:id']}
     {elseif entityData.id}
         {var resourceId = entityData.id}
-    {elseif resourceType === 'ltitool'}
-        {var resourceId = entityData.toolId}
     {/if}
 
     {if displayOptions.customImage}
@@ -377,17 +375,11 @@
         {var resourceSubType = entityData['oae:resourceSubType']}
     {/if}
 
-    {if resourceType === 'ltitool'}
-        {var id = entityData.toolId}
-    {else}
-        {var id = entityData.id}
-    {/if}
-
     {var showCheckbox = showCheckbox || false}
 
     {if !oae.data.me.anon && showCheckbox !== false}
-        <input type="checkbox" class="{if type !== 'grid'} pull-left{/if}" id="oae-list-${type}-${id}" data-id="${id}" data-resourceType="${resourceType}" data-resourceSubType="${resourceSubType}" />
-        <label class="sr-only" for="oae-list-${type}-${id}">${entityData.displayName|encodeForHTML}</label>
+        <input type="checkbox" class="{if type !== 'grid'} pull-left{/if}" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" data-resourceType="${resourceType}" data-resourceSubType="${resourceSubType}" />
+        <label class="sr-only" for="oae-list-${type}-${entityData.id}">${entityData.displayName|encodeForHTML}</label>
     {/if}
 {/macro}
 
