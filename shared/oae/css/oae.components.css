@@ -403,6 +403,7 @@ i.fa.large:before {
  *   `fa-oae-file` should be added to the `oae-thumbnail` div for uploaded files,
  *   `fa-oae-link` should be added to the `oae-thumbnail` div for links and
  *   `fa-oae-collabdoc` should be added to the `oae-thumbnail` div for collaborative documents.
+ *   `fa-oae-ltitool` should be added to the `oae-thumbnail` div for LTI tools
  *   Even when an image is provided, the entity icon class can still be added as
  *   it will be used when the image cannot be downloaded.
  * - For medium thumbnails (between 50px and 100px width and height), the `oae-thumbnail-medium`
@@ -503,11 +504,6 @@ div.oae-thumbnail.fa-oae-collabdoc:before {
     content: "\f044";
 }
 
-div.oae-thumbnail.fa-oae-folder:before {
-    content: "\f07c";
-    margin-left: 2px;
-}
-
 div.oae-thumbnail.fa-oae-discussion:before {
     content: "\f086";
 }
@@ -522,6 +518,10 @@ div.oae-thumbnail.fa-oae-user:before {
 
 div.oae-thumbnail.fa-oae-email:before {
     content: "\f0e0";
+}
+
+div.oae-thumbnail.fa-oae-ltitool:before {
+    content: "\f12e";
 }
 
 div.oae-thumbnail i.fa {
@@ -792,14 +792,6 @@ div.oae-thumbnail i.fa {
     padding: 10px;
     text-align: left;
     width: 100%;
-}
-
-/* Box sizing tweak needed to workaround IE9 bug in calculating container size
-   @see https://github.com/oaeproject/3akai-ux/pull/3601 */
-.ie-lt10 .oae-clip .oae-clip-content > div > ul li button,
-.ie-lt10 .oae-clip .oae-clip-content > div > ul li a {
-    box-sizing: content-box;
-    min-width: 50px;
 }
 
 .oae-clip .oae-clip-content > div > ul li button i,
@@ -1329,56 +1321,6 @@ div.oae-thumbnail i.fa {
     margin-top: 1px;
 }
 
-/* IE9 specific fallback for flexbox */
-
-.ie-lt10 .oae-listitem {
-    overflow: hidden;
-}
-
-.ie-lt10 .oae-list-compact-item > .oae-listitem {
-    padding-bottom: 10px;
-}
-
-.ie-lt10 .oae-listitem div.oae-listitem-metadata,
-.ie-lt10 .oae-listitem div.oae-listitem-actions {
-    display: block;
-    vertical-align: middle;
-    width: auto;
-}
-
-.ie-lt10 .oae-listitem div.oae-listitem-actions {
-    float: right;
-}
-
-@media (min-width: 900px) {
-    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > h3,
-    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > small {
-        max-width: 500px;
-    }
-}
-
-@media (min-width: 550px) and (max-width: 900px) {
-    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > h3,
-    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > small {
-        max-width: 300px;
-    }
-}
-
-@media (min-width: 400px) and (max-width: 550px) {
-    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > h3,
-    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > small {
-        max-width: 160px;
-    }
-}
-
-@media (max-width: 400px) {
-    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > h3,
-    .ie-lt10 .oae-list-compact-item > .oae-listitem div.oae-listitem-metadata > small {
-        max-width: 100px;
-    }
-}
-
-
 /***********
  ** LISTS **
  ***********/
@@ -1454,16 +1396,6 @@ ul.oae-list.oae-list-grid > li.oae-list-actions {
 ul.oae-list > li .oae-list-details-item,
 ul.oae-list > li .oae-list-compact-item  {
     width: 100%;
-}
-
-/* IE9 specific fallback for flexbox */
-
-.ie-lt10 ul.oae-list.oae-list-compact > li .oae-list-compact-item  {
-    display: table;
-}
-
-.ie-lt10 ul.oae-list.oae-list-compact > li > .oae-list-compact-item h3 {
-    float: left;
 }
 
 ul.oae-list > li .oae-listitem {

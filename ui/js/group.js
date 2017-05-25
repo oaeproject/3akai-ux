@@ -274,11 +274,50 @@ require(['jquery', 'oae.core'], function($, oae) {
             ]
         });
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
-        $(window).on('oae.ready.lhnavigation', function() {
+        setUpLtiToolsMenu(lhNavPages, function(err, lhNavPages) {
             $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
+            $(window).on('oae.ready.lhnavigation', function() {
+                $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
+            });
         });
     };
+
+
+    /**
+     * Set up LTI tools menu item if the user is a member of the group and the group has tools available
+     */
+     var setUpLtiToolsMenu = function(lhNavPages, callback) {
+        // Don't show the LTI tools menu to non-members
+        if (!groupProfile.isMember) {
+            return callback(null, lhNavPages);
+        }
+        oae.api.lti.getLtiTools(groupProfile.id, function(err, tools) {
+            if (tools && tools.results && tools.results.length > 0) {
+                lhNavPages.push({
+                    'id': 'listlti',
+                    'title': oae.api.i18n.translate('__MSG__LTI_TOOLS__'),
+                    'icon': 'fa-puzzle-piece',
+                    'closeNav': true,
+                    'layout': [
+                        {
+                            'width': 'col-md-12',
+                            'widgets': [
+                                {
+                                    'name': 'listlti',
+                                    'settings': {
+                                        'groupId': groupProfile.id,
+                                        'canManage': groupProfile.isManager
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                });
+            }
+            return callback(null, lhNavPages);
+        });
+    };
+
 
     /**
      * Subscribe to group activity push notifications, allowing for updating the group profile when changes to the group
