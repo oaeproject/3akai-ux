@@ -49,11 +49,6 @@ require(['jquery','oae.core'], function($, oae) {
             var secret = urlArray[3];
             var password = $.trim($('#resetpassword-new-password', $(this)).val());
 
-            // debug
-            console.log("username: " + username);
-            console.log("secret: " + secret);
-            console.log("password: " + password);
-
             $.ajax({
                 'url': '/api/auth/local/reset/change/' + username,
                 'type': 'POST',
