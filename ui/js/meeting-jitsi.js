@@ -41,7 +41,8 @@ require(['jquery', 'oae.core'], function ($, oae) {
             'api': {
                 'getMembersURL': '/api/meeting-jitsi/'+ meetingProfile.id + '/members',
                 'setMembers': oae.api.meetingJitsi.updateMembers,
-                'setVisibility': oae.api.meetingJitsi.updateMeeting
+                'setVisibility': oae.api.meetingJitsi.updateMeeting,
+                'getInvitations': oae.api.meetingJitsi.getInvitations
             }
         };
     };
