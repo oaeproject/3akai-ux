@@ -102,8 +102,10 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Render the group clip(s)
      */
     var setUpClip = function() {
+        var isAdmin = oae.data.me.isTenantAdmin || oae.data.me.isGlobalAdmin
         oae.api.util.template().render($('#group-clip-template'), {
             'group': groupProfile,
+            'isAdmin': isAdmin,
             'displayOptions': {
                 'addLink': false
             }
@@ -305,12 +307,14 @@ require(['jquery', 'oae.core'], function($, oae) {
        // If Jitsi config value has a value, then display meetings on navigation and on the left hand navigation pages
        var activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host');
        if (activateMeeting) {
-           lhNavActions[1].children.push({
-               'icon': 'fa-video-camera',
-               'title': oae.api.i18n.translate('__MSG__MEETING__'),
-               'closeNav': true,
-               'class': 'oae-trigger-createmeeting-jitsi'
-           });
+           if (groupProfile.isMember) {
+               lhNavActions[1].children.push({
+                   'icon': 'fa-video-camera',
+                   'title': oae.api.i18n.translate('__MSG__MEETING__'),
+                   'closeNav': true,
+                   'class': 'oae-trigger-createmeeting-jitsi'
+               });
+           }
 
            lhNavPages.push({
                'id': 'meetings-jitsi',
@@ -361,7 +365,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                                     'name': 'listlti',
                                     'settings': {
                                         'groupId': groupProfile.id,
-                                        'canManage': groupProfile.isManager
+                                        'canManage': oae.data.me.isTenantAdmin || oae.data.me.isGlobalAdmin,
                                     }
                                 }
                             ]
