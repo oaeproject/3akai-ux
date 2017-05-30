@@ -1666,7 +1666,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     excludeTrailingPunctuationFromURLs: true, noHeaderId: true, encodeEmails: false, literalMidWordAsterisks: true});
 
                 input = converter.makeHtml(input.toString());
-
+                input = input.replace(/<(?=\/?script)/gi, '&lt;');
+                inpur = input.replace(/script>/gi, 'script&gt;');
                 return input;
             }
         };
