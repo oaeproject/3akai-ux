@@ -102,7 +102,7 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Render the group clip(s)
      */
     var setUpClip = function() {
-        var isAdmin = oae.data.me.isTenantAdmin || oae.data.me.isGlobalAdmin
+        var isAdmin = oae.data.me.isTenantAdmin || oae.data.me.isGlobalAdmin;
         oae.api.util.template().render($('#group-clip-template'), {
             'group': groupProfile,
             'isAdmin': isAdmin,
