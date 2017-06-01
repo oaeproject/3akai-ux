@@ -1,6 +1,6 @@
-user                    <%= nginxConf.NGINX_USER %> <%= nginxConf.NGINX_GROUP %>;
-worker_processes        5;
-error_log               logs/error.log;
+user                    root nogroup;
+worker_processes        1;
+
 worker_rlimit_nofile    8192;
 
 events {
@@ -63,16 +63,16 @@ http {
     ####################
 
     upstream globaladminworkers {
-        server 127.0.0.1:2000;
+        server oae-hilary:2000;
         # Add extra app nodes here.
     }
 
     server {
         listen       80;
         listen       443 ssl;
-        include      <%= nginxConf.UX_HOME %>/nginx/self-signed.conf;
-        include      <%= nginxConf.UX_HOME %>/nginx/ssl-params.conf;
-        server_name  <%= nginxConf.NGINX_HOSTNAME %>;
+        include      /etc/nginx/self-signed.conf;
+        include      /etc/nginx/ssl-params.conf;
+        server_name  admin.oae.com;
 
 
         ######################
@@ -82,20 +82,20 @@ http {
         # Enable CORS support for the font-awesome webfont
         # so we can load it from our CDN
         location /shared/vendor/css/font-awesome/fonts/ {
-            alias <%= nginxConf.UX_HOME %>/shared/vendor/css/font-awesome/fonts/;
+            alias /usr/src/Hilary/3akai-ux/shared/vendor/css/font-awesome/fonts/;
             add_header Access-Control-Allow-Origin "*";
             expires max;
         }
 
         location /shared/ {
-            alias <%= nginxConf.UX_HOME %>/shared/;
+            alias /usr/src/Hilary/3akai-ux/shared/;
             autoindex off;
             expires max;
         }
 
         # HTML files under /shared/oae/errors are not hashed and should not be cached
         location ~* /shared/oae/errors/([^\.]+).html$ {
-            alias <%= nginxConf.UX_HOME %>/shared/oae/errors/$1.html;
+            alias /usr/src/Hilary/3akai-ux/shared/oae/errors/$1.html;
             expires -1;
         }
 
@@ -114,20 +114,20 @@ http {
         #####################
 
         location /ui/ {
-            alias <%= nginxConf.UX_HOME %>/ui/;
+            alias /usr/src/Hilary/3akai-ux/ui/;
             autoindex off;
             expires max;
         }
 
         location /admin/ {
-            alias <%= nginxConf.UX_HOME %>/admin/;
+            alias /usr/src/Hilary/3akai-ux/admin/;
             autoindex off;
             expires max;
         }
 
         # HTML files under /admin are not hashed and should not be cached
         location ~* /admin/([^\.]+).html$ {
-            alias <%= nginxConf.UX_HOME %>/admin/$1.html;
+            alias /usr/src/Hilary/3akai-ux/admin/$1.html;
             expires -1;
         }
 
@@ -145,7 +145,7 @@ http {
         ######################
 
         location /node_modules/ {
-            alias <%= nginxConf.UX_HOME %>/node_modules/;
+            alias /usr/src/Hilary/3akai-ux/node_modules/;
             autoindex off;
             expires max;
         }
@@ -156,13 +156,13 @@ http {
         ####################
 
         location /docs/ {
-            alias <%= nginxConf.UX_HOME %>/docs/;
+            alias /usr/src/Hilary/3akai-ux/docs/;
             autoindex off;
         }
 
         # HTML files under /docs are not hashed and should not be cached
         location ~* /docs/([^\.]+).html$ {
-            alias <%= nginxConf.UX_HOME %>/docs/$1.html;
+            alias /usr/src/Hilary/3akai-ux/docs/$1.html;
             expires -1;
         }
 
@@ -194,6 +194,7 @@ http {
 
         location /api/ui/staticbatch {
             expires max;
+            proxy_read_timeout 300;
             proxy_pass http://globaladminworkers;
         }
 
@@ -250,7 +251,7 @@ http {
         # in the admin UI.
         location /files {
             internal;
-            alias <%= nginxConf.LOCAL_FILE_STORAGE_DIRECTORY %>;
+            alias /usr/src/files;
         }
 
     }
@@ -267,15 +268,15 @@ http {
     ####################
 
     upstream tenantworkers {
-        server 127.0.0.1:2001;
+        server oae-hilary:2001;
         # Add extra app nodes here.
     }
 
     server {
         listen   80 default_server;
         listen   443 ssl default_server;
-        include  <%= nginxConf.UX_HOME %>/nginx/self-signed.conf;
-        include  <%= nginxConf.UX_HOME %>/nginx/ssl-params.conf;
+        include  /etc/nginx/self-signed.conf;
+        include  /etc/nginx/ssl-params.conf;
 
 
         ######################
@@ -285,20 +286,20 @@ http {
         # Enable CORS support for the font-awesome webfont
         # so we can load it from our CDN
         location /shared/vendor/css/font-awesome/fonts/ {
-            alias <%= nginxConf.UX_HOME %>/shared/vendor/css/font-awesome/fonts/;
+            alias /usr/src/Hilary/3akai-ux/shared/vendor/css/font-awesome/fonts/;
             add_header Access-Control-Allow-Origin "*";
             expires max;
         }
 
         location /shared/ {
-            alias <%= nginxConf.UX_HOME %>/shared/;
+            alias /usr/src/Hilary/3akai-ux/shared/;
             autoindex off;
             expires max;
         }
 
         # HTML files under /shared/oae/errors are not hashed and should not be cached
         location ~* /shared/oae/errors/([^\.]+).html$ {
-            alias <%= nginxConf.UX_HOME %>/shared/oae/errors/$1.html;
+            alias /usr/src/Hilary/3akai-ux/shared/oae/errors/$1.html;
             expires -1;
         }
 
@@ -317,14 +318,14 @@ http {
         #####################
 
         location /admin/ {
-            alias <%= nginxConf.UX_HOME %>/admin/;
+            alias /usr/src/Hilary/3akai-ux/admin/;
             autoindex off;
             expires max;
         }
 
         # HTML files under /admin are not hashed and should not be cached
         location ~* /admin/([^\.]+).html$ {
-            alias <%= nginxConf.UX_HOME %>/admin/$1.html;
+            alias /usr/src/Hilary/3akai-ux/admin/$1.html;
             expires -1;
         }
 
@@ -339,32 +340,15 @@ http {
         ## MAIN UI RESOURCES ##
         #######################
 
-        # TODO: Remove this custom landing page strategy and /custom handling when we have configurable landing pages
-        location = / {
-            autoindex off;
-            expires -1;
-
-            # Tell Nginx that the root is the UI directory so custom files can be located with try_files
-            root <%= nginxConf.UX_HOME %>;
-
-            try_files /custom/$host/index.html /ui/index.html;
-        }
-
         location /ui/ {
-            alias <%= nginxConf.UX_HOME %>/ui/;
-            autoindex off;
-            expires max;
-        }
-
-        location /custom/ {
-            alias <%= nginxConf.UX_HOME %>/custom/;
+            alias /usr/src/Hilary/3akai-ux/ui/;
             autoindex off;
             expires max;
         }
 
         # HTML files under /ui are not hashed and should not be cached
         location ~* /ui/([^\.]+).html$ {
-            alias <%= nginxConf.UX_HOME %>/ui/$1.html;
+            alias /usr/src/Hilary/3akai-ux/ui/$1.html;
             expires -1;
         }
 
@@ -377,21 +361,17 @@ http {
         rewrite ^/groups        /ui/index.html last;
         rewrite ^/group         /ui/group.html last;
         rewrite ^/library       /ui/index.html last;
-        rewrite ^/meetings-jitsi /ui/index.html last;
-        rewrite ^/meeting-jitsi /ui/meeting-jitsi.html last;
         rewrite ^/network       /ui/index.html last;
         rewrite ^/search        /ui/search.html last;
         rewrite ^/signup        /ui/signup.html last;
         rewrite ^/user          /ui/user.html last;
-        rewrite ^/lti           /ui/lti.html last;
-       rewrite "^/resetpassword/(.*)/(.*)$"  /ui/resetpassword.html last;
 
         ######################
         ## WIDGET RESOURCES ##
         ######################
 
         location /node_modules/ {
-            alias <%= nginxConf.UX_HOME %>/node_modules/;
+            alias /usr/src/Hilary/3akai-ux/node_modules/;
             autoindex off;
             expires max;
         }
@@ -402,13 +382,13 @@ http {
         ####################
 
         location /docs/ {
-            alias <%= nginxConf.UX_HOME %>/docs/;
+            alias /usr/src/Hilary/3akai-ux/docs/;
             autoindex off;
         }
 
         # HTML files under /docs are not hashed and should not be cached
         location ~* /docs/([^\.]+).html$ {
-            alias <%= nginxConf.UX_HOME %>/docs/$1.html;
+            alias /usr/src/Hilary/3akai-ux/docs/$1.html;
             expires -1;
         }
 
@@ -424,7 +404,7 @@ http {
         ####################
 
         location /tests/ {
-            alias <%= nginxConf.UX_HOME %>/tests/;
+            alias /usr/src/Hilary/3akai-ux/tests/;
             autoindex off;
             expires -1;
         }
@@ -550,6 +530,7 @@ http {
 
         location /api/ui/staticbatch {
             expires max;
+            proxy_read_timeout 300;
             proxy_pass http://tenantworkers;
         }
 
@@ -609,6 +590,7 @@ http {
         # Explicitly don't cache any other API requests
         location /api/ {
             expires -1;
+            proxy_read_timeout 300;
             proxy_pass http://tenantworkers;
         }
 
@@ -623,7 +605,7 @@ http {
         # in the admin UI.
         location /files {
             internal;
-            alias <%= nginxConf.LOCAL_FILE_STORAGE_DIRECTORY %>;
+            alias /usr/src/files;
         }
 
 
@@ -635,27 +617,28 @@ http {
             expires 15m;
 
             rewrite ^/etherpad/0(.*)$ $1 break;
+
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header Host $http_host;
             proxy_set_header X-NginX-Proxy true;
-            proxy_pass http://127.0.0.1:9001;
+            proxy_pass http://oae-etherpad:9001;
             proxy_buffering off;
             proxy_read_timeout 60;
         }
 
-        location /etherpad/0/socket.io/ {
+        location /etherpad/0/socket.io/1/websocket/ {
             rewrite ^/etherpad/0(.*)$ $1 break;
 
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
             proxy_set_header Host $host;
-            proxy_pass http://127.0.0.1:9001;
+            proxy_pass http://oae-etherpad:9001;
             proxy_buffering off;
             proxy_read_timeout 60;
         }
     }
 
-    include <%= nginxConf.UX_HOME %>/nginx/mime.conf;
-}}
+    include /etc/nginx/mime.conf;
+}
