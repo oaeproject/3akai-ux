@@ -16,8 +16,7 @@
 require(['jquery','oae.core'], function($, oae) {
 
     // Set the page title
-    oae.api.util.setBrowserTitle('Reset Password');
-
+    oae.api.util.setBrowserTitle('__MSG__RESET_PASSWORD__');
 
     /**
      * SubmitFormResetPassword: emit the submit event so the form gets submitted
@@ -26,13 +25,11 @@ require(['jquery','oae.core'], function($, oae) {
         $('#resetpassword-input-password').unbind().submit();
     };
 
-
     /**
-     * ResetPassword: Last Step for reseting password
+     * ResetPassword: Last Step for resetting password
      */
     var resetPassword = function() {
         $(document).on('submit','#resetpassword-input-password', function(event) {
-
             // disable redirect to other page
             event.preventDefault();
 
@@ -52,7 +49,10 @@ require(['jquery','oae.core'], function($, oae) {
             $.ajax({
                 'url': '/api/auth/local/reset/change/' + username,
                 'type': 'POST',
-                'data': {'newPassword':password, 'secret':secret},
+                'data': {
+                    'newPassword': password,
+                    'secret': secret
+                },
                 'success': function(data) {
                     //callback(null, data);
                     oae.api.util.notification(oae.api.i18n.translate('__MSG__CONGRATULATIONS__'), oae.api.i18n.translate('__MSG__YOUR_PASSWORD_HAS_BEEN_UPDATED__'));
@@ -60,13 +60,12 @@ require(['jquery','oae.core'], function($, oae) {
                     // wait for 3 seconds and redirect the user to mainpage
                     setTimeout(
                         function() {
-                            //redirect the user to setting page
-                            window.location.href = "/";
+                            window.location.href = '/';
                         }, 3000);
                     },
-                    'error': function(data) {
-                         oae.api.util.notification(oae.api.i18n.translate('__MSG__SORRY__'), oae.api.i18n.translate('__MSG__COULDNT_UPDATE_PASSWORD__'));
-                    }
+                'error': function(data) {
+                    oae.api.util.notification(oae.api.i18n.translate('__MSG__SORRY__'), oae.api.i18n.translate('__MSG__COULDNT_UPDATE_PASSWORD__'));
+                }
             });
         });
     };
@@ -109,7 +108,6 @@ require(['jquery','oae.core'], function($, oae) {
 
         oae.api.util.validation().validate($('#resetpassword-input-password'), validateOpts);
     };
-
 
     resetPassword();
     setUpResetPasswordValidation();
