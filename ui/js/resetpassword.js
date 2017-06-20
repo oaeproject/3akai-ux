@@ -47,7 +47,7 @@ require(['jquery','oae.core'], function($, oae) {
             var password = $.trim($('#resetpassword-new-password', $(this)).val());
 
             $.ajax({
-                'url': '/api/auth/local/reset/change/' + username,
+                'url': '/api/auth/local/reset/password/' + username,
                 'type': 'POST',
                 'data': {
                     'newPassword': password,
