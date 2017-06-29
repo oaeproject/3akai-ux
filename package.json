@@ -5,7 +5,7 @@
   "homepage": "http://www.oaeproject.org",
   "author": {
     "name": "The Apereo Foundation",
-    "email": "oae-dev@collab.sakaiproject.org"
+    "email": "oae@apereo.org"
   },
   "repository": {
     "type": "git",
@@ -43,9 +43,11 @@
     "underscore": "latest"
   },
   "bundleDependencies": [
-    "oae-core"
+    "oae-core",
+    "oae-admin",
+    "oae-jitsi-widgets"
   ],
   "engines": {
-    "node": ">=0.10"
+    "node": "6.x"
   }
 }
