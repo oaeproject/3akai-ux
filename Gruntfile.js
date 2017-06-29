@@ -120,7 +120,7 @@ module.exports = function(grunt) {
                         'name': 'oae.core',
                         'exclude': ['jquery']
                     }],
-                    'fileExclusionRegExp': /^(\.|<%= target %>|tests|tools|grunt|optimist|properties-parser|readdirp|underscore$|shelljs$|oae-release-tools|robots\.txt)/,
+                    'fileExclusionRegExp': /^(\.|<%= target %>|tests|tools|grunt|optimist|properties-parser|readdirp|mkdirp|underscore$|shelljs$|oae-release-tools|es6-promise|cssstyle|resolve|nwmatcher|strip-json-comments|robots\.txt)/,
                     'logLevel': 2
                 }
             }

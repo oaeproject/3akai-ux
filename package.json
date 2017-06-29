@@ -20,9 +20,6 @@
       "url": "http://opensource.org/licenses/ecl2.php"
     }
   ],
-  "dependencies": {
-    "oae-core": ""
-  },
   "devDependencies": {
     "grunt": "~0.4.0",
     "grunt-cli": "1.2.0",
@@ -46,9 +43,11 @@
     "underscore": "latest"
   },
   "bundleDependencies": [
-    "oae-core"
+    "oae-core",
+    "oae-admin",
+    "oae-jitsi-widgets"
   ],
   "engines": {
-    "node": ">=0.10"
+    "node": "6.x"
   }
 }
