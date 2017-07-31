@@ -48,6 +48,6 @@
     "oae-jitsi-widgets"
   ],
   "engines": {
-    "node": "6.11.1"
+    "node": ">=6.11.1"
   }
 }
