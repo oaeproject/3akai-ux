@@ -114,6 +114,11 @@ module.exports = function(grunt) {
                     'mainConfigFile': './shared/oae/api/oae.bootstrap.js',
                     'dir': '<%= target %>/optimized',
                     'optimize': 'uglify',
+                    'uglify2': {
+                        'output': {
+                            'max_line_len': 500000
+                        }
+                    },
                     'preserveLicenseComments': false,
                     'optimizeCss': 'standard',
                     // TODO: Replace this with a saner value
