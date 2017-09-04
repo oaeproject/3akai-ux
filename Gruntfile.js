@@ -62,7 +62,15 @@ module.exports = function(grunt) {
         },
         'jshint': {
             'options': {
-                'sub': true
+                'node': true,
+                'sub': true,
+                'indent': 4,
+                'trailing': true,
+                'quotmark': 'single',
+                'curly': true,
+                'white': false,
+                'strict': false,
+                'esversion': 6
             },
             'files': [
                 'admin/**/*.js',
@@ -106,6 +114,11 @@ module.exports = function(grunt) {
                     'mainConfigFile': './shared/oae/api/oae.bootstrap.js',
                     'dir': '<%= target %>/optimized',
                     'optimize': 'uglify',
+                    'uglify2': {
+                        'output': {
+                            'max_line_len': 500000
+                        }
+                    },
                     'preserveLicenseComments': false,
                     'optimizeCss': 'standard',
                     // TODO: Replace this with a saner value
@@ -120,7 +133,7 @@ module.exports = function(grunt) {
                         'name': 'oae.core',
                         'exclude': ['jquery']
                     }],
-                    'fileExclusionRegExp': /^(\.|<%= target %>|tests|tools|grunt|optimist|properties-parser|readdirp|underscore$|shelljs$|oae-release-tools|mkdirp|es6-promise|cssstyle|resolve|nwmatcher|strip-json-comments|glob$|robots\.txt)/,
+                    'fileExclusionRegExp': /^(\.|<%= target %>|tests|tools|grunt|optimist|properties-parser|readdirp|underscore$|shelljs$|oae-release-tools|mkdirp|es6-promise|cssstyle|resolve|nwmatcher|strip-json-comments|glob$|har-validator|robots\.txt)/,
                     'logLevel': 2
                 }
             }
