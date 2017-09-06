@@ -1,0 +1,11 @@
+version: 2
+jobs:
+  build:
+    machine: true
+    working_directory: ~/3akai-ux
+    steps:
+      - checkout
+      # install dependencies
+      - run: npm install
+      # check grunt build
+      - run: grunt
