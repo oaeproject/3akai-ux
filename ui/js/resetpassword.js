@@ -37,7 +37,7 @@ require(['jquery','oae.core'], function($, oae) {
             var urlPath = location.pathname;
 
             // get value of url in a array
-            var urlArray = urlPath.split("/");
+            var urlArray = urlPath.split('/');
 
             // get the length of urlArray
             var urlLength = urlArray.length;

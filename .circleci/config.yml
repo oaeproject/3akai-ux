@@ -9,3 +9,4 @@ jobs:
       - run: npm install
       # check grunt build
       - run: grunt
+      - run: grunt jshint
