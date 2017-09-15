@@ -89,6 +89,7 @@ requirejs.config({
         'oae.api.l10n': 'oae/api/oae.api.l10n',
         'oae.api.lti' : 'oae/api/oae.api.lti',
         'oae.api.meetingJitsi': 'oae/api/oae.api.meetingJitsi',
+        'oae.api.meetup': 'oae/api/oae.api.meetup',
         'oae.api.push': 'oae/api/oae.api.push',
         'oae.api.user': 'oae/api/oae.api.user',
         'oae.api.util': 'oae/api/oae.api.util',

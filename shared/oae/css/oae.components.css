@@ -528,6 +528,10 @@ div.oae-thumbnail.fa-oae-ltitool:before {
     content: "\f12e";
 }
 
+div.oae-thumbnail.fa-oae-meetup:before {
+    content: "\f03d";
+}
+
 div.oae-thumbnail i.fa {
     position: absolute;
     bottom: -8px;

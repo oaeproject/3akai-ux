@@ -15,16 +15,16 @@
 
 /*!
  * Initializes the OAE UI APIs. First of all, the me data will be retrieved. After that, the configuration for the current
- * tenant will be retrueved, and the localization and internationalization APIs will be initialized. Finally, the widgets declared
+ * tenant will be retrieved, and the localization and internationalization APIs will be initialized. Finally, the widgets declared
  * in the page source will be rendered.
  *
  * This module is intended to be referenced as a *plugin*, not a regular module. Do not depend on this directly, instead depend
  * on `oae.core`, which invokes this plugin, and also efficiently pre-loads many third-party dependencies.
  */
 define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.comment', 'oae.api.discussion', 'oae.api.folder',
-        'oae.api.follow','oae.api.group', 'oae.api.i18n', 'oae.api.l10n', 'oae.api.lti', 'oae.api.meetingJitsi', 'oae.api.push', 'oae.api.user', 'oae.api.util', 'oae.api.widget'],
+        'oae.api.follow','oae.api.group', 'oae.api.i18n', 'oae.api.l10n', 'oae.api.lti', 'oae.api.meetingJitsi', 'oae.api.meetup', 'oae.api.push', 'oae.api.user', 'oae.api.util', 'oae.api.widget'],
 
-    function(_, adminAPI, authenticationAPI, configAPI, contentAPI, commentAPI, discussionAPI, folderAPI, followAPI, groupAPI, i18nAPI, l10nAPI, ltiAPI, meetingJitsiAPI, pushAPI, userAPI, utilAPI, widgetAPI) {
+    function(_, adminAPI, authenticationAPI, configAPI, contentAPI, commentAPI, discussionAPI, folderAPI, followAPI, groupAPI, i18nAPI, l10nAPI, ltiAPI, meetingJitsiAPI, meetupAPI, pushAPI, userAPI, utilAPI, widgetAPI) {
 
         /*!
          * Object containing all of the available OAE API modules and their functions, as well as some
@@ -44,6 +44,7 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                 'i18n': i18nAPI,
                 'l10n': l10nAPI,
                 'lti' : ltiAPI,
+                'meetup': meetupAPI,
                 'push': pushAPI,
                 'meetingJitsi': meetingJitsiAPI,
                 'user': userAPI,
