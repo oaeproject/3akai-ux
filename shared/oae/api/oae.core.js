@@ -84,7 +84,8 @@ define([
         'markdown',
         'sockjs',
         'tinycon',
-        'underscore'
+        'underscore',
+        'moment'
     ],
 
     function(oae, $) {

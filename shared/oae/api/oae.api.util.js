@@ -1804,6 +1804,14 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             window.location = '/servermaintenance';
         };
 
+        /**
+         * TODO bla bla bla
+         */
+        var logInThroughAnotherTenant = function(tenancyAlias) {
+            let newURL = window.location.href.replace(/(\w*)\./, tenancyAlias + '.');
+            window.location.replace(newURL);
+        };
+
         return {
             'tenant': tenant,
             'login': login,
@@ -1811,7 +1819,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             'accessdenied': accessdenied,
             'notfound': notfound,
             'unavailable': unavailable,
-            'maintenance': maintenance
+            'maintenance': maintenance,
+            'logInThroughAnotherTenant': logInThroughAnotherTenant
         };
     };
 

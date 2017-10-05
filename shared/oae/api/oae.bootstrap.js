@@ -23,6 +23,7 @@ requirejs.config({
         'jquery': 'empty:',
 
         // Vendor paths
+        'async': 'vendor/js/async',
         'bootstrap': 'vendor/js/bootstrap',
         'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover.oae-edited',
         'bootstrap.datepicker': 'vendor/js/bootstrap-plugins/bootstrap-datepicker',
@@ -52,6 +53,7 @@ requirejs.config({
         'jquery-ui': 'vendor/js/jquery-ui/jquery-ui-1.10.4.custom',
         'lazyload': 'vendor/js/lazyload',
         'markdown': 'vendor/js/marked',
+        'moment': 'vendor/js/moment',
         'qunitjs': 'vendor/js/qunit',
         'sockjs': 'vendor/js/sockjs',
         'text': 'vendor/js/requirejs/require.text',

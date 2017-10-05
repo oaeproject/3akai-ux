@@ -110,6 +110,50 @@
             <div data-widget="lhnavigation"><!-- --></div>
         </main>
 
+        <!-- MODAL -->
+        <div id="login-to-other-tenancies-modal" class="modal fade" tabindex="-1" aria-labelledby="login-to-other-tenancies-modal-title" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id="login-to-other-tenancies-container" class="hide"><!-- --></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="login-to-other-tenancies-template"><!--
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="__MSG__CLOSE__">
+                    <span aria-hidden="true">&#215;</span>
+                </button>
+                <h3 id="login-to-other-tenancies-modal-title">
+                    You don't have permission to visit that page through ${currentTenant.displayName}.
+                </h3>
+            </div>
+            <div id="login-to-other-tenancies-container" class="modal-body">
+                <h4 id="editprofile-plea">
+                    However, we have detected other tenancies to be active on your browser:
+                </h4>
+                    {for loggedInTenancy in loggedInTenancies}
+                        <div class="row oae-large-options well" id="login-option-${loggedInTenancy.alias}">
+                            <div class="col-sm-4 text-center">
+                                {if loggedInTenancy.logo}
+                                    <img src="${loggedInTenancy.logo}" style="height: 60px; width: 60px; margin-bottom: 10px; margin-top: 10px;"/>
+                                {else}
+                                <i class="fa fa-oae-loggedin large text-center" style="margin-bottom: 10px; margin-top: 10px;"></i>
+                                {/if}
+                            </div>
+                            <div class="col-sm-8">
+                                <h5>${loggedInTenancy.displayName}</h5>
+                                <h4>Last login: ${loggedInTenancy.lastLoginFromNow}</h4>
+                            </div>
+                        </div>
+                    {/for}
+            </div>
+            <div class="modal-footer">
+            </div>
+            -->
+        </div>
+
         <!-- FOOTER -->
         <div data-widget="footer"><!-- --></div>
 

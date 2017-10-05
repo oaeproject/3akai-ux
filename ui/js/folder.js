@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
+require(['jquery', 'underscore', 'oae.core', 'moment', 'async'], function($, _, oae, moment, async) {
 
     // Get the folder id from the URL. The expected URL is `/folder/<tenantId>/<resourceId>`.
     // The folder id will then be `f:<tenantId>:<resourceId>`
@@ -106,6 +106,22 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     ///////////////////////////////////
 
     /**
+     * TODO bla bla bla
+     */
+    let getTenantLogo = function(tenantAlias, callback) {
+        $.ajax({
+            // TODO this is dirty...
+            'url': '/api/config/' + tenantAlias + '/logo',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
      * Get the folder's basic profile and set up the screen. If the folder
      * can't be found or is private to the current user, the appropriate
      * error page will be shown
@@ -113,8 +129,64 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     var getFolderProfile = function() {
         oae.api.folder.getFolder(folderId, function(err, profile) {
             if (err) {
+                // 401 might have been because the user tried to access it through a different tenant, let's fix that
                 if (err.code === 401) {
-                    oae.api.util.redirect().accessdenied();
+
+                    /**
+                     * Steps
+                     * 1 Fetch which other tenants the user is logged in to through a cookie
+                     * 2 Fetch other tenants logos from the server
+                     * 3 Present a modal box with options to fetch the same URL through a different tenant
+                     */
+
+                    let allCookies = document.cookie;
+                    var currentTenant = oae.data.me.tenant;
+                    let now = moment();
+
+                    // Get the logged in tenancies information from cookie and create a list
+                    var loggedInTenancies = document.cookie.replace(/(?:(?:^|.*;\s*)loggedin_tenancies\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+                    loggedInTenancies = JSON.parse(loggedInTenancies);
+                    // sort them by the last login time
+                    loggedInTenancies = _.sortBy(loggedInTenancies, 'lastLogin').reverse();
+
+                    // fetch the tenancy logo for each of the above
+                    async.map(loggedInTenancies, (eachTenancy, callback) => {
+                        getTenantLogo(eachTenancy.alias, (err, logo) => {
+                            eachTenancy.lastLoginFromNow = moment(parseInt(eachTenancy.lastLogin)).from(now);
+                            eachTenancy.logo = logo.slice(1, -1);
+                            return callback(null, eachTenancy);
+                        });
+                    }, function(err, loggedInTenancies) {
+                        if(loggedInTenancies.length > 0) {
+
+                            // Render the DOM elements
+                            var $rootElement = $('body');
+                            oae.api.util.template().render($('#login-to-other-tenancies-template', $rootElement), {
+                                'loggedInTenancies': loggedInTenancies,
+                                'currentTenant': currentTenant
+                            }, $('#login-to-other-tenancies-container', $rootElement));
+
+                            $('#login-to-other-tenancies-modal', $rootElement).modal({
+                                'backdrop': 'static'
+                            });
+
+                            // set up the triggers to link to other tenancies
+                            _.each(loggedInTenancies, (eachTenancy) => {
+                                // show the clickable mouse iicon
+                                $('#login-option-' + eachTenancy.alias).css({ cursor: 'pointer' });
+
+                                // Pass on the click of the error-signin button to the topnav sign in action
+                                $(document).on('click', '#login-option-' + eachTenancy.alias, function() {
+                                    oae.api.util.redirect().logInThroughAnotherTenant(eachTenancy.alias);
+                                });
+                            });
+
+                            // show the DOM with clickable tenancies
+                            $('#login-to-other-tenancies-container').show();
+                        } else {
+                            oae.api.util.redirect().accessdenied();
+                        }
+                    });
                 } else {
                     oae.api.util.redirect().notfound();
                 }
