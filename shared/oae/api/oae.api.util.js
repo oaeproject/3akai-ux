@@ -1807,9 +1807,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
         /**
          * TODO bla bla bla
          */
-        var logInThroughAnotherTenant = function(tenancyAlias) {
-            let newURL = window.location.href.replace(/(\w*)\./, tenancyAlias + '.');
-            window.location.replace(newURL);
+        var logInThroughAnotherTenant = function(tenant) {
+            let relative = url().attr('query').slice(4);
+            let host = url().attr('base').replace(/(\w*)\./, tenant.alias + '.');
+            let newURL = host + relative;
+            window.location = newURL;
         };
 
         return {
