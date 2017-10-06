@@ -28,6 +28,7 @@ requirejs.config({
         'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover.oae-edited',
         'bootstrap.datepicker': 'vendor/js/bootstrap-plugins/bootstrap-datepicker',
         'bootstrap.notify': 'vendor/js/bootstrap-plugins/bootstrap.notify.oae-edited',
+        'cookies': 'vendor/js/cookies',
         'globalize': 'vendor/js/l10n/globalize',
         'iso3166': 'oae/js/iso3166',
         'postis': 'vendor/js/postis',

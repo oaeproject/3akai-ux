@@ -85,7 +85,8 @@ define([
         'sockjs',
         'tinycon',
         'underscore',
-        'moment'
+        'moment',
+        'cookies'
     ],
 
     function(oae, $) {

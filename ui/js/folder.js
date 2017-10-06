@@ -142,10 +142,11 @@ require(['jquery', 'underscore', 'oae.core', 'moment', 'async'], function($, _, 
                     let allCookies = document.cookie;
                     var currentTenant = oae.data.me.tenant;
                     let now = moment();
+                    let cookieName = 'loggedin_tenancies';
 
                     // Get the logged in tenancies information from cookie and create a list
-                    var loggedInTenancies = document.cookie.replace(/(?:(?:^|.*;\s*)loggedin_tenancies\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-                    loggedInTenancies = JSON.parse(loggedInTenancies);
+                    let loggedInTenancies = docCookies.getItem(cookieName);
+                    loggedInTenancies = loggedInTenancies ? JSON.parse(loggedInTenancies) : [];
                     // sort them by the last login time
                     loggedInTenancies = _.sortBy(loggedInTenancies, 'lastLogin').reverse();
 
