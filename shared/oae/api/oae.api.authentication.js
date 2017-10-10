@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', 'oae.api.util'], function(exports, $, configAPI, i18nAPI, userAPI, utilAPI) {
+define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', 'oae.api.util'], function(exports, $, oae, configAPI, i18nAPI, userAPI, utilAPI) {
 
     var STRATEGY_CAS = exports.STRATEGY_CAS = 'cas';
     var STRATEGY_FACEBOOK = exports.STRATEGY_FACEBOOK = 'facebook';
@@ -317,6 +317,26 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', '
                 callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
+    };
+
+    /**
+     * TODO bla bla bla
+     */
+    var removeLoggedInTenanciesCookie = exports.removeLoggedInTenanciesCookie = function(currentTenant, callback) {
+        // let's add this tenant to the loggedin_tenancies cookie
+        let cookieName = 'loggedin_tenancies';
+        let loggedInTenancies = docCookies.getItem(cookieName);
+        loggedInTenancies = loggedInTenancies ? JSON.parse(loggedInTenancies) : [];
+        loggedInTenancies = _.reject(loggedInTenancies, (eachTenancy) => {
+            return eachTenancy.alias === currentTenant.alias;
+        });
+
+		// set cookie with updated data
+		let location = oae.data.location;
+		let host = $.url(encodeURI(location)).attr('host');
+		let dotDomain = '.'.concat(host.split('.').slice(1).join('.'));
+        docCookies.setItem(cookieName, JSON.stringify(loggedInTenancies), null, null, dotDomain);
+        callback(null);
     };
 
     /**
