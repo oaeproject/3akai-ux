@@ -133,7 +133,7 @@ module.exports = function(grunt) {
                         'name': 'oae.core',
                         'exclude': ['jquery']
                     }],
-                    'fileExclusionRegExp': /^(\.|<%= target %>|tests|tools|grunt|optimist|properties-parser|readdirp|underscore$|shelljs$|oae-release-tools|mkdirp|es6-promise|cssstyle|resolve|nwmatcher|strip-json-comments|glob$|har-validator|robots\.txt)/,
+                    'fileExclusionRegExp': /^(\.|<%= target %>|tests|tools|grunt|optimist|properties-parser|readdirp|underscore$|shelljs$|oae-release-tools|mkdirp|es6-promise|cssstyle|resolve|nwmatcher|strip-json-comments|glob$|har-validator|boom|cryptiles|debug|fast$|hawk|hoek|sntp|json-schema-traverse|robots\.txt)/,
                     'logLevel': 2
                 }
             }
