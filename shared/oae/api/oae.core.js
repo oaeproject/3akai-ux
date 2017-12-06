@@ -48,6 +48,7 @@ define([
         'oae.api.meetingJitsi',
         'oae.api.push',
         'oae.api.user',
+        'oae.api.tenancysearch',
         'oae.api.util',
         'oae.api.widget',
 

@@ -331,8 +331,8 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
             return eachTenancy.alias === currentTenant.alias;
         });
 
-		// set cookie with updated data
-		let location = oae.data.location;
+        // set cookie with updated data
+		let location = require('oae.core').data.location;
 		let host = $.url(encodeURI(location)).attr('host');
 		let dotDomain = '.'.concat(host.split('.').slice(1).join('.'));
         docCookies.setItem(cookieName, JSON.stringify(loggedInTenancies), null, null, dotDomain);
