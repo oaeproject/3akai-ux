@@ -13,12 +13,16 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery', 'oae.core', 'moment', 'async', 'underscore', 'select2'], function($, oae, moment, async, _, select2) {
+define(['jquery', 'oae.core', 'underscore', 'select2'], function($, oae, _, select2) {
+
+    let location = $.url(encodeURI(window.location.href));
+    let protocol = location.attr('protocol');
+    let query = location.attr('relative');
 
     return (function () {
         'use strict';
 
-        var searchTenancyModule =  {
+        let searchTenancyModule =  {
             init: function() {
                 this.cacheModule();
                 this.bindEvents();
@@ -27,22 +31,16 @@ define(['jquery', 'oae.core', 'moment', 'async', 'underscore', 'select2'], funct
             cacheModule: function() {
                 this.$module = $('#tenancyForm');
                 this.$input = this.$module.find('#tenancyInput');
-                // this.$button = this.$module.find('#tenancySubmit');
                 this.$alert = this.$module.find('#tenancyAlert');
-                // this.$ugButton = this.$module.find('#ugSubmit');
-                // this.$oaButton = this.$module.find('#oaSubmit');
             },
             bindEvents: function() {
-                // this.$button.on('click', this.submit.bind(this));
-                // this.$ugButton.on('click', this.submit.bind(this));
-                // this.$oaButton.on('click', this.submit.bind(this));
                 this.$input.on('select2:select', this.tenancySelect.bind(this));
             },
             render: function() {
                 this.$input.select2({
                     dropdownParent: $('#signin-modal'),
                     ajax: {
-                        url: 'https://admin.unity.ac/api/search/tenants?limit=2000',
+                        url: '/api/search/tenants?limit=2000',
                         dataType: 'json',
                         delay: 700,
                         data: function (params) {
@@ -60,28 +58,18 @@ define(['jquery', 'oae.core', 'moment', 'async', 'underscore', 'select2'], funct
                             }
                         },
                         processResults: function (data, params) {
-
                             // parse the results into the format expected by Select2
                             // since we are using custom formatting functions we do not need to
                             // alter the remote JSON data, except to indicate that infinite
                             // scrolling can be used
-
-                            var tenancyResults = [];
-                            for (var i = data.results.length - 1; i >= 0; i--) {
-
-                                // debug
-                                // console.log(data.results[i].displayName);
-
-                                var obj = {
-
-                                    host: data.results[i].host,
-                                    displayName: data.results[i].displayName,
-                                    id: data.results[i].alias,
-                                    code: data.results[i].countryCode
-
+                            let tenancyResults = _.map(data.results, (eachResult) => {
+                                return {
+                                    host: eachResult.host,
+                                    displayName: eachResult.displayName,
+                                    id: eachResult.alias,
+                                    code: eachResult.countryCode
                                 };
-                                tenancyResults.push(obj);
-                            }
+                            });
 
                             tenancyResults = tenancyResults.slice(0, 10);
                             tenancyResults.sort(function (a, b) {
@@ -109,8 +97,8 @@ define(['jquery', 'oae.core', 'moment', 'async', 'underscore', 'select2'], funct
                         return markup;
                     }, // let our custom formatter work
                     minimumInputLength: 2,
-                    templateResult: this.formatRepo, // omitted for brevity, see the source of this page
-                    templateSelection: this.formatRepoSelection // omitted for brevity, see the source of this page
+                    templateResult: this.formatRepo,
+                    templateSelection: this.formatRepoSelection
                 });
 
             },
@@ -118,66 +106,30 @@ define(['jquery', 'oae.core', 'moment', 'async', 'underscore', 'select2'], funct
                 if (tenant.loading) {
                     return tenant.text;
                 }
-                var markup = '<a value="http://';
-                markup += tenant.host;
-                markup += '" class="select2-results__option" id="';
-                markup += tenant.id + '" target="_blank">';
-                markup += tenant.displayName + ', ' + tenant.code;
-                markup += '</a>';
-                return markup;
+                return `<a value="${protocol}://${tenant.host}" class="select2-results__option" id="${tenant.id}" target="_blank">${tenant.displayName}, ${tenant.code}</a>`;
             },
 
             formatRepoSelection: function(tenant) {
                 return tenant.displayName || tenant.text;
             },
 
-            // Push the selection URL to the button
             tenancySelect: function (tenant) {
-
-                let location = require('oae.core').data.location;
-                let protocol = $.url(encodeURI(location)).attr('protocol');
-                let query = $.url(encodeURI(location)).attr('relative');
-                let redirectURL = `${protocol}://${tenant.params.data.host}${query};`;
-                window.location = redirectURL;
-
-                /*
-                this.$button.attr({
-                    href: 'https://' + tenant.params.data.host,
-                    target: '_blank'
-                });
-                this.$ugButton.attr({
-                href: 'https://' + tenant.params.data.host + '/group/rr/BJTVEvQ-e',
-                target: '_blank'
-                });
-                this.$oaButton.attr({
-                    href: 'https://' + tenant.params.data.host + '/group/apereo/SJS8frmZb',
-                    target: '_blank'
-                });
-                */
+                let redirectURL = `${protocol}://${tenant.params.data.host}${query}`;
+                this.submit(redirectURL);
             },
 
-            // On submit, check if the button has a url attached to it, if not, show a notice
-            submit: function () {
-                /*
-                if (this.$button.attr('href')) {
-                    window.open(this.$button.attr('href'));
-                } else if (this.$ugButton.attr('href')) {
-                    window.open(this.$ugButton.attr('href'));
-                } else if (this.$oaButton.attr('href')) {
-                    window.open(this.$oaButton.attr('href'));
-                } else {
+            submit: function (redirectURL) {
+                this.$alert.find('.noSelection').stop()
+                .fadeIn()
+                .delay(1000)
+                .fadeOut();
 
-                    this.$alert.find('.noSelection').stop()
-                        .fadeIn()
-                        .delay(1000)
-                        .fadeOut();
+                this.$alert.stop()
+                .slideDown()
+                .delay(1000)
+                .slideUp();
 
-                    this.$alert.stop()
-                        .slideDown()
-                        .delay(1000)
-                        .slideUp();
-                }
-                */
+                window.location = redirectURL;
             }
         };
         searchTenancyModule.init();

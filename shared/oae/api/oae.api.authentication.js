@@ -332,8 +332,8 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
         });
 
         // set cookie with updated data
-		let location = require('oae.core').data.location;
-		let host = $.url(encodeURI(location)).attr('host');
+        let location = $.url(encodeURI(window.location.href));
+		let host = location.attr('host');
 		let dotDomain = '.'.concat(host.split('.').slice(1).join('.'));
         docCookies.setItem(cookieName, JSON.stringify(loggedInTenancies), null, null, dotDomain);
         callback(null);
