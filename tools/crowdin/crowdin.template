@@ -15,3 +15,6 @@ files:
   -
     source: '/node_modules/oae-*/**/bundles/default.properties'
     translation: '/%original_path%/%locale_with_underscore%.properties'
+  -
+    source: '/node_modules/oae-jitsi-*/**/bundles/default.properties'
+    translation: '/%original_path%/%locale_with_underscore%.properties'
