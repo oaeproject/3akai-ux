@@ -119,17 +119,19 @@ define(['jquery', 'oae.core', 'underscore', 'select2'], function($, oae, _, sele
             },
 
             submit: function (redirectURL) {
-                this.$alert.find('.noSelection').stop()
+                this.$alert.find('.redirection').stop()
                 .fadeIn()
-                .delay(1000)
+                .delay(500)
                 .fadeOut();
 
                 this.$alert.stop()
                 .slideDown()
-                .delay(1000)
+                .delay(500)
                 .slideUp();
 
-                window.location = redirectURL;
+                setTimeout(() => {
+                    window.location = redirectURL;
+                }, 500);
             }
         };
         searchTenancyModule.init();
