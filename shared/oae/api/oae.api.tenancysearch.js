@@ -40,7 +40,7 @@ define(['jquery', 'oae.core', 'underscore', 'select2'], function($, oae, _, sele
                 this.$input.select2({
                     dropdownParent: $('#signin-modal'),
                     ajax: {
-                        url: '/api/search/tenants?limit=2000',
+                        url: '/api/search/tenants?limit=10',
                         dataType: 'json',
                         delay: 700,
                         data: function (params) {
@@ -71,17 +71,7 @@ define(['jquery', 'oae.core', 'underscore', 'select2'], function($, oae, _, sele
                                 };
                             });
 
-                            tenancyResults = tenancyResults.slice(0, 10);
-                            tenancyResults.sort(function (a, b) {
-                                if (a.displayName.length > b.displayName.length) {
-                                    return 1;
-                                }
-                                if (a.displayName.length < b.displayName.length) {
-                                    return -1;
-                                }
-                                return 0;
-                            });
-
+                            tenancyResults = _.sortBy(tenancyResults, 'displayName');
                             params.page = params.page || 1;
 
                             return {

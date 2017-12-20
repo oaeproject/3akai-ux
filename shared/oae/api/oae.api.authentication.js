@@ -15,12 +15,6 @@
 
 define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.api.user', 'oae.api.util'], function(exports, $, oae, configAPI, i18nAPI, userAPI, utilAPI) {
 
-    var STRATEGY_CAS = exports.STRATEGY_CAS = 'cas';
-    var STRATEGY_FACEBOOK = exports.STRATEGY_FACEBOOK = 'facebook';
-    var STRATEGY_GOOGLE = exports.STRATEGY_GOOGLE = 'google';
-    var STRATEGY_GOOGLE_APPS = exports.STRATEGY_GOOGLE_APPS = 'googleApps';
-    var STRATEGY_LDAP = exports.STRATEGY_LDAP = 'ldap';
-    var STRATEGY_SHIBBOLETH = exports.STRATEGY_SHIBBOLETH = 'shibboleth';
     const STRATEGY_CAS = exports.STRATEGY_CAS = 'cas';
     const STRATEGY_FACEBOOK = exports.STRATEGY_FACEBOOK = 'facebook';
     const STRATEGY_GOOGLE = exports.STRATEGY_GOOGLE = 'google';
