@@ -20,13 +20,19 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
     var STRATEGY_GOOGLE = exports.STRATEGY_GOOGLE = 'google';
     var STRATEGY_GOOGLE_APPS = exports.STRATEGY_GOOGLE_APPS = 'googleApps';
     var STRATEGY_LDAP = exports.STRATEGY_LDAP = 'ldap';
-    var STRATEGY_LOCAL = exports.STRATEGY_LOCAL = 'local';
     var STRATEGY_SHIBBOLETH = exports.STRATEGY_SHIBBOLETH = 'shibboleth';
-    var STRATEGY_TWITTER = exports.STRATEGY_TWITTER = 'twitter';
+    const STRATEGY_CAS = exports.STRATEGY_CAS = 'cas';
+    const STRATEGY_FACEBOOK = exports.STRATEGY_FACEBOOK = 'facebook';
+    const STRATEGY_GOOGLE = exports.STRATEGY_GOOGLE = 'google';
+    const STRATEGY_GOOGLE_APPS = exports.STRATEGY_GOOGLE_APPS = 'googleApps';
+    const STRATEGY_LDAP = exports.STRATEGY_LDAP = 'ldap';
+    const STRATEGY_LOCAL = exports.STRATEGY_LOCAL = 'local';
+    const STRATEGY_SHIBBOLETH = exports.STRATEGY_SHIBBOLETH = 'shibboleth';
+    const STRATEGY_TWITTER = exports.STRATEGY_TWITTER = 'twitter';
 
     // Classify all known authentication strategies
-    var STRATEGIES_LOCAL = [STRATEGY_LOCAL, STRATEGY_LDAP];
-    var STRATEGIES_EXTERNAL = [
+    const STRATEGIES_LOCAL = [STRATEGY_LOCAL, STRATEGY_LDAP];
+    const STRATEGIES_EXTERNAL = [
         STRATEGY_CAS,
         STRATEGY_FACEBOOK,
         STRATEGY_GOOGLE,
@@ -34,7 +40,7 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
         STRATEGY_SHIBBOLETH,
         STRATEGY_TWITTER
     ];
-    var STRATEGIES_INSTITUTIONAL = [
+    const STRATEGIES_INSTITUTIONAL = [
         STRATEGY_CAS,
         STRATEGY_GOOGLE_APPS,
         STRATEGY_SHIBBOLETH
@@ -56,17 +62,17 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
      * @return {Boolean}    authStrategyInfo.hasSingleExternalAuth              True if there is only one authentication method enabled and it is external
      * @return {Boolean}    authStrategyInfo.hasSingleInstitutionalAuth         True if there is only one authentication method enabled and it is institutional
      */
-    var getStrategyInfo = exports.getStrategyInfo = function(contextLabel) {
-        var enabledStrategies = getEnabledStrategies(contextLabel);
-        var enabledStrategyNames = _.keys(enabledStrategies);
+    const getStrategyInfo = exports.getStrategyInfo = function(contextLabel) {
+        let enabledStrategies = getEnabledStrategies(contextLabel);
+        let enabledStrategyNames = _.keys(enabledStrategies);
 
-        var hasLocalAuth = (!_.chain(enabledStrategyNames).intersection(STRATEGIES_LOCAL).isEmpty().value());
-        var hasExternalAuth = (!_.chain(enabledStrategyNames).intersection(STRATEGIES_EXTERNAL).isEmpty().value());
-        var hasInstitutionalAuth = (!_.chain(enabledStrategyNames).intersection(STRATEGIES_INSTITUTIONAL).isEmpty().value());
+        let hasLocalAuth = (!_.chain(enabledStrategyNames).intersection(STRATEGIES_LOCAL).isEmpty().value());
+        let hasExternalAuth = (!_.chain(enabledStrategyNames).intersection(STRATEGIES_EXTERNAL).isEmpty().value());
+        let hasInstitutionalAuth = (!_.chain(enabledStrategyNames).intersection(STRATEGIES_INSTITUTIONAL).isEmpty().value());
 
-        var hasSingleAuth = (_.size(enabledStrategyNames) === 1);
-        var hasSingleExternalAuth = (hasSingleAuth && hasExternalAuth);
-        var hasSingleInstitutionalAuth = (hasSingleAuth && hasInstitutionalAuth);
+        let hasSingleAuth = (_.size(enabledStrategyNames) === 1);
+        let hasSingleExternalAuth = (hasSingleAuth && hasExternalAuth);
+        let hasSingleInstitutionalAuth = (hasSingleAuth && hasInstitutionalAuth);
 
         return {
             'allowAccountCreation': configAPI.getValue('oae-authentication', STRATEGY_LOCAL, 'allowAccountCreation'),
@@ -91,8 +97,8 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
      * @return {String}                     The i18n translated name of this authentication strategy
      * @api private
      */
-    var strategyName = function(strategyId, contextLabel) {
-        var translatedName = i18nAPI.translate('__MSG__' + contextLabel + '_WITH_STRATEGY__', null, {
+    const strategyName = function(strategyId, contextLabel) {
+        const translatedName = i18nAPI.translate('__MSG__' + contextLabel + '_WITH_STRATEGY__', null, {
             'strategyName': configAPI.getValue('oae-authentication', strategyId, 'name')
         });
         return translatedName;
@@ -107,7 +113,7 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
      * @param  {Object}     callback.loginIds   Hash object containing the user's login ids
      * @throws {Error}                          Error thrown when not all of the required parameters have been provided
      */
-    var getAuthLoginIds = exports.getAuthLoginIds = function(userId, callback) {
+    const getAuthLoginIds = exports.getAuthLoginIds = function(userId, callback) {
         if (!userId) {
             throw new Error('A valid user id should be provided');
         }
@@ -130,7 +136,7 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
      * @param  {String}     [contextLabel]  Specifies in which context the strategy info is being requested. Either "SIGN_IN" or "SIGN_UP" (Default: SIGN_IN)
      * @return {Object}                     List of all enabled authentication strategies for the current tenant keyed by authentication strategy id. Each enabled authentication strategy will contain a `url` property with the URL to which to POST to initiate the authentication process for that strategy and a `name` property with the custom configured name for that strategy
      */
-    var getEnabledStrategies = exports.getEnabledStrategies = function(contextLabel) {
+    const getEnabledStrategies = exports.getEnabledStrategies = function(contextLabel) {
         contextLabel = contextLabel || 'SIGN_IN';
 
         /*!
@@ -151,7 +157,7 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
          * context-sensitive strategy name.
          */
 
-        var enabledStrategies = {};
+        let enabledStrategies = {};
 
         // CAS authentication
         if (configAPI.getValue('oae-authentication', STRATEGY_CAS, 'enabled')) {
@@ -235,7 +241,7 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
      *
      * @return {String}     The login redirect url, if any
      */
-    var getLoginRedirectUrl = exports.getLoginRedirectUrl = function() {
+    const getLoginRedirectUrl = exports.getLoginRedirectUrl = function() {
         return utilAPI.url().param('url');
     };
 
@@ -247,14 +253,14 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
      * @param  {String}     [opts.redirectUrl]      The redirect url to follow after authentication success
      * @param  {String}     [opts.invitationToken]  The invitation token from which the login originates, if any
      */
-    var externalLogin = exports.externalLogin = function(strategyId, opts) {
+    const externalLogin = exports.externalLogin = function(strategyId, opts) {
         if (!strategyId) {
             throw new Error('A valid strategy id should be provided');
         }
 
         // Ensure we were provided an enabled external strategy
-        var strategyInfo = getStrategyInfo();
-        var strategy = strategyInfo.enabledExternalStrategies[strategyId];
+        let strategyInfo = getStrategyInfo();
+        let strategy = strategyInfo.enabledExternalStrategies[strategyId];
         if (!strategy) {
             throw new Error('Strategy id must be an enabled external strategy');
         }
@@ -263,12 +269,12 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
 
         // Use the `auth.html` `authExternalButton` macro to create a form that performs this
         // authentication
-        var $template = $('<div><!--' +
+        let $template = $('<div><!--' +
                         '<div class="hide" id="oae-auth-external">' +
                         '${authExternalButton(strategy, opts)}' +
                         '</div>' +
                         '--></div>');
-        var form = utilAPI.template().render($template, {
+        let form = utilAPI.template().render($template, {
             'strategy': strategyInfo.enabledExternalStrategies[strategyId],
             'opts': {
                 'data': {
@@ -293,7 +299,7 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
      * @param  {User}           [callback.user]         User object representing the logged in user
      * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
-    var localLogin = exports.localLogin = function(username, password, callback) {
+    const localLogin = exports.localLogin = function(username, password, callback) {
         if (!username) {
             throw new Error('A valid username should be provided');
         } else if (!password) {
@@ -320,10 +326,13 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
     };
 
     /**
-     * TODO bla bla bla
+     * Remove a specific tenant from the cookie where we keep track of tenants the user logged in to
+     *
+     * @param  {String}   currentTenant   The current tenant the user is visiting
+     * @param  {Function} callback        Standard callback function
      */
-    var removeLoggedInTenanciesCookie = exports.removeLoggedInTenanciesCookie = function(currentTenant, callback) {
-        // let's add this tenant to the loggedin_tenancies cookie
+    const removeLoggedInTenanciesCookie = exports.removeLoggedInTenanciesCookie = function(currentTenant, callback) {
+        // let's remove this tenant to the loggedin_tenancies cookie
         let cookieName = 'loggedin_tenancies';
         let loggedInTenancies = docCookies.getItem(cookieName);
         loggedInTenancies = loggedInTenancies ? JSON.parse(loggedInTenancies) : [];
@@ -333,8 +342,8 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
 
         // set cookie with updated data
         let location = $.url(encodeURI(window.location.href));
-		let host = location.attr('host');
-		let dotDomain = '.'.concat(host.split('.').slice(1).join('.'));
+        let host = location.attr('host');
+        let dotDomain = '.'.concat(host.split('.').slice(1).join('.'));
         docCookies.setItem(cookieName, JSON.stringify(loggedInTenancies), null, null, dotDomain);
         callback(null);
     };
@@ -342,7 +351,7 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
     /**
      * Log out of an internal user using the local authentication strategy
      */
-    var logout = exports.logout = function(callback) {
+    const logout = exports.logout = function(callback) {
         $.ajax({
             'url': '/api/auth/logout',
             'type': 'POST',
@@ -365,7 +374,7 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
      * @param  {User}           [callback.user]         User object representing the logged in user
      * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
-    var LDAPLogin = exports.LDAPLogin = function(username, password, callback) {
+    const LDAPLogin = exports.LDAPLogin = function(username, password, callback) {
         if (!username) {
             throw new Error('A valid username should be provided');
         } else if (!password) {
@@ -400,14 +409,14 @@ define(['exports', 'jquery', 'oae.core', 'oae.api.config', 'oae.api.i18n', 'oae.
      * @param  {Object}         [callback.err]        Error object containing error code and error message
      * @throws {Error}                                Error thrown when no new or current password has been provided
      */
-    var changePassword = exports.changePassword = function(currentPassword, newPassword, callback) {
+    const changePassword = exports.changePassword = function(currentPassword, newPassword, callback) {
         if (!currentPassword) {
             throw new Error('A valid current password should be provided');
         } else if (!newPassword) {
             throw new Error('A valid new password should be provided');
         }
 
-        var userId = require('oae.core').data.me.id;
+        const userId = require('oae.core').data.me.id;
 
         $.ajax({
             'url': '/api/user/' + userId + '/password',

@@ -1805,7 +1805,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
         };
 
         /**
-         * TODO bla bla bla
+         * Redirect the user to the same link but on another tenant
          */
         var logInThroughAnotherTenant = function(tenant) {
             let relative = url().attr('query').slice(4);

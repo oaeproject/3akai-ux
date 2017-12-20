@@ -86,7 +86,6 @@ define([
         'sockjs',
         'tinycon',
         'underscore',
-        'moment',
         'cookies'
     ],
 
