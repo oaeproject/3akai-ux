@@ -521,4 +521,37 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         });
     };
 
+    /////////////////
+    //     LOG     //
+    /////////////////
+
+    /**
+     * Get log
+     *
+     * @param  {Number}         num                   Number of months of last connection
+     * @param  {Function}       [callback]            Standard callback function
+     * @param  {Object}         [callback.err]        Error object containing error code and error message
+     * @param  {Object}         [callback.data]       Log with csv format
+     * @throws {Error}                                Error thrown when not all of the required parameters have been provided
+     */
+    var getLog = exports.getLog = function(num, callback) {
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        var url = '/api/users/log';
+        $.ajax({
+            'url': url,
+            'type': 'GET',
+            'data': {
+                'num': num
+            },
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
 });
