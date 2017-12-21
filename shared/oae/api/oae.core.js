@@ -70,6 +70,7 @@ define([
          */
         'bootstrap.clickover',
         'bootstrap.notify',
+        'cookies',
         'globalize',
         'jquery.dotdot',
         'jquery.encoder',
@@ -85,8 +86,7 @@ define([
         'markdown',
         'sockjs',
         'tinycon',
-        'underscore',
-        'cookies'
+        'underscore'
     ],
 
     function(oae, $) {

@@ -77,7 +77,7 @@ define(['jquery', 'oae.core', 'underscore', 'select2'], function($, oae, _, sele
                             return {
                                 results: tenancyResults,
                                 pagination: {
-                                    more: (params.page * 30) < data.totalCount
+                                    more: (params.page * 10) < data.totalCount
                                 }
                             };
                         },
