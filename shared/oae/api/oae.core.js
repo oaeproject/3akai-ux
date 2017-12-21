@@ -48,6 +48,7 @@ define([
         'oae.api.meetingJitsi',
         'oae.api.push',
         'oae.api.user',
+        'oae.api.tenancysearch',
         'oae.api.util',
         'oae.api.widget',
 
@@ -69,6 +70,7 @@ define([
          */
         'bootstrap.clickover',
         'bootstrap.notify',
+        'cookies',
         'globalize',
         'jquery.dotdot',
         'jquery.encoder',

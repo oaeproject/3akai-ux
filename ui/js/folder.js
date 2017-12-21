@@ -113,6 +113,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     var getFolderProfile = function() {
         oae.api.folder.getFolder(folderId, function(err, profile) {
             if (err) {
+                // 401 might have been because the user tried to access it through a different tenant, let's fix that
                 if (err.code === 401) {
                     oae.api.util.redirect().accessdenied();
                 } else {

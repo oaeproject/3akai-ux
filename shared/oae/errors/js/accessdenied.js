@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery','oae.core'], function($, oae) {
+require(['jquery', 'oae.core'], function($, oae) {
 
     // Set the page title
     oae.api.util.setBrowserTitle('__MSG__ACCESS_DENIED__');

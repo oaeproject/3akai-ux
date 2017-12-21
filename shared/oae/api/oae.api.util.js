@@ -1804,6 +1804,16 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             window.location = '/servermaintenance';
         };
 
+        /**
+         * Redirect the user to the same link but on another tenant
+         */
+        var logInThroughAnotherTenant = function(tenant) {
+            let relative = url().attr('query').slice(4);
+            let host = url().attr('base').replace(/(\w*)\./, tenant.alias + '.');
+            let newURL = host + relative;
+            window.location = newURL;
+        };
+
         return {
             'tenant': tenant,
             'login': login,
@@ -1811,7 +1821,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             'accessdenied': accessdenied,
             'notfound': notfound,
             'unavailable': unavailable,
-            'maintenance': maintenance
+            'maintenance': maintenance,
+            'logInThroughAnotherTenant': logInThroughAnotherTenant
         };
     };
 
