@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'underscore', 'oae.core', 'moment', 'async'], function($, _, oae, moment, async) {
+require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     // Get the folder id from the URL. The expected URL is `/folder/<tenantId>/<resourceId>`.
     // The folder id will then be `f:<tenantId>:<resourceId>`
