@@ -5,6 +5,7 @@ jobs:
     working_directory: ~/3akai-ux
     steps:
       - checkout
+      - run: npm install -g npm@3.10.10 # default npm version is 5 and it doesn't work
       # install dependencies
       - run: npm install
       # check grunt build
