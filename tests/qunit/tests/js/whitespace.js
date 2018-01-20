@@ -13,9 +13,12 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
-
-    module("Whitespace in Translation Keys");
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function(
+    $,
+    oae,
+    util,
+) {
+    module('Whitespace in Translation Keys');
 
     /**
      * Test a language bundle for erroneous whitespace in the translation keys
@@ -28,9 +31,19 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
             // Check if the translation has repeated whitespace
             var whitespaceRegex = /\s{2,}/g;
             if (whitespaceRegex.test(i18nValue)) {
-                ok(false, i18nKey + ' has a double whitespace in bundle ' + bundlePath);
+                ok(
+                    false,
+                    i18nKey +
+                        ' has a double whitespace in bundle ' +
+                        bundlePath,
+                );
             } else {
-                ok(true, i18nKey + ' has no double whitespace in bundle ' + bundlePath);
+                ok(
+                    true,
+                    i18nKey +
+                        ' has no double whitespace in bundle ' +
+                        bundlePath,
+                );
             }
         });
     };
@@ -59,7 +72,10 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         $.each(testData.widgetData, function(widgetId, widget) {
             if (widget.i18n) {
                 test(widgetId, function() {
-                    $.each(widget.i18n, function(widgetBundleKey, widgetBundle) {
+                    $.each(widget.i18n, function(
+                        widgetBundleKey,
+                        widgetBundle,
+                    ) {
                         checkWhitespace(widgetBundleKey, widgetBundle);
                     });
                 });

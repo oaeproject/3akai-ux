@@ -14,12 +14,11 @@
  */
 
 require(['jquery', 'oae.core'], function($, oae) {
-
     // Set the page title
     oae.api.util.setBrowserTitle('__MSG__ACCESS_DENIED__');
 
     // Set up the back button
-    $('#error-back-btn').click(function(){
+    $('#error-back-btn').click(function() {
         parent.history.go(-1);
         return false;
     });
@@ -34,5 +33,4 @@ require(['jquery', 'oae.core'], function($, oae) {
             return false;
         });
     }
-
 });

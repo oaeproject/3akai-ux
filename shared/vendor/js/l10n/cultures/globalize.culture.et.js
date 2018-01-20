@@ -11,69 +11,105 @@
  * Translation: bugs found in this file need to be fixed in the generator
  */
 
-(function( window, undefined ) {
+(function(window, undefined) {
+    var Globalize;
 
-var Globalize;
+    if (
+        typeof require !== 'undefined' &&
+        typeof exports !== 'undefined' &&
+        typeof module !== 'undefined'
+    ) {
+        // Assume CommonJS
+        Globalize = require('globalize');
+    } else {
+        // Global variable
+        Globalize = window.Globalize;
+    }
 
-if ( typeof require !== "undefined"
-	&& typeof exports !== "undefined"
-	&& typeof module !== "undefined" ) {
-	// Assume CommonJS
-	Globalize = require( "globalize" );
-} else {
-	// Global variable
-	Globalize = window.Globalize;
-}
-
-Globalize.addCultureInfo( "et", "default", {
-	name: "et",
-	englishName: "Estonian",
-	nativeName: "eesti",
-	language: "et",
-	numberFormat: {
-		",": " ",
-		".": ",",
-		NaN: "avaldamatu",
-		negativeInfinity: "miinuslõpmatus",
-		positiveInfinity: "plusslõpmatus",
-		percent: {
-			pattern: ["-n%","n%"],
-			",": " ",
-			".": ","
-		},
-		currency: {
-			pattern: ["-n $","n $"],
-			",": " ",
-			symbol: "kr"
-		}
-	},
-	calendars: {
-		standard: {
-			"/": ".",
-			firstDay: 1,
-			days: {
-				names: ["pühapäev","esmaspäev","teisipäev","kolmapäev","neljapäev","reede","laupäev"],
-				namesAbbr: ["P","E","T","K","N","R","L"],
-				namesShort: ["P","E","T","K","N","R","L"]
-			},
-			months: {
-				names: ["jaanuar","veebruar","märts","aprill","mai","juuni","juuli","august","september","oktoober","november","detsember",""],
-				namesAbbr: ["jaan","veebr","märts","apr","mai","juuni","juuli","aug","sept","okt","nov","dets",""]
-			},
-			AM: ["EL","el","EL"],
-			PM: ["PL","pl","PL"],
-			patterns: {
-				d: "d.MM.yyyy",
-				D: "d. MMMM yyyy'. a.'",
-				t: "H:mm",
-				T: "H:mm:ss",
-				f: "d. MMMM yyyy'. a.' H:mm",
-				F: "d. MMMM yyyy'. a.' H:mm:ss",
-				M: "d. MMMM",
-				Y: "MMMM yyyy'. a.'"
-			}
-		}
-	}
-});
-
-}( this ));
+    Globalize.addCultureInfo('et', 'default', {
+        name: 'et',
+        englishName: 'Estonian',
+        nativeName: 'eesti',
+        language: 'et',
+        numberFormat: {
+            ',': ' ',
+            '.': ',',
+            NaN: 'avaldamatu',
+            negativeInfinity: 'miinuslõpmatus',
+            positiveInfinity: 'plusslõpmatus',
+            percent: {
+                pattern: ['-n%', 'n%'],
+                ',': ' ',
+                '.': ',',
+            },
+            currency: {
+                pattern: ['-n $', 'n $'],
+                ',': ' ',
+                symbol: 'kr',
+            },
+        },
+        calendars: {
+            standard: {
+                '/': '.',
+                firstDay: 1,
+                days: {
+                    names: [
+                        'pühapäev',
+                        'esmaspäev',
+                        'teisipäev',
+                        'kolmapäev',
+                        'neljapäev',
+                        'reede',
+                        'laupäev',
+                    ],
+                    namesAbbr: ['P', 'E', 'T', 'K', 'N', 'R', 'L'],
+                    namesShort: ['P', 'E', 'T', 'K', 'N', 'R', 'L'],
+                },
+                months: {
+                    names: [
+                        'jaanuar',
+                        'veebruar',
+                        'märts',
+                        'aprill',
+                        'mai',
+                        'juuni',
+                        'juuli',
+                        'august',
+                        'september',
+                        'oktoober',
+                        'november',
+                        'detsember',
+                        '',
+                    ],
+                    namesAbbr: [
+                        'jaan',
+                        'veebr',
+                        'märts',
+                        'apr',
+                        'mai',
+                        'juuni',
+                        'juuli',
+                        'aug',
+                        'sept',
+                        'okt',
+                        'nov',
+                        'dets',
+                        '',
+                    ],
+                },
+                AM: ['EL', 'el', 'EL'],
+                PM: ['PL', 'pl', 'PL'],
+                patterns: {
+                    d: 'd.MM.yyyy',
+                    D: "d. MMMM yyyy'. a.'",
+                    t: 'H:mm',
+                    T: 'H:mm:ss',
+                    f: "d. MMMM yyyy'. a.' H:mm",
+                    F: "d. MMMM yyyy'. a.' H:mm:ss",
+                    M: 'd. MMMM',
+                    Y: "MMMM yyyy'. a.'",
+                },
+            },
+        },
+    });
+})(this);

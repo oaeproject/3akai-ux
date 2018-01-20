@@ -17,8 +17,6 @@
  * Utility functions for users
  */
 var uiUtil = (function() {
-
-
     ////////////
     // TENANT //
     ////////////
@@ -29,9 +27,14 @@ var uiUtil = (function() {
      * @param  {Collabdoc}    collabdocProfile    The content profile object of the collaborative document to open the profile for
      */
     var openCollabdocProfile = function(collabdocProfile) {
-        casper.thenOpen(configUtil.tenantUI + collabdocProfile.profilePath, function() {
-            casper.waitForSelector('#content-clip-container .oae-clip-content > button');
-        });
+        casper.thenOpen(
+            configUtil.tenantUI + collabdocProfile.profilePath,
+            function() {
+                casper.waitForSelector(
+                    '#content-clip-container .oae-clip-content > button',
+                );
+            },
+        );
     };
 
     /**
@@ -40,9 +43,14 @@ var uiUtil = (function() {
      * @param  {Content}    contentProfile    The content profile object of the content item to open the profile for
      */
     var openContentProfile = function(contentProfile) {
-        casper.thenOpen(configUtil.tenantUI + contentProfile.profilePath, function() {
-            casper.waitForSelector('#content-clip-container .oae-clip-content > button');
-        });
+        casper.thenOpen(
+            configUtil.tenantUI + contentProfile.profilePath,
+            function() {
+                casper.waitForSelector(
+                    '#content-clip-container .oae-clip-content > button',
+                );
+            },
+        );
     };
 
     /**
@@ -51,9 +59,14 @@ var uiUtil = (function() {
      * @param  {Folder}    folderProfile    The folder profile object of the content item to open the profile for
      */
     var openFolderProfile = function(folderProfile) {
-        casper.thenOpen(configUtil.tenantUI + folderProfile.profilePath, function() {
-            casper.waitForSelector('#folder-clip-container .oae-clip-content > button');
-        });
+        casper.thenOpen(
+            configUtil.tenantUI + folderProfile.profilePath,
+            function() {
+                casper.waitForSelector(
+                    '#folder-clip-container .oae-clip-content > button',
+                );
+            },
+        );
     };
 
     /**
@@ -61,7 +74,9 @@ var uiUtil = (function() {
      */
     var openMyDiscussions = function() {
         casper.thenOpen(configUtil.tenantUI + '/discussions', function() {
-            casper.waitForSelector('#discussionslibrary-widget .oae-list-header h2');
+            casper.waitForSelector(
+                '#discussionslibrary-widget .oae-list-header h2',
+            );
         });
     };
 
@@ -71,9 +86,14 @@ var uiUtil = (function() {
      * @param  {Group}    groupProfile    The group profile object of the group to open the members page for
      */
     var openGroupMembersProfile = function(groupProfile) {
-        casper.thenOpen(configUtil.tenantUI + groupProfile.profilePath + '/members', function() {
-            casper.waitForSelector('#members-widget .oae-list.oae-list-grid li');
-        });
+        casper.thenOpen(
+            configUtil.tenantUI + groupProfile.profilePath + '/members',
+            function() {
+                casper.waitForSelector(
+                    '#members-widget .oae-list.oae-list-grid li',
+                );
+            },
+        );
     };
 
     /**
@@ -82,9 +102,14 @@ var uiUtil = (function() {
      * @param  {Group}    groupProfile    The group profile object of the group to open the profile for
      */
     var openGroupProfile = function(groupProfile) {
-        casper.thenOpen(configUtil.tenantUI + groupProfile.profilePath, function() {
-            casper.waitForSelector('#group-clip-container .oae-clip-content > button');
-        });
+        casper.thenOpen(
+            configUtil.tenantUI + groupProfile.profilePath,
+            function() {
+                casper.waitForSelector(
+                    '#group-clip-container .oae-clip-content > button',
+                );
+            },
+        );
     };
 
     /**
@@ -102,9 +127,14 @@ var uiUtil = (function() {
      * @param  {Link}    linkProfile    The link profile object of the link to open the profile for
      */
     var openLinkProfile = function(linkProfile) {
-        casper.thenOpen(configUtil.tenantUI + linkProfile.profilePath, function() {
-            casper.waitForSelector('#content-clip-container .oae-clip-content > button');
-        });
+        casper.thenOpen(
+            configUtil.tenantUI + linkProfile.profilePath,
+            function() {
+                casper.waitForSelector(
+                    '#content-clip-container .oae-clip-content > button',
+                );
+            },
+        );
     };
 
     /**
@@ -131,7 +161,9 @@ var uiUtil = (function() {
      */
     var openMyLibrary = function() {
         casper.thenOpen(configUtil.tenantUI + '/library', function() {
-            casper.waitForSelector('#contentlibrary-widget .oae-list-header h2');
+            casper.waitForSelector(
+                '#contentlibrary-widget .oae-list-header h2',
+            );
         });
     };
 
@@ -150,9 +182,14 @@ var uiUtil = (function() {
      * @param  {Discussion}    discussionProfile    The discussion profile object of the discussion to open the profile for
      */
     var openDiscussionProfile = function(discussionProfile) {
-        casper.thenOpen(configUtil.tenantUI + discussionProfile.profilePath, function() {
-            casper.waitForSelector('#discussion-clip-container .oae-clip-content > button');
-        });
+        casper.thenOpen(
+            configUtil.tenantUI + discussionProfile.profilePath,
+            function() {
+                casper.waitForSelector(
+                    '#discussion-clip-container .oae-clip-content > button',
+                );
+            },
+        );
     };
 
     /**
@@ -161,11 +198,13 @@ var uiUtil = (function() {
      * @param  {User}    userProfile    The user profile object of the user to open the profile for
      */
     var openUserProfile = function(userProfile) {
-        casper.thenOpen(configUtil.tenantUI + userProfile.profilePath, function() {
-            casper.waitForSelector('#user-clip-left-container h1');
-        });
+        casper.thenOpen(
+            configUtil.tenantUI + userProfile.profilePath,
+            function() {
+                casper.waitForSelector('#user-clip-left-container h1');
+            },
+        );
     };
-
 
     ///////////
     // ADMIN //
@@ -197,9 +236,14 @@ var uiUtil = (function() {
      * @param  {String}    alias    The alias of the tenant to open the skinning page for
      */
     var openAdminSkinning = function(alias) {
-        casper.thenOpen(configUtil.adminUI + '/tenant/' + alias + '/skinning', function() {
-            casper.waitForSelector('#skinning-container .oae-list-header h2');
-        });
+        casper.thenOpen(
+            configUtil.adminUI + '/tenant/' + alias + '/skinning',
+            function() {
+                casper.waitForSelector(
+                    '#skinning-container .oae-list-header h2',
+                );
+            },
+        );
     };
 
     /**
@@ -212,7 +256,8 @@ var uiUtil = (function() {
         casper.then(function() {
             var url = configUtil.adminUI + '/usermanagement';
             if (alias) {
-                url = configUtil.adminUI + '/tenant/' + alias + '/usermanagement';
+                url =
+                    configUtil.adminUI + '/tenant/' + alias + '/usermanagement';
             }
 
             if (query) {
@@ -220,7 +265,9 @@ var uiUtil = (function() {
             }
 
             casper.thenOpen(url, function() {
-                casper.waitForSelector('#usermanagement-widget .oae-list-header h2');
+                casper.waitForSelector(
+                    '#usermanagement-widget .oae-list-header h2',
+                );
             });
         });
     };
@@ -237,24 +284,24 @@ var uiUtil = (function() {
     };
 
     return {
-        'openAdmin': openAdmin,
-        'openAdminMaintenance': openAdminMaintenance,
-        'openAdminSkinning': openAdminSkinning,
-        'openAdminUserManagement': openAdminUserManagement,
-        'openCollabdocProfile': openCollabdocProfile,
-        'openContentProfile': openContentProfile,
-        'openDiscussionProfile': openDiscussionProfile,
-        'openFolderProfile': openFolderProfile,
-        'openGroupMembersProfile': openGroupMembersProfile,
-        'openGroupProfile': openGroupProfile,
-        'openIndex': openIndex,
-        'openLinkProfile': openLinkProfile,
-        'openMe': openMe,
-        'openMyDiscussions': openMyDiscussions,
-        'openMyGroups': openMyGroups,
-        'openMyLibrary': openMyLibrary,
-        'openMyNetwork': openMyNetwork,
-        'openTenantAdmin': openTenantAdmin,
-        'openUserProfile': openUserProfile
+        openAdmin: openAdmin,
+        openAdminMaintenance: openAdminMaintenance,
+        openAdminSkinning: openAdminSkinning,
+        openAdminUserManagement: openAdminUserManagement,
+        openCollabdocProfile: openCollabdocProfile,
+        openContentProfile: openContentProfile,
+        openDiscussionProfile: openDiscussionProfile,
+        openFolderProfile: openFolderProfile,
+        openGroupMembersProfile: openGroupMembersProfile,
+        openGroupProfile: openGroupProfile,
+        openIndex: openIndex,
+        openLinkProfile: openLinkProfile,
+        openMe: openMe,
+        openMyDiscussions: openMyDiscussions,
+        openMyGroups: openMyGroups,
+        openMyLibrary: openMyLibrary,
+        openMyNetwork: openMyNetwork,
+        openTenantAdmin: openTenantAdmin,
+        openUserProfile: openUserProfile,
     };
 })();

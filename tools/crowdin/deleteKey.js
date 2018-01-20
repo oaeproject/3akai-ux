@@ -22,12 +22,14 @@ var argv = require('optimist')
 
     .demand('k')
     .alias('k', 'i18nKey')
-    .describe('k', 'i18n key to delete from the bundles (e.g. `UPLOADING_FILE`)')
+    .describe(
+        'k',
+        'i18n key to delete from the bundles (e.g. `UPLOADING_FILE`)',
+    )
 
     .demand('b')
     .alias('b', 'bundlesDir')
-    .describe('b', 'Absolute path to the bundles directory')
-    .argv;
+    .describe('b', 'Absolute path to the bundles directory').argv;
 
 var util = require('./util');
 
@@ -40,14 +42,20 @@ var bundlesDir = argv.bundlesDir;
 // Read the bundles that hold the key to delete
 util.readBundles(bundlesDir, function(err, bundles) {
     if (err) {
-        return console.error('Error reading the bundles that hold the key to delete', err);
+        return console.error(
+            'Error reading the bundles that hold the key to delete',
+            err,
+        );
     }
     // Delete the key
     util.deleteKeyFromBundles(bundles, i18nKey, function(bundles) {
         // Save the bundles with the key removed
         util.writeBundles(bundles, bundlesDir, function(err) {
             if (err) {
-                return console.error('Error saving the bundles with the key removed', err);
+                return console.error(
+                    'Error saving the bundles with the key removed',
+                    err,
+                );
             }
             console.log('Finished deleting ' + i18nKey + ' from ' + bundlesDir);
         });

@@ -13,8 +13,12 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso3166) {
-
+require(['jquery', 'underscore', 'oae.core', 'iso3166'], function(
+    $,
+    _,
+    oae,
+    iso3166,
+) {
     var DEFAULT_SIGN_UP_REDIRECT_URL = '/';
 
     // Variable that indicates where to redirect the user to after sign up
@@ -31,10 +35,18 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
     var recaptchaEnabled = null;
 
     // Variable that holds the recaptcha service public key, if any
-    var recaptchaPublicKey = oae.api.config.getValue('oae-principals', 'recaptcha', 'publicKey');
+    var recaptchaPublicKey = oae.api.config.getValue(
+        'oae-principals',
+        'recaptcha',
+        'publicKey',
+    );
 
     // Variable that specifies if the terms and conditions are enabled
-    var termsAndConditionsEnabled = oae.api.config.getValue('oae-principals', 'termsAndConditions', 'enabled');
+    var termsAndConditionsEnabled = oae.api.config.getValue(
+        'oae-principals',
+        'termsAndConditions',
+        'enabled',
+    );
 
     /**
      * Convenience function to get the desired redirect URL after signup
@@ -42,7 +54,10 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
      * @return {String}     The URL to which to redirect the user after signing up
      */
     var getSignUpRedirectUrl = function() {
-        return oae.api.authentication.getLoginRedirectUrl() || DEFAULT_SIGN_UP_REDIRECT_URL;
+        return (
+            oae.api.authentication.getLoginRedirectUrl() ||
+            DEFAULT_SIGN_UP_REDIRECT_URL
+        );
     };
 
     /**
@@ -55,8 +70,8 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
     var getInvitationInfo = function() {
         var parsedSignUpRedirectUrl = oae.api.util.url(signUpRedirectUrl);
         return {
-            'token': parsedSignUpRedirectUrl.param('invitationToken'),
-            'email': parsedSignUpRedirectUrl.param('invitationEmail'),
+            token: parsedSignUpRedirectUrl.param('invitationToken'),
+            email: parsedSignUpRedirectUrl.param('invitationEmail'),
         };
     };
 
@@ -94,7 +109,7 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
             error: function(xhr, textStatus, thrownError) {
                 // The username is still available
                 callback(true);
-            }
+            },
         });
     };
 
@@ -105,7 +120,7 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
         // Set the aria attributes on the main recaptcha input field
         $('#recaptcha_response_field').attr({
             'aria-invalid': 'true',
-            'aria-describedby': 'signup-createaccount-recaptcha-error'
+            'aria-describedby': 'signup-createaccount-recaptcha-error',
         });
         $('#signup-createaccount-recaptcha-container').addClass('has-error');
         $('#signup-createaccount-recaptcha-error').show();
@@ -116,7 +131,9 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
      */
     var hideRecaptchaError = function() {
         // Remove the aria attributes on the main recaptcha input field
-        $('#recaptcha-response-field').removeAttr('aria-invalid aria-describedby');
+        $('#recaptcha-response-field').removeAttr(
+            'aria-invalid aria-describedby',
+        );
         $('#signup-createaccount-recaptcha-error').hide();
         $('#signup-createaccount-recaptcha-container').removeClass('has-error');
     };
@@ -142,36 +159,53 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
         // Create the user
         var displayName = values.firstName + ' ' + values.lastName;
         var additionalOptions = {
-            'invitationToken': invitationInfo.token
+            invitationToken: invitationInfo.token,
         };
 
-        oae.api.user.createUser(values.username, values.password, displayName, values.email, additionalOptions, values.recaptchaChallenge, values.recaptchaResponse, function(err, createdUser) {
-            if (err) {
-                if (recaptchaEnabled) {
-                    // Refresh reCaptcha
-                    Recaptcha.reload();
-                }
+        oae.api.user.createUser(
+            values.username,
+            values.password,
+            displayName,
+            values.email,
+            additionalOptions,
+            values.recaptchaChallenge,
+            values.recaptchaResponse,
+            function(err, createdUser) {
+                if (err) {
+                    if (recaptchaEnabled) {
+                        // Refresh reCaptcha
+                        Recaptcha.reload();
+                    }
 
-                // The user entered an invalid reCaptcha token
-                if (err.msg === 'Invalid reCaptcha token') {
-                    showRecaptchaError();
+                    // The user entered an invalid reCaptcha token
+                    if (err.msg === 'Invalid reCaptcha token') {
+                        showRecaptchaError();
+                    } else {
+                        oae.api.util.notification(
+                            oae.api.i18n.translate(
+                                '__MSG__ACCOUNT_NOT_CREATED__',
+                            ),
+                            oae.api.i18n.translate(
+                                '__MSG__AN_ERROR_OCCURRED_WHILE_CREATING_THE_ACCOUNT__',
+                            ),
+                            'error',
+                        );
+                    }
+
+                    // Unlock the sign up button
+                    $('#signup-createaccount-form *').prop('disabled', false);
                 } else {
-                    oae.api.util.notification(
-                        oae.api.i18n.translate('__MSG__ACCOUNT_NOT_CREATED__'),
-                        oae.api.i18n.translate('__MSG__AN_ERROR_OCCURRED_WHILE_CREATING_THE_ACCOUNT__'),
-                        'error'
+                    oae.api.authentication.localLogin(
+                        values.username,
+                        values.password,
+                        function() {
+                            // Relocate to the destination
+                            window.location = signUpRedirectUrl;
+                        },
                     );
                 }
-
-                // Unlock the sign up button
-                $('#signup-createaccount-form *').prop('disabled', false);
-            } else {
-                oae.api.authentication.localLogin(values.username, values.password, function() {
-                    // Relocate to the destination
-                    window.location = signUpRedirectUrl;
-                });
-            }
-        });
+            },
+        );
     };
 
     /**
@@ -192,21 +226,23 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
 
         // Auto-signin if there is only one external signin method available
         if (authStrategyInfo.hasSingleExternalAuth) {
-            oae.api.authentication.externalLogin(_.keys(authStrategyInfo.enabledExternalStrategies)[0], {
-                'redirectUrl': signUpRedirectUrl,
-                'invitationToken': invitationInfo.token
-            });
+            oae.api.authentication.externalLogin(
+                _.keys(authStrategyInfo.enabledExternalStrategies)[0],
+                {
+                    redirectUrl: signUpRedirectUrl,
+                    invitationToken: invitationInfo.token,
+                },
+            );
             return;
         }
 
         // Don't run recaptcha if the tenant doesn't have it enabled or if local auth is disabled,
         // but also don't require recaptcha if an invitation token is provided, as it will validate
         // user account creation on its own
-        recaptchaEnabled = (
+        recaptchaEnabled =
             !invitationInfo.token &&
             authStrategyInfo.hasLocalAuth &&
-            oae.api.config.getValue('oae-principals', 'recaptcha', 'enabled')
-        );
+            oae.api.config.getValue('oae-principals', 'recaptcha', 'enabled');
     };
 
     /**
@@ -217,100 +253,153 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
 
         // Set the browser and page title
         oae.api.util.setBrowserTitle(pageTitle);
-        oae.api.util.template().render($('#signup-title-template'), {
-            'title': pageTitle
-        }, $('#signup-title-container'));
+        oae.api.util.template().render(
+            $('#signup-title-template'),
+            {
+                title: pageTitle,
+            },
+            $('#signup-title-container'),
+        );
     };
 
     /**
      * Set up the validation on the create account form, including the error messages
      */
     var setUpCreateAccountValidation = function() {
-        var tenantEmailDomains = _.map(oae.data.me.tenant.emailDomains, function(emailDomain) {
-            return emailDomain.toLowerCase();
-        });
+        var tenantEmailDomains = _.map(
+            oae.data.me.tenant.emailDomains,
+            function(emailDomain) {
+                return emailDomain.toLowerCase();
+            },
+        );
 
         var validateOpts = {
-            'rules': {
-                'username': {
-                    'minlength': 3,
-                    'nospaces': true,
-                    'validchars': true,
-                    'usernameavailable': true
+            rules: {
+                username: {
+                    minlength: 3,
+                    nospaces: true,
+                    validchars: true,
+                    usernameavailable: true,
                 },
-                'password': {
-                    'minlength': 6
+                password: {
+                    minlength: 6,
                 },
-                'password_repeat': {
-                    'equalTo': '#signup-createaccount-password'
-                }
+                password_repeat: {
+                    equalTo: '#signup-createaccount-password',
+                },
             },
-            'messages': {
-                'firstName': {
-                    'required': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_FIRST_NAME__')
+            messages: {
+                firstName: {
+                    required: oae.api.i18n.translate(
+                        '__MSG__PLEASE_ENTER_YOUR_FIRST_NAME__',
+                    ),
                 },
-                'lastName': {
-                    'required': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_LAST_NAME__')
+                lastName: {
+                    required: oae.api.i18n.translate(
+                        '__MSG__PLEASE_ENTER_YOUR_LAST_NAME__',
+                    ),
                 },
-                'email': {
-                    'required': oae.api.i18n.translate('__MSG__PLEASE_ENTER_A_VALID_EMAIL_ADDRESS__'),
-                    'email': oae.api.i18n.translate('__MSG__THIS_IS_AN_INVALID_EMAIL_ADDRESS__')
+                email: {
+                    required: oae.api.i18n.translate(
+                        '__MSG__PLEASE_ENTER_A_VALID_EMAIL_ADDRESS__',
+                    ),
+                    email: oae.api.i18n.translate(
+                        '__MSG__THIS_IS_AN_INVALID_EMAIL_ADDRESS__',
+                    ),
                 },
-                'username': {
-                    'required': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_USERNAME__'),
-                    'minlength': oae.api.i18n.translate('__MSG__THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG__'),
-                    'nospaces': oae.api.i18n.translate('__MSG__THE_USERNAME_SHOULDNT_CONTAIN_SPACES__')
+                username: {
+                    required: oae.api.i18n.translate(
+                        '__MSG__PLEASE_ENTER_YOUR_USERNAME__',
+                    ),
+                    minlength: oae.api.i18n.translate(
+                        '__MSG__THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG__',
+                    ),
+                    nospaces: oae.api.i18n.translate(
+                        '__MSG__THE_USERNAME_SHOULDNT_CONTAIN_SPACES__',
+                    ),
                 },
-                'password': {
-                    'required': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_PASSWORD__'),
-                    'minlength': oae.api.i18n.translate('__MSG__YOUR_PASSWORD_SHOULD_BE_AT_LEAST_SIX_CHARACTERS_LONG__')
+                password: {
+                    required: oae.api.i18n.translate(
+                        '__MSG__PLEASE_ENTER_YOUR_PASSWORD__',
+                    ),
+                    minlength: oae.api.i18n.translate(
+                        '__MSG__YOUR_PASSWORD_SHOULD_BE_AT_LEAST_SIX_CHARACTERS_LONG__',
+                    ),
                 },
-                'password_repeat': {
-                    'required': oae.api.i18n.translate('__MSG__PLEASE_REPEAT_YOUR_PASSWORD__'),
-                    'passwordmatch': oae.api.i18n.translate('__MSG__THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE__')
+                password_repeat: {
+                    required: oae.api.i18n.translate(
+                        '__MSG__PLEASE_REPEAT_YOUR_PASSWORD__',
+                    ),
+                    passwordmatch: oae.api.i18n.translate(
+                        '__MSG__THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE__',
+                    ),
                 },
-                'termsandconditions': {
-                    'required': oae.api.i18n.translate('__MSG__PLEASE_ACCEPT_THE_TERMS_AND_CONDITIONS__')
-                }
+                termsandconditions: {
+                    required: oae.api.i18n.translate(
+                        '__MSG__PLEASE_ACCEPT_THE_TERMS_AND_CONDITIONS__',
+                    ),
+                },
             },
-            'methods': {
-                'validchars': {
-                    'method': function(value, element) {
-                        return this.optional(element) || !(/[<>\\\/{}\[\]!#\$%\^&\*,:]+/i.test(value));
+            methods: {
+                validchars: {
+                    method: function(value, element) {
+                        return (
+                            this.optional(element) ||
+                            !/[<>\\\/{}\[\]!#\$%\^&\*,:]+/i.test(value)
+                        );
                     },
-                    'text': oae.api.i18n.translate('__MSG__ACCOUNT_INVALIDCHAR__')
+                    text: oae.api.i18n.translate(
+                        '__MSG__ACCOUNT_INVALIDCHAR__',
+                    ),
                 },
-                'usernameavailable': {
-                    'method': function(value, element) {
+                usernameavailable: {
+                    method: function(value, element) {
                         var response = false;
                         isUserNameAvailable(value, function(available) {
                             response = available;
                             // Show the available icon if the username is available, otherwise show the unavailable icon
                             if (available) {
-                                $('#signup-createaccount-username-available').removeClass('fa-times').addClass('fa-check');
+                                $('#signup-createaccount-username-available')
+                                    .removeClass('fa-times')
+                                    .addClass('fa-check');
                             } else {
-                                $('#signup-createaccount-username-available').removeClass('fa-check').addClass('fa-times');
+                                $('#signup-createaccount-username-available')
+                                    .removeClass('fa-check')
+                                    .addClass('fa-times');
                             }
                         });
                         return response;
                     },
-                    'text': oae.api.i18n.translate('__MSG__THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN__')
+                    text: oae.api.i18n.translate(
+                        '__MSG__THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN__',
+                    ),
                 },
-                'emaildomain': {
-                    'method': oae.api.util.validation().isValidEmailDomainForTenant,
-                    'text': function() {
+                emaildomain: {
+                    method: oae.api.util.validation()
+                        .isValidEmailDomainForTenant,
+                    text: function() {
                         if (tenantEmailDomains.length === 1) {
-                            return oae.api.i18n.translate('__MSG__YOU_CAN_ONLY_REGISTER_WITH_AN_EMAIL_ADDRESS_ENDING_IN__', null, {'emailDomain': tenantEmailDomains[0]});
+                            return oae.api.i18n.translate(
+                                '__MSG__YOU_CAN_ONLY_REGISTER_WITH_AN_EMAIL_ADDRESS_ENDING_IN__',
+                                null,
+                                { emailDomain: tenantEmailDomains[0] },
+                            );
                         } else {
-                            return oae.api.i18n.translate('__MSG__YOU_CAN_ONLY_REGISTER_WITH_AN_EMAIL_ADDRESS_ENDING_IN_ONE_OF__', null, {'emailDomains': tenantEmailDomains.join(', ')});
+                            return oae.api.i18n.translate(
+                                '__MSG__YOU_CAN_ONLY_REGISTER_WITH_AN_EMAIL_ADDRESS_ENDING_IN_ONE_OF__',
+                                null,
+                                { emailDomains: tenantEmailDomains.join(', ') },
+                            );
                         }
-                    }
-                }
+                    },
+                },
             },
-            'submitHandler': createUser
+            submitHandler: createUser,
         };
 
-        oae.api.util.validation().validate($('#signup-createaccount-form'), validateOpts);
+        oae.api.util
+            .validation()
+            .validate($('#signup-createaccount-form'), validateOpts);
     };
 
     /**
@@ -320,9 +409,15 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
     var setUpReCaptcha = function() {
         if (recaptchaEnabled) {
             // Only require the recaptcha library when recaptcha has been enabled
-            require(['//www.google.com/recaptcha/api/js/recaptcha_ajax.js'], function() {
-                var captchaContainer = $('#signup-createaccount-recaptcha-container')[0];
-                Recaptcha.create(recaptchaPublicKey, captchaContainer, {theme: 'custom'});
+            require([
+                '//www.google.com/recaptcha/api/js/recaptcha_ajax.js',
+            ], function() {
+                var captchaContainer = $(
+                    '#signup-createaccount-recaptcha-container',
+                )[0];
+                Recaptcha.create(recaptchaPublicKey, captchaContainer, {
+                    theme: 'custom',
+                });
             });
 
             // Hide the Recaptcha error when text is entered
@@ -342,10 +437,12 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
      * @return {String}     [tenant.countryFlag]    The absolute url path to the flag image associated to the country to which the tenant belongs, if known
      */
     var withCountryInfo = function(tenant) {
-        var countryInfo = _.findWhere(iso3166.countries, {'code': tenant.countryCode});
+        var countryInfo = _.findWhere(iso3166.countries, {
+            code: tenant.countryCode,
+        });
         return _.extend({}, tenant, {
-            'countryName': (countryInfo && countryInfo.name),
-            'countryFlag': (countryInfo && countryInfo.icon)
+            countryName: countryInfo && countryInfo.name,
+            countryFlag: countryInfo && countryInfo.icon,
         });
     };
 
@@ -370,7 +467,9 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
      * Cancel the currently selected institution in the auto-suggest control
      */
     var cancelInstitutionSelect = function() {
-        $('#signup-institution-search ul.as-selections').removeClass('signup-institution-search-selected');
+        $('#signup-institution-search ul.as-selections').removeClass(
+            'signup-institution-search-selected',
+        );
         $('#signup-institution-search ul.as-selections .as-input').focus();
         toggleSignupOptions(true);
         return false;
@@ -387,76 +486,109 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
         }
 
         // Render the tenant search container
-        oae.api.util.template().render($('#signup-institution-template'),
-            null, $('#signup-institution-container'));
+        oae.api.util
+            .template()
+            .render(
+                $('#signup-institution-template'),
+                null,
+                $('#signup-institution-container'),
+            );
 
         // Initialize the tenant search auto-suggest
-        oae.api.util.autoSuggest().setup($('#signup-institution-search-field'), {
-            'url': '/api/search/tenants',
-            'searchObjProps': 'alias',
-            'formatList': function(data, $el) {
-                oae.api.util.template().render($('#signup-as-tenant-template'), {
-                    'tenant': withCountryInfo(data)
-                }, $el);
-                return $el;
+        oae.api.util.autoSuggest().setup(
+            $('#signup-institution-search-field'),
+            {
+                url: '/api/search/tenants',
+                searchObjProps: 'alias',
+                formatList: function(data, $el) {
+                    oae.api.util.template().render(
+                        $('#signup-as-tenant-template'),
+                        {
+                            tenant: withCountryInfo(data),
+                        },
+                        $el,
+                    );
+                    return $el;
+                },
+                selectionAdded: function(el) {
+                    // When a selection is added by choosing a tenant, we don't add
+                    // an item to the auto-suggest selection, instead we redirect
+                    // to the equivalent page on that tenant
+                    var tenant = $(el).data().originalData;
+                    var $selections = $(
+                        '#signup-institution-search ul.as-selections',
+                    );
+                    var $selection = $('#signup-as-selection');
+
+                    // Render the tenant template into the selected item
+                    oae.api.util.template().render(
+                        $('#signup-as-selection-template'),
+                        {
+                            tenant: withCountryInfo(tenant),
+                        },
+                        $selection,
+                    );
+
+                    // Put the tenant data on the selection item
+                    $selection.data().tenant = tenant;
+
+                    // Remove the element value since we would want it to be able to
+                    // appear in the results again, and add the previous back into
+                    // the field
+                    $(
+                        '#signup-institution-search ul.as-selections .as-values',
+                    ).val('');
+                    $(
+                        '#signup-institution-search ul.as-selections .as-input',
+                    ).val(tenant.query);
+
+                    // Toggle the template into selected mode and disable the signup
+                    // options
+                    $selections.addClass('signup-institution-search-selected');
+                    toggleSignupOptions(false);
+
+                    $('#signup-as-go > button').focus();
+                },
             },
-            'selectionAdded': function(el) {
-                // When a selection is added by choosing a tenant, we don't add
-                // an item to the auto-suggest selection, instead we redirect
-                // to the equivalent page on that tenant
-                var tenant = $(el).data().originalData;
-                var $selections = $('#signup-institution-search ul.as-selections');
-                var $selection = $('#signup-as-selection');
+            null,
+            function() {
+                // Add the action items to the autosuggest field
+                var actionItems = oae.api.util
+                    .template()
+                    .render($('#signup-as-actions-template'));
+                $('#signup-institution-search ul.as-selections').append(
+                    actionItems,
+                );
 
-                // Render the tenant template into the selected item
-                oae.api.util.template().render($('#signup-as-selection-template'), {
-                    'tenant': withCountryInfo(tenant)
-                }, $selection);
+                // Add keyboard bindings to cancel the selection and re-reveals the
+                // signup options
+                $('#signup-as-selection').on(
+                    'click keydown',
+                    cancelInstitutionSelect,
+                );
+                $('#signup-as-go > button').keydown(function(evt) {
+                    // Cancel selection if the user hits escape, delete or backspace
+                    // on the "Go" button
+                    var isDeleteKey = evt.keyCode === 46;
+                    var isEscapeKey = evt.keyCode === 27;
+                    var isBackspaceKey = evt.keyCode === 8;
+                    if (isEscapeKey || isBackspaceKey || isDeleteKey) {
+                        return cancelInstitutionSelect();
+                    }
+                });
 
-                // Put the tenant data on the selection item
-                $selection.data().tenant = tenant;
+                // When the "Go" button is pressed, go to the equivalent page of the
+                // selected tenant
+                $('#signup-as-go > button').click(function() {
+                    oae.api.util
+                        .redirect()
+                        .tenant($('#signup-as-selection').data().tenant);
+                });
 
-                // Remove the element value since we would want it to be able to
-                // appear in the results again, and add the previous back into
-                // the field
-                $('#signup-institution-search ul.as-selections .as-values').val('');
-                $('#signup-institution-search ul.as-selections .as-input').val(tenant.query);
-
-                // Toggle the template into selected mode and disable the signup
-                // options
-                $selections.addClass('signup-institution-search-selected');
-                toggleSignupOptions(false);
-
-                $('#signup-as-go > button').focus();
-            }
-        }, null, function() {
-            // Add the action items to the autosuggest field
-            var actionItems = oae.api.util.template().render($('#signup-as-actions-template'));
-            $('#signup-institution-search ul.as-selections').append(actionItems);
-
-            // Add keyboard bindings to cancel the selection and re-reveals the
-            // signup options
-            $('#signup-as-selection').on('click keydown', cancelInstitutionSelect);
-            $('#signup-as-go > button').keydown(function(evt) {
-                // Cancel selection if the user hits escape, delete or backspace
-                // on the "Go" button
-                var isDeleteKey = (evt.keyCode === 46);
-                var isEscapeKey = (evt.keyCode === 27);
-                var isBackspaceKey = (evt.keyCode === 8);
-                if (isEscapeKey || isBackspaceKey || isDeleteKey) {
-                    return cancelInstitutionSelect();
-                }
-            });
-
-            // When the "Go" button is pressed, go to the equivalent page of the
-            // selected tenant
-            $('#signup-as-go > button').click(function() {
-                oae.api.util.redirect().tenant($('#signup-as-selection').data().tenant);
-            });
-
-            // Show the container now that everything is initialized
-            $('#signup-institution-container').show();
-        });
+                // Show the container now that everything is initialized
+                $('#signup-institution-container').show();
+            },
+        );
     };
 
     /**
@@ -464,38 +596,52 @@ require(['jquery', 'underscore', 'oae.core', 'iso3166'], function($, _, oae, iso
      */
     var renderSignUpOptions = function() {
         var externalAuthOpts = {
-            'data': {
-                'invitationToken': invitationInfo.token,
-                'redirectUrl': signUpRedirectUrl
-            }
+            data: {
+                invitationToken: invitationInfo.token,
+                redirectUrl: signUpRedirectUrl,
+            },
         };
 
         // If the email address in the invitation info is valid for the current
         // tenant, automatically use it for purposes of filling out the local
         // authentication form
         var useEmail = null;
-        if (invitationInfo.email && oae.api.util.validation().isValidEmailDomainForTenant(invitationInfo.email)) {
+        if (
+            invitationInfo.email &&
+            oae.api.util
+                .validation()
+                .isValidEmailDomainForTenant(invitationInfo.email)
+        ) {
             useEmail = invitationInfo.email;
         }
 
         // Render the signup options
-        oae.api.util.template().render($('#signup-options-template'), {
-            'authStrategyInfo': authStrategyInfo,
-            'externalAuthOpts': externalAuthOpts,
-            'invitationInfo': invitationInfo,
-            'recaptchaEnabled': recaptchaEnabled,
-            'termsAndConditionsEnabled': termsAndConditionsEnabled,
-            'useEmail': useEmail
-        }, $('#signup-options-container'));
+        oae.api.util.template().render(
+            $('#signup-options-template'),
+            {
+                authStrategyInfo: authStrategyInfo,
+                externalAuthOpts: externalAuthOpts,
+                invitationInfo: invitationInfo,
+                recaptchaEnabled: recaptchaEnabled,
+                termsAndConditionsEnabled: termsAndConditionsEnabled,
+                useEmail: useEmail,
+            },
+            $('#signup-options-container'),
+        );
 
         // For IE9, since we can't use flexbox, we need to have an explicit height to have a full-
         // height vertical "OR" divider. Using `height: 100%` doesn't work because then all parents
         // will need an explicit height, which means we have to set `height: 100%` all the way up
         // to the `html` tag. If we set `height: 100%` on the HTML tag, then the document doesn't
         // appear to become taller than the browser viewport, and it breaks the rendering
-        var $ieLt10SignUpOptionsLocal = $('.ie-lt10 #signup-options-local:visible');
+        var $ieLt10SignUpOptionsLocal = $(
+            '.ie-lt10 #signup-options-local:visible',
+        );
         if ($ieLt10SignUpOptionsLocal.length > 0) {
-            $('#signup-options-container').css('height', $ieLt10SignUpOptionsLocal.height());
+            $('#signup-options-container').css(
+                'height',
+                $ieLt10SignUpOptionsLocal.height(),
+            );
         }
 
         setUpCreateAccountValidation();

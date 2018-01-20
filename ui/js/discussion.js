@@ -13,8 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery','oae.core'], function($, oae) {
-
+require(['jquery', 'oae.core'], function($, oae) {
     // Get the discussion id from the URL. The expected URL is `/discussion/<tenantId>/<resourceId>`.
     // The discussion id will then be `d:<tenantId>:<resourceId>`
     var url = oae.api.util.url();
@@ -32,39 +31,48 @@ require(['jquery','oae.core'], function($, oae) {
      * is only used to load the discussion topic
      */
     var setUpNavigation = function() {
-        var lhNavPages = [{
-            'id': 'discussion',
-            'title': discussionProfile.displayName,
-            'icon': 'fa-comments',
-            'closeNav': true,
-            'class': 'hide',
-            'layout': [
-                {
-                    'width': 'col-md-12',
-                    'widgets': [
-                        {
-                            'name': 'discussion',
-                            'settings': discussionProfile
-                        }
-                    ]
-                },
-                {
-                    'width': 'col-md-12',
-                    'widgets': [
-                        {
-                            'name': 'comments'
-                        }
-                    ]
-                }
-            ]
-        }];
+        var lhNavPages = [
+            {
+                id: 'discussion',
+                title: discussionProfile.displayName,
+                icon: 'fa-comments',
+                closeNav: true,
+                class: 'hide',
+                layout: [
+                    {
+                        width: 'col-md-12',
+                        widgets: [
+                            {
+                                name: 'discussion',
+                                settings: discussionProfile,
+                            },
+                        ],
+                    },
+                    {
+                        width: 'col-md-12',
+                        widgets: [
+                            {
+                                name: 'comments',
+                            },
+                        ],
+                    },
+                ],
+            },
+        ];
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, [], baseUrl]);
+        $(window).trigger('oae.trigger.lhnavigation', [
+            lhNavPages,
+            [],
+            baseUrl,
+        ]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, [], baseUrl]);
+            $(window).trigger('oae.trigger.lhnavigation', [
+                lhNavPages,
+                [],
+                baseUrl,
+            ]);
         });
     };
-
 
     ///////////////////////////////////////
     // DISCUSSION PROFILE INITIALIZATION //
@@ -112,7 +120,10 @@ require(['jquery','oae.core'], function($, oae) {
     var setUpContext = function() {
         $(document).on('oae.context.get', function(ev, widgetId) {
             if (widgetId) {
-                $(document).trigger('oae.context.send.' + widgetId, discussionProfile);
+                $(document).trigger(
+                    'oae.context.send.' + widgetId,
+                    discussionProfile,
+                );
             } else {
                 $(document).trigger('oae.context.send', discussionProfile);
             }
@@ -124,12 +135,16 @@ require(['jquery','oae.core'], function($, oae) {
      * Render the discussion clip
      */
     var setUpClip = function() {
-        oae.api.util.template().render($('#discussion-clip-template'), {
-            'discussion': discussionProfile,
-            'displayOptions': {
-                'addLink': false
-            }
-        }, $('#discussion-clip-container'));
+        oae.api.util.template().render(
+            $('#discussion-clip-template'),
+            {
+                discussion: discussionProfile,
+                displayOptions: {
+                    addLink: false,
+                },
+            },
+            $('#discussion-clip-container'),
+        );
     };
 
     /**
@@ -137,24 +152,43 @@ require(['jquery','oae.core'], function($, oae) {
      * are made by a different user after the initial page load
      */
     var setUpPushNotifications = function() {
-        oae.api.push.subscribe(discussionId, 'activity', discussionProfile.signature, 'internal', false, false, function(activities) {
-            // The `activity` stream pushes out activities on routing so it's always
-            // safe to just pick the first item from the `activities` array
-            var activity = activities[0];
+        oae.api.push.subscribe(
+            discussionId,
+            'activity',
+            discussionProfile.signature,
+            'internal',
+            false,
+            false,
+            function(activities) {
+                // The `activity` stream pushes out activities on routing so it's always
+                // safe to just pick the first item from the `activities` array
+                var activity = activities[0];
 
-            var supportedActivities = ['discussion-update', 'discussion-update-visibility'];
-            // Only respond to push notifications caused by other users
-            if (activity.actor.id !== oae.data.me.id && _.contains(supportedActivities, activity['oae:activityType'])) {
-                activity.object.canShare = discussionProfile.canShare;
-                activity.object.canPost = discussionProfile.canPost;
-                activity.object.isManager = discussionProfile.isManager;
+                var supportedActivities = [
+                    'discussion-update',
+                    'discussion-update-visibility',
+                ];
+                // Only respond to push notifications caused by other users
+                if (
+                    activity.actor.id !== oae.data.me.id &&
+                    _.contains(
+                        supportedActivities,
+                        activity['oae:activityType'],
+                    )
+                ) {
+                    activity.object.canShare = discussionProfile.canShare;
+                    activity.object.canPost = discussionProfile.canPost;
+                    activity.object.isManager = discussionProfile.isManager;
 
-                // Trigger an edit discussion event so the UI can update itself where appropriate
-                $(document).trigger('oae.editdiscussion.done', activity.object);
-            }
-        });
+                    // Trigger an edit discussion event so the UI can update itself where appropriate
+                    $(document).trigger(
+                        'oae.editdiscussion.done',
+                        activity.object,
+                    );
+                }
+            },
+        );
     };
-
 
     ///////////////////
     // MANAGE ACCESS //
@@ -169,32 +203,63 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var getManageAccessData = function() {
         return {
-            'contextProfile': discussionProfile,
-            'messages': {
-                'accessNotUpdatedBody': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_COULD_NOT_BE_UPDATED__'),
-                'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_NOT_UPDATED__'),
-                'accessUpdatedBody': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_SUCCESSFULLY_UPDATED__'),
-                'accessUpdatedTitle': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_UPDATED__'),
-                'membersTitle': oae.api.i18n.translate('__MSG__SHARED_WITH__'),
-                'private': oae.api.i18n.translate('__MSG__PRIVATE__'),
-                'loggedin': oae.api.util.security().encodeForHTML(discussionProfile.tenant.displayName),
-                'public': oae.api.i18n.translate('__MSG__PUBLIC__'),
-                'privateDescription': oae.api.i18n.translate('__MSG__DISCUSSION_PRIVATE_DESCRIPTION__'),
-                'loggedinDescription': oae.api.i18n.translate('__MSG__DISCUSSION_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(discussionProfile.tenant.displayName)}),
-                'publicDescription': oae.api.i18n.translate('__MSG__DISCUSSION_PUBLIC_DESCRIPTION__')
+            contextProfile: discussionProfile,
+            messages: {
+                accessNotUpdatedBody: oae.api.i18n.translate(
+                    '__MSG__DISCUSSION_ACCESS_COULD_NOT_BE_UPDATED__',
+                ),
+                accessNotUpdatedTitle: oae.api.i18n.translate(
+                    '__MSG__DISCUSSION_ACCESS_NOT_UPDATED__',
+                ),
+                accessUpdatedBody: oae.api.i18n.translate(
+                    '__MSG__DISCUSSION_ACCESS_SUCCESSFULLY_UPDATED__',
+                ),
+                accessUpdatedTitle: oae.api.i18n.translate(
+                    '__MSG__DISCUSSION_ACCESS_UPDATED__',
+                ),
+                membersTitle: oae.api.i18n.translate('__MSG__SHARED_WITH__'),
+                private: oae.api.i18n.translate('__MSG__PRIVATE__'),
+                loggedin: oae.api.util
+                    .security()
+                    .encodeForHTML(discussionProfile.tenant.displayName),
+                public: oae.api.i18n.translate('__MSG__PUBLIC__'),
+                privateDescription: oae.api.i18n.translate(
+                    '__MSG__DISCUSSION_PRIVATE_DESCRIPTION__',
+                ),
+                loggedinDescription: oae.api.i18n.translate(
+                    '__MSG__DISCUSSION_LOGGEDIN_DESCRIPTION__',
+                    null,
+                    {
+                        tenant: oae.api.util
+                            .security()
+                            .encodeForHTML(
+                                discussionProfile.tenant.displayName,
+                            ),
+                    },
+                ),
+                publicDescription: oae.api.i18n.translate(
+                    '__MSG__DISCUSSION_PUBLIC_DESCRIPTION__',
+                ),
             },
-            'defaultRole': 'member',
-            'roles': [
-                {'id': 'member', 'name': oae.api.i18n.translate('__MSG__CAN_VIEW__')},
-                {'id': 'manager', 'name': oae.api.i18n.translate('__MSG__CAN_MANAGE__')}
+            defaultRole: 'member',
+            roles: [
+                {
+                    id: 'member',
+                    name: oae.api.i18n.translate('__MSG__CAN_VIEW__'),
+                },
+                {
+                    id: 'manager',
+                    name: oae.api.i18n.translate('__MSG__CAN_MANAGE__'),
+                },
             ],
-            'api': {
-                'getMembersURL': '/api/discussion/'+ discussionProfile.id + '/members',
-                'getInvitations': oae.api.discussion.getInvitations,
-                'resendInvitation': oae.api.discussion.resendInvitation,
-                'setMembers': oae.api.discussion.updateMembers,
-                'setVisibility': oae.api.discussion.updateDiscussion
-            }
+            api: {
+                getMembersURL:
+                    '/api/discussion/' + discussionProfile.id + '/members',
+                getInvitations: oae.api.discussion.getInvitations,
+                resendInvitation: oae.api.discussion.resendInvitation,
+                setMembers: oae.api.discussion.updateMembers,
+                setVisibility: oae.api.discussion.updateDiscussion,
+            },
         };
     };
 
@@ -209,14 +274,16 @@ require(['jquery','oae.core'], function($, oae) {
      * Trigger the manageaccess widget in `add members` view and pass in context data
      */
     $(document).on('click', '.discussion-trigger-manageaccess-add', function() {
-        $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
+        $(document).trigger(
+            'oae.trigger.manageaccess-add',
+            getManageAccessData(),
+        );
     });
 
     /**
      * Re-render the discussion's clip when the permissions have been updated
      */
     $(document).on('oae.manageaccess.done', setUpClip);
-
 
     /////////////////////
     // EDIT DISCUSSION //
@@ -232,7 +299,13 @@ require(['jquery','oae.core'], function($, oae) {
         $widgetContainer.empty();
 
         // Insert the new updated discussion widget
-        oae.api.widget.insertWidget('discussion', null, $widgetContainer, null, discussionProfile);
+        oae.api.widget.insertWidget(
+            'discussion',
+            null,
+            $widgetContainer,
+            null,
+            discussionProfile,
+        );
     };
 
     /**
@@ -255,5 +328,4 @@ require(['jquery','oae.core'], function($, oae) {
     });
 
     getDiscussionProfile();
-
 });

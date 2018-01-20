@@ -17,7 +17,6 @@
  * Utility functions for following users
  */
 var followUtil = (function() {
-
     /**
      * Follow a user
      *
@@ -31,18 +30,29 @@ var followUtil = (function() {
 
         mainUtil.callInternalAPI('follow', 'follow', [userId], function(_err) {
             if (_err) {
-                casper.echo('Could not follow user ' + userId + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                casper.echo(
+                    'Could not follow user ' +
+                        userId +
+                        '. Error ' +
+                        _err.code +
+                        ': ' +
+                        _err.msg,
+                    'ERROR',
+                );
                 err = _err;
             } else {
                 done = true;
             }
         });
 
-        casper.waitFor(function() {
-            return done === true || err !== null;
-        }, function() {
-            return callback(err);
-        });
+        casper.waitFor(
+            function() {
+                return done === true || err !== null;
+            },
+            function() {
+                return callback(err);
+            },
+        );
     };
 
     /**
@@ -56,24 +66,37 @@ var followUtil = (function() {
         var err = null;
         var done = null;
 
-        mainUtil.callInternalAPI('follow', 'unfollow', [userId], function(_err) {
+        mainUtil.callInternalAPI('follow', 'unfollow', [userId], function(
+            _err,
+        ) {
             if (_err) {
-                casper.echo('Could not unfollow user ' + userId + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                casper.echo(
+                    'Could not unfollow user ' +
+                        userId +
+                        '. Error ' +
+                        _err.code +
+                        ': ' +
+                        _err.msg,
+                    'ERROR',
+                );
                 err = _err;
             } else {
                 done = true;
             }
         });
 
-        casper.waitFor(function() {
-            return done === true || err !== null;
-        }, function() {
-            return callback(err);
-        });
+        casper.waitFor(
+            function() {
+                return done === true || err !== null;
+            },
+            function() {
+                return callback(err);
+            },
+        );
     };
 
     return {
-        'follow': follow,
-        'unfollow': unfollow,
+        follow: follow,
+        unfollow: unfollow,
     };
 })();

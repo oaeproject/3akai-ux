@@ -22,7 +22,7 @@ var TestsUtil = require(hilaryModules + 'oae-tests/lib/util');
 require('./beforeTests.js')(function() {
     // Start the CasperJS tests
     var testRunner = childProcess.spawn(__dirname + '/runTests.sh', [], {
-        'detached': true
+        detached: true,
     });
 
     // Print test output in the console

@@ -17,7 +17,6 @@
  * Admin utility functions
  */
 var adminUtil = (function() {
-
     /**
      * Verify if a tenant has already been created.
      *
@@ -30,12 +29,21 @@ var adminUtil = (function() {
         var tenantExists = null;
         var err = null;
 
-        mainUtil.callInternalAPI('admin', 'getTenant', [alias], function(_err, tenant) {
+        mainUtil.callInternalAPI('admin', 'getTenant', [alias], function(
+            _err,
+            tenant,
+        ) {
             if (_err) {
                 if (_err.code === 404) {
                     tenantExists = false;
                 } else {
-                    casper.echo('Could not retrieve the list of tenants. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                    casper.echo(
+                        'Could not retrieve the list of tenants. Error ' +
+                            _err.code +
+                            ': ' +
+                            _err.msg,
+                        'ERROR',
+                    );
                     err = _err;
                 }
             } else {
@@ -43,11 +51,14 @@ var adminUtil = (function() {
             }
         });
 
-        casper.waitFor(function() {
-            return tenantExists !== null || err !== null;
-        }, function() {
-            callback(err, tenantExists);
-        });
+        casper.waitFor(
+            function() {
+                return tenantExists !== null || err !== null;
+            },
+            function() {
+                callback(err, tenantExists);
+            },
+        );
     };
 
     /**
@@ -61,18 +72,27 @@ var adminUtil = (function() {
      */
     var verifyConfigSet = function(alias, configToStore, callback) {
         storedConfig = casper.evaluate(function(alias) {
-            return JSON.parse(__utils__.sendAJAX('/api/config/' + alias, 'GET', null, false));
+            return JSON.parse(
+                __utils__.sendAJAX('/api/config/' + alias, 'GET', null, false),
+            );
         }, alias);
 
         var configSet = true;
         for (var c in configToStore) {
             var configKey = c.split('/');
             if (configKey.length > 3) {
-                if (storedConfig[configKey[0]][configKey[1]][configKey[2]][configKey[3]] !== configToStore[c]) {
+                if (
+                    storedConfig[configKey[0]][configKey[1]][configKey[2]][
+                        configKey[3]
+                    ] !== configToStore[c]
+                ) {
                     configSet = false;
                 }
             } else {
-                if (storedConfig[configKey[0]][configKey[1]][configKey[2]] !== configToStore[c]) {
+                if (
+                    storedConfig[configKey[0]][configKey[1]][configKey[2]] !==
+                    configToStore[c]
+                ) {
                     configSet = false;
                 }
             }
@@ -106,7 +126,7 @@ var adminUtil = (function() {
                             return callback(null, alias);
                         }
                     });
-                // If the test tenant doesn't exist yet, create it and continue
+                    // If the test tenant doesn't exist yet, create it and continue
                 } else {
                     var tenant = null;
                     var err = null;
@@ -115,21 +135,41 @@ var adminUtil = (function() {
                     displayName = displayName || rndString + ' Tenant';
                     host = host || rndString + '.oae.com';
 
-                    mainUtil.callInternalAPI('admin', 'createTenant', [alias, displayName, host], function(_err, _tenant) {
-                        if (_err) {
-                            casper.echo('Could not create tenant ' + displayName + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
-                            err = _err;
-                        } else {
-                            tenant = _tenant;
-                            casper.echo('Successfully created tenant ' + displayName + '.');
-                        }
-                    });
+                    mainUtil.callInternalAPI(
+                        'admin',
+                        'createTenant',
+                        [alias, displayName, host],
+                        function(_err, _tenant) {
+                            if (_err) {
+                                casper.echo(
+                                    'Could not create tenant ' +
+                                        displayName +
+                                        '. Error ' +
+                                        _err.code +
+                                        ': ' +
+                                        _err.msg,
+                                    'ERROR',
+                                );
+                                err = _err;
+                            } else {
+                                tenant = _tenant;
+                                casper.echo(
+                                    'Successfully created tenant ' +
+                                        displayName +
+                                        '.',
+                                );
+                            }
+                        },
+                    );
 
-                    casper.waitFor(function() {
-                        return tenant !== null || err !== null;
-                    }, function() {
-                        return callback(err, tenant);
-                    });
+                    casper.waitFor(
+                        function() {
+                            return tenant !== null || err !== null;
+                        },
+                        function() {
+                            return callback(err, tenant);
+                        },
+                    );
                 }
             });
         });
@@ -144,19 +184,35 @@ var adminUtil = (function() {
      */
     var writeConfig = function(tenantID, config, callback) {
         casper.then(function() {
-            data = casper.evaluate(function(tenantID, config) {
-                return JSON.parse(__utils__.sendAJAX('/api/config/' + tenantID, 'POST', config, false));
-            }, tenantID, config);
+            data = casper.evaluate(
+                function(tenantID, config) {
+                    return JSON.parse(
+                        __utils__.sendAJAX(
+                            '/api/config/' + tenantID,
+                            'POST',
+                            config,
+                            false,
+                        ),
+                    );
+                },
+                tenantID,
+                config,
+            );
 
             casper.then(function() {
                 verifyConfigSet(tenantID, config, function(configSet) {
                     if (configSet) {
-                        casper.echo('Successfully saved the tenant configuration.');
+                        casper.echo(
+                            'Successfully saved the tenant configuration.',
+                        );
                         if (callback) {
                             callback();
                         }
                     } else {
-                        casper.echo('Could not save the tenant configuration, stopping test.', 'ERROR');
+                        casper.echo(
+                            'Could not save the tenant configuration, stopping test.',
+                            'ERROR',
+                        );
                         casper.exit();
                     }
                 });
@@ -165,7 +221,7 @@ var adminUtil = (function() {
     };
 
     return {
-        'createTenant': createTenant,
-        'writeConfig': writeConfig
+        createTenant: createTenant,
+        writeConfig: writeConfig,
     };
 })();

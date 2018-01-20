@@ -14,7 +14,6 @@
  */
 
 define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
-
     /**
      * Gets the comments for a particular resource (content item, discussion, etc.)
      *
@@ -29,7 +28,13 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}       callback.comments.nextToken  The value to provide in the `start` parameter to get the next set of results
      * @throws {Error}                                     Error thrown when not all of the required parameters have been provided
      */
-    var getComments = exports.getComments = function(resourceId, resourceType, start, limit, callback) {
+    var getComments = (exports.getComments = function(
+        resourceId,
+        resourceType,
+        start,
+        limit,
+        callback,
+    ) {
         if (!resourceId) {
             throw new Error('A valid resource id should be provided');
         } else if (!resourceType) {
@@ -37,21 +42,21 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         }
 
         var data = {
-            'start': start,
-            'limit': limit
+            start: start,
+            limit: limit,
         };
 
         $.ajax({
-            'url': '/api/' + resourceType + '/' + resourceId + '/messages',
-            'data': data,
-            'success': function(data) {
+            url: '/api/' + resourceType + '/' + resourceId + '/messages',
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Create a comment on a resource or reply to an existing comment.
@@ -65,7 +70,13 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Comment}      [callback.comment]    Comment object representing the created comment
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
-    var createComment = exports.createComment = function(resourceId, resourceType, body, replyTo, callback) {
+    var createComment = (exports.createComment = function(
+        resourceId,
+        resourceType,
+        body,
+        replyTo,
+        callback,
+    ) {
         if (!resourceId) {
             throw new Error('A valid resource id should be provided');
         } else if (!resourceType) {
@@ -78,22 +89,22 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         var data = {
-            'body': body,
-            'replyTo': replyTo
+            body: body,
+            replyTo: replyTo,
         };
 
         $.ajax({
-            'url': '/api/' + resourceType + '/' + resourceId + '/messages',
-            'type': 'POST',
-            'data': data,
-            'success': function(data) {
+            url: '/api/' + resourceType + '/' + resourceId + '/messages',
+            type: 'POST',
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Delete an existing comment from a resource
@@ -106,7 +117,12 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}       [callback.softDeleted]    If the comment is not deleted, but instead flagged as deleted because it has replies, this will return a stripped down comment object representing the deleted comment, with the `deleted` property set to `true`. If the comment has been properly deleted, no comment will be returned.
      * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
-    var deleteComment = exports.deleteComment = function(resourceId, resourceType, commentId, callback) {
+    var deleteComment = (exports.deleteComment = function(
+        resourceId,
+        resourceType,
+        commentId,
+        callback,
+    ) {
         if (!resourceId) {
             throw new Error('A valid resource id should be provided');
         } else if (!resourceType) {
@@ -119,15 +135,20 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/' + resourceType + '/' + resourceId + '/messages/' + commentId,
-            'type': 'DELETE',
-            'success': function(softDeleted) {
+            url:
+                '/api/' +
+                resourceType +
+                '/' +
+                resourceId +
+                '/messages/' +
+                commentId,
+            type: 'DELETE',
+            success: function(softDeleted) {
                 callback(null, softDeleted);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
-
+    });
 });

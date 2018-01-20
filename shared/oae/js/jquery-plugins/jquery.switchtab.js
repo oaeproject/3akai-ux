@@ -17,9 +17,8 @@
  * Utility plugin that handles the "switch tab" component interactions.
  */
 
-define(['jquery', 'oae.api.util', 'jquery.history'], function (jQuery, oaeUtil) {
+define(['jquery', 'oae.api.util', 'jquery.history'], function(jQuery, oaeUtil) {
     (function($) {
-
         /**
          * OAE plugin that implements the interaction of the "Switch Tab" component. A Switch Tab
          * is essentially a set of tabs that look like a left-to-right switch. There can only be
@@ -126,9 +125,11 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function (jQuery, oaeUtil) 
         var pushIdToElement = function($switchtab, id) {
             var $target = $switchtab.find('a[aria-controls="' + id + '"]');
             $target.parent('li').addClass('active');
-            $switchtab.find('a[aria-controls!="' + id + '"]').parent('li').removeClass('active');
+            $switchtab
+                .find('a[aria-controls!="' + id + '"]')
+                .parent('li')
+                .removeClass('active');
             return $target;
         };
-
     })(jQuery);
 });

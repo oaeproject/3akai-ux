@@ -17,7 +17,6 @@
  * Utility functions for groups
  */
 var groupUtil = (function() {
-
     /**
      * Create a group
      *
@@ -31,32 +30,64 @@ var groupUtil = (function() {
      * @param  {Object}            [callback.err]           Error object containing error code and error message
      * @param  {Group}             [callback.group]         A Group object representing the created group
      */
-    var createGroup = function(displayName, description, visibility, joinable, managers, members, callback) {
+    var createGroup = function(
+        displayName,
+        description,
+        visibility,
+        joinable,
+        managers,
+        members,
+        callback,
+    ) {
         casper.then(function() {
             var groupProfile = null;
             var err = null;
-            displayName = displayName || 'group-' + mainUtil.generateRandomString();
+            displayName =
+                displayName || 'group-' + mainUtil.generateRandomString();
             description = description || 'Test group description';
             visibility = visibility || 'public';
             joinable = joinable || 'yes';
             managers = managers || [];
             members = members || [];
 
-            mainUtil.callInternalAPI('group', 'createGroup', [displayName, description, visibility, joinable, managers, members], function(_err, _groupProfile) {
-                if (_err) {
-                    casper.echo('Could not create ' + displayName + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
-                    err = _err;
-                    return;
-                } else {
-                    groupProfile = _groupProfile;
-                }
-            });
+            mainUtil.callInternalAPI(
+                'group',
+                'createGroup',
+                [
+                    displayName,
+                    description,
+                    visibility,
+                    joinable,
+                    managers,
+                    members,
+                ],
+                function(_err, _groupProfile) {
+                    if (_err) {
+                        casper.echo(
+                            'Could not create ' +
+                                displayName +
+                                '. Error ' +
+                                _err.code +
+                                ': ' +
+                                _err.msg,
+                            'ERROR',
+                        );
+                        err = _err;
+                        return;
+                    } else {
+                        groupProfile = _groupProfile;
+                    }
+                },
+            );
 
-            casper.waitFor(function() {
-                return groupProfile !== null || err !== null;
-            }, function() {
-                return callback(err, groupProfile);
-            });
+            casper.waitFor(
+                function() {
+                    return groupProfile !== null || err !== null;
+                },
+                function() {
+                    return callback(err, groupProfile);
+                },
+            );
         });
     };
 
@@ -70,16 +101,27 @@ var groupUtil = (function() {
     var updateGroup = function(groupId, params, callback) {
         var data = null;
         casper.then(function() {
-            data = casper.evaluate(function(groupId, params) {
-                return JSON.parse(__utils__.sendAJAX('/api/group/' + groupId, 'POST', params, false));
-            }, groupId, params);
+            data = casper.evaluate(
+                function(groupId, params) {
+                    return JSON.parse(
+                        __utils__.sendAJAX(
+                            '/api/group/' + groupId,
+                            'POST',
+                            params,
+                            false,
+                        ),
+                    );
+                },
+                groupId,
+                params,
+            );
         });
 
         casper.then(callback);
     };
 
     return {
-        'createGroup': createGroup,
-        'updateGroup': updateGroup
+        createGroup: createGroup,
+        updateGroup: updateGroup,
     };
 })();

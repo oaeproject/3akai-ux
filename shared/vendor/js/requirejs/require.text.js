@@ -8,15 +8,21 @@
   define, window, process, Packages,
   java, location, Components, FileUtils */
 
-define(['module'], function (module) {
+define(['module'], function(module) {
     'use strict';
 
-    var text, fs, Cc, Ci,
+    var text,
+        fs,
+        Cc,
+        Ci,
         progIds = ['Msxml2.XMLHTTP', 'Microsoft.XMLHTTP', 'Msxml2.XMLHTTP.4.0'],
         xmlRegExp = /^\s*<\?xml(\s)+version=[\'\"](\d)*.(\d)*[\'\"](\s)*\?>/im,
         bodyRegExp = /<body[^>]*>\s*([\s\S]+)\s*<\/body>/im,
         hasLocation = typeof location !== 'undefined' && location.href,
-        defaultProtocol = hasLocation && location.protocol && location.protocol.replace(/\:/, ''),
+        defaultProtocol =
+            hasLocation &&
+            location.protocol &&
+            location.protocol.replace(/\:/, ''),
         defaultHostName = hasLocation && location.hostname,
         defaultPort = hasLocation && (location.port || undefined),
         buildMap = [],
@@ -25,54 +31,57 @@ define(['module'], function (module) {
     text = {
         version: '2.0.5+',
 
-        strip: function (content) {
+        strip: function(content) {
             //Strips <?xml ...?> declarations so that external SVG and XML
             //documents can be added to a document without worry. Also, if the string
             //is an HTML document, only the part inside the body tag is returned.
             if (content) {
-                content = content.replace(xmlRegExp, "");
+                content = content.replace(xmlRegExp, '');
                 var matches = content.match(bodyRegExp);
                 if (matches) {
                     content = matches[1];
                 }
             } else {
-                content = "";
+                content = '';
             }
             return content;
         },
 
-        jsEscape: function (content) {
-            return content.replace(/(['\\])/g, '\\$1')
-                .replace(/[\f]/g, "\\f")
-                .replace(/[\b]/g, "\\b")
-                .replace(/[\n]/g, "\\n")
-                .replace(/[\t]/g, "\\t")
-                .replace(/[\r]/g, "\\r")
-                .replace(/[\u2028]/g, "\\u2028")
-                .replace(/[\u2029]/g, "\\u2029");
+        jsEscape: function(content) {
+            return content
+                .replace(/(['\\])/g, '\\$1')
+                .replace(/[\f]/g, '\\f')
+                .replace(/[\b]/g, '\\b')
+                .replace(/[\n]/g, '\\n')
+                .replace(/[\t]/g, '\\t')
+                .replace(/[\r]/g, '\\r')
+                .replace(/[\u2028]/g, '\\u2028')
+                .replace(/[\u2029]/g, '\\u2029');
         },
 
-        createXhr: masterConfig.createXhr || function () {
-            //Would love to dump the ActiveX crap in here. Need IE 6 to die first.
-            var xhr, i, progId;
-            if (typeof XMLHttpRequest !== "undefined") {
-                return new XMLHttpRequest();
-            } else if (typeof ActiveXObject !== "undefined") {
-                for (i = 0; i < 3; i += 1) {
-                    progId = progIds[i];
-                    try {
-                        xhr = new ActiveXObject(progId);
-                    } catch (e) {}
+        createXhr:
+            masterConfig.createXhr ||
+            function() {
+                //Would love to dump the ActiveX crap in here. Need IE 6 to die first.
+                var xhr, i, progId;
+                if (typeof XMLHttpRequest !== 'undefined') {
+                    return new XMLHttpRequest();
+                } else if (typeof ActiveXObject !== 'undefined') {
+                    for (i = 0; i < 3; i += 1) {
+                        progId = progIds[i];
+                        try {
+                            xhr = new ActiveXObject(progId);
+                        } catch (e) {}
 
-                    if (xhr) {
-                        progIds = [progId];  // so faster next time
-                        break;
+                        if (xhr) {
+                            progIds = [progId]; // so faster next time
+                            break;
+                        }
                     }
                 }
-            }
 
-            return xhr;
-        },
+                return xhr;
+            },
 
         /**
          * Parses a resource name into its component parts. Resource names
@@ -82,12 +91,14 @@ define(['module'], function (module) {
          * @returns {Object} with properties "moduleName", "ext" and "strip"
          * where strip is a boolean.
          */
-        parseName: function (name) {
-            var modName, ext, temp,
+        parseName: function(name) {
+            var modName,
+                ext,
+                temp,
                 strip = false,
-                index = name.indexOf("."),
-                isRelative = name.indexOf('./') === 0 ||
-                             name.indexOf('../') === 0;
+                index = name.indexOf('.'),
+                isRelative =
+                    name.indexOf('./') === 0 || name.indexOf('../') === 0;
 
             if (index !== -1 && (!isRelative || index > 1)) {
                 modName = name.substring(0, index);
@@ -97,10 +108,10 @@ define(['module'], function (module) {
             }
 
             temp = ext || modName;
-            index = temp.indexOf("!");
+            index = temp.indexOf('!');
             if (index !== -1) {
                 //Pull off the strip arg.
-                strip = temp.substring(index + 1) === "strip";
+                strip = temp.substring(index + 1) === 'strip';
                 temp = temp.substring(0, index);
                 if (ext) {
                     ext = temp;
@@ -112,7 +123,7 @@ define(['module'], function (module) {
             return {
                 moduleName: modName,
                 ext: ext,
-                strip: strip
+                strip: strip,
             };
         },
 
@@ -126,8 +137,10 @@ define(['module'], function (module) {
          * @param {String} url
          * @returns Boolean
          */
-        useXhr: function (url, protocol, hostname, port) {
-            var uProtocol, uHostName, uPort,
+        useXhr: function(url, protocol, hostname, port) {
+            var uProtocol,
+                uHostName,
+                uPort,
                 match = text.xdRegExp.exec(url);
             if (!match) {
                 return true;
@@ -139,12 +152,15 @@ define(['module'], function (module) {
             uPort = uHostName[1];
             uHostName = uHostName[0];
 
-            return (!uProtocol || uProtocol === protocol) &&
-                   (!uHostName || uHostName.toLowerCase() === hostname.toLowerCase()) &&
-                   ((!uPort && !uHostName) || uPort === port);
+            return (
+                (!uProtocol || uProtocol === protocol) &&
+                (!uHostName ||
+                    uHostName.toLowerCase() === hostname.toLowerCase()) &&
+                ((!uPort && !uHostName) || uPort === port)
+            );
         },
 
-        finishLoad: function (name, strip, content, onLoad) {
+        finishLoad: function(name, strip, content, onLoad) {
             content = strip ? text.strip(content) : content;
             if (masterConfig.isBuild) {
                 buildMap[name] = content;
@@ -152,7 +168,7 @@ define(['module'], function (module) {
             onLoad(content);
         },
 
-        load: function (name, req, onLoad, config) {
+        load: function(name, req, onLoad, config) {
             //Name has format: some.module.filext!strip
             //The strip part is optional.
             //if strip is present, then that means only get the string contents
@@ -170,44 +186,54 @@ define(['module'], function (module) {
             masterConfig.isBuild = config.isBuild;
 
             var parsed = text.parseName(name),
-                nonStripName = parsed.moduleName +
-                    (parsed.ext ? '.' + parsed.ext : ''),
+                nonStripName =
+                    parsed.moduleName + (parsed.ext ? '.' + parsed.ext : ''),
                 url = req.toUrl(nonStripName),
-                useXhr = (masterConfig.useXhr) ||
-                         text.useXhr;
+                useXhr = masterConfig.useXhr || text.useXhr;
 
             //Load the text. Use XHR if possible and in a browser.
-            if (!hasLocation || useXhr(url, defaultProtocol, defaultHostName, defaultPort)) {
-                text.get(url, function (content) {
-                    text.finishLoad(name, parsed.strip, content, onLoad);
-                }, function (err) {
-                    if (onLoad.error) {
-                        onLoad.error(err);
-                    }
-                });
+            if (
+                !hasLocation ||
+                useXhr(url, defaultProtocol, defaultHostName, defaultPort)
+            ) {
+                text.get(
+                    url,
+                    function(content) {
+                        text.finishLoad(name, parsed.strip, content, onLoad);
+                    },
+                    function(err) {
+                        if (onLoad.error) {
+                            onLoad.error(err);
+                        }
+                    },
+                );
             } else {
                 //Need to fetch the resource across domains. Assume
                 //the resource has been optimized into a JS module. Fetch
                 //by the module name + extension, but do not include the
                 //!strip part to avoid file system issues.
-                req([nonStripName], function (content) {
-                    text.finishLoad(parsed.moduleName + '.' + parsed.ext,
-                                    parsed.strip, content, onLoad);
+                req([nonStripName], function(content) {
+                    text.finishLoad(
+                        parsed.moduleName + '.' + parsed.ext,
+                        parsed.strip,
+                        content,
+                        onLoad,
+                    );
                 });
             }
         },
 
-        write: function (pluginName, moduleName, write, config) {
+        write: function(pluginName, moduleName, write, config) {
             if (buildMap.hasOwnProperty(moduleName)) {
                 var content = text.jsEscape(buildMap[moduleName]);
-                write.asModule(pluginName + "!" + moduleName,
-                               "define(function () { return '" +
-                                   content +
-                               "';});\n");
+                write.asModule(
+                    pluginName + '!' + moduleName,
+                    "define(function () { return '" + content + "';});\n",
+                );
             }
         },
 
-        writeFile: function (pluginName, moduleName, req, write, config) {
+        writeFile: function(pluginName, moduleName, req, write, config) {
             var parsed = text.parseName(moduleName),
                 extPart = parsed.ext ? '.' + parsed.ext : '',
                 nonStripName = parsed.moduleName + extPart,
@@ -218,30 +244,38 @@ define(['module'], function (module) {
             //Leverage own load() method to load plugin value, but only
             //write out values that do not have the strip argument,
             //to avoid any potential issues with ! in file names.
-            text.load(nonStripName, req, function (value) {
-                //Use own write() method to construct full module value.
-                //But need to create shell that translates writeFile's
-                //write() to the right interface.
-                var textWrite = function (contents) {
-                    return write(fileName, contents);
-                };
-                textWrite.asModule = function (moduleName, contents) {
-                    return write.asModule(moduleName, fileName, contents);
-                };
+            text.load(
+                nonStripName,
+                req,
+                function(value) {
+                    //Use own write() method to construct full module value.
+                    //But need to create shell that translates writeFile's
+                    //write() to the right interface.
+                    var textWrite = function(contents) {
+                        return write(fileName, contents);
+                    };
+                    textWrite.asModule = function(moduleName, contents) {
+                        return write.asModule(moduleName, fileName, contents);
+                    };
 
-                text.write(pluginName, nonStripName, textWrite, config);
-            }, config);
-        }
+                    text.write(pluginName, nonStripName, textWrite, config);
+                },
+                config,
+            );
+        },
     };
 
-    if (masterConfig.env === 'node' || (!masterConfig.env &&
-            typeof process !== "undefined" &&
+    if (
+        masterConfig.env === 'node' ||
+        (!masterConfig.env &&
+            typeof process !== 'undefined' &&
             process.versions &&
-            !!process.versions.node)) {
+            !!process.versions.node)
+    ) {
         //Using special require.nodeRequire, something added by r.js.
         fs = require.nodeRequire('fs');
 
-        text.get = function (url, callback) {
+        text.get = function(url, callback) {
             var file = fs.readFileSync(url, 'utf8');
             //Remove BOM (Byte Mark Order) from utf8 files if it is there.
             if (file.indexOf('\uFEFF') === 0) {
@@ -249,17 +283,23 @@ define(['module'], function (module) {
             }
             callback(file);
         };
-    } else if (masterConfig.env === 'xhr' || (!masterConfig.env &&
-            text.createXhr())) {
-        text.get = function (url, callback, errback, headers) {
-            var xhr = text.createXhr(), header;
+    } else if (
+        masterConfig.env === 'xhr' ||
+        (!masterConfig.env && text.createXhr())
+    ) {
+        text.get = function(url, callback, errback, headers) {
+            var xhr = text.createXhr(),
+                header;
             xhr.open('GET', url, true);
 
             //Allow plugins direct access to xhr headers
             if (headers) {
                 for (header in headers) {
                     if (headers.hasOwnProperty(header)) {
-                        xhr.setRequestHeader(header.toLowerCase(), headers[header]);
+                        xhr.setRequestHeader(
+                            header.toLowerCase(),
+                            headers[header],
+                        );
                     }
                 }
             }
@@ -269,7 +309,7 @@ define(['module'], function (module) {
                 masterConfig.onXhr(xhr, url);
             }
 
-            xhr.onreadystatechange = function (evt) {
+            xhr.onreadystatechange = function(evt) {
                 var status, err;
                 //Do not explicitly handle errors, those should be
                 //visible via console output in the browser.
@@ -287,15 +327,25 @@ define(['module'], function (module) {
             };
             xhr.send(null);
         };
-    } else if (masterConfig.env === 'rhino' || (!masterConfig.env &&
-            typeof Packages !== 'undefined' && typeof java !== 'undefined')) {
+    } else if (
+        masterConfig.env === 'rhino' ||
+        (!masterConfig.env &&
+            typeof Packages !== 'undefined' &&
+            typeof java !== 'undefined')
+    ) {
         //Why Java, why is this so awkward?
-        text.get = function (url, callback) {
-            var stringBuffer, line,
-                encoding = "utf-8",
+        text.get = function(url, callback) {
+            var stringBuffer,
+                line,
+                encoding = 'utf-8',
                 file = new java.io.File(url),
-                lineSeparator = java.lang.System.getProperty("line.separator"),
-                input = new java.io.BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(file), encoding)),
+                lineSeparator = java.lang.System.getProperty('line.separator'),
+                input = new java.io.BufferedReader(
+                    new java.io.InputStreamReader(
+                        new java.io.FileInputStream(file),
+                        encoding,
+                    ),
+                ),
                 content = '';
             try {
                 stringBuffer = new java.lang.StringBuffer();
@@ -326,36 +376,46 @@ define(['module'], function (module) {
             }
             callback(content);
         };
-    } else if (masterConfig.env === 'xpconnect' || (!masterConfig.env &&
-            typeof Components !== 'undefined' && Components.classes &&
-            Components.interfaces)) {
+    } else if (
+        masterConfig.env === 'xpconnect' ||
+        (!masterConfig.env &&
+            typeof Components !== 'undefined' &&
+            Components.classes &&
+            Components.interfaces)
+    ) {
         //Avert your gaze!
-        Cc = Components.classes,
-        Ci = Components.interfaces;
+        (Cc = Components.classes), (Ci = Components.interfaces);
         Components.utils['import']('resource://gre/modules/FileUtils.jsm');
 
-        text.get = function (url, callback) {
-            var inStream, convertStream,
+        text.get = function(url, callback) {
+            var inStream,
+                convertStream,
                 readData = {},
                 fileObj = new FileUtils.File(url);
 
             //XPCOM, you so crazy
             try {
-                inStream = Cc['@mozilla.org/network/file-input-stream;1']
-                           .createInstance(Ci.nsIFileInputStream);
+                inStream = Cc[
+                    '@mozilla.org/network/file-input-stream;1'
+                ].createInstance(Ci.nsIFileInputStream);
                 inStream.init(fileObj, 1, 0, false);
 
-                convertStream = Cc['@mozilla.org/intl/converter-input-stream;1']
-                                .createInstance(Ci.nsIConverterInputStream);
-                convertStream.init(inStream, "utf-8", inStream.available(),
-                Ci.nsIConverterInputStream.DEFAULT_REPLACEMENT_CHARACTER);
+                convertStream = Cc[
+                    '@mozilla.org/intl/converter-input-stream;1'
+                ].createInstance(Ci.nsIConverterInputStream);
+                convertStream.init(
+                    inStream,
+                    'utf-8',
+                    inStream.available(),
+                    Ci.nsIConverterInputStream.DEFAULT_REPLACEMENT_CHARACTER,
+                );
 
                 convertStream.readString(inStream.available(), readData);
                 convertStream.close();
                 inStream.close();
                 callback(readData.value);
             } catch (e) {
-                throw new Error((fileObj && fileObj.path || '') + ': ' + e);
+                throw new Error(((fileObj && fileObj.path) || '') + ': ' + e);
             }
         };
     }

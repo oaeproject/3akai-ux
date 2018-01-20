@@ -19,76 +19,76 @@ var util = require('util');
 var vm = require('vm');
 
 module.exports = function(grunt) {
-
     // Project configuration.
     grunt.initConfig({
-        'pkg': '<json:package.json>',
-        'meta': {
-            'banner': '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-                      '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-                      '<%= pkg.homepage ? "* " + pkg.homepage + "\n" : "" %>' +
-                      '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-                      ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
+        pkg: '<json:package.json>',
+        meta: {
+            banner:
+                '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+                '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
+                '<%= pkg.homepage ? "* " + pkg.homepage + "\n" : "" %>' +
+                '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
+                ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */',
         },
-        'target': process.env['DESTDIR'] || 'target',
-        'qunit': {
-            'files': ['tests/qunit/tests/*.html']
+        target: process.env['DESTDIR'] || 'target',
+        qunit: {
+            files: ['tests/qunit/tests/*.html'],
         },
-        'lint': {
-            'files': [
+        lint: {
+            files: [
                 'grunt.js',
                 'admin/**/*.js',
                 'shared/**/*.js',
                 'ui/**/*.js',
                 'node_modules/oae-*/**/*.js',
-                '!node_modules/oae-release-tools/**'
-            ]
+                '!node_modules/oae-release-tools/**',
+            ],
         },
-        'watch': {
-            'files': '<config:lint.files>',
-            'tasks': 'lint test'
+        watch: {
+            files: '<config:lint.files>',
+            tasks: 'lint test',
         },
-        'csslint': {
-            'options': {
-                'ids': false        // ignore "Don't use IDs in CSS selectors" warning
+        csslint: {
+            options: {
+                ids: false, // ignore "Don't use IDs in CSS selectors" warning
             },
-            'files': [
+            files: [
                 'admin/**/*.css',
                 'shared/oae/**/*.css',
                 'ui/**/*.css',
                 'node_modules/oae-*/**/*.css',
-                '!node_modules/oae-release-tools/**'
-            ]
+                '!node_modules/oae-release-tools/**',
+            ],
         },
-        'jshint': {
-            'options': {
-                'node': true,
-                'sub': true,
-                'indent': 4,
-                'trailing': true,
-                'quotmark': 'single',
-                'curly': true,
-                'white': false,
-                'strict': false,
-                'esversion': 6
+        jshint: {
+            options: {
+                node: true,
+                sub: true,
+                indent: 4,
+                trailing: true,
+                quotmark: 'single',
+                curly: true,
+                white: false,
+                strict: false,
+                esversion: 6,
             },
-            'files': [
+            files: [
                 'admin/**/*.js',
                 'shared/oae/**/*.js',
                 'ui/**/*.js',
                 'node_modules/oae-*/**/*.js',
-                '!node_modules/oae-release-tools/**'
-            ]
+                '!node_modules/oae-release-tools/**',
+            ],
         },
-        'clean': {
-            'folder': '<%= target %>/'
+        clean: {
+            folder: '<%= target %>/',
         },
-        'copy': {
-            'main': {
-                'files': [
+        copy: {
+            main: {
+                files: [
                     {
-                        'expand': true,
-                        'src': [
+                        expand: true,
+                        src: [
                             '**',
                             '!<%= target %>/**',
                             '!tests/**',
@@ -99,50 +99,52 @@ module.exports = function(grunt) {
                             '!node_modules/optimist/**',
                             '!node_modules/properties-parser/**',
                             '!node_modules/readdirp/**',
-                            '!node_modules/underscore/**'
+                            '!node_modules/underscore/**',
                         ],
-                        'dest': '<%= target %>/original'
-                    }
-                ]
-            }
-        },
-        'requirejs': {
-            'optimize': {
-                'options': {
-                    'appDir': './',
-                    'baseUrl': './shared',
-                    'mainConfigFile': './shared/oae/api/oae.bootstrap.js',
-                    'dir': '<%= target %>/optimized',
-                    'optimize': 'uglify',
-                    'uglify2': {
-                        'output': {
-                            'max_line_len': 500000
-                        }
+                        dest: '<%= target %>/original',
                     },
-                    'preserveLicenseComments': false,
-                    'optimizeCss': 'standard',
+                ],
+            },
+        },
+        requirejs: {
+            optimize: {
+                options: {
+                    appDir: './',
+                    baseUrl: './shared',
+                    mainConfigFile: './shared/oae/api/oae.bootstrap.js',
+                    dir: '<%= target %>/optimized',
+                    optimize: 'uglify',
+                    uglify2: {
+                        output: {
+                            max_line_len: 500000,
+                        },
+                    },
+                    preserveLicenseComments: false,
+                    optimizeCss: 'standard',
                     // TODO: Replace this with a saner value
                     // @see https://github.com/jrburke/r.js/pull/653
-                    'cssImportIgnore': '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700&subset=latin,cyrillic-ext,latin-ext,greek-ext',
-                    'inlineText': true,
-                    'useStrict': false,
-                    'pragmas': {},
-                    'skipPragmas': false,
-                    'skipModuleInsertion': false,
-                    'modules': [{
-                        'name': 'oae.core',
-                        'exclude': ['jquery']
-                    }],
-                    'fileExclusionRegExp': /^(\.|<%= target %>|tests|tools|grunt|optimist|properties-parser|readdirp|underscore$|shelljs$|oae-release-tools|mkdirp|es6-promise|cssstyle|resolve|nwmatcher|strip-json-comments|glob$|har-validator|boom|cryptiles|debug|benchmark|hawk|hoek|sntp|json-schema-traverse|robots\.txt)/,
-                    'logLevel': 2
-                }
-            }
+                    cssImportIgnore:
+                        '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700&subset=latin,cyrillic-ext,latin-ext,greek-ext',
+                    inlineText: true,
+                    useStrict: false,
+                    pragmas: {},
+                    skipPragmas: false,
+                    skipModuleInsertion: false,
+                    modules: [
+                        {
+                            name: 'oae.core',
+                            exclude: ['jquery'],
+                        },
+                    ],
+                    fileExclusionRegExp: /^(\.|<%= target %>|tests|tools|grunt|optimist|properties-parser|readdirp|underscore$|shelljs$|oae-release-tools|mkdirp|es6-promise|cssstyle|resolve|nwmatcher|strip-json-comments|glob$|har-validator|boom|cryptiles|debug|benchmark|hawk|hoek|sntp|json-schema-traverse|robots\.txt)/,
+                    logLevel: 2,
+                },
+            },
         },
-        'ver': {
-            'oae': {
-                'basedir': '<%= target %>/optimized',
-                'phases': [
-
+        ver: {
+            oae: {
+                basedir: '<%= target %>/optimized',
+                phases: [
                     /*!
                      * In the first phase, we hash the contents of all the shared bundle and culture
                      * folders and rename the foler to contain the hash. All references to the
@@ -150,14 +152,12 @@ module.exports = function(grunt) {
                      * JS files as those are the only places we have references to them.
                      */
                     {
-                        'folders': [
+                        folders: [
                             '<%= target %>/optimized/shared/oae/bundles/ui',
                             '<%= target %>/optimized/shared/oae/bundles/email',
-                            '<%= target %>/optimized/shared/vendor/js/l10n/cultures'
+                            '<%= target %>/optimized/shared/vendor/js/l10n/cultures',
                         ],
-                        'references': [
-                            '<%= target %>/optimized/shared/**/*.js'
-                        ]
+                        references: ['<%= target %>/optimized/shared/**/*.js'],
                     },
 
                     /*!
@@ -176,46 +176,42 @@ module.exports = function(grunt) {
                      * TODO: Remove "custom" when there is a proper landing page customization strategy
                      */
                     {
-                        'files': _hashFiles({
-                            'directories': [
+                        files: _hashFiles({
+                            directories: [
                                 '<%= target %>/optimized/admin',
                                 '<%= target %>/optimized/custom',
                                 '<%= target %>/optimized/docs',
                                 '<%= target %>/optimized/shared',
-                                '<%= target %>/optimized/ui'
+                                '<%= target %>/optimized/ui',
                             ],
-                            'excludeExts': [
+                            excludeExts: [
                                 'css',
                                 'html',
                                 'ico',
                                 'js',
                                 'json',
-                                'less'
+                                'less',
                             ],
-                            'extra': [
+                            extra: [
                                 '!<%= target %>/optimized/shared/oae/bundles/email.*/**',
                                 '!<%= target %>/optimized/shared/oae/bundles/ui.*/**',
-                                '!<%= target %>/optimized/shared/vendor/js/l10n/cultures.*/**'
-                            ]
+                                '!<%= target %>/optimized/shared/vendor/js/l10n/cultures.*/**',
+                            ],
                         }),
-                        'references': _replacementReferences({
-                            'directories': [
+                        references: _replacementReferences({
+                            directories: [
                                 '<%= target %>/optimized/admin',
                                 '<%= target %>/optimized/custom',
                                 '<%= target %>/optimized/docs',
                                 '<%= target %>/optimized/node_modules/oae-*',
                                 '<%= target %>/optimized/shared',
-                                '<%= target %>/optimized/ui'
+                                '<%= target %>/optimized/ui',
                             ],
-                            'includeExts': [
-                                'css',
-                                'html',
-                                'js'
+                            includeExts: ['css', 'html', 'js'],
+                            extra: [
+                                '<%= target %>/optimized/shared/oae/macros/*.html',
                             ],
-                            'extra': [
-                                '<%= target %>/optimized/shared/oae/macros/*.html'
-                            ]
-                        })
+                        }),
                     },
 
                     /*!
@@ -223,8 +219,10 @@ module.exports = function(grunt) {
                      * files in the shared directory.
                      */
                     {
-                        'files': ['<%= target %>/optimized/shared/oae/macros/*.html'],
-                        'references': ['<%= target %>/optimized/shared/**/*.js']
+                        files: [
+                            '<%= target %>/optimized/shared/oae/macros/*.html',
+                        ],
+                        references: ['<%= target %>/optimized/shared/**/*.js'],
                     },
 
                     /*!
@@ -237,28 +235,25 @@ module.exports = function(grunt) {
                      * TODO: Remove "custom" when there is a proper landing page customization strategy
                      */
                     {
-                        'files': [
+                        files: [
                             '<%= target %>/optimized/shared/**/*.js',
                             '<%= target %>/optimized/shared/**/*.css',
-                            '!<%= target %>/optimized/shared/vendor/js/l10n/cultures.*/**'
+                            '!<%= target %>/optimized/shared/vendor/js/l10n/cultures.*/**',
                         ],
-                        'references': _replacementReferences({
-                            'directories': [
+                        references: _replacementReferences({
+                            directories: [
                                 '<%= target %>/optimized/admin',
                                 '<%= target %>/optimized/custom',
                                 '<%= target %>/optimized/docs',
                                 '<%= target %>/optimized/node_modules/oae-*',
                                 '<%= target %>/optimized/shared',
-                                '<%= target %>/optimized/ui'
+                                '<%= target %>/optimized/ui',
                             ],
-                            'includeExts': [
-                                'html',
-                                'js'
+                            includeExts: ['html', 'js'],
+                            extra: [
+                                '<%= target %>/optimized/shared/oae/macros/*.html',
                             ],
-                            'extra': [
-                                '<%= target %>/optimized/shared/oae/macros/*.html'
-                            ]
-                        })
+                        }),
                     },
 
                     /*!
@@ -274,161 +269,259 @@ module.exports = function(grunt) {
                      * TODO: Remove "custom" when there is a proper landing page customization strategy
                      */
                     {
-                        'folders': [
+                        folders: [
                             '<%= target %>/optimized/admin/js',
                             '<%= target %>/optimized/custom/js',
                             '<%= target %>/optimized/docs/js',
-                            '<%= target %>/optimized/ui/js'
+                            '<%= target %>/optimized/ui/js',
                         ],
-                        'files': [
+                        files: [
                             '<%= target %>/optimized/admin/**/*.css',
                             '<%= target %>/optimized/docs/**/*.css',
                             '<%= target %>/optimized/custom/**/*.css',
-                            '<%= target %>/optimized/ui/**/*.css'
+                            '<%= target %>/optimized/ui/**/*.css',
                         ],
-                        'references': _replacementReferences({
-                            'directories': [
+                        references: _replacementReferences({
+                            directories: [
                                 '<%= target %>/optimized/admin',
                                 '<%= target %>/optimized/custom',
                                 '<%= target %>/optimized/docs',
                                 '<%= target %>/optimized/node_modules/oae-*',
-                                '<%= target %>/optimized/ui'
+                                '<%= target %>/optimized/ui',
                             ],
-                            'includeExts': [
-                                'html',
-                                'js'
+                            includeExts: ['html', 'js'],
+                            extra: [
+                                '<%= target %>/optimized/shared/oae/macros/*.html',
                             ],
-                            'extra': [
-                                '<%= target %>/optimized/shared/oae/macros/*.html'
-                            ]
-                        })
-                    }
+                        }),
+                    },
                 ],
-                'version': '<%= target %>/optimized/hashes.json'
-            }
+                version: '<%= target %>/optimized/hashes.json',
+            },
         },
-        'replace': {
-            'url': 'URL pointing to a CDN that gets set by the cdn task',
-            'main': {
-                'src': [
+        replace: {
+            url: 'URL pointing to a CDN that gets set by the cdn task',
+            main: {
+                src: [
                     'target/optimized/ui/*.html',
                     'target/optimized/ui/custom/*.html',
                     'target/optimized/admin/*.html',
                     'target/optimized/shared/oae/api/oae.bootstrap.*.js',
-                    'target/optimized/shared/oae/api/oae.core.*.js'
+                    'target/optimized/shared/oae/api/oae.core.*.js',
                 ],
-                'overwrite': true,
-                'replacements': [
+                overwrite: true,
+                replacements: [
                     {
-                        'from': /(src)="\/(.+?)"/ig,
-                        'to': function(matchedWord, index, fullText, regexMatches) {
-                            return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
-                        }
+                        from: /(src)="\/(.+?)"/gi,
+                        to: function(
+                            matchedWord,
+                            index,
+                            fullText,
+                            regexMatches,
+                        ) {
+                            return _cdnifyStaticAsset(
+                                grunt.config('replace').url,
+                                matchedWord,
+                                index,
+                                fullText,
+                                regexMatches,
+                            );
+                        },
                     },
                     {
-                        'from': /(data-loadmodule)="\/(.+?)"/ig,
-                        'to': function(matchedWord, index, fullText, regexMatches) {
-                            return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
-                        }
+                        from: /(data-loadmodule)="\/(.+?)"/gi,
+                        to: function(
+                            matchedWord,
+                            index,
+                            fullText,
+                            regexMatches,
+                        ) {
+                            return _cdnifyStaticAsset(
+                                grunt.config('replace').url,
+                                matchedWord,
+                                index,
+                                fullText,
+                                regexMatches,
+                            );
+                        },
                     },
                     {
-                        'from': /(data-main)="\/(.+?)"/ig,
-                        'to': function(matchedWord, index, fullText, regexMatches) {
-                            return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
-                        }
+                        from: /(data-main)="\/(.+?)"/gi,
+                        to: function(
+                            matchedWord,
+                            index,
+                            fullText,
+                            regexMatches,
+                        ) {
+                            return _cdnifyStaticAsset(
+                                grunt.config('replace').url,
+                                matchedWord,
+                                index,
+                                fullText,
+                                regexMatches,
+                            );
+                        },
                     },
                     {
-                        'from': /(<link.*?href)="\/(.+?)"/ig,
-                        'to': function(matchedWord, index, fullText, regexMatches) {
-                            return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
-                        }
+                        from: /(<link.*?href)="\/(.+?)"/gi,
+                        to: function(
+                            matchedWord,
+                            index,
+                            fullText,
+                            regexMatches,
+                        ) {
+                            return _cdnifyStaticAsset(
+                                grunt.config('replace').url,
+                                matchedWord,
+                                index,
+                                fullText,
+                                regexMatches,
+                            );
+                        },
                     },
                     {
                         // Replace the require base URL
-                        'from': /requirejs\.config\(\{baseUrl:"\/shared\/",/,
-                        'to': function(matchedWord, index, fullText, regexMatches) {
+                        from: /requirejs\.config\(\{baseUrl:"\/shared\/",/,
+                        to: function(
+                            matchedWord,
+                            index,
+                            fullText,
+                            regexMatches,
+                        ) {
                             // The URL of our CDN
                             var cdn = grunt.config('replace').url;
 
                             // Return the attribute with our CDN in it
-                            return util.format('requirejs.config({baseUrl:"%s/shared/",', cdn);
-                        }
+                            return util.format(
+                                'requirejs.config({baseUrl:"%s/shared/",',
+                                cdn,
+                            );
+                        },
                     },
                     {
                         // We're loading in a globalize culture dynamically that can
                         // be loaded from our CDN
-                        'from': /require\(\["\/shared\/vendor\/js\/l10n\/cultures\./,
-                        'to': function(matchedWord, index, fullText, regexMatches) {
+                        from: /require\(\["\/shared\/vendor\/js\/l10n\/cultures\./,
+                        to: function(
+                            matchedWord,
+                            index,
+                            fullText,
+                            regexMatches,
+                        ) {
                             // The URL of our CDN
                             var cdn = grunt.config('replace').url;
 
                             // Return the attribute with our CDN in it
-                            return util.format('require(["%s/shared/vendor/js/l10n/cultures\.', cdn);
-                        }
-                    }
-                ]
+                            return util.format(
+                                'require(["%s/shared/vendor/js/l10n/cultures.',
+                                cdn,
+                            );
+                        },
+                    },
+                ],
             },
             'core-widgets': {
-                'src': [
-                    'target/optimized/node_modules/oae-core/**/*.html'
-                ],
-                'overwrite': true,
-                'replacements': [
+                src: ['target/optimized/node_modules/oae-core/**/*.html'],
+                overwrite: true,
+                replacements: [
                     {
                         // Replace the CSS paths in the oae-core widgets
-                        'from': /href="css\/([a-z]+?)\.([a-z0-9]+?).css"/,
-                        'to': function(matchedWord, index, fullText, regexMatches) {
+                        from: /href="css\/([a-z]+?)\.([a-z0-9]+?).css"/,
+                        to: function(
+                            matchedWord,
+                            index,
+                            fullText,
+                            regexMatches,
+                        ) {
                             var cdn = grunt.config('replace').url;
-                            return util.format('href="%s/node_modules/oae-core/%s/css/%s.%s.css"', cdn, regexMatches[0], regexMatches[0], regexMatches[1]);
-                        }
+                            return util.format(
+                                'href="%s/node_modules/oae-core/%s/css/%s.%s.css"',
+                                cdn,
+                                regexMatches[0],
+                                regexMatches[0],
+                                regexMatches[1],
+                            );
+                        },
                     },
                     {
                         // Replace the JS paths in the oae-core widgets
-                        'from': /src="js\/([a-z]+?)\.([a-z0-9]+?).js"/,
-                        'to': function(matchedWord, index, fullText, regexMatches) {
+                        from: /src="js\/([a-z]+?)\.([a-z0-9]+?).js"/,
+                        to: function(
+                            matchedWord,
+                            index,
+                            fullText,
+                            regexMatches,
+                        ) {
                             var cdn = grunt.config('replace').url;
-                            return util.format('src="%s/node_modules/oae-core/%s/js/%s.%s.js"', cdn, regexMatches[0], regexMatches[0], regexMatches[1]);
-                        }
-                    }
-                ]
+                            return util.format(
+                                'src="%s/node_modules/oae-core/%s/js/%s.%s.js"',
+                                cdn,
+                                regexMatches[0],
+                                regexMatches[0],
+                                regexMatches[1],
+                            );
+                        },
+                    },
+                ],
             },
             'admin-widgets': {
-                'src': [
-                    'target/optimized/node_modules/oae-admin/**/*.html'
-                ],
-                'overwrite': true,
-                'replacements': [,
+                src: ['target/optimized/node_modules/oae-admin/**/*.html'],
+                overwrite: true,
+                replacements: [
+                    ,
                     {
-                        'from': /href="css\/([a-z]+?)\.([a-z0-9]+?).css"/,
-                        'to': function(matchedWord, index, fullText, regexMatches) {
+                        from: /href="css\/([a-z]+?)\.([a-z0-9]+?).css"/,
+                        to: function(
+                            matchedWord,
+                            index,
+                            fullText,
+                            regexMatches,
+                        ) {
                             var cdn = grunt.config('replace').url;
-                            return util.format('href="%s/node_modules/oae-admin/%s/css/%s.%s.css"', cdn, regexMatches[0], regexMatches[0], regexMatches[1]);
-                        }
+                            return util.format(
+                                'href="%s/node_modules/oae-admin/%s/css/%s.%s.css"',
+                                cdn,
+                                regexMatches[0],
+                                regexMatches[0],
+                                regexMatches[1],
+                            );
+                        },
                     },
                     {
-                        'from': /src="js\/([a-z]+?)\.([a-z0-9]+?).js"/,
-                        'to': function(matchedWord, index, fullText, regexMatches) {
+                        from: /src="js\/([a-z]+?)\.([a-z0-9]+?).js"/,
+                        to: function(
+                            matchedWord,
+                            index,
+                            fullText,
+                            regexMatches,
+                        ) {
                             var cdn = grunt.config('replace').url;
-                            return util.format('src="%s/node_modules/oae-admin/%s/js/%s.%s.js"', cdn, regexMatches[0], regexMatches[0], regexMatches[1]);
-                        }
-                    }
-                ]
-            }
+                            return util.format(
+                                'src="%s/node_modules/oae-admin/%s/js/%s.%s.js"',
+                                cdn,
+                                regexMatches[0],
+                                regexMatches[0],
+                                regexMatches[1],
+                            );
+                        },
+                    },
+                ],
+            },
         },
         'git-describe': {
-            'oae': {}
+            oae: {},
         },
-        'ghost': {
-            'dist': {
-                'filesSrc': [
+        ghost: {
+            dist: {
+                filesSrc: [
                     'node_modules/oae-*/*/tests/*.js',
                     'shared/oae/**/tests/*.js',
-                    'ui/tests/*.js'
+                    'ui/tests/*.js',
                 ],
                 // CasperJS test command options
-                'options': {
+                options: {
                     // Specify the files to be included in each test
-                    'includes': [
+                    includes: [
                         'tests/casperjs/util/include/admin.js',
                         'tests/casperjs/util/include/config.js',
                         'tests/casperjs/util/include/content.js',
@@ -438,28 +531,35 @@ module.exports = function(grunt) {
                         'tests/casperjs/util/include/groups.js',
                         'tests/casperjs/util/include/ui.js',
                         'tests/casperjs/util/include/users.js',
-                        'tests/casperjs/util/include/util.js'
+                        'tests/casperjs/util/include/util.js',
                     ],
                     // Prepare te testing environment before starting the tests
-                    'pre': ['tests/casperjs/util/prep.js'],
+                    pre: ['tests/casperjs/util/prep.js'],
                     // Don't stop casperjs after first test failure
-                    'failFast': false
-                }
-            }
+                    failFast: false,
+                },
+            },
         },
-        'exec': {
-            'runCasperTest': {
-                'cmd': function(path) {
+        exec: {
+            runCasperTest: {
+                cmd: function(path) {
                     var includes = grunt.config('ghost').dist.options.includes;
                     var pre = grunt.config('ghost').dist.options.pre;
 
-                    return 'casperjs test --includes=' + includes + ' --pre=' + pre + ' ' + path;
-                }
+                    return (
+                        'casperjs test --includes=' +
+                        includes +
+                        ' --pre=' +
+                        pre +
+                        ' ' +
+                        path
+                    );
+                },
             },
-            'startDependencies': {
-                cmd: 'node tests/casperjs/startDependencies.js'
-            }
-        }
+            startDependencies: {
+                cmd: 'node tests/casperjs/startDependencies.js',
+            },
+        },
     });
 
     // Load tasks from npm modules
@@ -478,8 +578,13 @@ module.exports = function(grunt) {
     // Task to write the version to a file
     grunt.registerTask('writeVersion', function() {
         this.requires('git-describe');
-        var json = grunt.template.process('{"oae:ux-version":"<%= meta.version %>"}');
-        grunt.file.write(grunt.config('target') + '/optimized/ui/version.json', json);
+        var json = grunt.template.process(
+            '{"oae:ux-version":"<%= meta.version %>"}',
+        );
+        grunt.file.write(
+            grunt.config('target') + '/optimized/ui/version.json',
+            json,
+        );
     });
 
     // Task to fill out the nginx config template
@@ -490,11 +595,13 @@ module.exports = function(grunt) {
             var template = grunt.file.read('./nginx/nginx.conf');
             grunt.config.set('nginxConf', nginxConfig);
             var config = grunt.template.process(template);
-            var outfile = grunt.config('target') + '/optimized/nginx/nginx.conf';
+            var outfile =
+                grunt.config('target') + '/optimized/nginx/nginx.conf';
             grunt.file.write(outfile, config);
             grunt.log.writeln('nginx.conf rendered at '.green + outfile.green);
         } else {
-            var msg = 'No ' + infile + ' found, not rendering nginx.conf template';
+            var msg =
+                'No ' + infile + ' found, not rendering nginx.conf template';
             grunt.log.writeln(msg.yellow);
         }
     });
@@ -505,7 +612,14 @@ module.exports = function(grunt) {
     // as a result
     grunt.registerTask('touchBootstrap', function() {
         // Just place a comment in the file with the current timestamp
-        util.format('\n// Date Built: %d', Date.now()).toEnd(util.format('%s/optimized/shared/oae/api/oae.bootstrap.js', grunt.config('target')));
+        util
+            .format('\n// Date Built: %d', Date.now())
+            .toEnd(
+                util.format(
+                    '%s/optimized/shared/oae/api/oae.bootstrap.js',
+                    grunt.config('target'),
+                ),
+            );
     });
 
     // Task to hash files
@@ -514,7 +628,10 @@ module.exports = function(grunt) {
         this.requires('touchBootstrap');
 
         // Add a new ver task for each module that needs to be optimized
-        var oaeModules = grunt.file.expand({filter:'isDirectory'}, grunt.config('target') + '/optimized/node_modules/oae-*/*');
+        var oaeModules = grunt.file.expand(
+            { filter: 'isDirectory' },
+            grunt.config('target') + '/optimized/node_modules/oae-*/*',
+        );
         oaeModules.forEach(function(module) {
             grunt.log.writeln(module);
 
@@ -522,11 +639,10 @@ module.exports = function(grunt) {
                 util.format('%s/**/*.css', module),
                 util.format('%s/**/*.html', module),
                 util.format('%s/**/*.js', module),
-                util.format('%s/**/*.json', module)
+                util.format('%s/**/*.json', module),
             ];
 
             var phases = [
-
                 /*!
                  * First, hash all files that do not have references to other files. That's
                  * basically everything except HTML, JS, CSS files. Additionally, we
@@ -538,21 +654,25 @@ module.exports = function(grunt) {
                  *    deterministic name
                  */
                 {
-                    'files': _hashFiles({
-                        'directories': [module],
-                        'excludeExts': ['css', 'html', 'js', 'json', 'properties']
+                    files: _hashFiles({
+                        directories: [module],
+                        excludeExts: [
+                            'css',
+                            'html',
+                            'js',
+                            'json',
+                            'properties',
+                        ],
                     }),
-                    'references': moduleReferences.slice()
+                    references: moduleReferences.slice(),
                 },
 
                 /*!
                  * Second, hash the bundles directories of the widgets
                  */
                 {
-                    'folders': [
-                        util.format('%s/bundles', module)
-                    ],
-                    'references': moduleReferences.slice()
+                    folders: [util.format('%s/bundles', module)],
+                    references: moduleReferences.slice(),
                 },
 
                 /*!
@@ -578,11 +698,11 @@ module.exports = function(grunt) {
                  * See https://github.com/oaeproject/3akai-ux/issues/3551 for more information.
                  */
                 {
-                    'files': [
+                    files: [
                         util.format('%s/**/*.css', module),
-                        util.format('%s/**/*.js', module)
+                        util.format('%s/**/*.js', module),
                     ],
-                    'references': [util.format('%s/**/*.html', module)]
+                    references: [util.format('%s/**/*.html', module)],
                 },
 
                 /*!
@@ -602,9 +722,9 @@ module.exports = function(grunt) {
                  * first.
                  */
                 {
-                    'files': [util.format('%s/**/*.html', module)],
-                    'references': [util.format('%s/**/*.json', module)]
-                }
+                    files: [util.format('%s/**/*.html', module)],
+                    references: [util.format('%s/**/*.json', module)],
+                },
             ];
 
             grunt.config.set(util.format('ver.%s.basedir', module), module);
@@ -614,7 +734,6 @@ module.exports = function(grunt) {
 
         grunt.task.run('ver:oae');
         grunt.task.run('updateBootstrapPaths');
-
     });
 
     // Task to update the paths in oae.bootstrap to the hashed versions
@@ -623,7 +742,8 @@ module.exports = function(grunt) {
 
         var basedir = grunt.config('target') + '/optimized/';
         var hashedPaths = require('./' + grunt.config.get('ver.oae.version'));
-        var bootstrapPath = basedir + hashedPaths['/shared/oae/api/oae.bootstrap.js'];
+        var bootstrapPath =
+            basedir + hashedPaths['/shared/oae/api/oae.bootstrap.js'];
         var bootstrap = grunt.file.read(bootstrapPath);
         var regex = /("|')?paths("|')?: ?\{[^}]*\}/;
         var scriptPaths = 'paths = {' + bootstrap.match(regex)[0] + '}';
@@ -638,7 +758,10 @@ module.exports = function(grunt) {
             if (hashedPaths[path]) {
                 hashedPath = hashedPaths[path];
                 // trim off prefix and .js
-                paths[key] = hashedPath.substring(prefix.length, hashedPath.length - 3);
+                paths[key] = hashedPath.substring(
+                    prefix.length,
+                    hashedPath.length - 3,
+                );
             }
         });
         bootstrap = bootstrap.replace(regex, 'paths:' + JSON.stringify(paths));
@@ -670,17 +793,25 @@ module.exports = function(grunt) {
     // A task that will copy the release files to a directory of your choosing
     grunt.registerTask('copyReleaseArtifacts', function(outputDir) {
         if (!outputDir) {
-            return grunt.log.writeln('Please provide a path where the release files should be copied to'.red);
+            return grunt.log.writeln(
+                'Please provide a path where the release files should be copied to'
+                    .red,
+            );
         }
 
         var config = {
-            'files': [
+            files: [
                 {
-                    'expand': true,
-                    'src': ['./<%= grunt.config("target") %>/*', './README.md', './LICENSE', './COMMITTERS.txt'],
-                    'dest': outputDir
-                }
-            ]
+                    expand: true,
+                    src: [
+                        './<%= grunt.config("target") %>/*',
+                        './README.md',
+                        './LICENSE',
+                        './COMMITTERS.txt',
+                    ],
+                    dest: outputDir,
+                },
+            ],
         };
         grunt.config.set('copy.release', config);
         grunt.task.run('copy:release');
@@ -697,7 +828,10 @@ module.exports = function(grunt) {
     //    /tmp/release/original   -  contains the original UI files
     grunt.registerTask('release', function(outputDir) {
         if (!outputDir) {
-            return grunt.log.writeln('Please provide a path where the release files should be copied to'.red);
+            return grunt.log.writeln(
+                'Please provide a path where the release files should be copied to'
+                    .red,
+            );
         }
 
         // Run the default task that will minify and hash all the UI files.
@@ -709,7 +843,7 @@ module.exports = function(grunt) {
     });
 
     // Lint tasks (JavaScript only for now, too many errors in css)
-    grunt.registerTask('lint', ['jshint' /*, 'csslint' */ ]);
+    grunt.registerTask('lint', ['jshint' /*, 'csslint' */]);
 
     // Wrap the QUnit task
     grunt.renameTask('qunit', 'contrib-qunit');
@@ -717,13 +851,18 @@ module.exports = function(grunt) {
         // Fall back to the `qunit-host` option
         host = host || grunt.option('qunit-host');
         if (!host) {
-            return grunt.fail.fatal('Please provide a link to a running OAE instance. e.g. `grunt qunit:tenant1.oae.com` or `grunt qunit --qunit-host tenant1.oae.com`');
+            return grunt.fail.fatal(
+                'Please provide a link to a running OAE instance. e.g. `grunt qunit:tenant1.oae.com` or `grunt qunit --qunit-host tenant1.oae.com`',
+            );
         }
 
-        var urls = _.map(grunt.file.expand(grunt.config.get('qunit.files')), function(file) {
-            return 'http://' + host + '/' + file;
-        });
-        var config = {'options': {'urls': urls}};
+        var urls = _.map(
+            grunt.file.expand(grunt.config.get('qunit.files')),
+            function(file) {
+                return 'http://' + host + '/' + file;
+            },
+        );
+        var config = { options: { urls: urls } };
         grunt.config.set('contrib-qunit.all', config);
         grunt.task.run('contrib-qunit');
     });
@@ -741,14 +880,26 @@ module.exports = function(grunt) {
         path = path || grunt.option('path');
 
         if (!path) {
-            return grunt.fail.fatal('Please provide a path to a CasperJS test file. e.g. `grunt test-file --path=node_modules/oae-core/preferences/tests/preferences.js`');
+            return grunt.fail.fatal(
+                'Please provide a path to a CasperJS test file. e.g. `grunt test-file --path=node_modules/oae-core/preferences/tests/preferences.js`',
+            );
         }
 
         grunt.task.run('exec:runCasperTest:' + path);
     });
 
     // Default task for production build
-    grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'touchBootstrap', 'hashFiles', 'cdn', 'writeVersion', 'configNginx']);
+    grunt.registerTask('default', [
+        'clean',
+        'copy',
+        'git-describe',
+        'requirejs',
+        'touchBootstrap',
+        'hashFiles',
+        'cdn',
+        'writeVersion',
+        'configNginx',
+    ]);
 };
 
 /**
@@ -805,7 +956,6 @@ var _hashFiles = function(options) {
     return _.union(globs, options.extra);
 };
 
-
 /**
  * Prepend the CDN url for those static assets that are not delivered by either
  * the OAE APIs or other external hosts
@@ -818,13 +968,22 @@ var _hashFiles = function(options) {
  * @return {String}                             The string that will replace `matchedWord`
  * @api private
  */
-var _cdnifyStaticAsset = function(cdn, matchedWord, index, fullText, regexMatches) {
+var _cdnifyStaticAsset = function(
+    cdn,
+    matchedWord,
+    index,
+    fullText,
+    regexMatches,
+) {
     // Get the name of the attribute (e.g., `src`, `data-main`, ...)
     var attr = regexMatches[0];
 
     // Do not replace anything that already points to an outside source
     // e.g., do not cdnify src="//www.youtube" or href="https://foo.com/asset.jpg"
-    if (regexMatches[1].indexOf('/') === 0 || regexMatches[1].indexOf('api') === 0) {
+    if (
+        regexMatches[1].indexOf('/') === 0 ||
+        regexMatches[1].indexOf('api') === 0
+    ) {
         return matchedWord;
     }
 

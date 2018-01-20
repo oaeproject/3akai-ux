@@ -14,7 +14,6 @@
  */
 
 (function($) {
-
     /**
      * Extend jQuery to include a serializeObject function which uses $.serializeArray to serialize a form and
      * its values and then creates an object from that array

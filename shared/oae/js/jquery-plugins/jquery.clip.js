@@ -19,9 +19,8 @@
  * outside of an opened clip, the clip will be collapsed as well.
  */
 
-define(['jquery'], function (jQuery) {
+define(['jquery'], function(jQuery) {
     (function($) {
-
         /**
          * Toggle clip visibility
          *
@@ -39,13 +38,18 @@ define(['jquery'], function (jQuery) {
             // Toggle the clip options
             $('ul', $clip).toggle();
             // Toggle the caret icons
-            $('i.fa-caret-down, i.fa-caret-up', $clip).toggleClass('fa-caret-down fa-caret-up');
+            $('i.fa-caret-down, i.fa-caret-up', $clip).toggleClass(
+                'fa-caret-down fa-caret-up',
+            );
         };
 
         // Hook all clicks on document to close clips as appropriate
         $(document).on('click', function(ev) {
             // No changes to underlying clips if user is interacting with a modal
-            if ($('.modal.in').length || $(ev.target).parents('.modal').length) {
+            if (
+                $('.modal.in').length ||
+                $(ev.target).parents('.modal').length
+            ) {
                 return;
             }
 
@@ -54,16 +58,23 @@ define(['jquery'], function (jQuery) {
 
             // If target clip allows actions and target was clip's button or one of
             // its children, toggle the clip
-            if (($('i.fa-caret-down, i.fa-caret-up', $clip).length > 0) &&
-                (($(ev.target).is('.oae-clip-content > button:not(:disabled)')) ||
-                 ($(ev.target).parents('.oae-clip-content > button:not(:disabled)').length > 0))) {
+            if (
+                $('i.fa-caret-down, i.fa-caret-up', $clip).length > 0 &&
+                ($(ev.target).is('.oae-clip-content > button:not(:disabled)') ||
+                    $(ev.target).parents(
+                        '.oae-clip-content > button:not(:disabled)',
+                    ).length > 0)
+            ) {
                 toggleClip($clip);
             }
 
             // Close any other open clips on page
-            $('.oae-clip-content').has('ul:visible').not($clip).each(function() {
-                toggleClip($(this));
-            });
+            $('.oae-clip-content')
+                .has('ul:visible')
+                .not($clip)
+                .each(function() {
+                    toggleClip($(this));
+                });
         });
     })(jQuery);
 });

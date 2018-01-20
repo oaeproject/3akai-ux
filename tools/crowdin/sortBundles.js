@@ -22,8 +22,7 @@ var argv = require('optimist')
 
     .demand('b')
     .alias('b', 'bundlesDir')
-    .describe('b', 'Absolute path to the bundles directory')
-    .argv;
+    .describe('b', 'Absolute path to the bundles directory').argv;
 
 var util = require('./util');
 

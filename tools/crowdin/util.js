@@ -24,7 +24,7 @@ var fs = require('fs');
  * @param  {Object}      callback.err           Error object
  * @param  {Object}      callback.allBundles    Object containing parsed bundles found on the path. Returns in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
  */
-var readBundles = exports.readBundles = function(bundlesDir, callback) {
+var readBundles = (exports.readBundles = function(bundlesDir, callback) {
     var availableBundles = null;
     try {
         availableBundles = fs.readdirSync(bundlesDir);
@@ -38,7 +38,10 @@ var readBundles = exports.readBundles = function(bundlesDir, callback) {
     _.each(availableBundles, function(bundleName) {
         // Read the i18n bundle
         try {
-            var bundle = fs.readFileSync(bundlesDir + '/' + bundleName, 'utf-8');
+            var bundle = fs.readFileSync(
+                bundlesDir + '/' + bundleName,
+                'utf-8',
+            );
             allBundles[bundleName] = bundle.split(/\n/g);
         } catch (err) {
             errors.push(err);
@@ -50,7 +53,7 @@ var readBundles = exports.readBundles = function(bundlesDir, callback) {
     } else {
         callback(null, allBundles);
     }
-};
+});
 
 /**
  * Write bundles to a given directory
@@ -60,7 +63,7 @@ var readBundles = exports.readBundles = function(bundlesDir, callback) {
  * @param  {Function}    callback         Standard callback function
  * @param  {Object}      callback.err     Error object
  */
-var writeBundles = exports.writeBundles = function(bundles, path, callback) {
+var writeBundles = (exports.writeBundles = function(bundles, path, callback) {
     var errors = [];
     _.each(bundles, function(bundle, bundleName) {
         // Convert the entries array to an entries string
@@ -78,7 +81,7 @@ var writeBundles = exports.writeBundles = function(bundles, path, callback) {
     } else {
         callback();
     }
-};
+});
 
 /**
  * Get the translations for a specific key in a given bundles object
@@ -88,7 +91,11 @@ var writeBundles = exports.writeBundles = function(bundles, path, callback) {
  * @param  {Function}    callback                    Standard callback function
  * @param  {Object}      callback.i18nEntries        Object containing the key and translation for every language it's available in. Returns in the form {'Bundle 1 name': 'key=translation', 'Bundle 2 name': 'key=translation'}
  */
-var getKeyFromBundles = exports.getKeyFromBundles = function(bundles, key, callback) {
+var getKeyFromBundles = (exports.getKeyFromBundles = function(
+    bundles,
+    key,
+    callback,
+) {
     var i18nEntries = {};
     _.each(bundles, function(bundle, bundlePath) {
         // Loop over every line and, if the key matches the key we need to move, cache it in the `i18nEntries` variable
@@ -100,7 +107,7 @@ var getKeyFromBundles = exports.getKeyFromBundles = function(bundles, key, callb
     });
 
     callback(i18nEntries);
-};
+});
 
 /**
  * Add the translations for a specific key to the provided bundles
@@ -111,20 +118,30 @@ var getKeyFromBundles = exports.getKeyFromBundles = function(bundles, key, callb
  * @param  {Object}      callback.err        Error object
  * @param  {Object}      callback.bundles    Object containing the bundles where the given key is added to. Returns in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
  */
-var addKeyToBundles = exports.addKeyToBundles = function(bundles, i18nEntries, callback) {
+var addKeyToBundles = (exports.addKeyToBundles = function(
+    bundles,
+    i18nEntries,
+    callback,
+) {
     // Make sure that the key isn't already present in one of the bundles to move the key to
     // to avoid accidentally removing an existing translation
     var exists = [];
     _.each(bundles, function(bundle, bundlePath) {
         _.each(bundle, function(i18nEntry) {
-            if (i18nEntries[bundlePath] && i18nEntries[bundlePath].split('=')[0].trim() === i18nEntry.split('=')[0].trim()) {
+            if (
+                i18nEntries[bundlePath] &&
+                i18nEntries[bundlePath].split('=')[0].trim() ===
+                    i18nEntry.split('=')[0].trim()
+            ) {
                 exists.push(bundlePath);
             }
         });
     });
 
     if (exists.length > 0) {
-        return callback(new Error('The key to add is already present in ' + exists))
+        return callback(
+            new Error('The key to add is already present in ' + exists),
+        );
     }
 
     // Add the entry to the different bundles
@@ -137,7 +154,7 @@ var addKeyToBundles = exports.addKeyToBundles = function(bundles, i18nEntries, c
     sortBundles(bundles, function(bundles) {
         callback(null, bundles);
     });
-};
+});
 
 /**
  * Rename a key from the source key to the destination key in the specified
@@ -150,7 +167,12 @@ var addKeyToBundles = exports.addKeyToBundles = function(bundles, i18nEntries, c
  * @param  {Error}      callback.err        Error object
  * @param  {Object}     callback.bundles    Object containing the bundles with the provided key renamed. Returns in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
  */
-var renameKeyInBundles = exports.renameKeyInBundles = function(bundles, fromKey, toKey, callback) {
+var renameKeyInBundles = (exports.renameKeyInBundles = function(
+    bundles,
+    fromKey,
+    toKey,
+    callback,
+) {
     fromKey = fromKey.trim();
     toKey = toKey.trim();
 
@@ -166,7 +188,9 @@ var renameKeyInBundles = exports.renameKeyInBundles = function(bundles, fromKey,
     });
 
     if (exists.length > 0) {
-        return callback(new Error('The key to add is already present in ' + exists))
+        return callback(
+            new Error('The key to add is already present in ' + exists),
+        );
     }
 
     // Rename the entry in the different bundles
@@ -191,7 +215,7 @@ var renameKeyInBundles = exports.renameKeyInBundles = function(bundles, fromKey,
     sortBundles(bundles, function(bundles) {
         callback(null, bundles);
     });
-};
+});
 
 /**
  * Delete a given key from the provided bundles
@@ -201,12 +225,19 @@ var renameKeyInBundles = exports.renameKeyInBundles = function(bundles, fromKey,
  * @param  {Function}    callback            Standard callback function
  * @param  {Object}      callback.bundles    Object containing the bundles with the provided key removed. Returns in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
  */
-var deleteKeyFromBundles = exports.deleteKeyFromBundles = function(bundles, key, callback) {
+var deleteKeyFromBundles = (exports.deleteKeyFromBundles = function(
+    bundles,
+    key,
+    callback,
+) {
     _.each(bundles, function(bundle, bundlePath) {
         var newBundle = [];
         // Loop over every line and, if the key doesn't match add it to the new bundle file we're writing
         _.each(bundle, function(i18nEntry) {
-            if (_.isString(i18nEntry) && i18nEntry.split('=')[0].trim() !== key) {
+            if (
+                _.isString(i18nEntry) &&
+                i18nEntry.split('=')[0].trim() !== key
+            ) {
                 newBundle.push(i18nEntry);
             }
         });
@@ -214,7 +245,7 @@ var deleteKeyFromBundles = exports.deleteKeyFromBundles = function(bundles, key,
     });
 
     callback(bundles);
-};
+});
 
 /**
  * Sort keys alphabetically based on the part before the `=`
@@ -240,7 +271,7 @@ var _sortKeys = function(a, b) {
  * @param  {Function}    callback            Standard callback function
  * @param  {Object}      callback.bundles    Object containing the sorted bundles. Returns in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
  */
-var sortBundles = exports.sortBundles = function(bundles, callback) {
+var sortBundles = (exports.sortBundles = function(bundles, callback) {
     _.each(bundles, function(i18nEntries, bundleName) {
         // Remove all empty lines from the bundle
         i18nEntries = _.compact(i18nEntries);
@@ -254,4 +285,4 @@ var sortBundles = exports.sortBundles = function(bundles, callback) {
     });
 
     callback(bundles);
-};
+});

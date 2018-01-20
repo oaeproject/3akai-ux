@@ -11,86 +11,175 @@
  * Translation: bugs found in this file need to be fixed in the generator
  */
 
-(function( window, undefined ) {
+(function(window, undefined) {
+    var Globalize;
 
-var Globalize;
+    if (
+        typeof require !== 'undefined' &&
+        typeof exports !== 'undefined' &&
+        typeof module !== 'undefined'
+    ) {
+        // Assume CommonJS
+        Globalize = require('globalize');
+    } else {
+        // Global variable
+        Globalize = window.Globalize;
+    }
 
-if ( typeof require !== "undefined"
-	&& typeof exports !== "undefined"
-	&& typeof module !== "undefined" ) {
-	// Assume CommonJS
-	Globalize = require( "globalize" );
-} else {
-	// Global variable
-	Globalize = window.Globalize;
-}
-
-Globalize.addCultureInfo( "ar-IQ", "default", {
-	name: "ar-IQ",
-	englishName: "Arabic (Iraq)",
-	nativeName: "العربية (العراق)",
-	language: "ar",
-	isRTL: true,
-	numberFormat: {
-		pattern: ["n-"],
-		NaN: "ليس برقم",
-		negativeInfinity: "-لا نهاية",
-		positiveInfinity: "+لا نهاية",
-		currency: {
-			pattern: ["$n-","$ n"],
-			symbol: "د.ع.‏"
-		}
-	},
-	calendars: {
-		standard: {
-			firstDay: 6,
-			days: {
-				names: ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
-				namesAbbr: ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
-				namesShort: ["ح","ن","ث","ر","خ","ج","س"]
-			},
-			months: {
-				names: ["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول",""],
-				namesAbbr: ["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول",""]
-			},
-			AM: ["ص","ص","ص"],
-			PM: ["م","م","م"],
-			patterns: {
-				d: "dd/MM/yyyy",
-				D: "dd MMMM, yyyy",
-				t: "hh:mm tt",
-				T: "hh:mm:ss tt",
-				f: "dd MMMM, yyyy hh:mm tt",
-				F: "dd MMMM, yyyy hh:mm:ss tt",
-				M: "dd MMMM"
-			}
-		},
-		UmAlQura: {
-			name: "UmAlQura",
-			firstDay: 6,
-			days: {
-				names: ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
-				namesAbbr: ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
-				namesShort: ["ح","ن","ث","ر","خ","ج","س"]
-			},
-			months: {
-				names: ["محرم","صفر","ربيع الأول","ربيع الثاني","جمادى الأولى","جمادى الثانية","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة",""],
-				namesAbbr: ["محرم","صفر","ربيع الأول","ربيع الثاني","جمادى الأولى","جمادى الثانية","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة",""]
-			},
-			AM: ["ص","ص","ص"],
-			PM: ["م","م","م"],
-			eras: [{"name":"بعد الهجرة","start":null,"offset":0}],
-			twoDigitYearMax: 1451,
-			patterns: {
-				d: "dd/MM/yy",
-				D: "dd/MMMM/yyyy",
-				t: "hh:mm tt",
-				T: "hh:mm:ss tt",
-				f: "dd/MMMM/yyyy hh:mm tt",
-				F: "dd/MMMM/yyyy hh:mm:ss tt",
-				M: "dd MMMM"
-			},
-			convert: {
+    Globalize.addCultureInfo('ar-IQ', 'default', {
+        name: 'ar-IQ',
+        englishName: 'Arabic (Iraq)',
+        nativeName: 'العربية (العراق)',
+        language: 'ar',
+        isRTL: true,
+        numberFormat: {
+            pattern: ['n-'],
+            NaN: 'ليس برقم',
+            negativeInfinity: '-لا نهاية',
+            positiveInfinity: '+لا نهاية',
+            currency: {
+                pattern: ['$n-', '$ n'],
+                symbol: 'د.ع.‏',
+            },
+        },
+        calendars: {
+            standard: {
+                firstDay: 6,
+                days: {
+                    names: [
+                        'الأحد',
+                        'الإثنين',
+                        'الثلاثاء',
+                        'الأربعاء',
+                        'الخميس',
+                        'الجمعة',
+                        'السبت',
+                    ],
+                    namesAbbr: [
+                        'الأحد',
+                        'الإثنين',
+                        'الثلاثاء',
+                        'الأربعاء',
+                        'الخميس',
+                        'الجمعة',
+                        'السبت',
+                    ],
+                    namesShort: ['ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س'],
+                },
+                months: {
+                    names: [
+                        'كانون الثاني',
+                        'شباط',
+                        'آذار',
+                        'نيسان',
+                        'أيار',
+                        'حزيران',
+                        'تموز',
+                        'آب',
+                        'أيلول',
+                        'تشرين الأول',
+                        'تشرين الثاني',
+                        'كانون الأول',
+                        '',
+                    ],
+                    namesAbbr: [
+                        'كانون الثاني',
+                        'شباط',
+                        'آذار',
+                        'نيسان',
+                        'أيار',
+                        'حزيران',
+                        'تموز',
+                        'آب',
+                        'أيلول',
+                        'تشرين الأول',
+                        'تشرين الثاني',
+                        'كانون الأول',
+                        '',
+                    ],
+                },
+                AM: ['ص', 'ص', 'ص'],
+                PM: ['م', 'م', 'م'],
+                patterns: {
+                    d: 'dd/MM/yyyy',
+                    D: 'dd MMMM, yyyy',
+                    t: 'hh:mm tt',
+                    T: 'hh:mm:ss tt',
+                    f: 'dd MMMM, yyyy hh:mm tt',
+                    F: 'dd MMMM, yyyy hh:mm:ss tt',
+                    M: 'dd MMMM',
+                },
+            },
+            UmAlQura: {
+                name: 'UmAlQura',
+                firstDay: 6,
+                days: {
+                    names: [
+                        'الأحد',
+                        'الإثنين',
+                        'الثلاثاء',
+                        'الأربعاء',
+                        'الخميس',
+                        'الجمعة',
+                        'السبت',
+                    ],
+                    namesAbbr: [
+                        'الأحد',
+                        'الإثنين',
+                        'الثلاثاء',
+                        'الأربعاء',
+                        'الخميس',
+                        'الجمعة',
+                        'السبت',
+                    ],
+                    namesShort: ['ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س'],
+                },
+                months: {
+                    names: [
+                        'محرم',
+                        'صفر',
+                        'ربيع الأول',
+                        'ربيع الثاني',
+                        'جمادى الأولى',
+                        'جمادى الثانية',
+                        'رجب',
+                        'شعبان',
+                        'رمضان',
+                        'شوال',
+                        'ذو القعدة',
+                        'ذو الحجة',
+                        '',
+                    ],
+                    namesAbbr: [
+                        'محرم',
+                        'صفر',
+                        'ربيع الأول',
+                        'ربيع الثاني',
+                        'جمادى الأولى',
+                        'جمادى الثانية',
+                        'رجب',
+                        'شعبان',
+                        'رمضان',
+                        'شوال',
+                        'ذو القعدة',
+                        'ذو الحجة',
+                        '',
+                    ],
+                },
+                AM: ['ص', 'ص', 'ص'],
+                PM: ['م', 'م', 'م'],
+                eras: [{ name: 'بعد الهجرة', start: null, offset: 0 }],
+                twoDigitYearMax: 1451,
+                patterns: {
+                    d: 'dd/MM/yy',
+                    D: 'dd/MMMM/yyyy',
+                    t: 'hh:mm tt',
+                    T: 'hh:mm:ss tt',
+                    f: 'dd/MMMM/yyyy hh:mm tt',
+                    F: 'dd/MMMM/yyyy hh:mm:ss tt',
+                    M: 'dd MMMM',
+                },
+                convert: {
                     _yearInfo: [
                         // MonthLengthFlags, Gregorian Date
                         [746, -2198707200000],
@@ -226,21 +315,24 @@ Globalize.addCultureInfo( "ar-IQ", "default", {
                         [2778, 1781568000000],
                         [1748, 1812240000000],
                         [1701, 1842825600000],
-                        [0, 1873411200000]
+                        [0, 1873411200000],
                     ],
                     minDate: -2198707200000,
                     maxDate: 1873411199999,
                     toGregorian: function(hyear, hmonth, hday) {
                         var days = hday - 1,
                             gyear = hyear - 1318;
-                        if (gyear < 0 || gyear >= this._yearInfo.length) return null;
+                        if (gyear < 0 || gyear >= this._yearInfo.length)
+                            return null;
                         var info = this._yearInfo[gyear],
                             gdate = new Date(info[1]),
                             monthLength = info[0];
                         // Date's ticks in javascript are always from the GMT time,
                         // but we are interested in the gregorian date in the same timezone,
                         // not what the gregorian date was at GMT time, so we adjust for the offset.
-                        gdate.setMinutes(gdate.getMinutes() + gdate.getTimezoneOffset());
+                        gdate.setMinutes(
+                            gdate.getMinutes() + gdate.getTimezoneOffset(),
+                        );
                         for (var i = 0; i < hmonth; i++) {
                             days += 29 + (monthLength & 1);
                             monthLength = monthLength >> 1;
@@ -253,11 +345,12 @@ Globalize.addCultureInfo( "ar-IQ", "default", {
                         // but we are interested in the hijri date in the same timezone,
                         // not what the hijri date was at GMT time, so we adjust for the offset.
                         var ticks = gdate - gdate.getTimezoneOffset() * 60000;
-                        if (ticks < this.minDate || ticks > this.maxDate) return null;
+                        if (ticks < this.minDate || ticks > this.maxDate)
+                            return null;
                         var hyear = 0,
                             hmonth = 1;
                         // find the earliest gregorian date in the array that is greater than or equal to the given date
-                        while (ticks > this._yearInfo[++hyear][1]) { }
+                        while (ticks > this._yearInfo[++hyear][1]) {}
                         if (ticks !== this._yearInfo[hyear][1]) {
                             hyear--;
                         }
@@ -280,39 +373,97 @@ Globalize.addCultureInfo( "ar-IQ", "default", {
                         // remaining days is less than is in one month, thus is the day of the month we landed on
                         // hmonth-1 because in javascript months are zero based, stay consistent with that.
                         return [hyear, hmonth - 1, days + 1];
-                    }
-			}
-		},
-		Hijri: {
-			name: "Hijri",
-			firstDay: 6,
-			days: {
-				names: ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
-				namesAbbr: ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
-				namesShort: ["ح","ن","ث","ر","خ","ج","س"]
-			},
-			months: {
-				names: ["محرم","صفر","ربيع الأول","ربيع الثاني","جمادى الأولى","جمادى الثانية","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة",""],
-				namesAbbr: ["محرم","صفر","ربيع الأول","ربيع الثاني","جمادى الأولى","جمادى الثانية","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة",""]
-			},
-			AM: ["ص","ص","ص"],
-			PM: ["م","م","م"],
-			eras: [{"name":"بعد الهجرة","start":null,"offset":0}],
-			twoDigitYearMax: 1451,
-			patterns: {
-				d: "dd/MM/yy",
-				D: "dd/MM/yyyy",
-				t: "hh:mm tt",
-				T: "hh:mm:ss tt",
-				f: "dd/MM/yyyy hh:mm tt",
-				F: "dd/MM/yyyy hh:mm:ss tt",
-				M: "dd MMMM"
-			},
-			convert: {
+                    },
+                },
+            },
+            Hijri: {
+                name: 'Hijri',
+                firstDay: 6,
+                days: {
+                    names: [
+                        'الأحد',
+                        'الإثنين',
+                        'الثلاثاء',
+                        'الأربعاء',
+                        'الخميس',
+                        'الجمعة',
+                        'السبت',
+                    ],
+                    namesAbbr: [
+                        'الأحد',
+                        'الإثنين',
+                        'الثلاثاء',
+                        'الأربعاء',
+                        'الخميس',
+                        'الجمعة',
+                        'السبت',
+                    ],
+                    namesShort: ['ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س'],
+                },
+                months: {
+                    names: [
+                        'محرم',
+                        'صفر',
+                        'ربيع الأول',
+                        'ربيع الثاني',
+                        'جمادى الأولى',
+                        'جمادى الثانية',
+                        'رجب',
+                        'شعبان',
+                        'رمضان',
+                        'شوال',
+                        'ذو القعدة',
+                        'ذو الحجة',
+                        '',
+                    ],
+                    namesAbbr: [
+                        'محرم',
+                        'صفر',
+                        'ربيع الأول',
+                        'ربيع الثاني',
+                        'جمادى الأولى',
+                        'جمادى الثانية',
+                        'رجب',
+                        'شعبان',
+                        'رمضان',
+                        'شوال',
+                        'ذو القعدة',
+                        'ذو الحجة',
+                        '',
+                    ],
+                },
+                AM: ['ص', 'ص', 'ص'],
+                PM: ['م', 'م', 'م'],
+                eras: [{ name: 'بعد الهجرة', start: null, offset: 0 }],
+                twoDigitYearMax: 1451,
+                patterns: {
+                    d: 'dd/MM/yy',
+                    D: 'dd/MM/yyyy',
+                    t: 'hh:mm tt',
+                    T: 'hh:mm:ss tt',
+                    f: 'dd/MM/yyyy hh:mm tt',
+                    F: 'dd/MM/yyyy hh:mm:ss tt',
+                    M: 'dd MMMM',
+                },
+                convert: {
                     // Adapted to Script from System.Globalization.HijriCalendar
                     ticks1970: 62135596800000,
                     // number of days leading up to each month
-                    monthDays: [0, 30, 59, 89, 118, 148, 177, 207, 236, 266, 295, 325, 355],
+                    monthDays: [
+                        0,
+                        30,
+                        59,
+                        89,
+                        118,
+                        148,
+                        177,
+                        207,
+                        236,
+                        266,
+                        295,
+                        325,
+                        355,
+                    ],
                     minDate: -42521673600000,
                     maxDate: 253402300799999,
                     // The number of days to add or subtract from the calendar to accommodate the variances
@@ -321,35 +472,54 @@ Globalize.addCultureInfo( "ar-IQ", "default", {
                     // remain in the range of -2 to 2, inclusive.
                     hijriAdjustment: 0,
                     toGregorian: function(hyear, hmonth, hday) {
-                        var daysSinceJan0101 = this.daysToYear(hyear) + this.monthDays[hmonth] + hday - 1 - this.hijriAdjustment;
+                        var daysSinceJan0101 =
+                            this.daysToYear(hyear) +
+                            this.monthDays[hmonth] +
+                            hday -
+                            1 -
+                            this.hijriAdjustment;
                         // 86400000 = ticks per day
-                        var gdate = new Date(daysSinceJan0101 * 86400000 - this.ticks1970);
+                        var gdate = new Date(
+                            daysSinceJan0101 * 86400000 - this.ticks1970,
+                        );
                         // adjust for timezone, because we are interested in the gregorian date for the same timezone
                         // but ticks in javascript is always from GMT, unlike the server were ticks counts from the base
                         // date in the current timezone.
-                        gdate.setMinutes(gdate.getMinutes() + gdate.getTimezoneOffset());
+                        gdate.setMinutes(
+                            gdate.getMinutes() + gdate.getTimezoneOffset(),
+                        );
                         return gdate;
                     },
                     fromGregorian: function(gdate) {
-                        if ((gdate < this.minDate) || (gdate > this.maxDate)) return null;
-                        var ticks = this.ticks1970 + (gdate-0) - gdate.getTimezoneOffset() * 60000,
-                            daysSinceJan0101 = Math.floor(ticks / 86400000) + 1 + this.hijriAdjustment;
+                        if (gdate < this.minDate || gdate > this.maxDate)
+                            return null;
+                        var ticks =
+                                this.ticks1970 +
+                                (gdate - 0) -
+                                gdate.getTimezoneOffset() * 60000,
+                            daysSinceJan0101 =
+                                Math.floor(ticks / 86400000) +
+                                1 +
+                                this.hijriAdjustment;
                         // very particular formula determined by someone smart, adapted from the server-side implementation.
                         // it approximates the hijri year.
-                        var hday, hmonth, hyear = Math.floor(((daysSinceJan0101 - 227013) * 30) / 10631) + 1,
+                        var hday,
+                            hmonth,
+                            hyear =
+                                Math.floor(
+                                    (daysSinceJan0101 - 227013) * 30 / 10631,
+                                ) + 1,
                             absDays = this.daysToYear(hyear),
                             daysInYear = this.isLeapYear(hyear) ? 355 : 354;
                         // hyear is just approximate, it may need adjustment up or down by 1.
                         if (daysSinceJan0101 < absDays) {
                             hyear--;
                             absDays -= daysInYear;
-                        }
-                        else if (daysSinceJan0101 === absDays) {
+                        } else if (daysSinceJan0101 === absDays) {
                             hyear--;
                             absDays = this.daysToYear(hyear);
-                        }
-                        else {
-                            if (daysSinceJan0101 > (absDays + daysInYear)) {
+                        } else {
+                            if (daysSinceJan0101 > absDays + daysInYear) {
                                 absDays += daysInYear;
                                 hyear++;
                             }
@@ -358,7 +528,10 @@ Globalize.addCultureInfo( "ar-IQ", "default", {
                         // monthDays contains the number of days up to each month.
                         hmonth = 0;
                         var daysIntoYear = daysSinceJan0101 - absDays;
-                        while (hmonth <= 11 && daysIntoYear > this.monthDays[hmonth]) {
+                        while (
+                            hmonth <= 11 &&
+                            daysIntoYear > this.monthDays[hmonth]
+                        ) {
                             hmonth++;
                         }
                         hmonth--;
@@ -369,89 +542,221 @@ Globalize.addCultureInfo( "ar-IQ", "default", {
                         // calculates how many days since Jan 1, 0001
                         var yearsToYear30 = Math.floor((year - 1) / 30) * 30,
                             yearsInto30 = year - yearsToYear30 - 1,
-                            days = Math.floor((yearsToYear30 * 10631) / 30) + 227013;
+                            days =
+                                Math.floor(yearsToYear30 * 10631 / 30) + 227013;
                         while (yearsInto30 > 0) {
-                            days += (this.isLeapYear(yearsInto30) ? 355 : 354);
+                            days += this.isLeapYear(yearsInto30) ? 355 : 354;
                             yearsInto30--;
                         }
                         return days;
                     },
                     isLeapYear: function(year) {
-                        return ((((year * 11) + 14) % 30) < 11);
-                    }
-			}
-		},
-		Gregorian_MiddleEastFrench: {
-			name: "Gregorian_MiddleEastFrench",
-			firstDay: 6,
-			days: {
-				names: ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"],
-				namesAbbr: ["dim.","lun.","mar.","mer.","jeu.","ven.","sam."],
-				namesShort: ["di","lu","ma","me","je","ve","sa"]
-			},
-			months: {
-				names: ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre",""],
-				namesAbbr: ["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc.",""]
-			},
-			AM: ["ص","ص","ص"],
-			PM: ["م","م","م"],
-			eras: [{"name":"ap. J.-C.","start":null,"offset":0}],
-			patterns: {
-				d: "MM/dd/yyyy",
-				t: "hh:mm tt",
-				T: "hh:mm:ss tt",
-				f: "dddd, MMMM dd, yyyy hh:mm tt",
-				F: "dddd, MMMM dd, yyyy hh:mm:ss tt",
-				M: "dd MMMM"
-			}
-		},
-		Gregorian_TransliteratedEnglish: {
-			name: "Gregorian_TransliteratedEnglish",
-			firstDay: 6,
-			days: {
-				names: ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
-				namesAbbr: ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
-				namesShort: ["أ","ا","ث","أ","خ","ج","س"]
-			},
-			months: {
-				names: ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر",""],
-				namesAbbr: ["يناير","فبراير","مارس","ابريل","مايو","يونيو","يوليو","اغسطس","سبتمبر","اكتوبر","نوفمبر","ديسمبر",""]
-			},
-			AM: ["ص","ص","ص"],
-			PM: ["م","م","م"],
-			eras: [{"name":"م","start":null,"offset":0}],
-			patterns: {
-				d: "MM/dd/yyyy",
-				t: "hh:mm tt",
-				T: "hh:mm:ss tt",
-				f: "dddd, MMMM dd, yyyy hh:mm tt",
-				F: "dddd, MMMM dd, yyyy hh:mm:ss tt"
-			}
-		},
-		Gregorian_TransliteratedFrench: {
-			name: "Gregorian_TransliteratedFrench",
-			firstDay: 6,
-			days: {
-				names: ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
-				namesAbbr: ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
-				namesShort: ["ح","ن","ث","ر","خ","ج","س"]
-			},
-			months: {
-				names: ["جانفييه","فيفرييه","مارس","أفريل","مي","جوان","جوييه","أوت","سبتمبر","اكتوبر","نوفمبر","ديسمبر",""],
-				namesAbbr: ["جانفييه","فيفرييه","مارس","أفريل","مي","جوان","جوييه","أوت","سبتمبر","اكتوبر","نوفمبر","ديسمبر",""]
-			},
-			AM: ["ص","ص","ص"],
-			PM: ["م","م","م"],
-			eras: [{"name":"م","start":null,"offset":0}],
-			patterns: {
-				d: "MM/dd/yyyy",
-				t: "hh:mm tt",
-				T: "hh:mm:ss tt",
-				f: "dddd, MMMM dd, yyyy hh:mm tt",
-				F: "dddd, MMMM dd, yyyy hh:mm:ss tt"
-			}
-		}
-	}
-});
-
-}( this ));
+                        return (year * 11 + 14) % 30 < 11;
+                    },
+                },
+            },
+            Gregorian_MiddleEastFrench: {
+                name: 'Gregorian_MiddleEastFrench',
+                firstDay: 6,
+                days: {
+                    names: [
+                        'dimanche',
+                        'lundi',
+                        'mardi',
+                        'mercredi',
+                        'jeudi',
+                        'vendredi',
+                        'samedi',
+                    ],
+                    namesAbbr: [
+                        'dim.',
+                        'lun.',
+                        'mar.',
+                        'mer.',
+                        'jeu.',
+                        'ven.',
+                        'sam.',
+                    ],
+                    namesShort: ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'],
+                },
+                months: {
+                    names: [
+                        'janvier',
+                        'février',
+                        'mars',
+                        'avril',
+                        'mai',
+                        'juin',
+                        'juillet',
+                        'août',
+                        'septembre',
+                        'octobre',
+                        'novembre',
+                        'décembre',
+                        '',
+                    ],
+                    namesAbbr: [
+                        'janv.',
+                        'févr.',
+                        'mars',
+                        'avr.',
+                        'mai',
+                        'juin',
+                        'juil.',
+                        'août',
+                        'sept.',
+                        'oct.',
+                        'nov.',
+                        'déc.',
+                        '',
+                    ],
+                },
+                AM: ['ص', 'ص', 'ص'],
+                PM: ['م', 'م', 'م'],
+                eras: [{ name: 'ap. J.-C.', start: null, offset: 0 }],
+                patterns: {
+                    d: 'MM/dd/yyyy',
+                    t: 'hh:mm tt',
+                    T: 'hh:mm:ss tt',
+                    f: 'dddd, MMMM dd, yyyy hh:mm tt',
+                    F: 'dddd, MMMM dd, yyyy hh:mm:ss tt',
+                    M: 'dd MMMM',
+                },
+            },
+            Gregorian_TransliteratedEnglish: {
+                name: 'Gregorian_TransliteratedEnglish',
+                firstDay: 6,
+                days: {
+                    names: [
+                        'الأحد',
+                        'الإثنين',
+                        'الثلاثاء',
+                        'الأربعاء',
+                        'الخميس',
+                        'الجمعة',
+                        'السبت',
+                    ],
+                    namesAbbr: [
+                        'الأحد',
+                        'الإثنين',
+                        'الثلاثاء',
+                        'الأربعاء',
+                        'الخميس',
+                        'الجمعة',
+                        'السبت',
+                    ],
+                    namesShort: ['أ', 'ا', 'ث', 'أ', 'خ', 'ج', 'س'],
+                },
+                months: {
+                    names: [
+                        'يناير',
+                        'فبراير',
+                        'مارس',
+                        'أبريل',
+                        'مايو',
+                        'يونيو',
+                        'يوليو',
+                        'أغسطس',
+                        'سبتمبر',
+                        'أكتوبر',
+                        'نوفمبر',
+                        'ديسمبر',
+                        '',
+                    ],
+                    namesAbbr: [
+                        'يناير',
+                        'فبراير',
+                        'مارس',
+                        'ابريل',
+                        'مايو',
+                        'يونيو',
+                        'يوليو',
+                        'اغسطس',
+                        'سبتمبر',
+                        'اكتوبر',
+                        'نوفمبر',
+                        'ديسمبر',
+                        '',
+                    ],
+                },
+                AM: ['ص', 'ص', 'ص'],
+                PM: ['م', 'م', 'م'],
+                eras: [{ name: 'م', start: null, offset: 0 }],
+                patterns: {
+                    d: 'MM/dd/yyyy',
+                    t: 'hh:mm tt',
+                    T: 'hh:mm:ss tt',
+                    f: 'dddd, MMMM dd, yyyy hh:mm tt',
+                    F: 'dddd, MMMM dd, yyyy hh:mm:ss tt',
+                },
+            },
+            Gregorian_TransliteratedFrench: {
+                name: 'Gregorian_TransliteratedFrench',
+                firstDay: 6,
+                days: {
+                    names: [
+                        'الأحد',
+                        'الإثنين',
+                        'الثلاثاء',
+                        'الأربعاء',
+                        'الخميس',
+                        'الجمعة',
+                        'السبت',
+                    ],
+                    namesAbbr: [
+                        'الأحد',
+                        'الإثنين',
+                        'الثلاثاء',
+                        'الأربعاء',
+                        'الخميس',
+                        'الجمعة',
+                        'السبت',
+                    ],
+                    namesShort: ['ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س'],
+                },
+                months: {
+                    names: [
+                        'جانفييه',
+                        'فيفرييه',
+                        'مارس',
+                        'أفريل',
+                        'مي',
+                        'جوان',
+                        'جوييه',
+                        'أوت',
+                        'سبتمبر',
+                        'اكتوبر',
+                        'نوفمبر',
+                        'ديسمبر',
+                        '',
+                    ],
+                    namesAbbr: [
+                        'جانفييه',
+                        'فيفرييه',
+                        'مارس',
+                        'أفريل',
+                        'مي',
+                        'جوان',
+                        'جوييه',
+                        'أوت',
+                        'سبتمبر',
+                        'اكتوبر',
+                        'نوفمبر',
+                        'ديسمبر',
+                        '',
+                    ],
+                },
+                AM: ['ص', 'ص', 'ص'],
+                PM: ['م', 'م', 'م'],
+                eras: [{ name: 'م', start: null, offset: 0 }],
+                patterns: {
+                    d: 'MM/dd/yyyy',
+                    t: 'hh:mm tt',
+                    T: 'hh:mm:ss tt',
+                    f: 'dddd, MMMM dd, yyyy hh:mm tt',
+                    F: 'dddd, MMMM dd, yyyy hh:mm:ss tt',
+                },
+            },
+        },
+    });
+})(this);

@@ -13,8 +13,13 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab'], function($, oae, _) {
-
+require([
+    'jquery',
+    'oae.core',
+    'underscore',
+    'jquery.history',
+    'jquery.switchtab',
+], function($, oae, _) {
     // Variable that will be used to keep track of the current
     // infinite scroll instance
     var infinityScroll = false;
@@ -40,9 +45,9 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
         }
 
         var data = {
-            'q': params.q,
-            'tenant': tenant,
-            'types': types
+            q: params.q,
+            tenant: tenant,
+            types: types,
         };
 
         return data;
@@ -58,7 +63,7 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
         $.each(obj, function(key, val) {
             params.push(key + '=' + oae.api.util.security().encodeForURL(val));
         });
-        return (params.length) ? '?' + params.join('&') : '';
+        return params.length ? '?' + params.join('&') : '';
     };
 
     /**
@@ -98,36 +103,56 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
         $('#search-refine-type input[type="checkbox"]').prop('checked', false);
 
         $.each(queryData.types, function(i, type) {
-            $('#search-refine-type input[type="checkbox"][data-type="' + type + '"]').prop('checked', true);
+            $(
+                '#search-refine-type input[type="checkbox"][data-type="' +
+                    type +
+                    '"]',
+            ).prop('checked', true);
         });
 
         // Hide the 'within tenant' checkbox for private tenants
-        var isPrivate = oae.api.config.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate');
+        var isPrivate = oae.api.config.getValue(
+            'oae-tenants',
+            'tenantprivacy',
+            'tenantprivate',
+        );
         if (!isPrivate && currSwitchtabId === 'all') {
             // Ensure only the selected tenant is chosen, if at all
             $('#search-refine-tenant').show();
 
-            $('#search-refine-tenant input[type="checkbox"]').removeAttr('checked');
+            $('#search-refine-tenant input[type="checkbox"]').removeAttr(
+                'checked',
+            );
             if (queryData.tenant) {
-                $('#search-refine-tenant input[type="checkbox"][data-tenant="' + queryData.tenant + '"]').prop('checked', true);
-            } 
+                $(
+                    '#search-refine-tenant input[type="checkbox"][data-tenant="' +
+                        queryData.tenant +
+                        '"]',
+                ).prop('checked', true);
+            }
         } else if (currSwitchtabId === 'my') {
             // Need to hide this again explicitly in case user switches back to 'my' tab
             $('#search-refine-tenant').hide();
         }
 
         var searchParams = {
-            'limit': 12,
-            'q': queryData.q,
-            'resourceTypes': queryData.types,
-            'scope': '_' + currSwitchtabId
+            limit: 12,
+            q: queryData.q,
+            resourceTypes: queryData.types,
+            scope: '_' + currSwitchtabId,
         };
 
         if (searchParams.scope === '_my') {
             // "My" search never includes users, and will be harmful if only "user" is selected from
             // the "Everything" tab. Just always filter it out
-            searchParams.resourceTypes = _.without(searchParams.resourceTypes, 'user');
-        } else if (searchParams.scope === '_all' && (queryData.tenant || isPrivate)) {
+            searchParams.resourceTypes = _.without(
+                searchParams.resourceTypes,
+                'user',
+            );
+        } else if (
+            searchParams.scope === '_all' &&
+            (queryData.tenant || isPrivate)
+        ) {
             // If a tenant is specified or the current tenant is private, we search by the tenant
             if (!queryData.tenant) {
                 queryData.tenant = oae.data.me.tenant.alias;
@@ -136,17 +161,28 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
         }
 
         // Set up the infinite scroll for the list of search results
-        infinityScroll = $('.oae-list').infiniteScroll('/api/search/general', searchParams, '#search-template', {
-            'postRenderer': function(data) {
-                var nrResults = oae.api.l10n.transformNumber(data.total);
-                $('.oae-list-header-badge').text(nrResults).show();
+        infinityScroll = $('.oae-list').infiniteScroll(
+            '/api/search/general',
+            searchParams,
+            '#search-template',
+            {
+                postRenderer: function(data) {
+                    var nrResults = oae.api.l10n.transformNumber(data.total);
+                    $('.oae-list-header-badge')
+                        .text(nrResults)
+                        .show();
+                },
+                emptyListProcessor: function() {
+                    oae.api.util.template().render(
+                        $('#search-noresults-template'),
+                        {
+                            query: queryData.q,
+                        },
+                        $('.oae-list'),
+                    );
+                },
             },
-            'emptyListProcessor': function() {
-                oae.api.util.template().render($('#search-noresults-template'), {
-                    'query': queryData.q
-                }, $('.oae-list'));
-            }
-        });
+        );
     };
 
     /**
@@ -159,11 +195,15 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
 
         // Get all of the selected type checkboxes
         var types = [];
-        $('#search-refine-type input[type="checkbox"]:checked').each(function() {
-            types.push($(this).attr('data-type'));
-        });
+        $('#search-refine-type input[type="checkbox"]:checked').each(
+            function() {
+                types.push($(this).attr('data-type'));
+            },
+        );
 
-        var tenant = $('#search-refine-tenant input[type="checkbox"]:checked').attr('data-tenant');
+        var tenant = $(
+            '#search-refine-tenant input[type="checkbox"]:checked',
+        ).attr('data-tenant');
         var path = oae.api.util.url(History.getState().cleanUrl).attr('path');
         var params = {};
 
@@ -192,8 +232,20 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
      * This will only be executed when the page is loaded.
      */
     var initSearch = function() {
-        oae.api.util.template().render($('#search-list-header-template'), null, $('#search-list-header'));
-        oae.api.util.template().render($('#search-lhnavigation-template'), null, $('#search-lhnavigation'));
+        oae.api.util
+            .template()
+            .render(
+                $('#search-list-header-template'),
+                null,
+                $('#search-list-header'),
+            );
+        oae.api.util
+            .template()
+            .render(
+                $('#search-lhnavigation-template'),
+                null,
+                $('#search-lhnavigation'),
+            );
 
         // We should intelligently detect that if someone goes to /search/<search query>, we should
         // automatically send them to /search/all?q=<search query>
@@ -246,10 +298,18 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
         $(document).on('submit', '#search-form', modifySearch);
 
         // Listen to changes to the checkboxes that refine search options
-        $('#search-refine-type').on('change', 'input[type="checkbox"]', modifySearch);
+        $('#search-refine-type').on(
+            'change',
+            'input[type="checkbox"]',
+            modifySearch,
+        );
 
         // Listen to changes to the checkboxes that refine by tenant
-        $('#search-refine-tenant').on('change', 'input[type="checkbox"]', modifySearch);
+        $('#search-refine-tenant').on(
+            'change',
+            'input[type="checkbox"]',
+            modifySearch,
+        );
 
         // Listen to History.js state changes
         $(window).on('statechange', renderSearch);

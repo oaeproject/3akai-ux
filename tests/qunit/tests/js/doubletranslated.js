@@ -13,9 +13,12 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
-
-    module("Double Translation Keys");
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function(
+    $,
+    oae,
+    util,
+) {
+    module('Double Translation Keys');
 
     /**
      * For each widget, check if a key is already defined in one of the core bundles or in another widget. In this
@@ -43,7 +46,8 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                 $.each(widget.i18n, function(widgetBundleKey, widgetBundle) {
                     $.each(widgetBundle, function(i18nKey, i18nValue) {
                         widgetKeys[i18nKey] = widgetKeys[i18nKey] || {};
-                        widgetKeys[i18nKey][widgetBundleKey] = widgetKeys[i18nKey][widgetBundleKey] || [];
+                        widgetKeys[i18nKey][widgetBundleKey] =
+                            widgetKeys[i18nKey][widgetBundleKey] || [];
                         widgetKeys[i18nKey][widgetBundleKey].push(widgetId);
                     });
                 });
@@ -54,33 +58,65 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
             test(widget.id, function() {
                 if (widget.i18n) {
                     // Loop over all bundles in the widget
-                    $.each(widget.i18n, function(widgetBundleKey, widgetBundle) {
+                    $.each(widget.i18n, function(
+                        widgetBundleKey,
+                        widgetBundle,
+                    ) {
                         // Loop over all keys in the bundle
                         $.each(widgetBundle, function(i18nKey, i18nValue) {
-
                             // Check if the widget key is already defined in the main bundle
-                            if (mainKeys[i18nKey] && _.contains(mainKeys[i18nKey], widgetBundleKey)) {
+                            if (
+                                mainKeys[i18nKey] &&
+                                _.contains(mainKeys[i18nKey], widgetBundleKey)
+                            ) {
                                 // Key already exists in the main bundle
-                                ok(false, i18nKey + ' already exists in main bundle ' + widgetBundleKey);
+                                ok(
+                                    false,
+                                    i18nKey +
+                                        ' already exists in main bundle ' +
+                                        widgetBundleKey,
+                                );
                             } else {
                                 // Key doesn't exist yet in the main bundle
-                                ok(true, i18nKey + ' doesn\'t exist yet in the main bundles');
+                                ok(
+                                    true,
+                                    i18nKey +
+                                        " doesn't exist yet in the main bundles",
+                                );
                             }
 
                             // Check if the widget key is already defined in other widget bundles. We expect the collected
                             // object to have at least 1 record for the current widget. When there is more than 1 record, the
                             // key is being in multiple widgets
-                            if (widgetKeys[i18nKey][widgetBundleKey].length > 1) {
+                            if (
+                                widgetKeys[i18nKey][widgetBundleKey].length > 1
+                            ) {
                                 // Key is used in a different widget bundle
-                                ok(false, i18nKey + ' is also being used in ' + _.without(widgetKeys[i18nKey][widgetBundleKey], widgetId) + ' - ' + widgetBundleKey);
+                                ok(
+                                    false,
+                                    i18nKey +
+                                        ' is also being used in ' +
+                                        _.without(
+                                            widgetKeys[i18nKey][
+                                                widgetBundleKey
+                                            ],
+                                            widgetId,
+                                        ) +
+                                        ' - ' +
+                                        widgetBundleKey,
+                                );
                             } else {
                                 // Key isn't used in a different widget bundle
-                                ok(true, i18nKey + ' is not being used in a different widget');
+                                ok(
+                                    true,
+                                    i18nKey +
+                                        ' is not being used in a different widget',
+                                );
                             }
                         });
                     });
-                }  else {
-                    ok(true, '\'' + widgetId + '\' does not have any bundles');
+                } else {
+                    ok(true, "'" + widgetId + "' does not have any bundles");
                 }
             });
         });

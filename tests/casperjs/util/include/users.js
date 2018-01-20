@@ -17,7 +17,6 @@
  * Utility functions for users
  */
 var userUtil = (function() {
-
     /**
      * Creates a given number of users
      *
@@ -40,58 +39,88 @@ var userUtil = (function() {
                     var rndString = mainUtil.generateRandomString();
                     var rndPassword = mainUtil.generateRandomString();
                     var email = rndString + '@example.com';
-                    var params = ['user-' + rndString, rndPassword, rndString, email, {
-                        'visibility': 'public',
-                        'locale': 'en_GB',
-                        'publicAlias': 'Roy',
-                        'acceptedTC': true
-                    }, null, null];
+                    var params = [
+                        'user-' + rndString,
+                        rndPassword,
+                        rndString,
+                        email,
+                        {
+                            visibility: 'public',
+                            locale: 'en_GB',
+                            publicAlias: 'Roy',
+                            acceptedTC: true,
+                        },
+                        null,
+                        null,
+                    ];
 
-                    mainUtil.callInternalAPI('user', 'createUser', params, function(err, userProfile) {
-                        if (err) {
-                            casper.echo('Could not create user-' + rndString + '. Error ' + err.code + ': ' + err.msg, 'ERROR');
-                        } else {
-                            userProfile.username = 'user-' + rndString;
-                            userProfile.password = rndPassword;
-                            userProfiles.push(userProfile);
+                    mainUtil.callInternalAPI(
+                        'user',
+                        'createUser',
+                        params,
+                        function(err, userProfile) {
+                            if (err) {
+                                casper.echo(
+                                    'Could not create user-' +
+                                        rndString +
+                                        '. Error ' +
+                                        err.code +
+                                        ': ' +
+                                        err.msg,
+                                    'ERROR',
+                                );
+                            } else {
+                                userProfile.username = 'user-' + rndString;
+                                userProfile.password = rndPassword;
+                                userProfiles.push(userProfile);
 
-                            created++;
-                        }
-                    });
+                                created++;
+                            }
+                        },
+                    );
                 };
 
                 // Get the me object
                 var me = null;
-                mainUtil.callInternalAPI('user', 'getMe', null, function(err, _me) {
+                mainUtil.callInternalAPI('user', 'getMe', null, function(
+                    err,
+                    _me,
+                ) {
                     me = _me;
                 });
 
                 // Wait for the me object to be retrieved before starting to create users
-                casper.waitFor(function() {
-                    return me !== null;
-                }, function() {
-                    // Only start creating users when we're anonymous
-                    if (me && me.anon) {
-                        casper.repeat(toCreate, createUser);
-                    // If we're not anonymous log out and continue creating users
-                    } else {
-                        casper.then(function() {
-                            doLogOut();
-                        });
-                        casper.then(function() {
+                casper.waitFor(
+                    function() {
+                        return me !== null;
+                    },
+                    function() {
+                        // Only start creating users when we're anonymous
+                        if (me && me.anon) {
                             casper.repeat(toCreate, createUser);
-                        });
-                    }
-                });
+                            // If we're not anonymous log out and continue creating users
+                        } else {
+                            casper.then(function() {
+                                doLogOut();
+                            });
+                            casper.then(function() {
+                                casper.repeat(toCreate, createUser);
+                            });
+                        }
+                    },
+                );
             });
 
             // Wait until all user profiles have been created and execute the callback
             // passing in the created user profiles
-            casper.waitFor(function() {
-                return userProfiles.length === toCreate;
-            }, function() {
-                return callback.apply(this, userProfiles);
-            });
+            casper.waitFor(
+                function() {
+                    return userProfiles.length === toCreate;
+                },
+                function() {
+                    return callback.apply(this, userProfiles);
+                },
+            );
         });
     };
 
@@ -106,14 +135,27 @@ var userUtil = (function() {
             var err = null;
             var loggedIn = false;
 
-            mainUtil.callInternalAPI('authentication', 'localLogin', [username, password], function(_err) {
-                if (_err) {
-                    casper.echo('Could not log in with ' + username + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
-                    err = _err;
-                } else {
-                    loggedIn = true;
-                }
-            });
+            mainUtil.callInternalAPI(
+                'authentication',
+                'localLogin',
+                [username, password],
+                function(_err) {
+                    if (_err) {
+                        casper.echo(
+                            'Could not log in with ' +
+                                username +
+                                '. Error ' +
+                                _err.code +
+                                ': ' +
+                                _err.msg,
+                            'ERROR',
+                        );
+                        err = _err;
+                    } else {
+                        loggedIn = true;
+                    }
+                },
+            );
 
             casper.waitFor(function() {
                 return loggedIn !== false || err !== null;
@@ -129,9 +171,17 @@ var userUtil = (function() {
             var done = null;
             var err = null;
 
-            mainUtil.callInternalAPI('authentication', 'logout', null, function(_err) {
+            mainUtil.callInternalAPI('authentication', 'logout', null, function(
+                _err,
+            ) {
                 if (_err) {
-                    casper.echo('Could not log out. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                    casper.echo(
+                        'Could not log out. Error ' +
+                            _err.code +
+                            ': ' +
+                            _err.msg,
+                        'ERROR',
+                    );
                     err = _err;
                 } else {
                     done = true;
@@ -145,8 +195,8 @@ var userUtil = (function() {
     };
 
     return {
-        'createUsers': createUsers,
-        'doLogIn': doLogIn,
-        'doLogOut': doLogOut
+        createUsers: createUsers,
+        doLogIn: doLogIn,
+        doLogOut: doLogOut,
     };
 })();

@@ -14,7 +14,6 @@
  */
 
 define(['exports', 'jquery'], function(exports, $) {
-
     /**
      * Follow a user
      *
@@ -23,7 +22,7 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Object}      [callback.err]    Error object containing error code and error message
      * @throws {Error}                         Error thrown when no user id has been provided
      */
-    var follow = exports.follow = function(userId, callback) {
+    var follow = (exports.follow = function(userId, callback) {
         if (!userId) {
             throw new Error('A valid user id should be provided');
         }
@@ -32,16 +31,16 @@ define(['exports', 'jquery'], function(exports, $) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/following/' + userId + '/follow',
-            'type': 'POST',
+            url: '/api/following/' + userId + '/follow',
+            type: 'POST',
             success: function() {
                 callback(null);
             },
             error: function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Unfollow a user you are already following
@@ -51,7 +50,7 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Object}      [callback.err]    Error object containing error code and error message
      * @throws {Error}                         Error thrown when no user id has been provided
      */
-    var unfollow = exports.unfollow = function(userId, callback) {
+    var unfollow = (exports.unfollow = function(userId, callback) {
         if (!userId) {
             throw new Error('A valid user id should be provided');
         }
@@ -60,16 +59,16 @@ define(['exports', 'jquery'], function(exports, $) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/following/' + userId + '/unfollow',
-            'type': 'POST',
+            url: '/api/following/' + userId + '/unfollow',
+            type: 'POST',
             success: function() {
                 callback(null);
             },
             error: function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Get the list of users that a given user is following
@@ -79,21 +78,21 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Object}      callback.err      Error object containing error code and error message
      * @throws {Error}                         Error thrown when no user id has been provided
      */
-    var getFollowing = exports.getFollowing = function(userId, callback) {
+    var getFollowing = (exports.getFollowing = function(userId, callback) {
         if (!userId) {
             throw new Error('A valid user id should be provided');
         }
 
         $.ajax({
-            'url': '/api/following/' + userId + '/following',
+            url: '/api/following/' + userId + '/following',
             success: function(data) {
                 callback(null, data);
             },
             error: function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Get the list of users following a given user
@@ -103,19 +102,19 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Object}      callback.err      Error object containing error code and error message
      * @throws {Error}                         Error thrown when no user id has been provided
      */
-    var getFollowers = exports.getFollowers = function(userId, callback) {
+    var getFollowers = (exports.getFollowers = function(userId, callback) {
         if (!userId) {
             throw new Error('A valid user id should be provided');
         }
 
         $.ajax({
-            'url': '/api/following/' + userId + '/followers',
+            url: '/api/following/' + userId + '/followers',
             success: function(data) {
                 callback(null, data);
             },
             error: function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 });

@@ -14,7 +14,6 @@
  */
 
 define(['exports', 'jquery'], function(exports, $) {
-
     // Variable that will be used to cache the config values set for the current tenant
     var config = null;
 
@@ -25,18 +24,18 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Object}     callback.err  Error object containing error code and message
      * @api private
      */
-    var init = exports.init = function(callback) {
+    var init = (exports.init = function(callback) {
         $.ajax({
-            'url': '/api/config',
-            'success': function(data) {
+            url: '/api/config',
+            success: function(data) {
                 config = data;
                 callback(null);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Get a configuration value from the cached config values.
@@ -47,16 +46,21 @@ define(['exports', 'jquery'], function(exports, $) {
      * @return {Boolean|String|Number|Object}                          The requested config value e.g. `true`. This will be null if the config element cannot be found.
      * @throws {Error}                                                 Error thrown when no module, feature or element has been provided
      */
-    var getValue = exports.getValue = function(module, feature, element) {
+    var getValue = (exports.getValue = function(module, feature, element) {
         if (!module || !config[module]) {
-            throw new Error('A valid module id should be provided when getting a config value');
+            throw new Error(
+                'A valid module id should be provided when getting a config value',
+            );
         } else if (!feature || !config[module][feature]) {
-            throw new Error('A valid feature should be provided when getting a config value');
+            throw new Error(
+                'A valid feature should be provided when getting a config value',
+            );
         } else if (!element || config[module][feature][element] === undefined) {
-            throw new Error('A valid element should be provided when getting a config value');
+            throw new Error(
+                'A valid element should be provided when getting a config value',
+            );
         }
 
         return config[module][feature][element];
-    };
-
+    });
 });

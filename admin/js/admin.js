@@ -13,15 +13,17 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, oae) {
-
+require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function(
+    $,
+    _,
+    oae,
+) {
     // Variable that will be used to keep track of the current tenant
     var currentContext = null;
     // Variable that will cache the configuration schema
     var configurationSchema = null;
     // Variable that will cache the configuration for the current tenant
     var configuration = null;
-
 
     /////////////////
     //  NAVIGATION //
@@ -34,81 +36,85 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
         // Structure that will be used to construct the left hand navigation pages
         var lhNavPages = null;
         if (oae.data.me.anon) {
-            lhNavPages = [{
-                'id': 'adminlogin',
-                'title': oae.api.i18n.translate('__MSG__SIGN_IN__'),
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'name': 'adminlogin'
-                            }
-                        ]
-                    }
-                ]
-            }];
+            lhNavPages = [
+                {
+                    id: 'adminlogin',
+                    title: oae.api.i18n.translate('__MSG__SIGN_IN__'),
+                    layout: [
+                        {
+                            width: 'col-md-12',
+                            widgets: [
+                                {
+                                    name: 'adminlogin',
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ];
         } else {
             lhNavPages = [
                 {
-                    'id': 'tenants',
-                    'icon': 'fa-dashboard',
-                    'closeNav': true,
-                    'title': currentContext.isGlobalAdminServer ? oae.api.i18n.translate('__MSG__TENANTS__') : oae.api.i18n.translate('__MSG__TENANT__'),
-                    'layout': [
+                    id: 'tenants',
+                    icon: 'fa-dashboard',
+                    closeNav: true,
+                    title: currentContext.isGlobalAdminServer
+                        ? oae.api.i18n.translate('__MSG__TENANTS__')
+                        : oae.api.i18n.translate('__MSG__TENANT__'),
+                    layout: [
                         {
-                            'width': 'col-md-12',
-                            'widgets': [
+                            width: 'col-md-12',
+                            widgets: [
                                 {
-                                    'name': 'tenants',
-                                    'settings': {
-                                        'context': currentContext
-                                    }
-                                }
-                            ]
-                        }
-                    ]
+                                    name: 'tenants',
+                                    settings: {
+                                        context: currentContext,
+                                    },
+                                },
+                            ],
+                        },
+                    ],
                 },
                 {
-                    'id': 'configuration',
-                    'icon': 'fa-cogs',
-                    'closeNav': true,
-                    'title': oae.api.i18n.translate('__MSG__CONFIGURATION__'),
-                    'layout': [
+                    id: 'configuration',
+                    icon: 'fa-cogs',
+                    closeNav: true,
+                    title: oae.api.i18n.translate('__MSG__CONFIGURATION__'),
+                    layout: [
                         {
-                            'width': 'col-md-12',
-                            'widgets': [
+                            width: 'col-md-12',
+                            widgets: [
                                 {
-                                    'name': 'configuration',
-                                    'settings': {
-                                        'configuration': configuration,
-                                        'configurationSchema': configurationSchema,
-                                        'context': currentContext
-                                    }
-                                }
-                            ]
-                        }
-                    ]
+                                    name: 'configuration',
+                                    settings: {
+                                        configuration: configuration,
+                                        configurationSchema: configurationSchema,
+                                        context: currentContext,
+                                    },
+                                },
+                            ],
+                        },
+                    ],
                 },
                 {
-                    'id': 'usermanagement',
-                    'icon': 'fa-user',
-                    'closeNav': true,
-                    'title': oae.api.i18n.translate('__MSG__USER_MANAGEMENT__'),
-                    'layout': [
+                    id: 'usermanagement',
+                    icon: 'fa-user',
+                    closeNav: true,
+                    title: oae.api.i18n.translate('__MSG__USER_MANAGEMENT__'),
+                    layout: [
                         {
-                            'width': 'col-md-12',
-                            'widgets': [
+                            width: 'col-md-12',
+                            widgets: [
                                 {
-                                    'name': 'usermanagement',
-                                    'settings': {
-                                        'context': currentContext
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
+                                    name: 'usermanagement',
+                                    settings: {
+                                        context: currentContext,
+                                    },
+                                },
+                            ],
+                        },
+                    ],
+                },
             ];
 
             // Only expose the maintenance functionality when the admin is looking at the global admin
@@ -116,44 +122,44 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
             // for individual tenants.
             if (currentContext.isGlobalAdminServer) {
                 lhNavPages.push({
-                    'id': 'maintenance',
-                    'icon': 'fa-wrench',
-                    'closeNav': true,
-                    'title': oae.api.i18n.translate('__MSG__MAINTENANCE__'),
-                    'layout': [
+                    id: 'maintenance',
+                    icon: 'fa-wrench',
+                    closeNav: true,
+                    title: oae.api.i18n.translate('__MSG__MAINTENANCE__'),
+                    layout: [
                         {
-                            'width': 'col-md-12',
-                            'widgets': [
+                            width: 'col-md-12',
+                            widgets: [
                                 {
-                                    'name': 'maintenance'
-                                }
-                            ]
-                        }
-                    ]
+                                    name: 'maintenance',
+                                },
+                            ],
+                        },
+                    ],
                 });
-            // Only expose the skinning functionality when the admin is looking at an individual tenant.
-            // The global tenant does not require skinning as the values wouldn't flow through
-            // to the tenants appropriately if both of them have skinning values stored.
+                // Only expose the skinning functionality when the admin is looking at an individual tenant.
+                // The global tenant does not require skinning as the values wouldn't flow through
+                // to the tenants appropriately if both of them have skinning values stored.
             } else {
                 lhNavPages.push({
-                    'id': 'skinning',
-                    'icon': 'fa-tint',
-                    'closeNav': true,
-                    'title': oae.api.i18n.translate('__MSG__SKINNING__'),
-                    'layout': [
+                    id: 'skinning',
+                    icon: 'fa-tint',
+                    closeNav: true,
+                    title: oae.api.i18n.translate('__MSG__SKINNING__'),
+                    layout: [
                         {
-                            'width': 'col-md-12',
-                            'widgets': [
+                            width: 'col-md-12',
+                            widgets: [
                                 {
-                                    'name': 'skinning',
-                                    'settings': {
-                                        'configuration': configuration,
-                                        'context': currentContext
-                                    }
-                                }
-                            ]
-                        }
-                    ]
+                                    name: 'skinning',
+                                    settings: {
+                                        configuration: configuration,
+                                        context: currentContext,
+                                    },
+                                },
+                            ],
+                        },
+                    ],
                 });
             }
         }
@@ -162,17 +168,24 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
         // Individual tenant on the global admininstration UI
         if (currentContext.isTenantOnGlobalAdminServer) {
             baseURL = '/tenant/' + currentContext.alias;
-        // Administration UI on a user tenant
+            // Administration UI on a user tenant
         } else if (!currentContext.isGlobalAdminServer) {
             baseURL = '/admin';
         }
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, null, baseURL]);
+        $(window).trigger('oae.trigger.lhnavigation', [
+            lhNavPages,
+            null,
+            baseURL,
+        ]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, null, baseURL]);
+            $(window).trigger('oae.trigger.lhnavigation', [
+                lhNavPages,
+                null,
+                baseURL,
+            ]);
         });
     };
-
 
     ////////////////////
     // INITIALIZATION //
@@ -187,8 +200,8 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
     var getCurrentContext = function(callback) {
         // Get information about the current tenant
         $.ajax({
-            'url': '/api/tenant',
-            'success': function(data) {
+            url: '/api/tenant',
+            success: function(data) {
                 currentContext = data;
 
                 if (currentContext.isGlobalAdminServer) {
@@ -196,7 +209,10 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                     // case, the URL should be /tenant/<tenantAlias>
                     var tenantAlias = oae.api.util.url().segment(2);
                     if (tenantAlias) {
-                        oae.api.admin.getTenant(tenantAlias, function(err, data) {
+                        oae.api.admin.getTenant(tenantAlias, function(
+                            err,
+                            data,
+                        ) {
                             currentContext = data;
                             currentContext.isTenantOnGlobalAdminServer = true;
                             callback();
@@ -207,7 +223,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                 } else {
                     callback();
                 }
-            }
+            },
         });
     };
 
@@ -219,8 +235,8 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
     var loadConfiguration = function(callback) {
         // Get the config schema
         $.ajax({
-            'url': '/api/config/schema',
-            'success': function(data) {
+            url: '/api/config/schema',
+            success: function(data) {
                 configurationSchema = data;
 
                 // Remove the OAE UI module from the schema to avoid it being rendered
@@ -240,14 +256,14 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                 // cached configs to the administrator in the administration UI, as that could
                 // cause configuration changes not to appear immediately.
                 $.ajax({
-                    'url': url,
-                    'cache': false,
-                    'success': function(data) {
+                    url: url,
+                    cache: false,
+                    success: function(data) {
                         configuration = data;
                         callback();
-                    }
+                    },
                 });
-            }
+            },
         });
     };
 
@@ -263,16 +279,16 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
         $(document).on('oae.context.get', function(ev, widgetId) {
             if (widgetId) {
                 $(document).trigger('oae.context.send.' + widgetId, {
-                    'currentContext': currentContext
+                    currentContext: currentContext,
                 });
             } else {
                 $(document).trigger('oae.context.send', {
-                    'currentContext': currentContext
+                    currentContext: currentContext,
                 });
             }
         });
         $(document).trigger('oae.context.send', {
-            'currentContext': currentContext
+            currentContext: currentContext,
         });
     };
 
@@ -282,7 +298,10 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
     var initializeAdminUI = function() {
         // Redirect to the 'Access denied' page if the user is logged in
         // but not the tenant or global admin
-        if (!oae.data.me.anon && (!oae.data.me.isTenantAdmin && !oae.data.me.isGlobalAdmin)) {
+        if (
+            !oae.data.me.anon &&
+            (!oae.data.me.isTenantAdmin && !oae.data.me.isGlobalAdmin)
+        ) {
             return oae.api.util.redirect().accessdenied();
         }
 
@@ -303,5 +322,4 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
     };
 
     initializeAdminUI();
-
 });

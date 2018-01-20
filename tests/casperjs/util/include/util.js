@@ -17,7 +17,6 @@
  * General utility functions
  */
 var mainUtil = (function() {
-
     /**
      * Utility function that calls an internal OAE UI API function
      *
@@ -32,32 +31,44 @@ var mainUtil = (function() {
     var callInternalAPI = function(api, apiFunction, params, callback) {
         // Before continuing we need to make sure that the internal API has loaded.
         // The last thing the UI does before it's initialized is showing the body
-        casper.waitFor(function() {
-            return casper.evaluate(function() {
-                return $('body').is(':visible');
-            });
-        }, function() {
-            var rndString = mainUtil.generateRandomString();
-
-            // Bind the event called when the API call finishes
-            casper.on(rndString + '.finished', function(data) {
-                return callback(data.err, data.data);
-            });
-
-            // Execute the internal API call
-            casper.evaluate(function(rndString, api, apiFunction, params) {
-                // Add the internal callback function
-                params = params || [];
-                params.push(function(err, data) {
-                    window.callPhantom({
-                        'cbId': rndString,
-                        'err': err,
-                        'data': data
-                    });
+        casper.waitFor(
+            function() {
+                return casper.evaluate(function() {
+                    return $('body').is(':visible');
                 });
-                require('oae.api.' + api)[apiFunction].apply(this, params);
-            }, rndString, api, apiFunction, params);
-        });
+            },
+            function() {
+                var rndString = mainUtil.generateRandomString();
+
+                // Bind the event called when the API call finishes
+                casper.on(rndString + '.finished', function(data) {
+                    return callback(data.err, data.data);
+                });
+
+                // Execute the internal API call
+                casper.evaluate(
+                    function(rndString, api, apiFunction, params) {
+                        // Add the internal callback function
+                        params = params || [];
+                        params.push(function(err, data) {
+                            window.callPhantom({
+                                cbId: rndString,
+                                err: err,
+                                data: data,
+                            });
+                        });
+                        require('oae.api.' + api)[apiFunction].apply(
+                            this,
+                            params,
+                        );
+                    },
+                    rndString,
+                    api,
+                    apiFunction,
+                    params,
+                );
+            },
+        );
     };
 
     /**
@@ -69,13 +80,15 @@ var mainUtil = (function() {
         var rndString = '';
         var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         for (var i = 0; i < 10; i++) {
-            rndString += possible.charAt(Math.floor(Math.random() * possible.length));
+            rndString += possible.charAt(
+                Math.floor(Math.random() * possible.length),
+            );
         }
         return rndString;
     };
 
     return {
-        'callInternalAPI': callInternalAPI,
-        'generateRandomString': generateRandomString
+        callInternalAPI: callInternalAPI,
+        generateRandomString: generateRandomString,
     };
 })();

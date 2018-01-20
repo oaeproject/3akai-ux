@@ -14,7 +14,6 @@
  */
 
 define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
-
     /**
      * Get a full discussion profile
      *
@@ -24,21 +23,24 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Discussion}   callback.discussion   Discussion object representing the retrieved discussion
      * @throws {Error}                              Error thrown when no discussion id has been provided
      */
-    var getDiscussion = exports.getDiscussion = function(discussionId, callback) {
+    var getDiscussion = (exports.getDiscussion = function(
+        discussionId,
+        callback,
+    ) {
         if (!discussionId) {
             throw new Error('A valid discussion id should be provided');
         }
 
         $.ajax({
-            'url': '/api/discussion/' + discussionId,
-            'success': function(data) {
+            url: '/api/discussion/' + discussionId,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Create a new discussion
@@ -53,7 +55,14 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Discussion}     [callback.discussion]     Discussion object representing the created discussion
      * @throws {Error}                                    Error thrown when no discussion topic has been provided
      */
-    var createDiscussion = exports.createDiscussion = function(displayName, description, visibility, managers, members, callback) {
+    var createDiscussion = (exports.createDiscussion = function(
+        displayName,
+        description,
+        visibility,
+        managers,
+        members,
+        callback,
+    ) {
         if (!displayName) {
             throw new Error('A valid description topic should be provided');
         }
@@ -62,25 +71,25 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         var data = {
-            'displayName': displayName,
-            'description': description,
-            'visibility': visibility,
-            'managers': managers,
-            'members': members
+            displayName: displayName,
+            description: description,
+            visibility: visibility,
+            managers: managers,
+            members: members,
         };
 
         $.ajax({
-            'url': '/api/discussion/create',
-            'type': 'POST',
-            'data': data,
-            'success': function(data) {
+            url: '/api/discussion/create',
+            type: 'POST',
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Update a discussion's metadata
@@ -92,7 +101,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Discussion}   [callback.discussion]       Discussion object representing the updated discussion
      * @throws {Error}                                    Error thrown when not all of the required parameters have been provided
      */
-    var updateDiscussion = exports.updateDiscussion = function(discussionId, params, callback) {
+    var updateDiscussion = (exports.updateDiscussion = function(
+        discussionId,
+        params,
+        callback,
+    ) {
         if (!discussionId) {
             throw new Error('A valid discussion id should be provided');
         } else if (!params || _.keys(params).length === 0) {
@@ -103,17 +116,17 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/discussion/' + discussionId,
-            'type': 'POST',
-            'data': params,
-            'success': function(data) {
+            url: '/api/discussion/' + discussionId,
+            type: 'POST',
+            data: params,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Permanently delete a discussion from the system
@@ -123,7 +136,10 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}        [callback.err]        Error object containing error code and error message
      * @throws {Error}                               Error thrown when no valid discussion id has been provided
      */
-    var deleteDiscussion = exports.deleteDiscussion = function(discussionId, callback) {
+    var deleteDiscussion = (exports.deleteDiscussion = function(
+        discussionId,
+        callback,
+    ) {
         if (!discussionId) {
             throw new Error('A valid discussion id should be provided');
         }
@@ -132,16 +148,16 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/discussion/' + discussionId,
-            'type': 'DELETE',
-            'success': function() {
+            url: '/api/discussion/' + discussionId,
+            type: 'DELETE',
+            success: function() {
                 callback(null);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Get all the invitations for a discussion
@@ -153,21 +169,24 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Invitation[]}   callback.invitations.results    Every invitation associated to the discussion
      * @throws {Error}                                          Error thrown when no discussion id has been provided
      */
-    var getInvitations = exports.getInvitations = function(discussionId, callback) {
+    var getInvitations = (exports.getInvitations = function(
+        discussionId,
+        callback,
+    ) {
         if (!discussionId) {
             throw new Error('A valid discussion id should be provided');
         }
 
         $.ajax({
-            'url': '/api/discussion/'  + discussionId + '/invitations',
-            'success': function(data) {
+            url: '/api/discussion/' + discussionId + '/invitations',
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Resend an invitation that invites an email into a discussion
@@ -178,22 +197,31 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}     callback.err    Error object containing error code and error message
      * @throws {Error}                      Error thrown when no discussion id has been provided
      */
-    var resendInvitation = exports.resendInvitation = function(discussionId, email, callback) {
+    var resendInvitation = (exports.resendInvitation = function(
+        discussionId,
+        email,
+        callback,
+    ) {
         if (!discussionId) {
             throw new Error('A valid discussion id should be provided');
         }
 
         $.ajax({
-            'url': '/api/discussion/' + discussionId + '/invitations/' + email + '/resend',
-            'type': 'POST',
-            'success': function() {
+            url:
+                '/api/discussion/' +
+                discussionId +
+                '/invitations/' +
+                email +
+                '/resend',
+            type: 'POST',
+            success: function() {
                 callback();
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Get the viewers and managers of a discussion
@@ -208,27 +236,32 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}          callback.members.nextToken     The value to provide in the `start` parameter to get the next set of results
      * @throws {Error}                                          Error thrown when no discussion id has been provided
      */
-    var getMembers = exports.getMembers = function(discussionId, start, limit, callback) {
+    var getMembers = (exports.getMembers = function(
+        discussionId,
+        start,
+        limit,
+        callback,
+    ) {
         if (!discussionId) {
             throw new Error('A valid discussion id should be provided');
         }
 
         var data = {
-            'start': start,
-            'limit': limit
+            start: start,
+            limit: limit,
         };
 
         $.ajax({
-            'url': '/api/discussion/'+ discussionId + '/members',
-            'data': data,
-            'success': function(data) {
+            url: '/api/discussion/' + discussionId + '/members',
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Change the members and managers of a discussion
@@ -239,28 +272,34 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}       [callback.err]        Error object containing error code and error message
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
-    var updateMembers = exports.updateMembers = function(discussionId, updatedMembers, callback) {
+    var updateMembers = (exports.updateMembers = function(
+        discussionId,
+        updatedMembers,
+        callback,
+    ) {
         if (!discussionId) {
             throw new Error('A valid discussion id should be provided');
         } else if (!updatedMembers || _.keys(updatedMembers).length === 0) {
-            throw new Error('The updatedMembers hash should contain at least 1 update');
+            throw new Error(
+                'The updatedMembers hash should contain at least 1 update',
+            );
         }
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/discussion/'+ discussionId + '/members',
-            'type': 'POST',
-            'data': updatedMembers,
-            'success': function() {
+            url: '/api/discussion/' + discussionId + '/members',
+            type: 'POST',
+            data: updatedMembers,
+            success: function() {
                 callback(null);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Share a discussion
@@ -271,7 +310,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}       [callback.err]        Error object containing error code and error message
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
-    var shareDiscussion = exports.shareDiscussion = function(discussionId, principals, callback) {
+    var shareDiscussion = (exports.shareDiscussion = function(
+        discussionId,
+        principals,
+        callback,
+    ) {
         if (!discussionId) {
             throw new Error('A discussion id should be provided');
         } else if (!principals.length) {
@@ -282,21 +325,21 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         var data = {
-            'members': principals
+            members: principals,
         };
 
         $.ajax({
-            'url': '/api/discussion/' + discussionId + '/share',
-            'type': 'POST',
-            'data': data,
-            'success': function(data) {
+            url: '/api/discussion/' + discussionId + '/share',
+            type: 'POST',
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Get the discussion library for a given principal
@@ -311,27 +354,32 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         callback.discussions.nextToken  The value to provide in the `start` parameter to get the next set of results
      * @throws {Error}                                          Error thrown when no principal id has been provided
      */
-    var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {
+    var getLibrary = (exports.getLibrary = function(
+        principalId,
+        start,
+        limit,
+        callback,
+    ) {
         if (!principalId) {
             throw new Error('A user or group id should be provided');
         }
 
         var data = {
-            'start': start,
-            'limit': limit
+            start: start,
+            limit: limit,
         };
 
         $.ajax({
-            'url': '/api/discussion/library/' + principalId,
-            'data': data,
-            'success': function(data) {
+            url: '/api/discussion/library/' + principalId,
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Delete a discussion from a discussion library
@@ -342,7 +390,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}         [callback.err]    Error object containing error code and error message
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
-    var deleteDiscussionFromLibrary = exports.deleteDiscussionFromLibrary = function(principalId, discussionId, callback) {
+    var deleteDiscussionFromLibrary = (exports.deleteDiscussionFromLibrary = function(
+        principalId,
+        discussionId,
+        callback,
+    ) {
         if (!principalId) {
             throw new Error('A valid user or group id should be provided');
         } else if (!discussionId) {
@@ -353,14 +405,14 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/discussion/library/' + principalId + '/' + discussionId,
-            'type': 'DELETE',
-            'success': function() {
+            url: '/api/discussion/library/' + principalId + '/' + discussionId,
+            type: 'DELETE',
+            success: function() {
                 callback(null);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 });
