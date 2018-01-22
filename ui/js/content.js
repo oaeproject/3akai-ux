@@ -14,7 +14,6 @@
  */
 
 require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
-
     // Get the content id from the URL. The expected URL is `/content/<tenantId>/<resourceId>`.
     // The content id will then be `c:<tenantId>:<resourceId>`
     var url = oae.api.util.url();
@@ -32,40 +31,49 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * is only used to load the correct content preview widget
      */
     var setUpNavigation = function() {
-        var lhNavPages = [{
-            'id': 'content',
-            'title': contentProfile.displayName,
-            'icon': 'fa-comments',
-            'closeNav': true,
-            'class': 'hide',
-            'layout': [
-                {
-                    'width': 'col-md-12',
-                    'widgets': [
-                        {
-                            'id': 'content-preview',
-                            'name': getPreviewWidgetId(),
-                            'settings': contentProfile
-                        }
-                    ]
-                },
-                {
-                    'width': 'col-md-12',
-                    'widgets': [
-                        {
-                            'name': 'comments'
-                        }
-                    ]
-                }
-            ]
-        }];
+        var lhNavPages = [
+            {
+                id: 'content',
+                title: contentProfile.displayName,
+                icon: 'fa-comments',
+                closeNav: true,
+                class: 'hide',
+                layout: [
+                    {
+                        width: 'col-md-12',
+                        widgets: [
+                            {
+                                id: 'content-preview',
+                                name: getPreviewWidgetId(),
+                                settings: contentProfile,
+                            },
+                        ],
+                    },
+                    {
+                        width: 'col-md-12',
+                        widgets: [
+                            {
+                                name: 'comments',
+                            },
+                        ],
+                    },
+                ],
+            },
+        ];
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, [], baseUrl]);
+        $(window).trigger('oae.trigger.lhnavigation', [
+            lhNavPages,
+            [],
+            baseUrl,
+        ]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, [], baseUrl]);
+            $(window).trigger('oae.trigger.lhnavigation', [
+                lhNavPages,
+                [],
+                baseUrl,
+            ]);
         });
     };
-
 
     ////////////////////////////////////
     // CONTENT PROFILE INITIALIZATION //
@@ -106,12 +114,16 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * Render the content item clip
      */
     var setUpClip = function() {
-        oae.api.util.template().render($('#content-clip-template'), {
-            'content': contentProfile,
-            'displayOptions': {
-                'addLink': false
-            }
-        }, $('#content-clip-container'));
+        oae.api.util.template().render(
+            $('#content-clip-template'),
+            {
+                content: contentProfile,
+                displayOptions: {
+                    addLink: false,
+                },
+            },
+            $('#content-clip-container'),
+        );
     };
 
     /**
@@ -146,7 +158,10 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     var setUpContext = function() {
         $(document).on('oae.context.get', function(ev, widgetId) {
             if (widgetId) {
-                $(document).trigger('oae.context.send.' + widgetId, contentProfile);
+                $(document).trigger(
+                    'oae.context.send.' + widgetId,
+                    contentProfile,
+                );
             } else {
                 $(document).trigger('oae.context.send', contentProfile);
             }
@@ -159,44 +174,79 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * are made by a different user after the initial page load
      */
     var setUpPushNotifications = function() {
-        oae.api.push.subscribe(contentId, 'activity', contentProfile.signature, 'internal', false, false, function(activities) {
-            // The `activity` stream pushes out activities on routing so it's always
-            // safe to just pick the first item from the `activities` array
-            var activity = activities[0];
+        oae.api.push.subscribe(
+            contentId,
+            'activity',
+            contentProfile.signature,
+            'internal',
+            false,
+            false,
+            function(activities) {
+                // The `activity` stream pushes out activities on routing so it's always
+                // safe to just pick the first item from the `activities` array
+                var activity = activities[0];
 
-            var isSupportedUpdateActivity = _.contains(['content-update', 'content-update-visibility'], activity['oae:activityType']);
-            var isSupportedPreviewActivity = _.contains(['content-revision', 'content-restored-revision', 'previews-finished'], activity['oae:activityType']);
-            // Only respond to push notifications caused by other users
-            if (activity.actor.id === oae.data.me.id) {
-                return;
-            // Content preview activities should not trigger a content profile update when the content item is a collaborative
-            // document and the current user can manage the document. In this case, Etherpad will take care of the content preview
-            } else if (isSupportedPreviewActivity && contentProfile.resourceSubType === 'collabdoc' && contentProfile.isManager) {
-                return;
-            // The push notification is a recognized activity
-            } else if (isSupportedUpdateActivity || isSupportedPreviewActivity) {
-                var contentObj = activity.object;
-                contentObj.canShare = contentProfile.canShare;
-                contentObj.isManager = contentProfile.isManager;
+                var isSupportedUpdateActivity = _.contains(
+                    ['content-update', 'content-update-visibility'],
+                    activity['oae:activityType'],
+                );
+                var isSupportedPreviewActivity = _.contains(
+                    [
+                        'content-revision',
+                        'content-restored-revision',
+                        'previews-finished',
+                    ],
+                    activity['oae:activityType'],
+                );
+                // Only respond to push notifications caused by other users
+                if (activity.actor.id === oae.data.me.id) {
+                    return;
+                    // Content preview activities should not trigger a content profile update when the content item is a collaborative
+                    // document and the current user can manage the document. In this case, Etherpad will take care of the content preview
+                } else if (
+                    isSupportedPreviewActivity &&
+                    contentProfile.resourceSubType === 'collabdoc' &&
+                    contentProfile.isManager
+                ) {
+                    return;
+                    // The push notification is a recognized activity
+                } else if (
+                    isSupportedUpdateActivity ||
+                    isSupportedPreviewActivity
+                ) {
+                    var contentObj = activity.object;
+                    contentObj.canShare = contentProfile.canShare;
+                    contentObj.isManager = contentProfile.isManager;
 
-                // Cache the previous content profile
-                var previousContentProfile = contentProfile;
-                // Cache the updated content profile
-                contentProfile = contentObj;
+                    // Cache the previous content profile
+                    var previousContentProfile = contentProfile;
+                    // Cache the updated content profile
+                    contentProfile = contentObj;
 
-                // The clip can always be re-rendered
-                setUpClip();
+                    // The clip can always be re-rendered
+                    setUpClip();
 
-                // Refresh the content preview when the push notification was a recognized preview activity. However, when the notification
-                // is of the type `previews-finished` and the content item is an image, the content preview is not refreshed. In that case,
-                // the original image will already be embedded as the preview and refreshing it would cause flickering.
-                // Alternatively, the content preview is also refreshed when the content item is a link and the URL has been changed
-                if ((isSupportedPreviewActivity && !(activity['oae:activityType'] === 'previews-finished' && contentProfile.resourceSubType === 'file' && contentProfile.mime.substring(0, 6) === 'image/')) ||
-                    (activity['oae:activityType'] === 'content-update' && contentProfile.resourceSubType === 'link' && contentProfile.link !== previousContentProfile.link)) {
-                    refreshContentPreview();
+                    // Refresh the content preview when the push notification was a recognized preview activity. However, when the notification
+                    // is of the type `previews-finished` and the content item is an image, the content preview is not refreshed. In that case,
+                    // the original image will already be embedded as the preview and refreshing it would cause flickering.
+                    // Alternatively, the content preview is also refreshed when the content item is a link and the URL has been changed
+                    if (
+                        (isSupportedPreviewActivity &&
+                            !(
+                                activity['oae:activityType'] ===
+                                    'previews-finished' &&
+                                contentProfile.resourceSubType === 'file' &&
+                                contentProfile.mime.substring(0, 6) === 'image/'
+                            )) ||
+                        (activity['oae:activityType'] === 'content-update' &&
+                            contentProfile.resourceSubType === 'link' &&
+                            contentProfile.link !== previousContentProfile.link)
+                    ) {
+                        refreshContentPreview();
+                    }
                 }
-            }
-        });
+            },
+        );
     };
 
     /**
@@ -223,14 +273,19 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         $widgetContainer.empty();
 
         // Insert the new updated content preview widget
-        oae.api.widget.insertWidget(getPreviewWidgetId(), null, $widgetContainer, null, contentProfile);
+        oae.api.widget.insertWidget(
+            getPreviewWidgetId(),
+            null,
+            $widgetContainer,
+            null,
+            contentProfile,
+        );
     };
 
     // Catch the event sent out when the content item has been updated
     $(document).on('oae.content.update', function(ev, updatedContent) {
         refreshContentProfile(updatedContent);
     });
-
 
     ///////////////////
     // MANAGE ACCESS //
@@ -243,42 +298,110 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     var getManageAccessMessages = function() {
         // Keeps track of messages to return
         var messages = {
-            'membersTitle': oae.api.i18n.translate('__MSG__SHARED_WITH__'),
-            'private': oae.api.i18n.translate('__MSG__PRIVATE__'),
-            'loggedin': oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName),
-            'public': oae.api.i18n.translate('__MSG__PUBLIC__')
+            membersTitle: oae.api.i18n.translate('__MSG__SHARED_WITH__'),
+            private: oae.api.i18n.translate('__MSG__PRIVATE__'),
+            loggedin: oae.api.util
+                .security()
+                .encodeForHTML(contentProfile.tenant.displayName),
+            public: oae.api.i18n.translate('__MSG__PUBLIC__'),
         };
 
         switch (contentProfile.resourceSubType) {
             case 'file':
                 return _.extend(messages, {
-                    'accessNotUpdatedBody': oae.api.i18n.translate('__MSG__FILE_ACCESS_COULD_NOT_BE_UPDATED__'),
-                    'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__FILE_ACCESS_NOT_UPDATED__'),
-                    'accessUpdatedBody': oae.api.i18n.translate('__MSG__FILE_ACCESS_SUCCESSFULLY_UPDATED__'),
-                    'accessUpdatedTitle': oae.api.i18n.translate('__MSG__FILE_ACCESS_UPDATED__'),
-                    'privateDescription': oae.api.i18n.translate('__MSG__FILE_PRIVATE_DESCRIPTION__'),
-                    'loggedinDescription': oae.api.i18n.translate('__MSG__FILE_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName)}),
-                    'publicDescription': oae.api.i18n.translate('__MSG__FILE_PUBLIC_DESCRIPTION__')
+                    accessNotUpdatedBody: oae.api.i18n.translate(
+                        '__MSG__FILE_ACCESS_COULD_NOT_BE_UPDATED__',
+                    ),
+                    accessNotUpdatedTitle: oae.api.i18n.translate(
+                        '__MSG__FILE_ACCESS_NOT_UPDATED__',
+                    ),
+                    accessUpdatedBody: oae.api.i18n.translate(
+                        '__MSG__FILE_ACCESS_SUCCESSFULLY_UPDATED__',
+                    ),
+                    accessUpdatedTitle: oae.api.i18n.translate(
+                        '__MSG__FILE_ACCESS_UPDATED__',
+                    ),
+                    privateDescription: oae.api.i18n.translate(
+                        '__MSG__FILE_PRIVATE_DESCRIPTION__',
+                    ),
+                    loggedinDescription: oae.api.i18n.translate(
+                        '__MSG__FILE_LOGGEDIN_DESCRIPTION__',
+                        null,
+                        {
+                            tenant: oae.api.util
+                                .security()
+                                .encodeForHTML(
+                                    contentProfile.tenant.displayName,
+                                ),
+                        },
+                    ),
+                    publicDescription: oae.api.i18n.translate(
+                        '__MSG__FILE_PUBLIC_DESCRIPTION__',
+                    ),
                 });
             case 'link':
                 return _.extend(messages, {
-                    'accessNotUpdatedBody': oae.api.i18n.translate('__MSG__LINK_ACCESS_COULD_NOT_BE_UPDATED__'),
-                    'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__LINK_ACCESS_NOT_UPDATED__'),
-                    'accessUpdatedBody': oae.api.i18n.translate('__MSG__LINK_ACCESS_SUCCESSFULLY_UPDATED__'),
-                    'accessUpdatedTitle': oae.api.i18n.translate('__MSG__LINK_ACCESS_UPDATED__'),
-                    'privateDescription': oae.api.i18n.translate('__MSG__LINK_PRIVATE_DESCRIPTION__'),
-                    'loggedinDescription': oae.api.i18n.translate('__MSG__LINK_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName)}),
-                    'publicDescription': oae.api.i18n.translate('__MSG__LINK_PUBLIC_DESCRIPTION__')
+                    accessNotUpdatedBody: oae.api.i18n.translate(
+                        '__MSG__LINK_ACCESS_COULD_NOT_BE_UPDATED__',
+                    ),
+                    accessNotUpdatedTitle: oae.api.i18n.translate(
+                        '__MSG__LINK_ACCESS_NOT_UPDATED__',
+                    ),
+                    accessUpdatedBody: oae.api.i18n.translate(
+                        '__MSG__LINK_ACCESS_SUCCESSFULLY_UPDATED__',
+                    ),
+                    accessUpdatedTitle: oae.api.i18n.translate(
+                        '__MSG__LINK_ACCESS_UPDATED__',
+                    ),
+                    privateDescription: oae.api.i18n.translate(
+                        '__MSG__LINK_PRIVATE_DESCRIPTION__',
+                    ),
+                    loggedinDescription: oae.api.i18n.translate(
+                        '__MSG__LINK_LOGGEDIN_DESCRIPTION__',
+                        null,
+                        {
+                            tenant: oae.api.util
+                                .security()
+                                .encodeForHTML(
+                                    contentProfile.tenant.displayName,
+                                ),
+                        },
+                    ),
+                    publicDescription: oae.api.i18n.translate(
+                        '__MSG__LINK_PUBLIC_DESCRIPTION__',
+                    ),
                 });
             case 'collabdoc':
                 return _.extend(messages, {
-                    'accessNotUpdatedBody': oae.api.i18n.translate('__MSG__DOCUMENT_ACCESS_COULD_NOT_BE_UPDATED__'),
-                    'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__DOCUMENT_ACCESS_NOT_UPDATED__'),
-                    'accessUpdatedBody': oae.api.i18n.translate('__MSG__DOCUMENT_ACCESS_SUCCESSFULLY_UPDATED__'),
-                    'accessUpdatedTitle': oae.api.i18n.translate('__MSG__DOCUMENT_ACCESS_UPDATED__'),
-                    'privateDescription': oae.api.i18n.translate('__MSG__DOCUMENT_PRIVATE_DESCRIPTION__'),
-                    'loggedinDescription': oae.api.i18n.translate('__MSG__DOCUMENT_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName)}),
-                    'publicDescription': oae.api.i18n.translate('__MSG__DOCUMENT_PUBLIC_DESCRIPTION__')
+                    accessNotUpdatedBody: oae.api.i18n.translate(
+                        '__MSG__DOCUMENT_ACCESS_COULD_NOT_BE_UPDATED__',
+                    ),
+                    accessNotUpdatedTitle: oae.api.i18n.translate(
+                        '__MSG__DOCUMENT_ACCESS_NOT_UPDATED__',
+                    ),
+                    accessUpdatedBody: oae.api.i18n.translate(
+                        '__MSG__DOCUMENT_ACCESS_SUCCESSFULLY_UPDATED__',
+                    ),
+                    accessUpdatedTitle: oae.api.i18n.translate(
+                        '__MSG__DOCUMENT_ACCESS_UPDATED__',
+                    ),
+                    privateDescription: oae.api.i18n.translate(
+                        '__MSG__DOCUMENT_PRIVATE_DESCRIPTION__',
+                    ),
+                    loggedinDescription: oae.api.i18n.translate(
+                        '__MSG__DOCUMENT_LOGGEDIN_DESCRIPTION__',
+                        null,
+                        {
+                            tenant: oae.api.util
+                                .security()
+                                .encodeForHTML(
+                                    contentProfile.tenant.displayName,
+                                ),
+                        },
+                    ),
+                    publicDescription: oae.api.i18n.translate(
+                        '__MSG__DOCUMENT_PUBLIC_DESCRIPTION__',
+                    ),
                 });
         }
     };
@@ -292,24 +415,33 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      */
     var getManageAccessData = function() {
         var widgetData = {
-            'contextProfile': contentProfile,
-            'messages': getManageAccessMessages(),
-            'defaultRole': 'viewer',
-            'roles': [
-                {'id': 'viewer', 'name': oae.api.i18n.translate('__MSG__CAN_VIEW__')},
-                {'id': 'manager', 'name': oae.api.i18n.translate('__MSG__CAN_MANAGE__')}
+            contextProfile: contentProfile,
+            messages: getManageAccessMessages(),
+            defaultRole: 'viewer',
+            roles: [
+                {
+                    id: 'viewer',
+                    name: oae.api.i18n.translate('__MSG__CAN_VIEW__'),
+                },
+                {
+                    id: 'manager',
+                    name: oae.api.i18n.translate('__MSG__CAN_MANAGE__'),
+                },
             ],
-            'api': {
-                'getMembersURL': '/api/content/'+ contentProfile.id + '/members',
-                'getInvitations': oae.api.content.getInvitations,
-                'resendInvitation': oae.api.content.resendInvitation,
-                'setMembers': oae.api.content.updateMembers,
-                'setVisibility': oae.api.content.updateContent
-            }
+            api: {
+                getMembersURL: '/api/content/' + contentProfile.id + '/members',
+                getInvitations: oae.api.content.getInvitations,
+                resendInvitation: oae.api.content.resendInvitation,
+                setMembers: oae.api.content.updateMembers,
+                setVisibility: oae.api.content.updateContent,
+            },
         };
         // Collabdocs have a special editor role
         if (contentProfile.resourceSubType === 'collabdoc') {
-            widgetData.roles.splice(1, 0, {'id': 'editor', 'name': oae.api.i18n.translate('__MSG__CAN_EDIT__')});
+            widgetData.roles.splice(1, 0, {
+                id: 'editor',
+                name: oae.api.i18n.translate('__MSG__CAN_EDIT__'),
+            });
             widgetData.defaultRole = 'manager';
         }
         return widgetData;
@@ -326,14 +458,16 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * Trigger the manageaccess widget in `add members` view and pass in context data
      */
     $(document).on('click', '.content-trigger-manageaccess-add', function() {
-        $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
+        $(document).trigger(
+            'oae.trigger.manageaccess-add',
+            getManageAccessData(),
+        );
     });
 
     /**
      * Re-render the content's clip when the permissions have been updated
      */
     $(document).on('oae.manageaccess.done', setUpClip);
-
 
     ///////////////
     // REVISIONS //
@@ -342,10 +476,13 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     /**
      * Refresh the content profile when a revision has been restored
      */
-    $(document).on('oae.revisions.done', function(ev, restoredRevision, updatedContentProfile) {
+    $(document).on('oae.revisions.done', function(
+        ev,
+        restoredRevision,
+        updatedContentProfile,
+    ) {
         refreshContentProfile(updatedContentProfile);
     });
-
 
     //////////////////
     // EDIT DETAILS //
@@ -356,7 +493,10 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * When the content item is a link and the URL has changed, the preview is re-rendered as well.
      */
     $(document).on('oae.editcontent.done', function(ev, updatedContentProfile) {
-        if (contentProfile.resourceSubType === 'link' && contentProfile.link !== updatedContentProfile.link) {
+        if (
+            contentProfile.resourceSubType === 'link' &&
+            contentProfile.link !== updatedContentProfile.link
+        ) {
             refreshContentProfile(updatedContentProfile);
         } else {
             contentProfile = updatedContentProfile;
@@ -364,7 +504,5 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         }
     });
 
-
     getContentProfile();
-
 });

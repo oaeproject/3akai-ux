@@ -14,7 +14,6 @@
  */
 
 define(['exports', 'jquery'], function(exports, $) {
-
     /**
      * Get a full folder profile
      *
@@ -24,22 +23,21 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Folder}         callback.folder         Folder object representing the retrieved folder
      * @throws {Error}                                  Error thrown when no folder id has been provided
      */
-    var getFolder = exports.getFolder = function(folderId, callback) {
+    var getFolder = (exports.getFolder = function(folderId, callback) {
         if (!folderId) {
             throw new Error('A valid folder id should be provided');
         }
 
         $.ajax({
-            'url': '/api/folder/' + folderId,
-            'success': function(data) {
+            url: '/api/folder/' + folderId,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
-
+    });
 
     /**
      * Create a new folder
@@ -54,7 +52,14 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Folder}         [callback.folder]       Folder object representing the created folder
      * @throws {Error}                                  Error thrown when no valid display name has been provided
      */
-    var createFolder = exports.createFolder = function(displayName, description, visibility, managers, viewers, callback) {
+    var createFolder = (exports.createFolder = function(
+        displayName,
+        description,
+        visibility,
+        managers,
+        viewers,
+        callback,
+    ) {
         if (!displayName) {
             throw new Error('A valid folder name should be provided');
         }
@@ -63,25 +68,25 @@ define(['exports', 'jquery'], function(exports, $) {
         callback = callback || function() {};
 
         var data = {
-            'displayName': displayName,
-            'description': description,
-            'visibility': visibility,
-            'managers': managers,
-            'viewers': viewers
+            displayName: displayName,
+            description: description,
+            visibility: visibility,
+            managers: managers,
+            viewers: viewers,
         };
 
         $.ajax({
-            'url': '/api/folder',
-            'type': 'POST',
-            'data': data,
-            'success': function(data) {
+            url: '/api/folder',
+            type: 'POST',
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Update a folder's metadata
@@ -93,7 +98,11 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Folder}       [callback.folder]         Folder object representing the updated folder
      * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
-    var updateFolder = exports.updateFolder = function(folderId, params, callback) {
+    var updateFolder = (exports.updateFolder = function(
+        folderId,
+        params,
+        callback,
+    ) {
         if (!folderId) {
             throw new Error('A valid folder id should be provided');
         } else if (!params || _.keys(params).length === 0) {
@@ -104,17 +113,17 @@ define(['exports', 'jquery'], function(exports, $) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/folder/' + folderId,
-            'type': 'POST',
-            'data': params,
-            'success': function(data) {
+            url: '/api/folder/' + folderId,
+            type: 'POST',
+            data: params,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Update the visibility of the content items inside a folder
@@ -126,7 +135,11 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Folder}       [callback.failedContent]      The content items for which the visibility could not be updated
      * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
      */
-    var updateFolderContentVisibility = exports.updateFolderContentVisibility = function(folderId, visibility, callback) {
+    var updateFolderContentVisibility = (exports.updateFolderContentVisibility = function(
+        folderId,
+        visibility,
+        callback,
+    ) {
         if (!folderId) {
             throw new Error('A valid folder id should be provided');
         } else if (!visibility) {
@@ -137,21 +150,21 @@ define(['exports', 'jquery'], function(exports, $) {
         callback = callback || function() {};
 
         var data = {
-            'visibility': visibility
+            visibility: visibility,
         };
 
         $.ajax({
-            'url': '/api/folder/' + folderId + '/contentvisibility',
-            'type': 'POST',
-            'data': data,
-            'success': function(data) {
+            url: '/api/folder/' + folderId + '/contentvisibility',
+            type: 'POST',
+            data: data,
+            success: function(data) {
                 callback(null, data.failedContent);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Add existing content items to a folder
@@ -162,7 +175,11 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Object}        [callback.err]               Error object containing error code and error message
      * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
      */
-    var addToFolder = exports.addToFolder = function(folderId, contentIds, callback) {
+    var addToFolder = (exports.addToFolder = function(
+        folderId,
+        contentIds,
+        callback,
+    ) {
         if (!folderId) {
             throw new Error('A valid folder id should be provided');
         } else if (!contentIds || contentIds.length === 0) {
@@ -173,21 +190,21 @@ define(['exports', 'jquery'], function(exports, $) {
         callback = callback || function() {};
 
         var data = {
-            'contentIds': contentIds
+            contentIds: contentIds,
         };
 
         $.ajax({
-            'url': '/api/folder/' + folderId + '/library',
-            'type': 'POST',
-            'data': data,
-            'success': function(data) {
+            url: '/api/folder/' + folderId + '/library',
+            type: 'POST',
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Permanently delete a folder from the system. It is also possible to remove all of its content
@@ -200,7 +217,11 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Content[]}     [callback.failedContent]     The content items that could not be deleted
      * @throws {Error}                                      Error thrown when no valid discussion id has been provided
      */
-    var deleteFolder = exports.deleteFolder = function(folderId, deleteContent, callback) {
+    var deleteFolder = (exports.deleteFolder = function(
+        folderId,
+        deleteContent,
+        callback,
+    ) {
         if (!deleteFolder) {
             throw new Error('A valid folder id should be provided');
         }
@@ -209,21 +230,21 @@ define(['exports', 'jquery'], function(exports, $) {
         callback = callback || function() {};
 
         var data = {
-            'deleteContent': deleteContent
+            deleteContent: deleteContent,
         };
 
         $.ajax({
-            'url': '/api/folder/' + folderId,
-            'type': 'DELETE',
-            'data': data,
-            'success': function(data) {
+            url: '/api/folder/' + folderId,
+            type: 'DELETE',
+            data: data,
+            success: function(data) {
                 callback(null, data.failedContent);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Get all the invitations for a folder
@@ -235,21 +256,24 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Invitation[]}   callback.invitations.results    Every invitation associated to the folder
      * @throws {Error}                                          Error thrown when no folder id has been provided
      */
-    var getInvitations = exports.getInvitations = function(folderId, callback) {
+    var getInvitations = (exports.getInvitations = function(
+        folderId,
+        callback,
+    ) {
         if (!folderId) {
             throw new Error('A valid folder id should be provided');
         }
 
         $.ajax({
-            'url': '/api/folder/' + folderId + '/invitations',
-            'success': function(data) {
+            url: '/api/folder/' + folderId + '/invitations',
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Resend an invitation that invites an email into a folder
@@ -260,22 +284,27 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Object}     callback.err    Error object containing error code and error message
      * @throws {Error}                      Error thrown when no folder id has been provided
      */
-    var resendInvitation = exports.resendInvitation = function(folderId, email, callback) {
+    var resendInvitation = (exports.resendInvitation = function(
+        folderId,
+        email,
+        callback,
+    ) {
         if (!folderId) {
             throw new Error('A valid folder id should be provided');
         }
 
         $.ajax({
-            'url': '/api/folder/' + folderId + '/invitations/' + email + '/resend',
-            'type': 'POST',
-            'success': function() {
+            url:
+                '/api/folder/' + folderId + '/invitations/' + email + '/resend',
+            type: 'POST',
+            success: function() {
                 callback();
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Get the viewers and managers of a folder
@@ -290,27 +319,32 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {String}          callback.members.nextToken     The value to provide in the `start` parameter to get the next set of results
      * @throws {Error}                                          Error thrown when no folder id has been provided
      */
-    var getMembers = exports.getMembers = function(folderId, start, limit, callback) {
+    var getMembers = (exports.getMembers = function(
+        folderId,
+        start,
+        limit,
+        callback,
+    ) {
         if (!folderId) {
             throw new Error('A valid folder id should be provided');
         }
 
         var data = {
-            'start': start,
-            'limit': limit
+            start: start,
+            limit: limit,
         };
 
         $.ajax({
-            'url': '/api/folder/'+ folderId + '/members',
-            'data': data,
-            'success': function(data) {
+            url: '/api/folder/' + folderId + '/members',
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Change the members and managers of a folder
@@ -321,28 +355,34 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Object}       [callback.err]        Error object containing error code and error message
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
-    var updateMembers = exports.updateMembers = function(folderId, updatedMembers, callback) {
+    var updateMembers = (exports.updateMembers = function(
+        folderId,
+        updatedMembers,
+        callback,
+    ) {
         if (!folderId) {
             throw new Error('A valid folder id should be provided');
         } else if (!updatedMembers || _.keys(updatedMembers).length === 0) {
-            throw new Error('The updatedMembers hash should contain at least 1 update');
+            throw new Error(
+                'The updatedMembers hash should contain at least 1 update',
+            );
         }
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/folder/'+ folderId + '/members',
-            'type': 'POST',
-            'data': updatedMembers,
-            'success': function() {
+            url: '/api/folder/' + folderId + '/members',
+            type: 'POST',
+            data: updatedMembers,
+            success: function() {
                 callback(null);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Share a folder
@@ -353,7 +393,11 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Object}       [callback.err]        Error object containing error code and error message
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
-    var shareFolder = exports.shareFolder = function(folderId, principals, callback) {
+    var shareFolder = (exports.shareFolder = function(
+        folderId,
+        principals,
+        callback,
+    ) {
         if (!folderId) {
             throw new Error('A folder id should be provided');
         } else if (!principals.length) {
@@ -364,21 +408,21 @@ define(['exports', 'jquery'], function(exports, $) {
         callback = callback || function() {};
 
         var data = {
-            'viewers': principals
+            viewers: principals,
         };
 
         $.ajax({
-            'url': '/api/folder/' + folderId + '/share',
-            'type': 'POST',
-            'data': data,
-            'success': function(data) {
+            url: '/api/folder/' + folderId + '/share',
+            type: 'POST',
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Get the folder library for a given principal
@@ -393,27 +437,32 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {String}         callback.folders.nextToken      The value to provide in the `start` parameter to get the next set of results
      * @throws {Error}                                          Error thrown when no principal id has been provided
      */
-    var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {
+    var getLibrary = (exports.getLibrary = function(
+        principalId,
+        start,
+        limit,
+        callback,
+    ) {
         if (!principalId) {
             throw new Error('A user or group id should be provided');
         }
 
         var data = {
-            'start': start,
-            'limit': limit
+            start: start,
+            limit: limit,
         };
 
         $.ajax({
-            'url': '/api/folder/library/' + principalId,
-            'data': data,
-            'success': function(data) {
+            url: '/api/folder/library/' + principalId,
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Delete a folder from a folder library
@@ -424,7 +473,11 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Object}         [callback.err]    Error object containing error code and error message
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
-    var deleteFolderFromLibrary = exports.deleteFolderFromLibrary = function(principalId, folderId, callback) {
+    var deleteFolderFromLibrary = (exports.deleteFolderFromLibrary = function(
+        principalId,
+        folderId,
+        callback,
+    ) {
         if (!principalId) {
             throw new Error('A valid user or group id should be provided');
         } else if (!folderId) {
@@ -435,16 +488,16 @@ define(['exports', 'jquery'], function(exports, $) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/folder/library/' + principalId + '/' + folderId,
-            'type': 'DELETE',
-            'success': function() {
+            url: '/api/folder/library/' + principalId + '/' + folderId,
+            type: 'DELETE',
+            success: function() {
                 callback(null);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Delete a piece of content from a folder
@@ -455,7 +508,11 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Object}         [callback.err]    Error object containing error code and error message
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
-    var deleteContentFromFolder = exports.deleteContentFromFolder = function(folderId, contentId, callback) {
+    var deleteContentFromFolder = (exports.deleteContentFromFolder = function(
+        folderId,
+        contentId,
+        callback,
+    ) {
         if (!folderId) {
             throw new Error('A valid folder id should be provided');
         } else if (!contentId) {
@@ -466,20 +523,19 @@ define(['exports', 'jquery'], function(exports, $) {
         callback = callback || function() {};
 
         var data = {
-            'contentIds': contentId
+            contentIds: contentId,
         };
 
         $.ajax({
-            'url': '/api/folder/' + folderId + '/library',
-            'type': 'DELETE',
-            'data': data,
-            'success': function() {
+            url: '/api/folder/' + folderId + '/library',
+            type: 'DELETE',
+            data: data,
+            success: function() {
                 callback(null);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
-
+    });
 });

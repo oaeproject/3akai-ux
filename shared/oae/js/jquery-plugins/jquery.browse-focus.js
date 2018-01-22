@@ -22,9 +22,8 @@
  * focus style.
  */
 
-define(['jquery'], function (jQuery) {
+define(['jquery'], function(jQuery) {
     (function($) {
-
         /**
          * Add the `oae-focus` class to the Browse button when the file input field receives focus
          */
@@ -48,6 +47,5 @@ define(['jquery'], function (jQuery) {
                 $browseButton.removeClass('oae-focus');
             }
         });
-
     })(jQuery);
 });

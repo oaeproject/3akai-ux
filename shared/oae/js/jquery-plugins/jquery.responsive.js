@@ -20,9 +20,8 @@
  * remain visible when an action button is clicked, as this doesn't render a new page.
  */
 
-define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
+define(['jquery', 'oae.api.util'], function(jQuery, oaeUtil) {
     (function($) {
-
         /**
          * Determine whether or not the left-hand nav is expanded
          *
@@ -43,11 +42,15 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
          * Close the left hand navigation when the user selects items that are marked with
          * the attribute `data-close-nav`
          */
-        $(document).on('click', '.oae-lhnavigation > ul li[data-close-nav]', function() {
-            if (isLhNavExpanded()) {
-                toggleLhNav();
-            }
-        });
+        $(document).on(
+            'click',
+            '.oae-lhnavigation > ul li[data-close-nav]',
+            function() {
+                if (isLhNavExpanded()) {
+                    toggleLhNav();
+                }
+            },
+        );
 
         /**
          * Clicking the toggle will expand / collapse the lhnavigation
@@ -59,7 +62,10 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
          * `oae-lhnavigation-toggle`, receives focus whilst the left hand navigation is still open
          */
         $(document).on('focusin', '.oae-page', function(ev) {
-            if (isLhNavExpanded() && !$(ev.target).hasClass('oae-lhnavigation-toggle')) {
+            if (
+                isLhNavExpanded() &&
+                !$(ev.target).hasClass('oae-lhnavigation-toggle')
+            ) {
                 toggleLhNav();
             }
         });
@@ -71,8 +77,10 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
          * @see https://github.com/oaeproject/3akai-ux/issues/3401
          */
         $(document).on('submit', 'form[role="search"]', function() {
-            $(this).find('.search-query').blur().focus();
+            $(this)
+                .find('.search-query')
+                .blur()
+                .focus();
         });
-
     })(jQuery);
 });

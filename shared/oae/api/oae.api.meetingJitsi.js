@@ -14,7 +14,6 @@
  */
 
 define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
-
     /**
      * Create a new meeting
      *
@@ -31,8 +30,16 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Meeting}        [callback.meeting]        Meeting object representing the created meeting
      * @throws {Error}                                    Error thrown when no meeting topic has been provided
      */
-    var createMeeting = exports.createMeeting = function (displayName, description, chat, contactList, visibility, managers, members, callback) {
-
+    var createMeeting = (exports.createMeeting = function(
+        displayName,
+        description,
+        chat,
+        contactList,
+        visibility,
+        managers,
+        members,
+        callback,
+    ) {
         if (!displayName) {
             throw new Error('A valid display name should be provided');
         }
@@ -41,28 +48,30 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         var data = {
-            'displayName': displayName,
-            'description': description,
-            'chat': chat,
-            'contactList': contactList,
-            'visibility': visibility,
-            'managers': managers,
-            'members': members
+            displayName: displayName,
+            description: description,
+            chat: chat,
+            contactList: contactList,
+            visibility: visibility,
+            managers: managers,
+            members: members,
         };
 
         $.ajax({
-            'url': '/api/meeting-jitsi/create',
-            'type': 'POST',
-            'data': data,
-            'success': function (data) {
+            url: '/api/meeting-jitsi/create',
+            type: 'POST',
+            data: data,
+            success: function(data) {
                 return callback(null, data);
             },
-            'error': function (jqXHR, textStatus) {
-                return callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                return callback({
+                    code: jqXHR.status,
+                    msg: jqXHR.responseText,
+                });
+            },
         });
-
-    };
+    });
 
     /**
      * Get a full meeting profile
@@ -73,8 +82,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Meeting}      callback.meeting      Meeting object representing the retrieved meeting
      * @throws {Error}                              Error thrown when no meeting id has been provided
      */
-    var getMeeting = exports.getMeeting = function (meetingId, callback) {
-
+    var getMeeting = (exports.getMeeting = function(meetingId, callback) {
         if (!meetingId) {
             throw new Error('A valid meeting id should be provided');
         }
@@ -83,16 +91,18 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/meeting-jitsi/' + meetingId,
-            'success': function (data) {
+            url: '/api/meeting-jitsi/' + meetingId,
+            success: function(data) {
                 return callback(null, data);
             },
-            'error': function (jqXHR, textStatus) {
-                return callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                return callback({
+                    code: jqXHR.status,
+                    msg: jqXHR.responseText,
+                });
+            },
         });
-
-    };
+    });
 
     /**
      * Get all the invitations for a meeting
@@ -104,8 +114,10 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Invitation[]}   callback.invitations.results    Every invitation associated to the meeting
      * @throws {Error}                                          Error thrown when no meeting id has been provided
      */
-    var getInvitations = exports.getInvitations = function (meetingId, callback) {
-
+    var getInvitations = (exports.getInvitations = function(
+        meetingId,
+        callback,
+    ) {
         if (!meetingId) {
             throw new Error('A valid meeting id should be provided');
         }
@@ -114,16 +126,18 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/meeting-jitsi/' + meetingId + '/invitations',
-            'success': function (data) {
+            url: '/api/meeting-jitsi/' + meetingId + '/invitations',
+            success: function(data) {
                 return callback(null, data);
             },
-            'error': function (jqXHR, textStatus) {
-                return callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                return callback({
+                    code: jqXHR.status,
+                    msg: jqXHR.responseText,
+                });
+            },
         });
-
-    };
+    });
 
     /**
      * Update a meeting's metadata
@@ -135,8 +149,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Meeting}      [callback.meeting]          Meeting object representing the updated meeting
      * @throws {Error}                                    Error thrown when not all of the required parameters have been provided
      */
-    var updateMeeting = exports.updateMeeting = function (meetingId, params, callback) {
-
+    var updateMeeting = (exports.updateMeeting = function(
+        meetingId,
+        params,
+        callback,
+    ) {
         if (!meetingId) {
             throw new Error('A valid meeting id should be provided');
         } else if (!params || _.keys(params).length === 0) {
@@ -147,18 +164,20 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/meeting-jitsi/' + meetingId,
-            'type': 'PUT',
-            'data': params,
-            'success': function (data) {
+            url: '/api/meeting-jitsi/' + meetingId,
+            type: 'PUT',
+            data: params,
+            success: function(data) {
                 return callback(null, data);
             },
-            'error': function (jqXHR, textStatus) {
-                return callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                return callback({
+                    code: jqXHR.status,
+                    msg: jqXHR.responseText,
+                });
+            },
         });
-
-    };
+    });
 
     /**
      * Delete a meeting
@@ -167,8 +186,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param   {function}    [callback]        Standard callback function
      * @throws  {Error}                         Error thrown when not all of the required parameters have been provided
      */
-    var deleteMeeting = exports.deleteMeeting = function (meetingId, callback) {
-
+    var deleteMeeting = (exports.deleteMeeting = function(meetingId, callback) {
         if (!meetingId) {
             throw new Error('A valid meeting id should be provided');
         }
@@ -177,17 +195,19 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/meeting-jitsi/' + meetingId,
-            'type': 'DELETE',
-            'success': function () {
+            url: '/api/meeting-jitsi/' + meetingId,
+            type: 'DELETE',
+            success: function() {
                 return callback(null);
             },
-            'error': function (jqXHR, textStatus) {
-                return callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                return callback({
+                    code: jqXHR.status,
+                    msg: jqXHR.responseText,
+                });
+            },
         });
-
-    };
+    });
 
     /**
      * Delete a meeting from a meeting library
@@ -198,8 +218,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param   {Object}      [callback.err]        Error object containing error code and error message
      * @throws  {Error}                             Error thrown when not all of the required parameters have been provided
      */
-    var deleteMeetingFromLibrary = exports.deleteMeetingFromLibrary = function (principalId, meetingId, callback) {
-
+    var deleteMeetingFromLibrary = (exports.deleteMeetingFromLibrary = function(
+        principalId,
+        meetingId,
+        callback,
+    ) {
         if (!principalId) {
             throw new Error('A valid user or group id should be provided');
         } else if (!meetingId) {
@@ -210,17 +233,19 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/meeting-jitsi/library/' + principalId + '/' + meetingId,
-            'type': 'DELETE',
-            'success': function () {
+            url: '/api/meeting-jitsi/library/' + principalId + '/' + meetingId,
+            type: 'DELETE',
+            success: function() {
                 return callback(null);
             },
-            'error': function(jqXHR, textStatus) {
-                return callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                return callback({
+                    code: jqXHR.status,
+                    msg: jqXHR.responseText,
+                });
+            },
         });
-
-    };
+    });
 
     /**
      * Change the members and managers of a meeting
@@ -231,30 +256,37 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}       [callback.err]        Error object containing error code and error message
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
-    var updateMembers = exports.updateMembers = function (meetingId, updatedMembers, callback) {
-
+    var updateMembers = (exports.updateMembers = function(
+        meetingId,
+        updatedMembers,
+        callback,
+    ) {
         if (!meetingId) {
             throw new Error('A valid meeting id should be provided');
-        }  else if (!updatedMembers || _.keys(updatedMembers).length === 0) {
-            throw new Error('The updatedmembers hash should contain at least 1 update');
+        } else if (!updatedMembers || _.keys(updatedMembers).length === 0) {
+            throw new Error(
+                'The updatedmembers hash should contain at least 1 update',
+            );
         }
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/meeting-jitsi/' + meetingId + '/members',
-            'type': 'PUT',
-            'data': updatedMembers,
-            'success': function () {
+            url: '/api/meeting-jitsi/' + meetingId + '/members',
+            type: 'PUT',
+            data: updatedMembers,
+            success: function() {
                 return callback(null);
             },
-            'error': function (jqXHR, textStatus) {
-                return callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                return callback({
+                    code: jqXHR.status,
+                    msg: jqXHR.responseText,
+                });
+            },
         });
-
-    };
+    });
 
     /**
      * Start a meeting
@@ -262,8 +294,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param {any} meetingId
      * @param {any} callback
      */
-    var startMeeting = exports.startMeeting = function (meetingId, callback) {
-
+    var startMeeting = (exports.startMeeting = function(meetingId, callback) {
         if (!meetingId) {
             throw new Error('A valid meeting id should be provided');
         }
@@ -272,14 +303,17 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/meeting-jitsi/' + meetingId + '/start',
-            'type': 'GET',
-            'success': function () {
+            url: '/api/meeting-jitsi/' + meetingId + '/start',
+            type: 'GET',
+            success: function() {
                 return callback(null);
             },
-            'error': function(jqXHR, textStatus) {
-                return callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                return callback({
+                    code: jqXHR.status,
+                    msg: jqXHR.responseText,
+                });
+            },
         });
-    };
+    });
 });

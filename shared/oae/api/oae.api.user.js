@@ -13,8 +13,12 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, $, _, configAPI) {
-
+define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(
+    exports,
+    $,
+    _,
+    configAPI,
+) {
     /**
      * Creates a new user with an internal login strategy
      *
@@ -34,7 +38,16 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {User}           [callback.user]                         A User object representing the created user
      * @throws {Error}                                                  Error thrown when not all of the required parameters have been provided
      */
-    var createUser = exports.createUser = function(username, password, displayName, email, additionalOptions, recaptchaChallenge, recaptchaResponse, callback) {
+    var createUser = (exports.createUser = function(
+        username,
+        password,
+        displayName,
+        email,
+        additionalOptions,
+        recaptchaChallenge,
+        recaptchaResponse,
+        callback,
+    ) {
         if (!username) {
             throw new Error('A username should be provided');
         } else if (!password) {
@@ -51,36 +64,42 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
         additionalOptions = additionalOptions || {};
 
         var data = {
-            'username': username,
-            'password': password,
-            'displayName': displayName,
-            'email': email,
-            'recaptchaChallenge': recaptchaChallenge,
-            'recaptchaResponse': recaptchaResponse,
-            'visibility': additionalOptions.visibility,
-            'locale': additionalOptions.locale,
-            'publicAlias': additionalOptions.publicAlias,
-            'invitationToken': additionalOptions.invitationToken
+            username: username,
+            password: password,
+            displayName: displayName,
+            email: email,
+            recaptchaChallenge: recaptchaChallenge,
+            recaptchaResponse: recaptchaResponse,
+            visibility: additionalOptions.visibility,
+            locale: additionalOptions.locale,
+            publicAlias: additionalOptions.publicAlias,
+            invitationToken: additionalOptions.invitationToken,
         };
 
         // If the tenant requires the terms and conditions to be accepted, add it on the data object
-        if (configAPI.getValue('oae-principals', 'termsAndConditions', 'enabled') === true) {
+        if (
+            configAPI.getValue(
+                'oae-principals',
+                'termsAndConditions',
+                'enabled',
+            ) === true
+        ) {
             data.acceptedTC = true;
         }
 
         // Create the user
         $.ajax({
-            'url': '/api/user/create',
-            'type': 'POST',
-            'data': data,
-            'success': function(data) {
+            url: '/api/user/create',
+            type: 'POST',
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Gets the currently logged in user. A cached copy of this object will be available on oae.data.me when requiring
@@ -90,17 +109,17 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {Object}         callback.err        Error object containing error code and error message
      * @param  {Object}         callback.response   The user's me feed
      */
-    var getMe = exports.getMe = function(callback) {
+    var getMe = (exports.getMe = function(callback) {
         $.ajax({
-            'url': '/api/me',
-            'success': function(data) {
+            url: '/api/me',
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Get a user's basic profile
@@ -111,21 +130,21 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {User}           callback.user       The user's basic profile
      * @throws {Error}                              Error thrown when no userId has been provided
      */
-    var getUser = exports.getUser = function(userId, callback) {
+    var getUser = (exports.getUser = function(userId, callback) {
         if (!userId) {
             throw new Error('A valid user id should be provided');
         }
 
         $.ajax({
-            'url': '/api/user/' + userId,
-            'success': function(data) {
+            url: '/api/user/' + userId,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Update the current user's basic profile
@@ -135,7 +154,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      * @throws {Error}                              Error thrown when no update parameters have been provided
      */
-    var updateUser = exports.updateUser = function(params, callback) {
+    var updateUser = (exports.updateUser = function(params, callback) {
         if (!params || _.keys(params).length === 0) {
             throw new Error('At least 1 parameter should be provided');
         }
@@ -152,17 +171,17 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
         }
 
         $.ajax({
-            'url': '/api/user/' + userId,
-            'type': 'POST',
-            'data': params,
-            'success': function(data) {
+            url: '/api/user/' + userId,
+            type: 'POST',
+            data: params,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.statusText });
+            },
         });
-    };
+    });
 
     /**
      * Get the Terms and Conditions
@@ -172,17 +191,17 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {Object}         callback.err        Error object containing error code and error message
      * @throws {Error}                              Error thrown when no update parameters have been provided
      */
-    var getTC = exports.getTC = function(callback) {
+    var getTC = (exports.getTC = function(callback) {
         $.ajax({
-            'url': '/api/user/termsAndConditions',
-            'success': function(data) {
+            url: '/api/user/termsAndConditions',
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.statusText });
+            },
         });
-    };
+    });
 
     /**
      * Accept the Terms and Conditions
@@ -192,7 +211,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      * @throws {Error}                              Error thrown when no update parameters have been provided
      */
-    var acceptTC = exports.acceptTC = function(callback) {
+    var acceptTC = (exports.acceptTC = function(callback) {
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
@@ -200,16 +219,16 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
         var userId = require('oae.core').data.me.id;
 
         $.ajax({
-            'url': '/api/user/' + userId + '/termsAndConditions',
-            'type': 'POST',
-            'success': function(data) {
+            url: '/api/user/' + userId + '/termsAndConditions',
+            type: 'POST',
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Verify an email token on behalf of the specified user
@@ -219,24 +238,24 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {Function}       [callback]          Standard callback function
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      */
-    var verifyEmail = exports.verifyEmail = function(userId, token, callback) {
+    var verifyEmail = (exports.verifyEmail = function(userId, token, callback) {
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/user/' + userId + '/email/verify',
-            'type': 'POST',
-            'data': {
-                'token': token
+            url: '/api/user/' + userId + '/email/verify',
+            type: 'POST',
+            data: {
+                token: token,
             },
-            'success': function(data) {
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Accept a user invitation with the specified email token
@@ -248,28 +267,32 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {String}         callback.result.email       The email address that was associated to the token
      * @param  {Resource[]}     callback.result.resources   The resources that the user was invited into
      */
-    var acceptInvitation = exports.acceptInvitation = function(token, callback) {
+    var acceptInvitation = (exports.acceptInvitation = function(
+        token,
+        callback,
+    ) {
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/invitation/accept',
-            'type': 'POST',
-            'data': {
-                'token': token
+            url: '/api/invitation/accept',
+            type: 'POST',
+            data: {
+                token: token,
             },
-            'success': function(data) {
+            success: function(data) {
                 // Accepting an invitation will set a verified email if there wasn't one already,
                 // so do that here to avoid giving the user a pop-up
-                require('oae.core').data.me.email = require('oae.core').data.me.email || data.email;
+                require('oae.core').data.me.email =
+                    require('oae.core').data.me.email || data.email;
 
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Resend an email verification token for the specified user
@@ -278,21 +301,24 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {Function}       [callback]          Standard callback function
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      */
-    var resendEmailToken = exports.resendEmailToken = function(userId, callback) {
+    var resendEmailToken = (exports.resendEmailToken = function(
+        userId,
+        callback,
+    ) {
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/user/' + userId + '/email/resend',
-            'type': 'POST',
-            'success': function(data) {
+            url: '/api/user/' + userId + '/email/resend',
+            type: 'POST',
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Get the pending email verification status for the current user, if any
@@ -302,18 +328,21 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {Object}     callback.err        Error object containing error code and error message
      * @param  {String}     [callback.email]    The email address that is pending verification, if any
      */
-    var getEmailVerificationStatus = exports.getEmailVerificationStatus = function(userId, callback) {
+    var getEmailVerificationStatus = (exports.getEmailVerificationStatus = function(
+        userId,
+        callback,
+    ) {
         $.ajax({
-            'url': '/api/user/' + userId + '/email/token',
-            'type': 'GET',
-            'success': function(data) {
+            url: '/api/user/' + userId + '/email/token',
+            type: 'GET',
+            success: function(data) {
                 callback(null, data.email);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Delete the pending email verification for the current user, if any
@@ -321,21 +350,23 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {Function}   [callback]      Standard callback function
      * @param  {Object}     [callback.err]  Error object containing error code and error message
      */
-    var deletePendingEmailVerification = exports.deletePendingEmailVerification = function(callback) {
+    var deletePendingEmailVerification = (exports.deletePendingEmailVerification = function(
+        callback,
+    ) {
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
         var userId = require('oae.core').data.me.id;
 
         $.ajax({
-            'url': '/api/user/' + userId + '/email/token',
-            'type': 'DELETE',
-            'success': function(data) {
+            url: '/api/user/' + userId + '/email/token',
+            type: 'DELETE',
+            success: function(data) {
                 callback(null, data.email);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 });

@@ -17,7 +17,8 @@
  * Load all of the 3rd party libraries that need to be present from the very beginning, as well as the actual
  * core client-side OAE APIs
  */
-define([
+define(
+    [
         /*!
          * The ! after `oae.api` indicates that this module is actually treated as a *plugin*, which is a special kind of
          * requirejs module. The difference we need is that the module can return a `load` function that can chain together
@@ -86,15 +87,15 @@ define([
         'markdown',
         'sockjs',
         'tinycon',
-        'underscore'
+        'underscore',
     ],
 
     function(oae, $) {
         $.ajaxSetup({
             // Make caching the default behavior for $.getScript
-            'cache': true,
+            cache: true,
             // Intercept 419 status indicating that the user has to accept the Terms and Conditions before continuing
-            'complete': function(xhr, textStatus) {
+            complete: function(xhr, textStatus) {
                 if (xhr.status === 419) {
                     // Update user status
                     oae.data.me.needsToAcceptTC = true;
@@ -102,9 +103,14 @@ define([
                     $('.modal').modal('hide');
                     // Insert the Terms and Conditions widget in settings mode
                     var termsandconditionsId = oae.api.util.generateId();
-                    oae.api.widget.insertWidget('termsandconditions', termsandconditionsId, null, true);
+                    oae.api.widget.insertWidget(
+                        'termsandconditions',
+                        termsandconditionsId,
+                        null,
+                        true,
+                    );
                 }
-            }
+            },
         });
         // Make sure that arrays passed in as arguments are properly encoded
         $.ajaxSettings.traditional = true;
@@ -113,5 +119,5 @@ define([
         $.support.cors = true;
 
         return oae;
-    }
+    },
 );

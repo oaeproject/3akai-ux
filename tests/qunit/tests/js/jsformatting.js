@@ -13,9 +13,12 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
-
-    module("JavaScript Formatting");
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function(
+    $,
+    oae,
+    util,
+) {
+    module('JavaScript Formatting');
 
     /**
      * Test a JavaScript file against a provided regular expression
@@ -37,7 +40,15 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                 var beforeMatch = jsFile.substring(0, match.index);
                 var matchLine = beforeMatch.split(/\n/).length;
                 count++;
-                errorString = errorString + '\n\nPath: ' + path + '\nLine: ' + matchLine + '\nString:\n' + match + '';
+                errorString =
+                    errorString +
+                    '\n\nPath: ' +
+                    path +
+                    '\nLine: ' +
+                    matchLine +
+                    '\nString:\n' +
+                    match +
+                    '';
             }
         }
 
@@ -56,11 +67,12 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
      */
     var checkJs = function(path, jsFile) {
         var regex = /(?!\'.*)\".*\"(?!.*')/gm;
-        var description = 'Double quotes should only be used within single quotes';
+        var description =
+            'Double quotes should only be used within single quotes';
         doRegexTest(path, jsFile, regex, description);
 
         regex = /^\s*function\s.*/gm;
-        description = 'Use \"var <functionName> = function() {\"';
+        description = 'Use "var <functionName> = function() {"';
         doRegexTest(path, jsFile, regex, description);
 
         regex = /\)\s*$(\n|\r)^\s*\{.*/gm;
@@ -72,11 +84,11 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         doRegexTest(path, jsFile, regex, description);
 
         regex = /.*\).*\{( |\t)+(\n|\r)/gm;
-        description = 'Don\'t put whitespace after an opening brace';
+        description = "Don't put whitespace after an opening brace";
         doRegexTest(path, jsFile, regex, description);
 
         regex = /.*\}( |\t)+(\n|\r)/gm;
-        description = 'Don\'t put whitespace after a closing brace';
+        description = "Don't put whitespace after a closing brace";
         doRegexTest(path, jsFile, regex, description);
 
         regex = /new\s+(Object|Array|Number|String|Boolean).*/gm;
@@ -84,11 +96,11 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         doRegexTest(path, jsFile, regex, description);
 
         regex = /^\s*const\s/gm;
-        description = 'Use \"var <ALLCAPS>\" instead of \"const\"';
+        description = 'Use "var <ALLCAPS>" instead of "const"';
         doRegexTest(path, jsFile, regex, description);
 
         regex = /\.(live|die|bind|unbind)\(/gm;
-        description = 'Use \".on()\" and \".off()\" to attach event handlers';
+        description = 'Use ".on()" and ".off()" to attach event handlers';
         doRegexTest(path, jsFile, regex, description);
 
         regex = /\.prototype\..*=/gm;
@@ -96,7 +108,8 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         doRegexTest(path, jsFile, regex, description);
 
         regex = /(^|\s)(Object\.(freeze|preventExtensions|seal)|eval|((?!['"].*)(with)(?!.*['"])))(\s|$)/gm;
-        description = 'Avoid using Object.freeze, Object.preventExtensions, Object.seal, with, eval';
+        description =
+            'Avoid using Object.freeze, Object.preventExtensions, Object.seal, with, eval';
         doRegexTest(path, jsFile, regex, description);
 
         regex = /(^|\s)typeof(\s|$)/gm;

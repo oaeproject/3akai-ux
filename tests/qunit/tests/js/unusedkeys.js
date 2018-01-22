@@ -13,9 +13,12 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
-
-    module("Unused Translation Keys");
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function(
+    $,
+    oae,
+    util,
+) {
+    module('Unused Translation Keys');
 
     /**
      * Escapes provided string so that regexp metacharacters in it are used as literal characters.
@@ -25,7 +28,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
      * @return {String}             The escaped string
      */
     var escapeRegExp = function(input) {
-      return input.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+        return input.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
     };
 
     /**
@@ -34,7 +37,6 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
      * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
      */
     var unusedTranslationKeysTest = function(testData) {
-
         /**
          * Run a regular expression test on the provided file.
          *
@@ -61,42 +63,81 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                             var keyUsed = false;
 
                             // Check if key is used in the main HTML or macro files
-                            $.each(testData.mainHTML, function(mainHTMLPath, mainHTML) {
-                                keyUsed = runTest(mainHTMLPath, mainHTML, key) || keyUsed;
+                            $.each(testData.mainHTML, function(
+                                mainHTMLPath,
+                                mainHTML,
+                            ) {
+                                keyUsed =
+                                    runTest(mainHTMLPath, mainHTML, key) ||
+                                    keyUsed;
                             });
 
                             // Check if the key is used in the widget HTML or JavaScript files
-                            $.each(testData.widgetData, function(widgetId, widget) {
-                                keyUsed = runTest(widgetId, widget.html, key) || keyUsed;
-                                $.each(widget.js, function(widgetJSIndex, widgetJS) {
-                                    keyUsed = runTest(widgetId, widgetJS, key) || keyUsed;
+                            $.each(testData.widgetData, function(
+                                widgetId,
+                                widget,
+                            ) {
+                                keyUsed =
+                                    runTest(widgetId, widget.html, key) ||
+                                    keyUsed;
+                                $.each(widget.js, function(
+                                    widgetJSIndex,
+                                    widgetJS,
+                                ) {
+                                    keyUsed =
+                                        runTest(widgetId, widgetJS, key) ||
+                                        keyUsed;
                                 });
                             });
 
                             // Check if key is used in the main JS files
-                            $.each(testData.mainJS, function(mainJSPath, mainJS) {
-                                keyUsed = runTest(mainJSPath, mainJS, key) || keyUsed;
+                            $.each(testData.mainJS, function(
+                                mainJSPath,
+                                mainJS,
+                            ) {
+                                keyUsed =
+                                    runTest(mainJSPath, mainJS, key) || keyUsed;
                             });
 
                             // Check if key is used in the API files
                             $.each(testData.apiJS, function(apiJSPath, apiJS) {
-                                keyUsed = runTest(apiJSPath, apiJS, key) || keyUsed;
+                                keyUsed =
+                                    runTest(apiJSPath, apiJS, key) || keyUsed;
                             });
 
                             // Check if key is used in the OAE plugin files
-                            $.each(testData.oaePlugins, function(oaePluginPath, oaePlugin) {
-                                keyUsed = runTest(oaePluginPath, oaePlugin, key) || keyUsed;
+                            $.each(testData.oaePlugins, function(
+                                oaePluginPath,
+                                oaePlugin,
+                            ) {
+                                keyUsed =
+                                    runTest(oaePluginPath, oaePlugin, key) ||
+                                    keyUsed;
                             });
 
                             if (keyUsed) {
-                                ok(true, '\'' + key + '\' in \'' + mainBundleKey + '\' is used');
+                                ok(
+                                    true,
+                                    "'" +
+                                        key +
+                                        "' in '" +
+                                        mainBundleKey +
+                                        "' is used",
+                                );
                             } else {
-                                ok(false, '\'' + key + '\' in \'' + mainBundleKey + '\' is not being used');
+                                ok(
+                                    false,
+                                    "'" +
+                                        key +
+                                        "' in '" +
+                                        mainBundleKey +
+                                        "' is not being used",
+                                );
                             }
                         }
                     });
                 } else {
-                    ok(true, 'No keys in \'' + mainBundleKey + '\'');
+                    ok(true, "No keys in '" + mainBundleKey + "'");
                 }
             });
         });
@@ -109,25 +150,61 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                         if (_.keys(bundle).length) {
                             $.each(bundle, function(i18nKey, i18nValue) {
                                 if (i18nValue) {
-                                    var htmlUsed = runTest(widgetId, widget.html, i18nKey);
+                                    var htmlUsed = runTest(
+                                        widgetId,
+                                        widget.html,
+                                        i18nKey,
+                                    );
                                     var jsUsed = false;
 
-                                    $.each(widget.js, function(widgetJSIndex, widgetJS) {
-                                        jsUsed = jsUsed || runTest(widgetId, widgetJS, i18nKey);
+                                    $.each(widget.js, function(
+                                        widgetJSIndex,
+                                        widgetJS,
+                                    ) {
+                                        jsUsed =
+                                            jsUsed ||
+                                            runTest(
+                                                widgetId,
+                                                widgetJS,
+                                                i18nKey,
+                                            );
                                     });
                                     if (htmlUsed || jsUsed) {
-                                        ok(true, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '\' is used');
+                                        ok(
+                                            true,
+                                            i18nKey +
+                                                " in '" +
+                                                widgetId +
+                                                ' - ' +
+                                                bundleKey +
+                                                "' is used",
+                                        );
                                     } else {
-                                        ok(false, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '\' is not being used');
+                                        ok(
+                                            false,
+                                            i18nKey +
+                                                " in '" +
+                                                widgetId +
+                                                ' - ' +
+                                                bundleKey +
+                                                "' is not being used",
+                                        );
                                     }
                                 }
                             });
                         } else {
-                            ok(true, '\'' + widgetId + '\' does not have any keys in \'' + bundleKey + '\'');
+                            ok(
+                                true,
+                                "'" +
+                                    widgetId +
+                                    "' does not have any keys in '" +
+                                    bundleKey +
+                                    "'",
+                            );
                         }
                     });
                 } else {
-                    ok(true, '\'' + widgetId + '\' does not have any bundles');
+                    ok(true, "'" + widgetId + "' does not have any bundles");
                 }
             });
         });

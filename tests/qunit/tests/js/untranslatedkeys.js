@@ -13,9 +13,12 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
-
-    module("Untranslated Keys");
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function(
+    $,
+    oae,
+    util,
+) {
+    module('Untranslated Keys');
 
     var regex = new RegExp('__MSG__(.*?)__', 'gm');
 
@@ -47,9 +50,17 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                         // If we're checking a widget check the widget bundles first
                         if (widgetId) {
                             // Check if the widget has i18n bundles
-                            if (testData.widgetData[widgetId].i18n && _.keys(testData.widgetData[widgetId].i18n).length) {
+                            if (
+                                testData.widgetData[widgetId].i18n &&
+                                _.keys(testData.widgetData[widgetId].i18n)
+                                    .length
+                            ) {
                                 // For each bundle in the widget, check if it's available
-                                if (testData.widgetData[widgetId].i18n['default'][key] !== undefined) {
+                                if (
+                                    testData.widgetData[widgetId].i18n[
+                                        'default'
+                                    ][key] !== undefined
+                                ) {
                                     hasI18n = true;
                                 }
                             }
@@ -57,7 +68,10 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
                         // If the widget bundle has no translation or the check is not for a widget, check the main bundles
                         if (!hasI18n) {
-                            $.each(testData.mainBundles, function(i, mainBundle) {
+                            $.each(testData.mainBundles, function(
+                                i,
+                                mainBundle,
+                            ) {
                                 if (mainBundle[key] !== undefined) {
                                     hasI18n = true;
                                 }
@@ -66,9 +80,9 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
                         // If the key has been translated send an ok
                         if (hasI18n) {
-                            ok(true, '\'' + key + '\' is translated');
+                            ok(true, "'" + key + "' is translated");
                         } else {
-                            ok(false, '\'' + key + '\' is not translated');
+                            ok(false, "'" + key + "' is not translated");
                         }
                     }
                 }

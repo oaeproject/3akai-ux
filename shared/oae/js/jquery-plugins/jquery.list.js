@@ -13,16 +13,18 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
+define(['jquery', 'oae.api.util', 'jquery.history'], function($, oaeUtil) {
     (function() {
-
         /**
          * Show or hide the list header actions when clicking the header toggle
          */
         $(document).on('click', 'button.oae-list-header-toggle', function() {
             // Get the list container, so we don't end up changing state in other lists
             var $listContainer = $(this).parents('.oae-list-container');
-            var $listHeaderActions = $('.oae-list-header-actions', $listContainer);
+            var $listHeaderActions = $(
+                '.oae-list-header-actions',
+                $listContainer,
+            );
 
             // Toggle the visibility of the list header actions
             if ($listHeaderActions.is(':visible')) {
@@ -41,7 +43,9 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
             }
 
             // Toggle the caret icon in the list header
-            $(this).find('i').toggleClass('fa-caret-down fa-caret-up');
+            $(this)
+                .find('i')
+                .toggleClass('fa-caret-down fa-caret-up');
         });
 
         /**
@@ -71,7 +75,7 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
             // existing state data parameters with us and construct a new URL based on
             // the existing base URL, allowing for page refreshing and bookmarking.
             var newState = $.extend({}, History.getState().data, {
-                'query': query
+                query: query,
             });
 
             // We cannot rely on the "current" url as that can be different depending on the browser.
@@ -83,7 +87,9 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
             // search query. History.js expects to be in full control of the URL hash and adding one
             // into the URL ourself would interfere with that
             // @see https://github.com/oaeproject/3akai-ux/issues/3872
-            url +=  '?q=' + oaeUtil.security().encodeForURL(query.replace(/#/g, ''));
+            url +=
+                '?q=' +
+                oaeUtil.security().encodeForURL(query.replace(/#/g, ''));
             History.pushState(newState, $('title').text(), url);
 
             // Avoid submitting the search form
@@ -107,12 +113,18 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
             var $listContainer = $(this).parents('.oae-list-container');
             // Check or uncheck all checkboxes in the corresponding list
             var checked = $(this).is(':checked');
-            var $listCheckboxes = $('.oae-list:visible input[type="checkbox"]', $listContainer);
+            var $listCheckboxes = $(
+                '.oae-list:visible input[type="checkbox"]',
+                $listContainer,
+            );
             $listCheckboxes.prop('checked', checked);
             // Enable or disable the list option action buttons. We only change the state
             // when there is at least 1 item in the list that can be checked.
             if ($listCheckboxes.length > 0) {
-                $('.oae-list-header-actions > .btn', $listContainer).prop('disabled', !checked);
+                $('.oae-list-header-actions > .btn', $listContainer).prop(
+                    'disabled',
+                    !checked,
+                );
             }
         });
 
@@ -123,27 +135,44 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
             // Get the list container, so we don't end up changing state in other lists
             var $listContainer = $('.oae-list-container:visible');
             // Deselect all checkboxes in the list
-            var $listCheckboxes = $('.oae-list:visible input[type="checkbox"]', $listContainer);
+            var $listCheckboxes = $(
+                '.oae-list:visible input[type="checkbox"]',
+                $listContainer,
+            );
             $listCheckboxes.prop('checked', false);
             // Uncheck the 'select all' checkbox
             $('.oae-list-selectall', $listContainer).prop('checked', false);
             // Disable all buttons in the list header actions container
-            $('.oae-list-header-actions:visible > .btn', $listContainer).prop('disabled', true);
+            $('.oae-list-header-actions:visible > .btn', $listContainer).prop(
+                'disabled',
+                true,
+            );
         });
 
         /**
          * Switch the view mode between grid view, details view and compact view
          */
-        $(document).on('click', '.oae-list-header .btn-group button', function() {
-            // Get the list container, so we don't end up changing state in other lists
-            var $listContainer = $(this).parents('.oae-list-container');
-            // Update the list view switch buttons
-            $('.oae-list-header .btn-group button', $listContainer).removeClass('active');
-            $(this).addClass('active');
-            // Change the view type in the list itself
-            $('.oae-list', $listContainer).removeClass('oae-list-grid oae-list-details oae-list-compact');
-            $('.oae-list', $listContainer).addClass($(this).attr('data-type'));
-        });
+        $(document).on(
+            'click',
+            '.oae-list-header .btn-group button',
+            function() {
+                // Get the list container, so we don't end up changing state in other lists
+                var $listContainer = $(this).parents('.oae-list-container');
+                // Update the list view switch buttons
+                $(
+                    '.oae-list-header .btn-group button',
+                    $listContainer,
+                ).removeClass('active');
+                $(this).addClass('active');
+                // Change the view type in the list itself
+                $('.oae-list', $listContainer).removeClass(
+                    'oae-list-grid oae-list-details oae-list-compact',
+                );
+                $('.oae-list', $listContainer).addClass(
+                    $(this).attr('data-type'),
+                );
+            },
+        );
 
         /**
          * When a checkbox is checked/unchecked, we make sure that its corresponding checkbox in the
@@ -156,22 +185,36 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
             // Get the list item the checkbox corresponds to and make sure the other views have the
             // same checked status
             $listItem = $(this).parents('li');
-            $('input[type="checkbox"]', $listItem).prop('checked', $(this).is(':checked'));
+            $('input[type="checkbox"]', $listItem).prop(
+                'checked',
+                $(this).is(':checked'),
+            );
 
             // Get the list container, so we don't end up changing state in other lists
             var $listContainer = $(this).parents('.oae-list-container');
-            var $listHeaderActions = $('.oae-list-header-actions', $listContainer);
+            var $listHeaderActions = $(
+                '.oae-list-header-actions',
+                $listContainer,
+            );
 
             // Hide the list header actions when no checkboxes are checked anymore. Show the list header
             // actions when at least 1 checkbox is checked
-            var totalChecked = $('.oae-list input[type="checkbox"]:visible:checked', $listContainer).length;
-            if ((totalChecked > 0 && !$listHeaderActions.is(':visible')) ||
-                (totalChecked === 0 && $listHeaderActions.is(':visible'))) {
+            var totalChecked = $(
+                '.oae-list input[type="checkbox"]:visible:checked',
+                $listContainer,
+            ).length;
+            if (
+                (totalChecked > 0 && !$listHeaderActions.is(':visible')) ||
+                (totalChecked === 0 && $listHeaderActions.is(':visible'))
+            ) {
                 $('button.oae-list-header-toggle', $listContainer).click();
             }
 
             // Enable or disable the list header action buttons
-            $('.oae-list-header-actions > .btn', $listContainer).prop('disabled', (totalChecked === 0));
+            $('.oae-list-header-actions > .btn', $listContainer).prop(
+                'disabled',
+                totalChecked === 0,
+            );
         });
 
         /**
@@ -192,11 +235,14 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
          */
         $(document).on('oae.list.getSelection', function(ev, widgetId) {
             var selectedItems = {
-                'results': []
+                results: [],
             };
 
             // Collect all of the selected items
-            var $checked = $('input[type="checkbox"]:visible:checked', $('.oae-list:visible'));
+            var $checked = $(
+                'input[type="checkbox"]:visible:checked',
+                $('.oae-list:visible'),
+            );
             $checked.each(function(index, checked) {
                 // Get the parent list item
                 var $checkedListItem = $(this).parents('li');
@@ -208,33 +254,42 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
                 // Get the displayName and thumbnail image from the content of the list item
                 var displayName = $('h3:visible', $checkedListItem).text();
                 var thumbnailImage = null;
-                if ($('div[role="img"]:visible', $checkedListItem).length === 1) {
+                if (
+                    $('div[role="img"]:visible', $checkedListItem).length === 1
+                ) {
                     // The `background-image` property can return in the following ways:
                     //   * `url(http://tenant.oae.com/path/to/image)`
                     //   * `url('http://tenant.oae.com/path/to/image')`
                     //   * `url("http://tenant.oae.com/path/to/image")`
                     // In order to extract the URL, we grab what's between the brackets and remove all quotes
                     // @see http://stackoverflow.com/questions/20857404/regex-to-extract-url-from-css-background-styling
-                    var thumbnailImageCSS = $('div[role="img"]:visible', $checkedListItem).css('background-image');
-                    thumbnailImage = thumbnailImageCSS.match(/\((.*?)\)/)[1].replace(/('|")/g,'');
+                    var thumbnailImageCSS = $(
+                        'div[role="img"]:visible',
+                        $checkedListItem,
+                    ).css('background-image');
+                    thumbnailImage = thumbnailImageCSS
+                        .match(/\((.*?)\)/)[1]
+                        .replace(/('|")/g, '');
                 }
 
                 selectedItems.results.push({
-                    'id': id,
-                    'displayName': displayName,
-                    'resourceType': resourceType,
-                    'resourceSubType': resourceSubType,
-                    'thumbnailUrl': thumbnailImage
+                    id: id,
+                    displayName: displayName,
+                    resourceType: resourceType,
+                    resourceSubType: resourceSubType,
+                    thumbnailUrl: thumbnailImage,
                 });
             });
 
             // Respond to the request event by sending the list of selected items
             if (widgetId) {
-                $(document).trigger('oae.list.sendSelection.' + widgetId, selectedItems);
+                $(document).trigger(
+                    'oae.list.sendSelection.' + widgetId,
+                    selectedItems,
+                );
             } else {
                 $(document).trigger('oae.list.sendSelection', selectedItems);
             }
         });
-
     })();
 });

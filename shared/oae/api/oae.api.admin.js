@@ -14,8 +14,6 @@
  */
 
 define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
-
-
     /////////////
     // TENANTS //
     /////////////
@@ -33,7 +31,13 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}         [callback.err]                      Error object containing error code and error message
      * @param  {Tenant}         [callback.tenant]                   A Tenant object representing the created tenant
      */
-    var createTenant = exports.createTenant = function(alias, displayName, host, opts, callback) {
+    var createTenant = (exports.createTenant = function(
+        alias,
+        displayName,
+        host,
+        opts,
+        callback,
+    ) {
         if (!alias) {
             throw new Error('A tenant alias should be provided');
         } else if (!displayName) {
@@ -49,9 +53,9 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         var data = {
-            'alias': alias,
-            'displayName': displayName,
-            'host': host
+            alias: alias,
+            displayName: displayName,
+            host: host,
         };
 
         if (opts.emailDomains) {
@@ -64,17 +68,17 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
         // Create the tenant
         $.ajax({
-            'url': '/api/tenant/create',
-            'type': 'POST',
-            'data': data,
-            'success': function(data) {
+            url: '/api/tenant/create',
+            type: 'POST',
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Get a tenant by alias
@@ -84,23 +88,22 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}      callback.err       Error object containing error code and error message
      * @param  {Tenant}      callback.tenant    The requested tenant
      */
-    var getTenant = exports.getTenant = function(alias, callback) {
+    var getTenant = (exports.getTenant = function(alias, callback) {
         var url = '/api/tenant';
         if (alias) {
             url += '/' + alias;
         }
         $.ajax({
-            'url': url,
-            'type': 'GET',
-            'success': function(data) {
+            url: url,
+            type: 'GET',
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
-
+    });
 
     /////////////////////
     // USER MANAGEMENT //
@@ -125,7 +128,15 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {User}           [callback.user]                     The created user
      * @throws {Error}                                              Error thrown when not all of the required parameters have been provided
      */
-    var createUser = exports.createUser = function(tenantAlias, username, password, displayName, email, additionalOptions, callback) {
+    var createUser = (exports.createUser = function(
+        tenantAlias,
+        username,
+        password,
+        displayName,
+        email,
+        additionalOptions,
+        callback,
+    ) {
         if (!username) {
             throw new Error('A username should be provided');
         } else if (!password) {
@@ -142,13 +153,13 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         additionalOptions = additionalOptions || {};
 
         var data = {
-            'username': username,
-            'password': password,
-            'displayName': displayName,
-            'email': email,
-            'visibility': additionalOptions.visibility,
-            'locale': additionalOptions.locale,
-            'publicAlias': additionalOptions.publicAlias
+            username: username,
+            password: password,
+            displayName: displayName,
+            email: email,
+            visibility: additionalOptions.visibility,
+            locale: additionalOptions.locale,
+            publicAlias: additionalOptions.publicAlias,
         };
 
         var url = '/api/user/create';
@@ -159,17 +170,17 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
         // Create the user
         $.ajax({
-            'url': url,
-            'type': 'POST',
-            'data': data,
-            'success': function(data) {
+            url: url,
+            type: 'POST',
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Create a new global administrator with an internal login strategy
@@ -186,7 +197,14 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {User}           [callback.user]                     The created global administrator user
      * @throws {Error}                                              Error thrown when not all of the required parameters have been provided
      */
-    var createGlobalAdminUser = exports.createGlobalAdminUser = function(username, password, displayName, email, additionalOptions, callback) {
+    var createGlobalAdminUser = (exports.createGlobalAdminUser = function(
+        username,
+        password,
+        displayName,
+        email,
+        additionalOptions,
+        callback,
+    ) {
         if (!username) {
             throw new Error('A username should be provided');
         } else if (!password) {
@@ -203,27 +221,27 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         additionalOptions = additionalOptions || {};
 
         var data = {
-            'username': username,
-            'password': password,
-            'displayName': displayName,
-            'email': email,
-            'locale': additionalOptions.locale,
-            'publicAlias': additionalOptions.publicAlias
+            username: username,
+            password: password,
+            displayName: displayName,
+            email: email,
+            locale: additionalOptions.locale,
+            publicAlias: additionalOptions.publicAlias,
         };
 
         // Create the global administrator
         $.ajax({
-            'url': '/api/user/createGlobalAdminUser',
-            'type': 'POST',
-            'data': data,
-            'success': function(data) {
+            url: '/api/user/createGlobalAdminUser',
+            type: 'POST',
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Create a new tenant administrator with an internal login strategy
@@ -241,7 +259,15 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {User}           [callback.user]                     The created tenant administrator user
      * @throws {Error}                                              Error thrown when not all of the required parameters have been provided
      */
-    var createTenantAdminUser = exports.createTenantAdminUser = function(tenantAlias, username, password, displayName, email, additionalOptions, callback) {
+    var createTenantAdminUser = (exports.createTenantAdminUser = function(
+        tenantAlias,
+        username,
+        password,
+        displayName,
+        email,
+        additionalOptions,
+        callback,
+    ) {
         if (!username) {
             throw new Error('A username should be provided');
         } else if (!password) {
@@ -258,12 +284,12 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         additionalOptions = additionalOptions || {};
 
         var data = {
-            'username': username,
-            'password': password,
-            'displayName': displayName,
-            'email': email,
-            'locale': additionalOptions.locale,
-            'publicAlias': additionalOptions.publicAlias
+            username: username,
+            password: password,
+            displayName: displayName,
+            email: email,
+            locale: additionalOptions.locale,
+            publicAlias: additionalOptions.publicAlias,
         };
 
         var url = '/api/user/createTenantAdminUser';
@@ -274,17 +300,17 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
         // Create the tenant administrator
         $.ajax({
-            'url': url,
-            'type': 'POST',
-            'data': data,
-            'success': function(data) {
+            url: url,
+            type: 'POST',
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Update a user's basic profile
@@ -296,7 +322,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {User}           [callback.user]     The updated user profile
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
-    var updateUser = exports.updateUser = function(userId, params, callback) {
+    var updateUser = (exports.updateUser = function(userId, params, callback) {
         if (!userId) {
             throw new Error('A valid user id should be provided');
         } else if (!params || _.keys(params).length === 0) {
@@ -307,17 +333,17 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/user/' + userId,
-            'type': 'POST',
-            'data': params,
-            'success': function(data) {
+            url: '/api/user/' + userId,
+            type: 'POST',
+            data: params,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.statusText });
+            },
         });
-    };
+    });
 
     /**
      * Delete a user. The user will be marked as deleted but will still be accessible in the system
@@ -330,7 +356,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
-    var deleteUser = exports.deleteUser = function(userId, callback) {
+    var deleteUser = (exports.deleteUser = function(userId, callback) {
         if (!userId) {
             throw new Error('A valid user id should be provided');
         }
@@ -339,16 +365,16 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/user/' + userId,
-            'type': 'DELETE',
-            'success': function() {
+            url: '/api/user/' + userId,
+            type: 'DELETE',
+            success: function() {
                 callback();
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.statusText });
+            },
         });
-    };
+    });
 
     /**
      * Change the password of the specified user
@@ -359,7 +385,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}         [callback.err]        Error object containing error code and error message
      * @throws {Error}                                Error thrown when not all of the required parameters have been provided
      */
-    var changePassword = exports.changePassword = function(userId, newPassword, callback) {
+    var changePassword = (exports.changePassword = function(
+        userId,
+        newPassword,
+        callback,
+    ) {
         if (!userId) {
             throw new Error('A valid user id should be provided');
         } else if (!newPassword) {
@@ -370,20 +400,19 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/user/' + userId + '/password',
-            'type': 'POST',
-            'data': {
-                'newPassword': newPassword
+            url: '/api/user/' + userId + '/password',
+            type: 'POST',
+            data: {
+                newPassword: newPassword,
             },
-            'success': function() {
+            success: function() {
                 callback();
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
-
+    });
 
     //////////////////
     // USER ACTIONS //
@@ -399,7 +428,12 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}         [callback.err]          Error object containing error code and error message
      * @throws {Error}                                  Error thrown when no user id has been specified
      */
-    var editPrivileges = exports.editPrivileges = function(userId, isAdmin, isGlobalAdminServer, callback) {
+    var editPrivileges = (exports.editPrivileges = function(
+        userId,
+        isAdmin,
+        isGlobalAdminServer,
+        callback,
+    ) {
         if (!userId) {
             throw new Error('A valid user id should be provided');
         }
@@ -413,19 +447,19 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         }
 
         $.ajax({
-            'url': url,
-            'type': 'POST',
-            'data': {
-                'admin': isAdmin
+            url: url,
+            type: 'POST',
+            data: {
+                admin: isAdmin,
             },
-            'success': function() {
+            success: function() {
                 callback();
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Retrieve the signed authentication request info that will allow the admin user
@@ -436,7 +470,10 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}         [callback.err]        Error object containing error code and error message
      * @throws {Error}                                Error thrown when no user id has been provided
      */
-    var getSignedBecomeRequestInfo = exports.getSignedBecomeRequestInfo = function(userId, callback) {
+    var getSignedBecomeRequestInfo = (exports.getSignedBecomeRequestInfo = function(
+        userId,
+        callback,
+    ) {
         if (!userId) {
             throw new Error('A valid user id should be provided');
         }
@@ -445,20 +482,19 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/auth/signed/become',
-            'data': {
-                'becomeUserId': userId
+            url: '/api/auth/signed/become',
+            data: {
+                becomeUserId: userId,
             },
-            'type': 'GET',
-            'success': function(data) {
+            type: 'GET',
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
-
+    });
 
     /////////////////
     // MAINTENANCE //
@@ -470,21 +506,21 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Function}       [callback]              Standard callback function
      * @param  {Object}         [callback.err]          Error object containing error code and error message
      */
-    var reindexSearch = exports.reindexSearch = function(callback) {
+    var reindexSearch = (exports.reindexSearch = function(callback) {
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/search/reindexAll',
-            'type': 'POST',
-            'success': function() {
+            url: '/api/search/reindexAll',
+            type: 'POST',
+            success: function() {
                 callback(null);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Reprocess content previews
@@ -500,7 +536,10 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}      [callback.err]                                   Error object containing error code and error message
      * @throws {Error}                                                        Error thrown when no valid content reprocessing parameters have been provided
      */
-    var reprocessPreviews = exports.reprocessPreviews = function(reprocessParameters, callback) {
+    var reprocessPreviews = (exports.reprocessPreviews = function(
+        reprocessParameters,
+        callback,
+    ) {
         if (!reprocessParameters || _.isEmpty(reprocessParameters)) {
             throw new Error('Valid reprocess parameters should be provided');
         }
@@ -509,16 +548,15 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         callback = callback || function() {};
 
         $.ajax({
-            'type': 'POST',
-            'url': '/api/content/reprocessPreviews',
-            'data': reprocessParameters,
-            'success': function() {
+            type: 'POST',
+            url: '/api/content/reprocessPreviews',
+            data: reprocessParameters,
+            success: function() {
                 callback(null);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
-
+    });
 });

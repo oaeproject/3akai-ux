@@ -13,9 +13,8 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery'], function (jQuery) {
+define(['jquery'], function(jQuery) {
     (function($) {
-
         /**
          * Catch the keypress event for `enter` and `space` when an editable field has focus
          */
@@ -27,6 +26,5 @@ define(['jquery'], function (jQuery) {
                 }
             });
         });
-
     })(jQuery);
 });

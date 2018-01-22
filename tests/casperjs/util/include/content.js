@@ -17,7 +17,6 @@
  * Utility functions for content
  */
 var contentUtil = (function() {
-
     /**
      * Create a file through the UI, update the metadata, add optional managers and viewers and return
      * the content profile object in the callback
@@ -32,11 +31,20 @@ var contentUtil = (function() {
      * @param  {Object}             [callback.err]      Error object containing error code and error message
      * @param  {Content}            [callback.content]  Content object representing the created content
      */
-    var createFile = function(displayName, description, visibility, file, managers, viewers, callback) {
+    var createFile = function(
+        displayName,
+        description,
+        visibility,
+        file,
+        managers,
+        viewers,
+        callback,
+    ) {
         casper.then(function() {
             var contentProfile = null;
             var err = null;
-            displayName = displayName || 'Content ' + mainUtil.generateRandomString();
+            displayName =
+                displayName || 'Content ' + mainUtil.generateRandomString();
             description = description || '';
             visibility = visibility || 'public';
             file = file || 'tests/casperjs/data/balloons.jpg';
@@ -52,21 +60,37 @@ var contentUtil = (function() {
              * @api private
              */
             var _updateMembers = function(contentId, members, _contentProfile) {
-                mainUtil.callInternalAPI('content', 'updateMembers', [contentId, members], function(_err) {
-                    if (_err) {
-                        casper.echo('Could not update members for ' + _contentProfile.displayName + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
-                        err = _err;
-                        return;
-                    } else {
-                        contentProfile = _contentProfile;
-                    }
-                });
+                mainUtil.callInternalAPI(
+                    'content',
+                    'updateMembers',
+                    [contentId, members],
+                    function(_err) {
+                        if (_err) {
+                            casper.echo(
+                                'Could not update members for ' +
+                                    _contentProfile.displayName +
+                                    '. Error ' +
+                                    _err.code +
+                                    ': ' +
+                                    _err.msg,
+                                'ERROR',
+                            );
+                            err = _err;
+                            return;
+                        } else {
+                            contentProfile = _contentProfile;
+                        }
+                    },
+                );
 
-                casper.waitFor(function() {
-                    return contentProfile !== null || err !== null;
-                }, function() {
-                    return callback(err, contentProfile);
-                });
+                casper.waitFor(
+                    function() {
+                        return contentProfile !== null || err !== null;
+                    },
+                    function() {
+                        return callback(err, contentProfile);
+                    },
+                );
             };
 
             /**
@@ -80,7 +104,10 @@ var contentUtil = (function() {
                 var updatedContent = null;
                 var members = {};
 
-                updateContent(contentId, params, function(_err, _contentProfile) {
+                updateContent(contentId, params, function(
+                    _err,
+                    _contentProfile,
+                ) {
                     if (_err) {
                         err = _err;
                         return;
@@ -96,15 +123,22 @@ var contentUtil = (function() {
                     updatedContent = _contentProfile;
                 });
 
-                casper.waitFor(function() {
-                    return updatedContent !== null || err !== null;
-                }, function() {
-                    if (managers.length || viewers.length) {
-                        return _updateMembers(contentId, members, updatedContent);
-                    } else {
-                        return callback(err, updatedContent);
-                    }
-                });
+                casper.waitFor(
+                    function() {
+                        return updatedContent !== null || err !== null;
+                    },
+                    function() {
+                        if (managers.length || viewers.length) {
+                            return _updateMembers(
+                                contentId,
+                                members,
+                                updatedContent,
+                            );
+                        } else {
+                            return callback(err, updatedContent);
+                        }
+                    },
+                );
             };
 
             /**
@@ -117,54 +151,91 @@ var contentUtil = (function() {
                 var retrievedContent = null;
                 var params = null;
 
-                mainUtil.callInternalAPI('content', 'getContent', [contentId], function(_err, _contentProfile) {
-                    if (_err) {
-                        casper.echo('Could not get content profile for ' + contentId + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
-                        err = _err;
-                        return;
-                    }
+                mainUtil.callInternalAPI(
+                    'content',
+                    'getContent',
+                    [contentId],
+                    function(_err, _contentProfile) {
+                        if (_err) {
+                            casper.echo(
+                                'Could not get content profile for ' +
+                                    contentId +
+                                    '. Error ' +
+                                    _err.code +
+                                    ': ' +
+                                    _err.msg,
+                                'ERROR',
+                            );
+                            err = _err;
+                            return;
+                        }
 
-                    // Update the content metadata
-                    params = {
-                        'displayName': displayName,
-                        'description': description,
-                        'visibility': visibility
-                    };
+                        // Update the content metadata
+                        params = {
+                            displayName: displayName,
+                            description: description,
+                            visibility: visibility,
+                        };
 
-                    retrievedContent = _contentProfile;
-                });
+                        retrievedContent = _contentProfile;
+                    },
+                );
 
-                casper.waitFor(function() {
-                    return retrievedContent !== null || err !== null;
-                }, function() {
-                    _updateContent(contentId, params);
-                });
+                casper.waitFor(
+                    function() {
+                        return retrievedContent !== null || err !== null;
+                    },
+                    function() {
+                        _updateContent(contentId, params);
+                    },
+                );
             };
 
             // Casper doesn't allow direct file POST so we upload through the UI
             uiUtil.openMe();
             casper.then(function() {
-                casper.waitForSelector('#me-clip-container .oae-clip-content > button', function() {
-                    casper.click('#me-clip-container .oae-clip-content > button');
-                    casper.click('.oae-trigger-upload');
-                    casper.wait(configUtil.modalWaitTime, function() {
-                        casper.click('#me-clip-container .oae-clip-content > button');
-                    });
-                });
+                casper.waitForSelector(
+                    '#me-clip-container .oae-clip-content > button',
+                    function() {
+                        casper.click(
+                            '#me-clip-container .oae-clip-content > button',
+                        );
+                        casper.click('.oae-trigger-upload');
+                        casper.wait(configUtil.modalWaitTime, function() {
+                            casper.click(
+                                '#me-clip-container .oae-clip-content > button',
+                            );
+                        });
+                    },
+                );
                 casper.then(function() {
                     casper.waitForSelector('#upload-dropzone form', function() {
-                        casper.fill('#upload-dropzone form', {
-                            'file': file
-                        }, false);
+                        casper.fill(
+                            '#upload-dropzone form',
+                            {
+                                file: file,
+                            },
+                            false,
+                        );
                         casper.click('button#upload-upload');
-                        casper.waitForSelector('#oae-notification-container .alert', function() {
-                            var contentUrl = casper.getElementAttribute('#oae-notification-container .alert h4 + a', 'href');
-                            var contentId = contentUrl.split('/');
-                            contentId = 'c:' + configUtil.tenantAlias + ':' + contentId[contentId.length -1];
+                        casper.waitForSelector(
+                            '#oae-notification-container .alert',
+                            function() {
+                                var contentUrl = casper.getElementAttribute(
+                                    '#oae-notification-container .alert h4 + a',
+                                    'href',
+                                );
+                                var contentId = contentUrl.split('/');
+                                contentId =
+                                    'c:' +
+                                    configUtil.tenantAlias +
+                                    ':' +
+                                    contentId[contentId.length - 1];
 
-                            // Retrieve the content profile and update the metadata and members
-                            _getContent(contentId);
-                        });
+                                // Retrieve the content profile and update the metadata and members
+                                _getContent(contentId);
+                            },
+                        );
                     });
                 });
             });
@@ -185,7 +256,16 @@ var contentUtil = (function() {
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      * @param  {Content}        [callback.content]  Content object representing the created link
      */
-    var createLink = function(displayName, description, visibility, link, managers, viewers, folders, callback) {
+    var createLink = function(
+        displayName,
+        description,
+        visibility,
+        link,
+        managers,
+        viewers,
+        folders,
+        callback,
+    ) {
         casper.then(function() {
             var linkProfile = null;
             var err = null;
@@ -197,21 +277,45 @@ var contentUtil = (function() {
             viewers = viewers || [];
             folders = folders || [];
 
-            mainUtil.callInternalAPI('content', 'createLink', [displayName, description, visibility, link, managers, viewers, folders], function(_err, _linkProfile) {
-                if (_err) {
-                    casper.echo('Could not create link ' + link + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
-                    err = _err;
-                    return;
-                } else {
-                    linkProfile = _linkProfile;
-                }
-            });
+            mainUtil.callInternalAPI(
+                'content',
+                'createLink',
+                [
+                    displayName,
+                    description,
+                    visibility,
+                    link,
+                    managers,
+                    viewers,
+                    folders,
+                ],
+                function(_err, _linkProfile) {
+                    if (_err) {
+                        casper.echo(
+                            'Could not create link ' +
+                                link +
+                                '. Error ' +
+                                _err.code +
+                                ': ' +
+                                _err.msg,
+                            'ERROR',
+                        );
+                        err = _err;
+                        return;
+                    } else {
+                        linkProfile = _linkProfile;
+                    }
+                },
+            );
 
-            casper.waitFor(function() {
-                return linkProfile !== null || err !== null;
-            }, function() {
-                return callback(err, linkProfile);
-            });
+            casper.waitFor(
+                function() {
+                    return linkProfile !== null || err !== null;
+                },
+                function() {
+                    return callback(err, linkProfile);
+                },
+            );
         });
     };
 
@@ -229,11 +333,21 @@ var contentUtil = (function() {
      * @param  {Object}       [callback.err]        Error object containing error code and error message
      * @param  {Content}      [callback.content]    Content object representing the created collabdoc
      */
-    var createCollabDoc = function(displayName, description, visibility, managers, editors, viewers, folders, callback) {
+    var createCollabDoc = function(
+        displayName,
+        description,
+        visibility,
+        managers,
+        editors,
+        viewers,
+        folders,
+        callback,
+    ) {
         casper.then(function() {
             var collabdocProfile = null;
             var err = null;
-            displayName = displayName || 'Collabdoc ' + mainUtil.generateRandomString();
+            displayName =
+                displayName || 'Collabdoc ' + mainUtil.generateRandomString();
             description = description || '';
             visibility = visibility || 'public';
             managers = managers || [];
@@ -241,21 +355,45 @@ var contentUtil = (function() {
             viewers = viewers || [];
             folders = folders || [];
 
-            mainUtil.callInternalAPI('content', 'createCollabDoc', [displayName, description, visibility, managers, editors, viewers, folders], function(_err, _collabdocProfile) {
-                if (_err) {
-                    casper.echo('Could not create ' + displayName + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
-                    err = _err;
-                    return;
-                } else {
-                    collabdocProfile = _collabdocProfile;
-                }
-            });
+            mainUtil.callInternalAPI(
+                'content',
+                'createCollabDoc',
+                [
+                    displayName,
+                    description,
+                    visibility,
+                    managers,
+                    editors,
+                    viewers,
+                    folders,
+                ],
+                function(_err, _collabdocProfile) {
+                    if (_err) {
+                        casper.echo(
+                            'Could not create ' +
+                                displayName +
+                                '. Error ' +
+                                _err.code +
+                                ': ' +
+                                _err.msg,
+                            'ERROR',
+                        );
+                        err = _err;
+                        return;
+                    } else {
+                        collabdocProfile = _collabdocProfile;
+                    }
+                },
+            );
 
-            casper.waitFor(function() {
-                return collabdocProfile !== null || err !== null;
-            }, function() {
-                return callback(err, collabdocProfile);
-            });
+            casper.waitFor(
+                function() {
+                    return collabdocProfile !== null || err !== null;
+                },
+                function() {
+                    return callback(err, collabdocProfile);
+                },
+            );
         });
     };
 
@@ -265,23 +403,34 @@ var contentUtil = (function() {
      * @param  {Function}    callback    Standard callback function
      */
     var createRevision = function(callback) {
-        casper.waitForSelector('#content-clip-container .oae-clip-content > button', function() {
-            casper.click('.oae-trigger-uploadnewversion');
+        casper.waitForSelector(
+            '#content-clip-container .oae-clip-content > button',
+            function() {
+                casper.click('.oae-trigger-uploadnewversion');
 
-            // TODO: We need a way to know when the uploadnewversion widget has bootstrapped itself
-            // There is currently no way to determine this from casper, so we do a simple wait
-            casper.wait(configUtil.searchWaitTime, function() {
-                casper.waitForSelector('form#uploadnewversion-form', function() {
-                    casper.fill('form#uploadnewversion-form', {
-                        'file': 'tests/casperjs/data/apereo.jpg'
-                    });
-                    casper.waitForSelector('#oae-notification-container .alert', function() {
-                        casper.click('#oae-notification-container .close');
-                        callback();
-                    });
+                // TODO: We need a way to know when the uploadnewversion widget has bootstrapped itself
+                // There is currently no way to determine this from casper, so we do a simple wait
+                casper.wait(configUtil.searchWaitTime, function() {
+                    casper.waitForSelector(
+                        'form#uploadnewversion-form',
+                        function() {
+                            casper.fill('form#uploadnewversion-form', {
+                                file: 'tests/casperjs/data/apereo.jpg',
+                            });
+                            casper.waitForSelector(
+                                '#oae-notification-container .alert',
+                                function() {
+                                    casper.click(
+                                        '#oae-notification-container .close',
+                                    );
+                                    callback();
+                                },
+                            );
+                        },
+                    );
                 });
-            });
-        });
+            },
+        );
     };
 
     /**
@@ -298,29 +447,43 @@ var contentUtil = (function() {
             var contentProfile = null;
             var err = null;
 
-            mainUtil.callInternalAPI('content', 'updateContent', [contentId, params], function(_err, _contentProfile) {
-                if (_err) {
-                    casper.echo('Could not update content. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
-                    err = _err;
-                    return;
-                } else {
-                    contentProfile = _contentProfile;
-                }
-            });
+            mainUtil.callInternalAPI(
+                'content',
+                'updateContent',
+                [contentId, params],
+                function(_err, _contentProfile) {
+                    if (_err) {
+                        casper.echo(
+                            'Could not update content. Error ' +
+                                _err.code +
+                                ': ' +
+                                _err.msg,
+                            'ERROR',
+                        );
+                        err = _err;
+                        return;
+                    } else {
+                        contentProfile = _contentProfile;
+                    }
+                },
+            );
 
-            casper.waitFor(function() {
-                return contentProfile !== null || err !== null;
-            }, function() {
-                return callback(err, contentProfile);
-            });
+            casper.waitFor(
+                function() {
+                    return contentProfile !== null || err !== null;
+                },
+                function() {
+                    return callback(err, contentProfile);
+                },
+            );
         });
     };
 
     return {
-        'createFile': createFile,
-        'createLink': createLink,
-        'createCollabDoc': createCollabDoc,
-        'createRevision': createRevision,
-        'updateContent': updateContent
+        createFile: createFile,
+        createLink: createLink,
+        createCollabDoc: createCollabDoc,
+        createRevision: createRevision,
+        updateContent: updateContent,
     };
 })();

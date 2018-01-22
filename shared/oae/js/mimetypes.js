@@ -23,110 +23,100 @@
  * @api private
  */
 var _expose = function(exports) {
-
     /*!
      * Constant that holds regular expressions for the different mimeTypes that might be returned by the
      * back-end, allowing for these mimeTypes to be transformed into a human readable mime type description.
      */
     var MIMETYPES = {
-        'archive': {
-            'description': '__MSG__ARCHIVE__',
-            'regex': [
+        archive: {
+            description: '__MSG__ARCHIVE__',
+            regex: [
                 'application/zip',
                 'application/x-zip*',
-                'application/x-tar'
-            ]
+                'application/x-tar',
+            ],
         },
-        'audio': {
-            'description': '__MSG__AUDIO__',
-            'regex': [
-                'audio/*',
-                'kaltura/audio'
-            ]
+        audio: {
+            description: '__MSG__AUDIO__',
+            regex: ['audio/*', 'kaltura/audio'],
         },
-        'collabdoc': {
+        collabdoc: {
             // The collabdoc type will be used for collaborative documents
-            'description': '__MSG__DOCUMENT__'
+            description: '__MSG__DOCUMENT__',
         },
-        'css': {
-            'description': '__MSG__CSS_FILE__',
-            'regex': 'text/css'
+        css: {
+            description: '__MSG__CSS_FILE__',
+            regex: 'text/css',
         },
-        'image': {
-            'description': '__MSG__IMAGE__',
-            'regex': 'image/*'
+        image: {
+            description: '__MSG__IMAGE__',
+            regex: 'image/*',
         },
-        'flash': {
-            'description': '__MSG__FLASH_FILE__',
-            'regex': 'application/x-shockwave-flash'
+        flash: {
+            description: '__MSG__FLASH_FILE__',
+            regex: 'application/x-shockwave-flash',
         },
-        'html': {
-            'description': '__MSG__HTML_DOCUMENT__',
-            'regex': 'text/html'
+        html: {
+            description: '__MSG__HTML_DOCUMENT__',
+            regex: 'text/html',
         },
-        'link': {
+        link: {
             // The link type will be used for added links
-            'description': '__MSG__LINK__'
+            description: '__MSG__LINK__',
         },
-        'markdown': {
-            'description': '__MSG__MARKDOWN__',
-            'regex': 'text/x-markdown'
+        markdown: {
+            description: '__MSG__MARKDOWN__',
+            regex: 'text/x-markdown',
         },
-        'other': {
+        other: {
             // The other type will be used for all unrecognized mimeTypes
-            'description': '__MSG__OTHER_DOCUMENT__'
+            description: '__MSG__OTHER_DOCUMENT__',
         },
-        'pdf': {
-            'description': '__MSG__PDF_DOCUMENT__',
-            'regex': [
+        pdf: {
+            description: '__MSG__PDF_DOCUMENT__',
+            regex: [
                 'application/pdf',
                 'application/x-download',
-                'application/x-pdf'
-            ]
+                'application/x-pdf',
+            ],
         },
-        'presentation': {
-            'description': '__MSG__PRESENTATION__',
-            'regex': [
+        presentation: {
+            description: '__MSG__PRESENTATION__',
+            regex: [
                 'application/vnd.ms-powerpoint',
                 'application/vnd.oasis.opendocument.presentation',
-                'application/vnd.openxmlformats-officedocument.presentation*'
-            ]
+                'application/vnd.openxmlformats-officedocument.presentation*',
+            ],
         },
-        'spreadsheet': {
-            'description': '__MSG__SPREADSHEET__',
-            'regex': [
+        spreadsheet: {
+            description: '__MSG__SPREADSHEET__',
+            regex: [
                 'application/vnd.oasis.opendocument.spreadsheet',
                 'application/vnd.openxmlformats-officedocument.spreadsheet*',
-                'application/vnd.ms-excel'
-            ]
+                'application/vnd.ms-excel',
+            ],
         },
-        'text': {
-            'description': '__MSG__TEXT_DOCUMENT__',
-            'regex': [
-                'text/plain',
-                'text/rtf'
-            ]
+        text: {
+            description: '__MSG__TEXT_DOCUMENT__',
+            regex: ['text/plain', 'text/rtf'],
         },
-        'xml': {
-            'description': '__MSG__XML_DOCUMENT__',
-            'regex': 'text/xml'
+        xml: {
+            description: '__MSG__XML_DOCUMENT__',
+            regex: 'text/xml',
         },
-        'video': {
-            'description': '__MSG__VIDEO__',
-            'regex': [
-                'video/*',
-                'kaltura/video'
-            ]
+        video: {
+            description: '__MSG__VIDEO__',
+            regex: ['video/*', 'kaltura/video'],
         },
-        'word': {
-            'description': '__MSG__WORD_DOCUMENT__',
-            'regex': [
+        word: {
+            description: '__MSG__WORD_DOCUMENT__',
+            regex: [
                 'application/doc',
                 'application/msword',
                 'application/vnd.openxmlformats-officedocument.word*',
-                'application/vnd.oasis.opendocument.text'
-            ]
-        }
+                'application/vnd.oasis.opendocument.text',
+            ],
+        },
     };
 
     /**
@@ -136,7 +126,10 @@ var _expose = function(exports) {
      * @param  {String}     [mimeType]          In case the `resourceSubType` is a `file`, a more detailed description can be returned by providing a mime type
      * @return {String}                         The i18n key that holds the mimetype description for the provided resource subtype and mime type
      */
-    var getDescription = exports.getDescription = function(resourceSubType, mimeType) {
+    var getDescription = (exports.getDescription = function(
+        resourceSubType,
+        mimeType,
+    ) {
         var mimeTypeObject = null;
 
         // Only files will have an actual mimeType. For all of these, we will run through the available
@@ -162,7 +155,7 @@ var _expose = function(exports) {
                     }
                 });
             }
-        // Links and collaborative documents
+            // Links and collaborative documents
         } else {
             mimeTypeObject = MIMETYPES[resourceSubType];
         }
@@ -174,7 +167,7 @@ var _expose = function(exports) {
         }
 
         return mimeTypeObject.description;
-    };
+    });
 };
 
 (function() {

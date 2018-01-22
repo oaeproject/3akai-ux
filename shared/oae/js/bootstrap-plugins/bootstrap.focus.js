@@ -18,7 +18,6 @@
  */
 
 define(['jquery', 'bootstrap'], function($) {
-
     // Element that had focus when the modal was invoked
     var $focusedEl = null;
 

@@ -13,9 +13,8 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery'], function (jQuery) {
+define(['jquery'], function(jQuery) {
     (function() {
-
         /**
          * Extracts files from a dropped item (currently only supported in Chrome)
          *
@@ -24,7 +23,6 @@ define(['jquery'], function (jQuery) {
          * @return {Array}              Array of files
          */
         var getFilesFromEntry = function(entry, path) {
-
             // Set default path if none provided
             path = path || '';
 
@@ -53,28 +51,34 @@ define(['jquery'], function (jQuery) {
                         file.relativePath = path;
                         files.push(file);
                         deferred.resolve(files);
-                    },
-                    handleErrors);
+                    }, handleErrors);
                 }
 
-            // Handle folders recursively
+                // Handle folders recursively
             } else if (entry.isDirectory) {
                 var folder = entry.createReader();
                 folder.readEntries(function(entries) {
-                    $.when.apply(
-                        $,
-                        $.map(entries, function(entry) {
-                            return getFilesFromEntry(entry, path + entry.name + '/');
+                    $.when
+                        .apply(
+                            $,
+                            $.map(entries, function(entry) {
+                                return getFilesFromEntry(
+                                    entry,
+                                    path + entry.name + '/',
+                                );
+                            }),
+                        )
+                        .pipe(function() {
+                            // Combine the results for each entry by concatenating results
+                            return Array.prototype.concat.apply([], arguments);
                         })
-                    ).pipe(function() {
-                        // Combine the results for each entry by concatenating results
-                        return Array.prototype.concat.apply([], arguments);
-                    }).done(function(files) {
-                       deferred.resolve(files);
-                    }).fail(handleErrors);
+                        .done(function(files) {
+                            deferred.resolve(files);
+                        })
+                        .fail(handleErrors);
                 });
 
-            // If not a file/folder, result is empty array
+                // If not a file/folder, result is empty array
             } else {
                 deferred.resolve([]);
             }
@@ -83,7 +87,10 @@ define(['jquery'], function (jQuery) {
         };
 
         $(document).on('drop', '.oae-dnd-upload', function(ev) {
-            if (ev.originalEvent.dataTransfer && ev.originalEvent.dataTransfer.files.length) {
+            if (
+                ev.originalEvent.dataTransfer &&
+                ev.originalEvent.dataTransfer.files.length
+            ) {
                 ev.preventDefault();
                 ev.stopPropagation();
 
@@ -96,38 +103,44 @@ define(['jquery'], function (jQuery) {
                 // Chrome uses `dataTransfer.items` to provide more information
                 // that the standard `dataTransfer.files`. Use it if it's
                 // available since we need it to traverse folders.
-                if (dataTransfer.items &&
+                if (
+                    dataTransfer.items &&
                     dataTransfer.items.length &&
-                    (dataTransfer.items[0].webkitGetAsEntry || dataTransfer.items[0].getAsEntry)) {
-
+                    (dataTransfer.items[0].webkitGetAsEntry ||
+                        dataTransfer.items[0].getAsEntry)
+                ) {
                     // Finish asynchronous processing **when** all individual
                     // items are processed
-                    deferred = $.when.apply(
-                        $,
-                        // Create a separate asynchronous handler for each item
-                        $.map(dataTransfer.items, function(item) {
-                            var entry = item.getAsEntry ? item.getAsEntry() : item.webkitGetAsEntry();
-                            /**
-                             * Workaround for Chrome bug #149735
-                             * @see https://code.google.com/p/chromium/issues/detail?id=149735
-                             */
-                            entry._itemAsFile = item.getAsFile();
-                            return getFilesFromEntry(entry);
-                        })
-                    ).pipe(function() {
-                        // Combine the results for each item by concatenating
-                        // their results
-                        return Array.prototype.concat.apply([], arguments);
-                    });
+                    deferred = $.when
+                        .apply(
+                            $,
+                            // Create a separate asynchronous handler for each item
+                            $.map(dataTransfer.items, function(item) {
+                                var entry = item.getAsEntry
+                                    ? item.getAsEntry()
+                                    : item.webkitGetAsEntry();
+                                /**
+                                 * Workaround for Chrome bug #149735
+                                 * @see https://code.google.com/p/chromium/issues/detail?id=149735
+                                 */
+                                entry._itemAsFile = item.getAsFile();
+                                return getFilesFromEntry(entry);
+                            }),
+                        )
+                        .pipe(function() {
+                            // Combine the results for each item by concatenating
+                            // their results
+                            return Array.prototype.concat.apply([], arguments);
+                        });
 
-                // Enhanced `dataTransfer.items` property isn't available,
-                // so stick with the standard `dataTransfer.files`
+                    // Enhanced `dataTransfer.items` property isn't available,
+                    // so stick with the standard `dataTransfer.files`
                 } else {
                     deferred = $.Deferred().resolve(
                         $.grep(dataTransfer.files, function(file) {
                             // Filter out folders and files without a name
                             return file.size > 0 && file.name;
-                        })
+                        }),
                     );
                 }
 
@@ -136,7 +149,7 @@ define(['jquery'], function (jQuery) {
                     // Trigger an event that sends the dropped data
                     // for the upload widget to pick up
                     $(document).trigger('oae.trigger.upload', {
-                        'data': {files: files}
+                        data: { files: files },
                     });
                 });
             }

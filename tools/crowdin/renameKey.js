@@ -18,7 +18,9 @@
  */
 
 var argv = require('optimist')
-    .usage('Usage: $0 -f <original i18n key name> -t <new i18n key name> -b <bundle directory>')
+    .usage(
+        'Usage: $0 -f <original i18n key name> -t <new i18n key name> -b <bundle directory>',
+    )
 
     .demand('f')
     .alias('f', 'fromI18nKey')
@@ -30,8 +32,10 @@ var argv = require('optimist')
 
     .demand('b')
     .alias('b', 'bundleDir')
-    .describe('b', 'Absolute path to the bundles directory that contains the i18n key to rename')
-    .argv;
+    .describe(
+        'b',
+        'Absolute path to the bundles directory that contains the i18n key to rename',
+    ).argv;
 
 var util = require('./util');
 
@@ -45,11 +49,17 @@ var bundleDir = argv.bundleDir;
 // Read the bundles that hold the key to rename
 util.readBundles(bundleDir, function(err, bundles) {
     if (err) {
-        return console.error('Error reading the bundles that hold the key to rename', err);
+        return console.error(
+            'Error reading the bundles that hold the key to rename',
+            err,
+        );
     }
 
     // Rename the keys in the specified bundles
-    util.renameKeyInBundles(bundles, fromI18nKey, toI18nKey, function(err, renamedBundles) {
+    util.renameKeyInBundles(bundles, fromI18nKey, toI18nKey, function(
+        err,
+        renamedBundles,
+    ) {
         if (err) {
             return console.error('Error renaming the key in the bundles', err);
         }
@@ -57,10 +67,20 @@ util.readBundles(bundleDir, function(err, bundles) {
         // Save the bundles with the key renamed
         util.writeBundles(renamedBundles, bundleDir, function(err) {
             if (err) {
-                return console.error('Error saving the bundles with the key renamed', err);
+                return console.error(
+                    'Error saving the bundles with the key renamed',
+                    err,
+                );
             }
 
-            console.log('Finished renaming ' + fromI18nKey + ' to ' + toI18nKey + ' in ' + bundleDir);
+            console.log(
+                'Finished renaming ' +
+                    fromI18nKey +
+                    ' to ' +
+                    toI18nKey +
+                    ' in ' +
+                    bundleDir,
+            );
         });
     });
 });

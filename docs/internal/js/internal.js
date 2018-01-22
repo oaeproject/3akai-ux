@@ -14,7 +14,6 @@
  */
 
 require(['jquery', 'oae.core', 'jquery.history'], function($, oae) {
-
     /**
      * Renders the documentation for a specific module
      */
@@ -32,17 +31,21 @@ require(['jquery', 'oae.core', 'jquery.history'], function($, oae) {
         // Get the current requested module from the History.js
         // Retrieve the documentation for the current module from the server
         getModuleDocs(module, type, function(docs) {
-            oae.api.util.template().render($('#internal-module-template'), {
-                'docs': docs,
-                'module': module
-            }, $('#internal-module-container'));
+            oae.api.util.template().render(
+                $('#internal-module-template'),
+                {
+                    docs: docs,
+                    module: module,
+                },
+                $('#internal-module-container'),
+            );
 
             // Scroll to the appropriate place on the page. This will be the top of the page most of the time, unless
             // a direct link to a function has been clicked (e.g. http://cambridge.oae.com/docs/backend/oae-authentication/createUser)
             // In this case, we scroll to the function's documentation
             var offset = 0;
             var apiFunction = History.getState().data.apiFunction;
-            if (apiFunction){
+            if (apiFunction) {
                 var $anchor = $('a[name="' + module + '.' + apiFunction + '"]');
                 offset = $anchor.offset().top;
             }
@@ -57,7 +60,13 @@ require(['jquery', 'oae.core', 'jquery.history'], function($, oae) {
      * @param  {String}      currentModule    The name of the module that is currently shown in the UI
      */
     var renderNavigation = function(modules, currentModule) {
-        oae.api.util.template().render($('#internal-modules-template'), modules, $('#internal-modules-container'));
+        oae.api.util
+            .template()
+            .render(
+                $('#internal-modules-template'),
+                modules,
+                $('#internal-modules-container'),
+            );
     };
 
     /**
@@ -73,9 +82,10 @@ require(['jquery', 'oae.core', 'jquery.history'], function($, oae) {
             url: '/api/doc/' + type + '/' + module,
             success: function(docs) {
                 callback(docs);
-            }, error: function(err) {
+            },
+            error: function(err) {
                 callback(null);
-            }
+            },
         });
     };
 
@@ -93,14 +103,14 @@ require(['jquery', 'oae.core', 'jquery.history'], function($, oae) {
             success: function(frontendModules) {
                 modules.frontend = frontendModules;
                 // Get the available back-end modules
-                 $.ajax({
+                $.ajax({
                     url: '/api/doc/backend',
                     success: function(backendModules) {
                         modules.backend = backendModules;
                         callback(modules);
-                    }
+                    },
                 });
-            }
+            },
         });
     };
 
@@ -119,10 +129,14 @@ require(['jquery', 'oae.core', 'jquery.history'], function($, oae) {
      */
     var selectModule = function() {
         // Push the state and render the selected module
-        History.pushState({
-            'type': $(this).attr('data-type'),
-            'module': $(this).attr('data-id')
-        }, $('title').text(), $('a', $(this)).attr('href'));
+        History.pushState(
+            {
+                type: $(this).attr('data-type'),
+                module: $(this).attr('data-id'),
+            },
+            $('title').text(),
+            $('a', $(this)).attr('href'),
+        );
         return false;
     };
 
@@ -131,7 +145,11 @@ require(['jquery', 'oae.core', 'jquery.history'], function($, oae) {
      */
     var addBinding = function() {
         // Module switching
-        $(document).on('click', '#internal-modules-container ul li', selectModule)
+        $(document).on(
+            'click',
+            '#internal-modules-container ul li',
+            selectModule,
+        );
         // The statechange event will be triggered every time the browser back or forward button
         // is pressed or state is pushed/replaced using Hisory.js.
         $(window).on('statechange', renderModuleDocs);
@@ -166,15 +184,18 @@ require(['jquery', 'oae.core', 'jquery.history'], function($, oae) {
             // for the requested module. However, as the page can already have the History.js state data
             // when only doing a page refresh, we need to add a random number to make sure that History.js
             // recognizes this as a new state and triggers the `statechange` event.
-            History.replaceState({
-                'type': type,
-                'module': moduleToLoad,
-                'apiFunction': apiFunction,
-                '_': Math.random()
-            }, $('title').text(), History.getState().cleanUrl);
+            History.replaceState(
+                {
+                    type: type,
+                    module: moduleToLoad,
+                    apiFunction: apiFunction,
+                    _: Math.random(),
+                },
+                $('title').text(),
+                History.getState().cleanUrl,
+            );
         });
     };
 
     doInit();
-
 });

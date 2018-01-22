@@ -22,10 +22,12 @@ module.exports = function(callback) {
     process.env['OAE_BOOTSTRAP_LOG_FILE'] = './tests.log';
 
     var AuthenticationAPI = require(hilaryModules + 'oae-authentication');
-    var AuthenticationConstants = require(hilaryModules + 'oae-authentication/lib/constants').AuthenticationConstants;
+    var AuthenticationConstants = require(hilaryModules +
+        'oae-authentication/lib/constants').AuthenticationConstants;
     var ConfigTestUtil = require(hilaryModules + 'oae-config/lib/test/util');
     var Context = require(hilaryModules + 'oae-context').Context;
-    var LoginId = require(hilaryModules + 'oae-authentication/lib/model').LoginId;
+    var LoginId = require(hilaryModules + 'oae-authentication/lib/model')
+        .LoginId;
     var PrincipalsAPI = require(hilaryModules + 'oae-principals');
     var Tenant = require(hilaryModules + 'oae-tenants/lib/model').Tenant;
     var TenantsTestUtil = require(hilaryModules + 'oae-tenants/lib/test/util');
@@ -42,32 +44,50 @@ module.exports = function(callback) {
      * @param  {Function}    callback    Standard callback function that should be called when the tenants have been created and have started up
      */
     var setUpTenants = function(config, callback) {
-        global.oaeTests = {'tenants': {}};
+        global.oaeTests = { tenants: {} };
 
         // Create the Global Tenant admin context to authenticate with
-        global.oaeTests.tenants.global = new Tenant(config.servers.globalAdminAlias, 'Global tenant', config.servers.globalAdminHost, {'isGlobalAdminServer': true});
+        global.oaeTests.tenants.global = new Tenant(
+            config.servers.globalAdminAlias,
+            'Global tenant',
+            config.servers.globalAdminHost,
+            { isGlobalAdminServer: true },
+        );
         var globalAdminRestContext = TestsUtil.createGlobalAdminRestContext();
 
         // Create the test tenant
-        TenantsTestUtil.createTenantAndWait(globalAdminRestContext, 'test', 'CasperJS Tenant', 'test.oae.com', null, function(err, tenant) {
-            if (err) {
-                log().error({'err': err});
-                return callback(err);
-            }
-
-            ConfigTestUtil.updateConfigAndWait(globalAdminRestContext, null, {
-                'oae-principals/recaptcha/enabled': false,
-                'oae-principals/termsAndConditions/enabled': true,
-                'oae-principals/termsAndConditions/text/default': '![OAE](/shared/oae/img/oae-logo.png) Default terms and conditions'
-            }, function(err) {
+        TenantsTestUtil.createTenantAndWait(
+            globalAdminRestContext,
+            'test',
+            'CasperJS Tenant',
+            'test.oae.com',
+            null,
+            function(err, tenant) {
                 if (err) {
-                    log().error({'err': err});
+                    log().error({ err: err });
                     return callback(err);
                 }
 
-                return callback();
-            });
-        });
+                ConfigTestUtil.updateConfigAndWait(
+                    globalAdminRestContext,
+                    null,
+                    {
+                        'oae-principals/recaptcha/enabled': false,
+                        'oae-principals/termsAndConditions/enabled': true,
+                        'oae-principals/termsAndConditions/text/default':
+                            '![OAE](/shared/oae/img/oae-logo.png) Default terms and conditions',
+                    },
+                    function(err) {
+                        if (err) {
+                            log().error({ err: err });
+                            return callback(err);
+                        }
+
+                        return callback();
+                    },
+                );
+            },
+        );
     };
 
     // Create the configuration for the test

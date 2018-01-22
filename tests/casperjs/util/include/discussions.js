@@ -17,7 +17,6 @@
  * Utility functions for discussions
  */
 var discussionUtil = (function() {
-
     /**
      * Creates a discussion
      *
@@ -30,32 +29,56 @@ var discussionUtil = (function() {
      * @param  {Object}         [callback.err]            Error object containing error code and error message
      * @param  {Discussion}     [callback.discussion]     Discussion object representing the created discussion
      */
-    var createDiscussion = function(displayName, description, visibility, managers, members, callback) {
+    var createDiscussion = function(
+        displayName,
+        description,
+        visibility,
+        managers,
+        members,
+        callback,
+    ) {
         casper.then(function() {
             var discussion = null;
             var err = null;
 
             // Default parameters
-            displayName = displayName || 'Discussion ' + mainUtil.generateRandomString();
+            displayName =
+                displayName || 'Discussion ' + mainUtil.generateRandomString();
             description = description || 'Talk about all the things!';
             visibility = visibility || 'public';
             managers = managers || [];
             members = members || [];
 
-            mainUtil.callInternalAPI('discussion', 'createDiscussion', [displayName, description, visibility, managers, members], function(_err, _discussion) {
-                if (_err) {
-                    casper.echo('Could not create discussion \'' + displayName + '\'. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
-                    err = _err;
-                }
-                discussion = _discussion;
-            });
+            mainUtil.callInternalAPI(
+                'discussion',
+                'createDiscussion',
+                [displayName, description, visibility, managers, members],
+                function(_err, _discussion) {
+                    if (_err) {
+                        casper.echo(
+                            "Could not create discussion '" +
+                                displayName +
+                                "'. Error " +
+                                _err.code +
+                                ': ' +
+                                _err.msg,
+                            'ERROR',
+                        );
+                        err = _err;
+                    }
+                    discussion = _discussion;
+                },
+            );
 
             // Wait for the discussion to be created or failing to be created before continuing
-            casper.waitFor(function() {
-                return discussion !== null || err !== null;
-            }, function() {
-                return callback(err, discussion);
-            });
+            casper.waitFor(
+                function() {
+                    return discussion !== null || err !== null;
+                },
+                function() {
+                    return callback(err, discussion);
+                },
+            );
         });
     };
 
@@ -69,16 +92,27 @@ var discussionUtil = (function() {
     var updateDiscussion = function(discussionId, params, callback) {
         var data = null;
         casper.then(function() {
-            data = casper.evaluate(function(discussionId, params) {
-                return JSON.parse(__utils__.sendAJAX('/api/discussion/' + discussionId, 'POST', params, false));
-            }, discussionId, params);
+            data = casper.evaluate(
+                function(discussionId, params) {
+                    return JSON.parse(
+                        __utils__.sendAJAX(
+                            '/api/discussion/' + discussionId,
+                            'POST',
+                            params,
+                            false,
+                        ),
+                    );
+                },
+                discussionId,
+                params,
+            );
         });
 
         casper.then(callback);
     };
 
     return {
-        'createDiscussion': createDiscussion,
-        'updateDiscussion': updateDiscussion
+        createDiscussion: createDiscussion,
+        updateDiscussion: updateDiscussion,
     };
 })();

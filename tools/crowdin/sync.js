@@ -22,8 +22,7 @@ var argv = require('optimist')
 
     .demand('r')
     .alias('r', 'rootDir')
-    .describe('r', 'Absolute path to the 3akai-ux root directory')
-    .argv;
+    .describe('r', 'Absolute path to the 3akai-ux root directory').argv;
 
 var _ = require('underscore');
 var fs = require('fs');
@@ -39,7 +38,6 @@ var apiKey = argv.apiKey;
 var rootDir = argv.rootDir;
 var crowdinDir = rootDir + '/tools/crowdin';
 
-
 /**
  * Download the crowdin synchronization JAR file. If the file is already in place, it will
  * not be re-downloaded
@@ -54,7 +52,14 @@ var downloadCrowdinLibrary = function(callback) {
     } else {
         // Download the JAR file
         console.log('Downloading crowdin JAR file');
-        shelljs.exec(util.format('curl https://crowdin.net/downloads/crowdin-cli.jar > %s/crowdin-cli.jar', crowdinDir), {}, callback);
+        shelljs.exec(
+            util.format(
+                'curl https://crowdin.net/downloads/crowdin-cli.jar > %s/crowdin-cli.jar',
+                crowdinDir,
+            ),
+            {},
+            callback,
+        );
     }
 };
 
@@ -69,8 +74,8 @@ var generateYaml = function() {
     // Parse the underscore.js template and render it with the provided API key and root directory
     var template = _.template(data);
     var yaml = template({
-        'apiKey': apiKey,
-        'rootDir': rootDir
+        apiKey: apiKey,
+        rootDir: rootDir,
     });
 
     // Save the YAML template file
@@ -91,18 +96,39 @@ var synchronizeTranslations = function(callback) {
     // Upload the latest set of available i18n keys to crowdin. This will add new keys to the list of keys
     // to translate and will remove keys that have been removed in the codebase from the list of keys to
     // translate
-    shelljs.exec(util.format('cd %s; java -jar crowdin-cli.jar upload sources', crowdinDir), {}, function() {
-        // Upload the latest translations to crowdin. This will update any translations that have been updated
-        // in the codebase directly on crowdin. This is done before downloading the translations from crowdin, as
-        // core development will end up updating the translations directly most of the time, and we want to avoid
-        // overriding those changes with the translations on crowdin
-        shelljs.exec(util.format('cd %s; java -jar crowdin-cli.jar upload translations', crowdinDir), {}, function() {
-            // Download the latest updated translations from crowdin
-            shelljs.exec(util.format('cd %s; java -jar crowdin-cli.jar download', crowdinDir), {}, function() {
-                callback();
-            });
-        });
-    });
+    shelljs.exec(
+        util.format(
+            'cd %s; java -jar crowdin-cli.jar upload sources',
+            crowdinDir,
+        ),
+        {},
+        function() {
+            // Upload the latest translations to crowdin. This will update any translations that have been updated
+            // in the codebase directly on crowdin. This is done before downloading the translations from crowdin, as
+            // core development will end up updating the translations directly most of the time, and we want to avoid
+            // overriding those changes with the translations on crowdin
+            shelljs.exec(
+                util.format(
+                    'cd %s; java -jar crowdin-cli.jar upload translations',
+                    crowdinDir,
+                ),
+                {},
+                function() {
+                    // Download the latest updated translations from crowdin
+                    shelljs.exec(
+                        util.format(
+                            'cd %s; java -jar crowdin-cli.jar download',
+                            crowdinDir,
+                        ),
+                        {},
+                        function() {
+                            callback();
+                        },
+                    );
+                },
+            );
+        },
+    );
 };
 
 /**
@@ -115,11 +141,15 @@ var collectBundles = function(callback) {
     var bundles = [];
 
     // Loop through all available core and widget translation bundles and store their paths
-    readdirp({ 'root': rootDir, 'fileFilter': '*.properties' }, function(entry) {
-        bundles.push(entry.fullPath);
-    }, function(err, res) {
-        callback(bundles);
-    });
+    readdirp(
+        { root: rootDir, fileFilter: '*.properties' },
+        function(entry) {
+            bundles.push(entry.fullPath);
+        },
+        function(err, res) {
+            callback(bundles);
+        },
+    );
 };
 
 /**
@@ -161,33 +191,43 @@ var removeEmptyBundles = function(bundles) {
  */
 var updateWidgetManifests = function(bundles) {
     // Loop through all widget manifests
-    readdirp({ 'root': rootDir, 'fileFilter': 'manifest.json' }, function(entry) {
-        // Load the widget manifest
-        var widgetManifest = require(entry.fullPath);
+    readdirp(
+        { root: rootDir, fileFilter: 'manifest.json' },
+        function(entry) {
+            // Load the widget manifest
+            var widgetManifest = require(entry.fullPath);
 
-        // Get the list of bundles with translations for this widget
-        var widgetLanguages = {};
-        _.each(bundles, function(bundle) {
-            if (bundle.indexOf(entry.fullParentDir + '/') === 0) {
-                var language = bundle.split('/').pop().split('.')[0];
-                widgetLanguages[language] = 'bundles/' + language + '.properties';
+            // Get the list of bundles with translations for this widget
+            var widgetLanguages = {};
+            _.each(bundles, function(bundle) {
+                if (bundle.indexOf(entry.fullParentDir + '/') === 0) {
+                    var language = bundle
+                        .split('/')
+                        .pop()
+                        .split('.')[0];
+                    widgetLanguages[language] =
+                        'bundles/' + language + '.properties';
+                }
+            });
+
+            // Add the languages to the widget manifest file
+            if (_.keys(widgetLanguages).length) {
+                widgetManifest['i18n'] = widgetLanguages;
+                // If no languages are available for the current widget, the i18n property
+                // is removed from the manifest file
+            } else {
+                delete widgetManifest['i18n'];
             }
-        });
 
-        // Add the languages to the widget manifest file
-        if (_.keys(widgetLanguages).length) {
-            widgetManifest['i18n'] = widgetLanguages;
-        // If no languages are available for the current widget, the i18n property
-        // is removed from the manifest file
-        } else {
-            delete widgetManifest['i18n'];
-        }
-
-        // Re-publish the manifest file
-        fs.writeFileSync(entry.fullPath, JSON.stringify(widgetManifest, null, 4) + '\n');
-    }, function() {});
+            // Re-publish the manifest file
+            fs.writeFileSync(
+                entry.fullPath,
+                JSON.stringify(widgetManifest, null, 4) + '\n',
+            );
+        },
+        function() {},
+    );
 };
-
 
 // 1. Download the crowdin JAR file
 downloadCrowdinLibrary(function() {

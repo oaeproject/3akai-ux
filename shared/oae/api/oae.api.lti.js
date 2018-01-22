@@ -13,8 +13,12 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $, _, utilAPI) {
-
+define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(
+    exports,
+    $,
+    _,
+    utilAPI,
+) {
     /**
      * Create a LTI tool
      *
@@ -29,7 +33,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @param  {LtiTool}           [callback.ltiTool]       A LTI tool object representing the created LTI tool
      * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
      */
-    var createLtiTool = exports.createLtiTool = function (groupId, url, secret, key, displayName, description, callback) {
+    var createLtiTool = (exports.createLtiTool = function(
+        groupId,
+        url,
+        secret,
+        key,
+        displayName,
+        description,
+        callback,
+    ) {
         if (!groupId) {
             throw new Error('A group ID should be provided');
         } else if (!url) {
@@ -44,25 +56,25 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
         callback = callback || function() {};
 
         var data = {
-            'url': url,
-            'secret': secret,
-            'key': key,
-            'displayName': displayName,
-            'description': description,
+            url: url,
+            secret: secret,
+            key: key,
+            displayName: displayName,
+            description: description,
         };
 
         $.ajax({
-            'url': '/api/lti/' + groupId + '/create',
-            'type': 'POST',
-            'data': data,
-            'success': function(data) {
+            url: '/api/lti/' + groupId + '/create',
+            type: 'POST',
+            data: data,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Launch a LTI tool
@@ -74,23 +86,27 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @param  {LtiTool}      callback.ltiTool    The LTI tool object representing the requested LTI tool
      * @throws {Error}                            Error thrown when no LTI tool id has been provided
      */
-    var launchLtiTool = exports.launchLtiTool = function(groupId, toolId, callback) {
-        if (!groupId){
+    var launchLtiTool = (exports.launchLtiTool = function(
+        groupId,
+        toolId,
+        callback,
+    ) {
+        if (!groupId) {
             throw new Error('A valid group ID should be provided');
         } else if (!toolId) {
             throw new Error('A valid LTI tool ID should be provided');
         }
 
         $.ajax({
-            'url': '/api/lti/' + groupId + '/' + toolId,
-            'success': function(data) {
+            url: '/api/lti/' + groupId + '/' + toolId,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
     /**
      * Get all the LTI tools for a group
@@ -101,23 +117,23 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @param  {Object}         callback.tools                  Response object containing the LTI tool invitations
      * @throws {Error}                                          Error thrown when no group id has been provided
      */
-    var getLtiTools = exports.getLtiTools = function(groupId, callback) {
+    var getLtiTools = (exports.getLtiTools = function(groupId, callback) {
         if (!groupId) {
             throw new Error('A valid group ID should be provided');
         }
 
         $.ajax({
-            'url': '/api/lti/'  + groupId,
-            'success': function(data) {
+            url: '/api/lti/' + groupId,
+            success: function(data) {
                 callback(null, data);
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 
-   /**
+    /**
      * Delete a LTI tool
      *
      * @param  {String}     groupId             The id of the group in which the LTI tool resides
@@ -126,8 +142,12 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @param  {Object}     [callback.err]      Error object containing the error code and error message
      * @throws {Error}                          Error thrown when no group id or LTI tool id has been provided
      */
-    var deleteLtiTool = exports.deleteLtiTool = function(groupId, toolId, callback) {
-        if (!groupId){
+    var deleteLtiTool = (exports.deleteLtiTool = function(
+        groupId,
+        toolId,
+        callback,
+    ) {
+        if (!groupId) {
             throw new Error('A valid group ID should be provided');
         } else if (!toolId) {
             throw new Error('A valid LTI tool ID should be provided');
@@ -137,14 +157,14 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/lti/' + groupId + '/' + toolId,
-            'type': 'DELETE',
-            'success': function(data) {
+            url: '/api/lti/' + groupId + '/' + toolId,
+            type: 'DELETE',
+            success: function(data) {
                 callback();
             },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
+            error: function(jqXHR, textStatus) {
+                callback({ code: jqXHR.status, msg: jqXHR.responseText });
+            },
         });
-    };
+    });
 });

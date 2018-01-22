@@ -14,7 +14,6 @@
  */
 
 (function($) {
-
     /**
      * Convert a
      *
@@ -30,8 +29,8 @@
      * @param  {Boolean}    includeEmpty    Whether or not to include fields that have an empty value
      * @return {Object}                     JSON Object where the keys represent the names of all of the form fields and the values represent their value
      */
-     $.fn.fileSize = function(size) {
-        var suffix = ["bytes", "KB", "MB", "GB", "TB", "PB"];
+    $.fn.fileSize = function(size) {
+        var suffix = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
         var tier = 0;
 
         while (size >= 1024) {
@@ -39,6 +38,6 @@
             tier++;
         }
 
-        return Math.round(size * 10) / 10 + " " + suffix[tier];
+        return Math.round(size * 10) / 10 + ' ' + suffix[tier];
     };
 })($);

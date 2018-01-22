@@ -17,22 +17,25 @@
  * Initalize requireJS by setting paths and specifying load priorities
  */
 requirejs.config({
-    'baseUrl': '/shared/',
-    'paths': {
+    baseUrl: '/shared/',
+    paths: {
         // jQuery module is managed by require-jquery variation of require.js
-        'jquery': 'empty:',
+        jquery: 'empty:',
 
         // Vendor paths
-        'async': 'vendor/js/async',
-        'bootstrap': 'vendor/js/bootstrap',
-        'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover.oae-edited',
-        'bootstrap.datepicker': 'vendor/js/bootstrap-plugins/bootstrap-datepicker',
-        'bootstrap.notify': 'vendor/js/bootstrap-plugins/bootstrap.notify.oae-edited',
-        'cookies': 'vendor/js/cookies',
-        'globalize': 'vendor/js/l10n/globalize',
-        'iso3166': 'oae/js/iso3166',
-        'postis': 'vendor/js/postis',
-        'JitsiMeetExternalAPI': 'vendor/js/JitsiMeetExternalAPI',
+        async: 'vendor/js/async',
+        bootstrap: 'vendor/js/bootstrap',
+        'bootstrap.clickover':
+            'vendor/js/bootstrap-plugins/bootstrapx.clickover.oae-edited',
+        'bootstrap.datepicker':
+            'vendor/js/bootstrap-plugins/bootstrap-datepicker',
+        'bootstrap.notify':
+            'vendor/js/bootstrap-plugins/bootstrap.notify.oae-edited',
+        cookies: 'vendor/js/cookies',
+        globalize: 'vendor/js/l10n/globalize',
+        iso3166: 'oae/js/iso3166',
+        postis: 'vendor/js/postis',
+        JitsiMeetExternalAPI: 'vendor/js/JitsiMeetExternalAPI',
         'jquery.autosize': 'vendor/js/jquery-plugins/jquery.autosize',
         'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest',
         'jquery.dotdot': 'vendor/js/jquery-plugins/jquery.dotdotdot',
@@ -41,42 +44,48 @@ requirejs.config({
         'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
         'jquery.form': 'vendor/js/jquery-plugins/jquery.form',
         'jquery.history': 'vendor/js/jquery-plugins/jquery.history',
-        'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
+        'jquery.iframe-transport':
+            'vendor/js/jquery-plugins/jquery.iframe-transport',
         'jquery.jcrop': 'vendor/js/jquery-plugins/jcrop/jquery.Jcrop',
-        'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.oae-edited',
+        'jquery.jeditable':
+            'vendor/js/jquery-plugins/jquery.jeditable.oae-edited',
         'jquery.oembed': 'vendor/js/jquery-plugins/jquery.oembed',
-        'jquery.parseurl': 'vendor/js/jquery-plugins/jquery.parseurl.oae-edited',
-        'jquery.properties-parser': 'vendor/js/jquery-plugins/jquery.properties-parser',
-        'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',
+        'jquery.parseurl':
+            'vendor/js/jquery-plugins/jquery.parseurl.oae-edited',
+        'jquery.properties-parser':
+            'vendor/js/jquery-plugins/jquery.properties-parser',
+        'jquery.serializeObject':
+            'vendor/js/jquery-plugins/jquery.serializeObject',
         'jquery.spectrum': 'vendor/js/jquery-plugins/jquery.spectrum',
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
         'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
         'jquery-ui': 'vendor/js/jquery-ui/jquery-ui-1.10.4.custom',
-        'lazyload': 'vendor/js/lazyload',
-        'markdown': 'vendor/js/marked',
-        'moment': 'vendor/js/moment',
-        'qunitjs': 'vendor/js/qunit',
-        'select2': 'vendor/js/select2.full',
-        'sockjs': 'vendor/js/sockjs',
-        'text': 'vendor/js/requirejs/require.text',
-        'tinycon': 'vendor/js/tinycon',
-        'trimpath': 'vendor/js/trimpath',
-        'underscore': 'vendor/js/underscore',
+        lazyload: 'vendor/js/lazyload',
+        markdown: 'vendor/js/marked',
+        moment: 'vendor/js/moment',
+        qunitjs: 'vendor/js/qunit',
+        select2: 'vendor/js/select2.full',
+        sockjs: 'vendor/js/sockjs',
+        text: 'vendor/js/requirejs/require.text',
+        tinycon: 'vendor/js/tinycon',
+        trimpath: 'vendor/js/trimpath',
+        underscore: 'vendor/js/underscore',
 
         // OAE paths
-        'activityadapter': 'oae/js/activityadapter',
+        activityadapter: 'oae/js/activityadapter',
         'bootstrap.focus': 'oae/js/bootstrap-plugins/bootstrap.focus',
         'bootstrap.modal': 'oae/js/bootstrap-plugins/bootstrap.modal',
         'jquery.browse-focus': 'oae/js/jquery-plugins/jquery.browse-focus',
         'jquery.clip': 'oae/js/jquery-plugins/jquery.clip',
         'jquery.dnd-upload': 'oae/js/jquery-plugins/jquery.dnd-upload',
         'jquery.infinitescroll': 'oae/js/jquery-plugins/jquery.infinitescroll',
-        'jquery.jeditable-focus': 'oae/js/jquery-plugins/jquery.jeditable-focus',
+        'jquery.jeditable-focus':
+            'oae/js/jquery-plugins/jquery.jeditable-focus',
         'jquery.list': 'oae/js/jquery-plugins/jquery.list',
         'jquery.responsive': 'oae/js/jquery-plugins/jquery.responsive',
         'jquery.switchtab': 'oae/js/jquery-plugins/jquery.switchtab',
         'jquery.update-picture': 'oae/js/jquery-plugins/jquery.update-picture',
-        'mimetypes': 'oae/js/mimetypes',
+        mimetypes: 'oae/js/mimetypes',
 
         // OAE API modules
         'oae.api': 'oae/api/oae.api',
@@ -91,7 +100,7 @@ requirejs.config({
         'oae.api.group': 'oae/api/oae.api.group',
         'oae.api.i18n': 'oae/api/oae.api.i18n',
         'oae.api.l10n': 'oae/api/oae.api.l10n',
-        'oae.api.lti' : 'oae/api/oae.api.lti',
+        'oae.api.lti': 'oae/api/oae.api.lti',
         'oae.api.meetingJitsi': 'oae/api/oae.api.meetingJitsi',
         'oae.api.push': 'oae/api/oae.api.push',
         'oae.api.user': 'oae/api/oae.api.user',
@@ -100,15 +109,15 @@ requirejs.config({
         'oae.api.widget': 'oae/api/oae.api.widget',
         'oae.bootstrap': 'oae/api/oae.bootstrap',
         'oae.core': 'oae/api/oae.core',
-        'pluginBuilder': 'oae/pluginBuilder'
+        pluginBuilder: 'oae/pluginBuilder',
     },
-    'priority': ['jquery', 'underscore'],
-    'shim': {
+    priority: ['jquery', 'underscore'],
+    shim: {
         'bootstrap.clickover': {
-            'deps': ['bootstrap']
-        }
+            deps: ['bootstrap'],
+        },
     },
-    'waitSeconds': 30
+    waitSeconds: 30,
 });
 
 /*!

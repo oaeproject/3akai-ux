@@ -26,12 +26,17 @@ var argv = require('optimist')
 
     .demand('f')
     .alias('f', 'moveFromDir')
-    .describe('f', 'Absolute path to the bundles directory from which to move the i18n key')
+    .describe(
+        'f',
+        'Absolute path to the bundles directory from which to move the i18n key',
+    )
 
     .demand('t')
     .alias('t', 'moveToDir')
-    .describe('t', 'Absolute path to the bundles directory to which to move the i18n key')
-    .argv;
+    .describe(
+        't',
+        'Absolute path to the bundles directory to which to move the i18n key',
+    ).argv;
 
 var util = require('./util');
 
@@ -47,33 +52,63 @@ var moveToDir = argv.moveToDir;
 // Read the bundles that hold the key to move
 util.readBundles(moveFromDir, function(err, fromBundles) {
     if (err) {
-        return console.error('Error reading the bundles that hold the key to move', err);
+        return console.error(
+            'Error reading the bundles that hold the key to move',
+            err,
+        );
     }
     // Read the bundles to which the key should be moved
     util.readBundles(moveToDir, function(err, toBundles) {
         if (err) {
-            return console.error('Error reading the bundles to which the key should be moved', err);
+            return console.error(
+                'Error reading the bundles to which the key should be moved',
+                err,
+            );
         }
         // Get the entries to move
         util.getKeyFromBundles(fromBundles, i18nKey, function(entriesToMove) {
             // Move the key to the bundles to which the key needs to be moved
-            util.addKeyToBundles(toBundles, entriesToMove, function(err, toBundles) {
+            util.addKeyToBundles(toBundles, entriesToMove, function(
+                err,
+                toBundles,
+            ) {
                 if (err) {
-                    return console.error('Error moving the key to the bundles to which they should be moved', err);
+                    return console.error(
+                        'Error moving the key to the bundles to which they should be moved',
+                        err,
+                    );
                 }
                 // Save the bundles to which the key has been moved
                 util.writeBundles(toBundles, moveToDir, function(err) {
                     if (err) {
-                        return console.error('Error saving the bundles to which the key has been moved', err);
+                        return console.error(
+                            'Error saving the bundles to which the key has been moved',
+                            err,
+                        );
                     }
                     // Delete the key from the bundles from which the key is being moved
-                    util.deleteKeyFromBundles(fromBundles, i18nKey, function(fromBundles) {
+                    util.deleteKeyFromBundles(fromBundles, i18nKey, function(
+                        fromBundles,
+                    ) {
                         // Save the bundles with the key removed
-                        util.writeBundles(fromBundles, moveFromDir, function(err, fromBundles) {
+                        util.writeBundles(fromBundles, moveFromDir, function(
+                            err,
+                            fromBundles,
+                        ) {
                             if (err) {
-                                return console.error('Error saving the bundles with the key removed', err);
+                                return console.error(
+                                    'Error saving the bundles with the key removed',
+                                    err,
+                                );
                             }
-                            console.log('Finished moving ' + i18nKey + ' from ' + moveFromDir + ' to ' + moveToDir);
+                            console.log(
+                                'Finished moving ' +
+                                    i18nKey +
+                                    ' from ' +
+                                    moveFromDir +
+                                    ' to ' +
+                                    moveToDir,
+                            );
                         });
                     });
                 });

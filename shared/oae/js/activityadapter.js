@@ -23,12 +23,21 @@
  * @api private
  */
 var _expose = function(exports) {
-
     // Variable that keeps track of the different activity types that are used for comment activities
-    var COMMENT_ACTIVITY_TYPES = ['content-comment', 'folder-comment', 'discussion-message', 'meeting-jitsi-message'];
+    var COMMENT_ACTIVITY_TYPES = [
+        'content-comment',
+        'folder-comment',
+        'discussion-message',
+        'meeting-jitsi-message',
+    ];
 
     // Variable that keeps track of the different activity types that are used for sharing activities
-    var SHARE_ACTIVITY_TYPES = ['content-share', 'discussion-share', 'folder-share', 'meeting-jitsi-share'];
+    var SHARE_ACTIVITY_TYPES = [
+        'content-share',
+        'discussion-share',
+        'folder-share',
+        'meeting-jitsi-share',
+    ];
 
     /**
      * Adapt a set of activities in activitystrea.ms format to a simpler view model
@@ -44,11 +53,17 @@ var _expose = function(exports) {
      * @param  {String}                 [opts.resourceHrefOverride]             When specified, any `<a href="...">` tag in the generated HTML content will have its `href` attribute rewritten to this value. This can be used to control outbound links in different contexts (e.g., email invitation)
      * @return {ActivityViewModel[]}                                            The adapted activities
      */
-    var adapt = exports.adapt = function(context, me, activities, sanitization, opts) {
+    var adapt = (exports.adapt = function(
+        context,
+        me,
+        activities,
+        sanitization,
+        opts,
+    ) {
         return activities.map(function(activity) {
             return _adaptActivity(context, me, activity, sanitization, opts);
         });
-    };
+    });
 
     /**
      * Adapt a single activity in activitystrea.ms format to a simpler view model
@@ -79,9 +94,13 @@ var _expose = function(exports) {
         var activityItems = _generateActivityPreviewItems(context, activity);
 
         // Construct the adapted activity
-        return new ActivityViewModel(activity, summary, primaryActor, activityItems);
+        return new ActivityViewModel(
+            activity,
+            summary,
+            primaryActor,
+            activityItems,
+        );
     };
-
 
     ////////////
     // Models //
@@ -95,16 +114,23 @@ var _expose = function(exports) {
      * @param {ActivityViewItem}        primaryActor    The object that identifies the primary actor
      * @param {ActivityViewItem[]}      activityItems   The activity view items that are included in this activity
      */
-    var ActivityViewModel = function(activity, summary, primaryActor, activityItems) {
+    var ActivityViewModel = function(
+        activity,
+        summary,
+        primaryActor,
+        activityItems,
+    ) {
         var that = {
-            'activityItems': activityItems,
-            'id': activity['oae:activityId'],
-            'originalActivity': activity,
-            'published': activity.published,
-            'primaryActor': primaryActor,
-            'summary': summary
+            activityItems: activityItems,
+            id: activity['oae:activityId'],
+            originalActivity: activity,
+            published: activity.published,
+            primaryActor: primaryActor,
+            summary: summary,
         };
-        if (COMMENT_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1) {
+        if (
+            COMMENT_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1
+        ) {
             that.allComments = activity.object['oae:collection'];
             that.latestComments = activity.object.latestComments;
         }
@@ -120,8 +146,8 @@ var _expose = function(exports) {
      */
     var ActivityViewSummary = function(i18nKey, properties) {
         var that = {
-            'i18nArguments': properties,
-            'i18nKey': i18nKey
+            i18nArguments: properties,
+            i18nKey: i18nKey,
         };
         return that;
     };
@@ -135,13 +161,13 @@ var _expose = function(exports) {
     var ActivityViewItem = function(me, entity) {
         var that = {
             'oae:id': entity['oae:id'],
-            'id': entity.id,
-            'displayName': entity.displayName,
-            'profilePath': entity['oae:profilePath'],
-            'resourceSubType': entity['oae:resourceSubType'],
-            'resourceType': entity.objectType,
-            'tenant': entity['oae:tenant'],
-            'visibility': entity['oae:visibility']
+            id: entity.id,
+            displayName: entity.displayName,
+            profilePath: entity['oae:profilePath'],
+            resourceSubType: entity['oae:resourceSubType'],
+            resourceType: entity.objectType,
+            tenant: entity['oae:tenant'],
+            visibility: entity['oae:visibility'],
         };
 
         // Use the most up-to-date profile picture when available
@@ -161,7 +187,6 @@ var _expose = function(exports) {
 
         return that;
     };
-
 
     //////////////////////////
     // Activity preparation //
@@ -183,21 +208,29 @@ var _expose = function(exports) {
         // Sort the entity collections based on whether or not they have a thumbnail
         if (activity.actor['oae:collection']) {
             // Reverse the items so the item that was changed last is shown first
-            activity.actor['oae:collection'].reverse().sort(_sortEntityCollection);
+            activity.actor['oae:collection']
+                .reverse()
+                .sort(_sortEntityCollection);
         }
 
         if (activity.object && activity.object['oae:collection']) {
             // Reverse the items so the item that was changed last is shown first
-            activity.object['oae:collection'].reverse().sort(_sortEntityCollection);
+            activity.object['oae:collection']
+                .reverse()
+                .sort(_sortEntityCollection);
         }
 
         if (activity.target && activity.target['oae:collection']) {
             // Reverse the items so the item that was changed last is shown first
-            activity.target['oae:collection'].reverse().sort(_sortEntityCollection);
+            activity.target['oae:collection']
+                .reverse()
+                .sort(_sortEntityCollection);
         }
 
         // We process the comments into an ordered set
-        if (COMMENT_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1) {
+        if (
+            COMMENT_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1
+        ) {
             var comments = activity.object['oae:collection'];
             if (!comments) {
                 comments = [activity.object];
@@ -250,7 +283,10 @@ var _expose = function(exports) {
         // Threadkeys will have the following format, primarily to allow for proper thread ordering:
         //  - Top level comments: <createdTimeStamp>|
         //  - Reply: <parentCreatedTimeStamp>#<createdTimeStamp>|
-        if (a['oae:threadKey'].split('#').pop() < b['oae:threadKey'].split('#').pop()) {
+        if (
+            a['oae:threadKey'].split('#').pop() <
+            b['oae:threadKey'].split('#').pop()
+        ) {
             return 1;
         } else {
             return -1;
@@ -286,16 +322,26 @@ var _expose = function(exports) {
 
                 // If this comment has a parent that's not in the latestComments
                 // set yet, we include it
-                if (comments[1].inReplyTo && !_find(latestComments, comments[1].inReplyTo['oae:id'])) {
-                    latestComments.push(_findComment(comments, comments[1].inReplyTo));
+                if (
+                    comments[1].inReplyTo &&
+                    !_find(latestComments, comments[1].inReplyTo['oae:id'])
+                ) {
+                    latestComments.push(
+                        _findComment(comments, comments[1].inReplyTo),
+                    );
                 }
 
-            // If the next comment was in the tree already, it means that it is
-            // the parent of the first comment. It might still have a parent that
-            // could be relevant to display in the activity stream though. If that
-            // is the case, we will end up with a tree that is 3 levels deep
-            } else if (comments[1].inReplyTo && !_find(latestComments, comments[1].inReplyTo['oae:id'])) {
-                latestComments.push(_findComment(comments, comments[1].inReplyTo));
+                // If the next comment was in the tree already, it means that it is
+                // the parent of the first comment. It might still have a parent that
+                // could be relevant to display in the activity stream though. If that
+                // is the case, we will end up with a tree that is 3 levels deep
+            } else if (
+                comments[1].inReplyTo &&
+                !_find(latestComments, comments[1].inReplyTo['oae:id'])
+            ) {
+                latestComments.push(
+                    _findComment(comments, comments[1].inReplyTo),
+                );
             }
         }
 
@@ -335,7 +381,7 @@ var _expose = function(exports) {
                     commentTree.push(comment);
                 }
 
-            // If this comment was not a reply, it's considered a top-level comment
+                // If this comment was not a reply, it's considered a top-level comment
             } else {
                 commentTree.push(comment);
             }
@@ -366,19 +412,22 @@ var _expose = function(exports) {
 
         // Visit each comment
         commentTree.forEach(function(comment) {
-
             // Ensure that the `published` timestamp is a number
             comment.published = parseInt(comment.published, 10);
 
             // Add the comment to the array
             flatCommentTree.push({
-                'level': _level,
-                'comment': comment
+                level: _level,
+                comment: comment,
             });
 
             // If this comment has any replies, we add those as well
             if (comment.replies) {
-                _flattenCommentTree(flatCommentTree, comment.replies, _level + 1);
+                _flattenCommentTree(
+                    flatCommentTree,
+                    comment.replies,
+                    _level + 1,
+                );
             }
         });
     };
@@ -443,13 +492,12 @@ var _expose = function(exports) {
         if (originalComment) {
             return originalComment;
 
-        // It's possible that we can't find the "original" comment object because
-        // it expired out of the aggregation cache. In that case we return the comment as is
+            // It's possible that we can't find the "original" comment object because
+            // it expired out of the aggregation cache. In that case we return the comment as is
         } else {
             return comment;
         }
     };
-
 
     ////////////////////
     // Activity views //
@@ -484,7 +532,11 @@ var _expose = function(exports) {
      */
     var _isContextInActivityEntities = function(context, activityEntity) {
         var entities = activityEntity['oae:collection'] || [activityEntity];
-        for (var entityIndex = 0; entityIndex < entities.length; entityIndex++) {
+        for (
+            var entityIndex = 0;
+            entityIndex < entities.length;
+            entityIndex++
+        ) {
             if (entities[entityIndex]['oae:id'] === context) {
                 return true;
             }
@@ -509,9 +561,9 @@ var _expose = function(exports) {
         var previewObj = null;
         if (COMMENT_ACTIVITY_TYPES.indexOf(activityType) !== -1) {
             previewObj = activity.target;
-        // Share activities are considered to be a special social activity, where the
-        // users and groups the item is shared with are preferred as a preview over
-        // the object that is being shared
+            // Share activities are considered to be a special social activity, where the
+            // users and groups the item is shared with are preferred as a preview over
+            // the object that is being shared
         } else if (SHARE_ACTIVITY_TYPES.indexOf(activityType) !== -1) {
             previewObj = activity.target;
             // When the current context is part of the target entities, we prefer
@@ -520,15 +572,15 @@ var _expose = function(exports) {
             if (_isContextInActivityEntities(context, previewObj)) {
                 previewObj = activity.object;
             }
-        // When a user is accepting an invitation to join target(s), we show the targets, unless the
-        // target is the context, in which case we show the user who is accepting the invitation
+            // When a user is accepting an invitation to join target(s), we show the targets, unless the
+            // target is the context, in which case we show the user who is accepting the invitation
         } else if (activityType === 'invitation-accept') {
             previewObj = activity.target;
 
             if (_isContextInActivityEntities(context, previewObj)) {
                 previewObj = activity.actor;
             }
-        // Otherwise, we always want to show the activity object as the activity preview
+            // Otherwise, we always want to show the activity object as the activity preview
         } else if (activity.object) {
             previewObj = activity.object;
             // When the current context is part of the object entities, we prefer
@@ -549,7 +601,6 @@ var _expose = function(exports) {
         return previewItems;
     };
 
-
     ///////////////
     // Summaries //
     ///////////////
@@ -568,7 +619,13 @@ var _expose = function(exports) {
      * @param  {String}     [opts.resourceHrefOverride]             When specified, this value will replace any URL specified for an entity. This can be used to control outbound links in different contexts (e.g., email invitation)
      * @api private
      */
-    var _setSummaryPropertiesForEntity = function(properties, propertyKey, entity, sanitization, opts) {
+    var _setSummaryPropertiesForEntity = function(
+        properties,
+        propertyKey,
+        entity,
+        sanitization,
+        opts,
+    ) {
         opts = opts || {};
 
         var displayNameKey = propertyKey;
@@ -577,19 +634,30 @@ var _expose = function(exports) {
         var tenantDisplayNameKey = propertyKey + 'Tenant';
 
         // This holds the "display name" of the entity
-        properties[displayNameKey] = sanitization.encodeForHTML(entity.displayName);
-        properties[profilePathKey] = opts.resourceHrefOverride || entity['oae:profilePath'];
+        properties[displayNameKey] = sanitization.encodeForHTML(
+            entity.displayName,
+        );
+        properties[profilePathKey] =
+            opts.resourceHrefOverride || entity['oae:profilePath'];
 
         // If the profile path was set, it indicates that we have access to view the user, therefore
         // we should display a link. If not specified, we should show plain-text
         if (properties[profilePathKey]) {
-            properties[displayLinkKey] = '<a href="' + properties[profilePathKey] + '">' + properties[displayNameKey] + '</a>';
+            properties[displayLinkKey] =
+                '<a href="' +
+                properties[profilePathKey] +
+                '">' +
+                properties[displayNameKey] +
+                '</a>';
         } else {
-            properties[displayLinkKey] = '<span>' + properties[displayNameKey] + '</span>';
+            properties[displayLinkKey] =
+                '<span>' + properties[displayNameKey] + '</span>';
         }
 
         if (entity['oae:tenant']) {
-            properties[tenantDisplayNameKey] = sanitization.encodeForHTML(entity['oae:tenant'].displayName);
+            properties[tenantDisplayNameKey] = sanitization.encodeForHTML(
+                entity['oae:tenant'].displayName,
+            );
         }
     };
 
@@ -622,14 +690,26 @@ var _expose = function(exports) {
                 properties.actorCountMinusOne = properties.actorCount - 1;
 
                 // Apply additional actor information
-                _setSummaryPropertiesForEntity(properties, 'actor2', activity.actor['oae:collection'][1], sanitization, opts);
+                _setSummaryPropertiesForEntity(
+                    properties,
+                    'actor2',
+                    activity.actor['oae:collection'][1],
+                    sanitization,
+                    opts,
+                );
             }
         } else {
             actor1Obj = activity.actor;
         }
 
         // Apply the actor1 information to the summary properties
-        _setSummaryPropertiesForEntity(properties, 'actor1', actor1Obj, sanitization, opts);
+        _setSummaryPropertiesForEntity(
+            properties,
+            'actor1',
+            actor1Obj,
+            sanitization,
+            opts,
+        );
 
         // Prepare the object-related variables that will be present in the i18n keys
         var object1Obj = null;
@@ -638,18 +718,31 @@ var _expose = function(exports) {
             object1Obj = activity.object['oae:collection'][0];
             if (activity.object['oae:collection'].length > 1) {
                 // Apply the object count information to the summary properties
-                properties.objectCount = activity.object['oae:collection'].length;
+                properties.objectCount =
+                    activity.object['oae:collection'].length;
                 properties.objectCountMinusOne = properties.objectCount - 1;
 
                 // Apply additional object information
-                _setSummaryPropertiesForEntity(properties, 'object2', activity.object['oae:collection'][1], sanitization, opts);
+                _setSummaryPropertiesForEntity(
+                    properties,
+                    'object2',
+                    activity.object['oae:collection'][1],
+                    sanitization,
+                    opts,
+                );
             }
         } else {
             object1Obj = activity.object;
         }
 
         // Apply the object1 information to the summary properties
-        _setSummaryPropertiesForEntity(properties, 'object1', object1Obj, sanitization, opts);
+        _setSummaryPropertiesForEntity(
+            properties,
+            'object1',
+            object1Obj,
+            sanitization,
+            opts,
+        );
 
         // Prepare the target-related variables that will be present in the i18n keys
         var target1Obj = null;
@@ -659,25 +752,42 @@ var _expose = function(exports) {
                 target1Obj = activity.target['oae:collection'][0];
                 if (activity.target['oae:collection'].length > 1) {
                     // Apply the target count information to the summary properties
-                    properties.targetCount = activity.target['oae:collection'].length;
+                    properties.targetCount =
+                        activity.target['oae:collection'].length;
                     properties.targetCountMinusOne = properties.targetCount - 1;
 
                     // Apply additional target information
-                    _setSummaryPropertiesForEntity(properties, 'target2', activity.target['oae:collection'][1], sanitization, opts);
+                    _setSummaryPropertiesForEntity(
+                        properties,
+                        'target2',
+                        activity.target['oae:collection'][1],
+                        sanitization,
+                        opts,
+                    );
                 }
             } else {
                 target1Obj = activity.target;
             }
 
             // Apply the target1 information to the summary properties
-            _setSummaryPropertiesForEntity(properties, 'target1', target1Obj, sanitization, opts);
+            _setSummaryPropertiesForEntity(
+                properties,
+                'target1',
+                target1Obj,
+                sanitization,
+                opts,
+            );
         }
 
         // Depending on the activity type, we render a different template that is specific to that activity,
         // to make sure that the summary is as accurate and descriptive as possible
         var activityType = activity['oae:activityType'];
         if (activityType === 'content-add-to-library') {
-            return _generateContentAddToLibrarySummary(me, activity, properties);
+            return _generateContentAddToLibrarySummary(
+                me,
+                activity,
+                properties,
+            );
         } else if (activityType === 'content-comment') {
             return _generateContentCommentSummary(me, activity, properties);
         } else if (activityType === 'content-create') {
@@ -691,11 +801,23 @@ var _expose = function(exports) {
         } else if (activityType === 'content-update') {
             return _generateContentUpdateSummary(me, activity, properties);
         } else if (activityType === 'content-update-member-role') {
-            return _generateContentUpdateMemberRoleSummary(me, activity, properties);
+            return _generateContentUpdateMemberRoleSummary(
+                me,
+                activity,
+                properties,
+            );
         } else if (activityType === 'content-update-visibility') {
-            return _generateContentUpdateVisibilitySummary(me, activity, properties);
+            return _generateContentUpdateVisibilitySummary(
+                me,
+                activity,
+                properties,
+            );
         } else if (activityType === 'discussion-add-to-library') {
-            return _generateDiscussionAddToLibrarySummary(me, activity, properties);
+            return _generateDiscussionAddToLibrarySummary(
+                me,
+                activity,
+                properties,
+            );
         } else if (activityType === 'discussion-create') {
             return _generateDiscussionCreateSummary(me, activity, properties);
         } else if (activityType === 'discussion-message') {
@@ -705,9 +827,17 @@ var _expose = function(exports) {
         } else if (activityType === 'discussion-update') {
             return _generateDiscussionUpdateSummary(me, activity, properties);
         } else if (activityType === 'discussion-update-member-role') {
-            return _generateDiscussionUpdateMemberRoleSummary(me, activity, properties);
+            return _generateDiscussionUpdateMemberRoleSummary(
+                me,
+                activity,
+                properties,
+            );
         } else if (activityType === 'discussion-update-visibility') {
-            return _generateDiscussionUpdateVisibilitySummary(me, activity, properties);
+            return _generateDiscussionUpdateVisibilitySummary(
+                me,
+                activity,
+                properties,
+            );
         } else if (activityType === 'folder-add-to-folder') {
             return _generateFolderAddToFolderSummary(me, activity, properties);
         } else if (activityType === 'folder-add-to-library') {
@@ -721,9 +851,17 @@ var _expose = function(exports) {
         } else if (activityType === 'folder-update') {
             return _generateFolderUpdateSummary(me, activity, properties);
         } else if (activityType === 'folder-update-member-role') {
-            return _generateFolderUpdateMemberRoleSummary(me, activity, properties);
+            return _generateFolderUpdateMemberRoleSummary(
+                me,
+                activity,
+                properties,
+            );
         } else if (activityType === 'folder-update-visibility') {
-            return _generateFolderUpdateVisibilitySummary(me, activity, properties);
+            return _generateFolderUpdateVisibilitySummary(
+                me,
+                activity,
+                properties,
+            );
         } else if (activityType === 'following-follow') {
             return _generateFollowingSummary(me, activity, properties);
         } else if (activityType === 'group-add-member') {
@@ -735,24 +873,47 @@ var _expose = function(exports) {
         } else if (activityType === 'group-update') {
             return _generateGroupUpdateSummary(me, activity, properties);
         } else if (activityType === 'group-update-member-role') {
-            return _generateGroupUpdateMemberRoleSummary(me, activity, properties);
+            return _generateGroupUpdateMemberRoleSummary(
+                me,
+                activity,
+                properties,
+            );
         } else if (activityType === 'group-update-visibility') {
-            return _generateGroupUpdateVisibilitySummary(me, activity, properties);
-        } else if (activityType === 'invite' || activityType === 'invitation-accept') {
+            return _generateGroupUpdateVisibilitySummary(
+                me,
+                activity,
+                properties,
+            );
+        } else if (
+            activityType === 'invite' ||
+            activityType === 'invitation-accept'
+        ) {
             return _generateInvitationSummary(me, activity, properties);
         } else if (activityType === 'meeting-jitsi-create') {
             return _generateMeetingJitsiCreateSummary(me, activity, properties);
         } else if (activityType === 'meeting-jitsi-message') {
-            return _generateMeetingJitsiMessageSummary(me, activity, properties);
+            return _generateMeetingJitsiMessageSummary(
+                me,
+                activity,
+                properties,
+            );
         } else if (activityType === 'meeting-jitsi-share') {
             return _generateMeetingJitsiShareSummary(me, activity, properties);
         } else if (activityType === 'meeting-jitsi-update') {
             return _generateMeetingJitsiUpdateSummary(me, activity, properties);
         } else if (activityType === 'meeting-jitsi-update-member-role') {
-            return _generateMeetingJitsiUpdateMemberRoleSummary(me, activity, properties);
+            return _generateMeetingJitsiUpdateMemberRoleSummary(
+                me,
+                activity,
+                properties,
+            );
         } else if (activityType === 'meeting-jitsi-update-visibility') {
-            return _generateMeetingJitsiUpdateVisibilitySummary(me, activity, properties);
-        // Fall back on the default activity summary if no specific template is found for the activity type
+            return _generateMeetingJitsiUpdateVisibilitySummary(
+                me,
+                activity,
+                properties,
+            );
+            // Fall back on the default activity summary if no specific template is found for the activity type
         } else {
             return _generateDefaultSummary(me, activity, properties);
         }
@@ -767,7 +928,11 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateMeetingJitsiUpdateVisibilitySummary = function (me, activity, properties) {
+    var _generateMeetingJitsiUpdateVisibilitySummary = function(
+        me,
+        activity,
+        properties,
+    ) {
         var i18nKey = null;
         if (activity.object['oae:visibility'] === 'public') {
             i18nKey = '__MSG__ACTIVITY_MEETING_VISIBILITY_PUBLIC__';
@@ -788,7 +953,11 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateMeetingJitsiUpdateMemberRoleSummary = function (me, activity, properties) {
+    var _generateMeetingJitsiUpdateMemberRoleSummary = function(
+        me,
+        activity,
+        properties,
+    ) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             if (activity.object['oae:id'] === me.id) {
@@ -813,7 +982,11 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateMeetingJitsiUpdateSummary = function(me, activity, properties) {
+    var _generateMeetingJitsiUpdateSummary = function(
+        me,
+        activity,
+        properties,
+    ) {
         var i18nKey = null;
         if (properties.actorCount === 1) {
             i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_1__';
@@ -834,7 +1007,11 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateMeetingJitsiMessageSummary = function (me, activity, properties) {
+    var _generateMeetingJitsiMessageSummary = function(
+        me,
+        activity,
+        properties,
+    ) {
         var i18nKey = null;
 
         if (properties.actorCount === 1) {
@@ -857,12 +1034,22 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateMeetingJitsiCreateSummary = function (me, activity, properties) {
+    var _generateMeetingJitsiCreateSummary = function(
+        me,
+        activity,
+        properties,
+    ) {
         var i18nKey = null;
 
         // Add the target to the activity summary when a targer is present on the
         // activity and the target is not an user different from the current user
-        if (properties.targetCount === 1 && !(activity.target.objectType === 'user' && activity.target['oae:id'] !== me.id)) {
+        if (
+            properties.targetCount === 1 &&
+            !(
+                activity.target.objectType === 'user' &&
+                activity.target['oae:id'] !== me.id
+            )
+        ) {
             if (activity.target['oae:id'] === me.id) {
                 if (properties.objectCount === 1) {
                     i18nKey = '__MSG__ACTIVITY_MEETING_CREATE_1_YOU__';
@@ -967,7 +1154,11 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateContentAddToLibrarySummary = function(me, activity, properties) {
+    var _generateContentAddToLibrarySummary = function(
+        me,
+        activity,
+        properties,
+    ) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             if (activity.object['oae:resourceSubType'] === 'collabdoc') {
@@ -1037,14 +1228,27 @@ var _expose = function(exports) {
         var i18nKey = null;
         // Add the target to the activity summary when a target is present on the
         // activity and the target is not a user different from the current user
-        if (properties.targetCount === 1 && !(activity.target.objectType === 'user' && activity.target['oae:id'] !== me.id)) {
+        if (
+            properties.targetCount === 1 &&
+            !(
+                activity.target.objectType === 'user' &&
+                activity.target['oae:id'] !== me.id
+            )
+        ) {
             if (activity.target['oae:id'] === me.id) {
                 if (properties.objectCount === 1) {
-                    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
-                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_YOU__';
-                    } else if (activity.object['oae:resourceSubType'] === 'file') {
+                    if (
+                        activity.object['oae:resourceSubType'] === 'collabdoc'
+                    ) {
+                        i18nKey =
+                            '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_YOU__';
+                    } else if (
+                        activity.object['oae:resourceSubType'] === 'file'
+                    ) {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_YOU__';
-                    } else if (activity.object['oae:resourceSubType'] === 'link') {
+                    } else if (
+                        activity.object['oae:resourceSubType'] === 'link'
+                    ) {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_YOU__';
                     }
                 } else if (properties.objectCount === 2) {
@@ -1054,12 +1258,21 @@ var _expose = function(exports) {
                 }
             } else if (activity.target.objectType === 'folder') {
                 if (properties.objectCount === 1) {
-                    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
-                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_FOLDER__';
-                    } else if (activity.object['oae:resourceSubType'] === 'file') {
-                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_FOLDER__';
-                    } else if (activity.object['oae:resourceSubType'] === 'link') {
-                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_FOLDER__';
+                    if (
+                        activity.object['oae:resourceSubType'] === 'collabdoc'
+                    ) {
+                        i18nKey =
+                            '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_FOLDER__';
+                    } else if (
+                        activity.object['oae:resourceSubType'] === 'file'
+                    ) {
+                        i18nKey =
+                            '__MSG__ACTIVITY_CONTENT_CREATE_FILE_FOLDER__';
+                    } else if (
+                        activity.object['oae:resourceSubType'] === 'link'
+                    ) {
+                        i18nKey =
+                            '__MSG__ACTIVITY_CONTENT_CREATE_LINK_FOLDER__';
                     }
                 } else if (properties.objectCount === 2) {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_FOLDER__';
@@ -1068,11 +1281,18 @@ var _expose = function(exports) {
                 }
             } else if (activity.target.objectType === 'group') {
                 if (properties.objectCount === 1) {
-                    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
-                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_GROUP__';
-                    } else if (activity.object['oae:resourceSubType'] === 'file') {
+                    if (
+                        activity.object['oae:resourceSubType'] === 'collabdoc'
+                    ) {
+                        i18nKey =
+                            '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_GROUP__';
+                    } else if (
+                        activity.object['oae:resourceSubType'] === 'file'
+                    ) {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_GROUP__';
-                    } else if (activity.object['oae:resourceSubType'] === 'link') {
+                    } else if (
+                        activity.object['oae:resourceSubType'] === 'link'
+                    ) {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_GROUP__';
                     }
                 } else if (properties.objectCount === 2) {
@@ -1184,7 +1404,8 @@ var _expose = function(exports) {
             if (activity.object['oae:resourceSubType'] === 'collabdoc') {
                 if (properties.targetCount === 1) {
                     if (activity.target['oae:id'] === me.id) {
-                        i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_YOU__';
+                        i18nKey =
+                            '__MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_YOU__';
                     } else {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_1__';
                     }
@@ -1195,7 +1416,7 @@ var _expose = function(exports) {
                 }
             } else if (activity.object['oae:resourceSubType'] === 'file') {
                 if (properties.targetCount === 1) {
-                   if (activity.target['oae:id'] === me.id) {
+                    if (activity.target['oae:id'] === me.id) {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_FILE_YOU__';
                     } else {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_FILE_1__';
@@ -1245,43 +1466,57 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateContentUpdateMemberRoleSummary = function(me, activity, properties) {
+    var _generateContentUpdateMemberRoleSummary = function(
+        me,
+        activity,
+        properties,
+    ) {
         var i18nKey = null;
         if (activity.target['oae:resourceSubType'] === 'collabdoc') {
             if (properties.objectCount === 1) {
                 if (activity.object['oae:id'] === me.id) {
-                    i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_YOU__';
+                    i18nKey =
+                        '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_YOU__';
                 } else {
-                    i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_1__';
+                    i18nKey =
+                        '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_1__';
                 }
             } else if (properties.objectCount === 2) {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_2__';
+                i18nKey =
+                    '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_2__';
             } else {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_2+__';
+                i18nKey =
+                    '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_2+__';
             }
         } else if (activity.target['oae:resourceSubType'] === 'file') {
             if (properties.objectCount === 1) {
-               if (activity.object['oae:id'] === me.id) {
-                    i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_YOU__';
+                if (activity.object['oae:id'] === me.id) {
+                    i18nKey =
+                        '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_YOU__';
                 } else {
-                    i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_1__';
+                    i18nKey =
+                        '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_1__';
                 }
             } else if (properties.objectCount === 2) {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_2__';
             } else {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_2+__';
+                i18nKey =
+                    '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_2+__';
             }
         } else if (activity.target['oae:resourceSubType'] === 'link') {
             if (properties.objectCount === 1) {
                 if (activity.object['oae:id'] === me.id) {
-                    i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_YOU__';
+                    i18nKey =
+                        '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_YOU__';
                 } else {
-                    i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_1__';
+                    i18nKey =
+                        '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_1__';
                 }
             } else if (properties.objectCount === 2) {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_2__';
             } else {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_2+__';
+                i18nKey =
+                    '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_2+__';
             }
         }
         return new ActivityViewSummary(i18nKey, properties);
@@ -1335,15 +1570,22 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateContentUpdateVisibilitySummary = function(me, activity, properties) {
+    var _generateContentUpdateVisibilitySummary = function(
+        me,
+        activity,
+        properties,
+    ) {
         var i18nKey = null;
         if (activity.object['oae:resourceSubType'] === 'collabdoc') {
             if (activity.object['oae:visibility'] === 'public') {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_PUBLIC__';
+                i18nKey =
+                    '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_PUBLIC__';
             } else if (activity.object['oae:visibility'] === 'loggedin') {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_LOGGEDIN__';
+                i18nKey =
+                    '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_LOGGEDIN__';
             } else {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_PRIVATE__';
+                i18nKey =
+                    '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_PRIVATE__';
             }
         } else if (activity.object['oae:resourceSubType'] === 'file') {
             if (activity.object['oae:visibility'] === 'public') {
@@ -1374,7 +1616,11 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateDiscussionAddToLibrarySummary = function(me, activity, properties) {
+    var _generateDiscussionAddToLibrarySummary = function(
+        me,
+        activity,
+        properties,
+    ) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             i18nKey = '__MSG__ACTIVITY_DISCUSSION_ADD_LIBRARY__';
@@ -1478,7 +1724,11 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateDiscussionUpdateMemberRoleSummary = function(me, activity, properties) {
+    var _generateDiscussionUpdateMemberRoleSummary = function(
+        me,
+        activity,
+        properties,
+    ) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             if (activity.object['oae:id'] === me.id) {
@@ -1524,7 +1774,11 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateDiscussionUpdateVisibilitySummary = function(me, activity, properties) {
+    var _generateDiscussionUpdateVisibilitySummary = function(
+        me,
+        activity,
+        properties,
+    ) {
         var i18nKey = null;
         if (activity.object['oae:visibility'] === 'public') {
             i18nKey = '__MSG__ACTIVITY_DISCUSSION_VISIBILITY_PUBLIC__';
@@ -1572,7 +1826,11 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateFolderAddToLibrarySummary = function(me, activity, properties) {
+    var _generateFolderAddToLibrarySummary = function(
+        me,
+        activity,
+        properties,
+    ) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_LIBRARY__';
@@ -1618,7 +1876,13 @@ var _expose = function(exports) {
         var i18nKey = null;
         // Add the target to the activity summary when a target is present on the
         // activity and the target is not a user different from the current user
-        if (properties.targetCount === 1 && !(activity.target.objectType === 'user' && activity.target['oae:id'] !== me.id)) {
+        if (
+            properties.targetCount === 1 &&
+            !(
+                activity.target.objectType === 'user' &&
+                activity.target['oae:id'] !== me.id
+            )
+        ) {
             if (activity.target['oae:id'] === me.id) {
                 if (properties.objectCount === 1) {
                     i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_1_YOU__';
@@ -1719,7 +1983,11 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateFolderUpdateMemberRoleSummary = function(me, activity, properties) {
+    var _generateFolderUpdateMemberRoleSummary = function(
+        me,
+        activity,
+        properties,
+    ) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             if (activity.object['oae:id'] === me.id) {
@@ -1744,7 +2012,11 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateFolderUpdateVisibilitySummary = function(me, activity, properties) {
+    var _generateFolderUpdateVisibilitySummary = function(
+        me,
+        activity,
+        properties,
+    ) {
         var i18nKey = null;
         if (activity.object['oae:visibility'] === 'public') {
             i18nKey = '__MSG__ACTIVITY_FOLDER_VISIBILITY_PUBLIC__';
@@ -1831,7 +2103,11 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateGroupUpdateMemberRoleSummary = function(me, activity, properties) {
+    var _generateGroupUpdateMemberRoleSummary = function(
+        me,
+        activity,
+        properties,
+    ) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             if (activity.object['oae:id'] === me.id) {
@@ -1919,7 +2195,11 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateGroupUpdateVisibilitySummary = function(me, activity, properties) {
+    var _generateGroupUpdateVisibilitySummary = function(
+        me,
+        activity,
+        properties,
+    ) {
         var i18nKey = null;
         if (activity.object['oae:visibility'] === 'public') {
             i18nKey = '__MSG__ACTIVITY_GROUP_VISIBILITY_PUBLIC__';
@@ -2034,7 +2314,10 @@ var _expose = function(exports) {
                 labels.push('OTHER_OTHER');
             }
         } else {
-            throw new Error('Invalid activity type provided for invitation activity: ' + activityType);
+            throw new Error(
+                'Invalid activity type provided for invitation activity: ' +
+                    activityType,
+            );
         }
 
         // Find the count label

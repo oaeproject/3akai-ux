@@ -14,7 +14,6 @@
  */
 
 require(['jquery', 'oae.core'], function($, oae) {
-
     // Get the group id from the URL. The expected URL is `/group/<tenantId>/<resourceId>`.
     // The group id will then be `g:<tenantId>:<resourceId>`
     var url = oae.api.util.url();
@@ -25,7 +24,6 @@ require(['jquery', 'oae.core'], function($, oae) {
 
     // Variable used to cache the requested group's profile
     var groupProfile = null;
-
 
     //////////////////////////////////
     // GROUP PROFILE INITIALIZATION //
@@ -51,7 +49,6 @@ require(['jquery', 'oae.core'], function($, oae) {
         });
     };
 
-
     /**
      * Get the group's basic profile and set up the screen. If the group
      * can't be found or is private to the current user, the appropriate
@@ -66,7 +63,11 @@ require(['jquery', 'oae.core'], function($, oae) {
             setUpContext();
 
             // When the current user is not a member and the group is private and joinable, we show the join screen
-            if (!groupProfile.isMember && groupProfile.visibility === 'private' && groupProfile.canJoin) {
+            if (
+                !groupProfile.isMember &&
+                groupProfile.visibility === 'private' &&
+                groupProfile.canJoin
+            ) {
                 $('#group-join-view').show();
             } else {
                 // Render the navigation
@@ -90,7 +91,10 @@ require(['jquery', 'oae.core'], function($, oae) {
     var setUpContext = function() {
         $(document).on('oae.context.get', function(ev, widgetId) {
             if (widgetId) {
-                $(document).trigger('oae.context.send.' + widgetId, groupProfile);
+                $(document).trigger(
+                    'oae.context.send.' + widgetId,
+                    groupProfile,
+                );
             } else {
                 $(document).trigger('oae.context.send', groupProfile);
             }
@@ -103,19 +107,23 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     var setUpClip = function() {
         var isAdmin = oae.data.me.isTenantAdmin || oae.data.me.isGlobalAdmin;
-        oae.api.util.template().render($('#group-clip-template'), {
-            'group': groupProfile,
-            'isAdmin': isAdmin,
-            'displayOptions': {
-                'addLink': false
-            }
-        }, $('#group-clip-container'));
+        oae.api.util.template().render(
+            $('#group-clip-template'),
+            {
+                group: groupProfile,
+                isAdmin: isAdmin,
+                displayOptions: {
+                    addLink: false,
+                },
+            },
+            $('#group-clip-container'),
+        );
 
         // Only show the create and upload clips to group members
         if (groupProfile.isMember) {
             $('#group-member-actions').show();
             $('#group-join-actions').hide();
-        // Show the join clip to non-members when the group is joinable
+            // Show the join clip to non-members when the group is joinable
         } else if (!groupProfile.isMember && groupProfile.canJoin) {
             $('#group-member-actions').hide();
             $('#group-join-actions').show();
@@ -126,10 +134,19 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Meeting
      */
     var setUpMeeting = function() {
-        activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host');
+        activateMeeting = oae.api.config.getValue(
+            'oae-jitsi',
+            'server',
+            'host',
+        );
         if (activateMeeting) {
-            oae.api.util.template().render($('#activate-meeting-template'), {
-            }, $('#activate-meeting-container'));
+            oae.api.util
+                .template()
+                .render(
+                    $('#activate-meeting-template'),
+                    {},
+                    $('#activate-meeting-container'),
+                );
         }
     };
 
@@ -142,50 +159,54 @@ require(['jquery', 'oae.core'], function($, oae) {
 
         // Add the upload and create clips for managers
         if (groupProfile.isMember) {
-            lhNavActions.push({
-                'icon': 'fa-cloud-upload',
-                'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
-                'closeNav': true,
-                'class': 'oae-trigger-upload'
-            },
-            {
-                'icon': 'fa-plus-circle',
-                'title': oae.api.i18n.translate('__MSG__CREATE__'),
-                'children': [
-                    {
-                        'icon': 'fa-folder-open',
-                        'title': oae.api.i18n.translate('__MSG__FOLDER__'),
-                        'closeNav': true,
-                        'class': 'oae-trigger-createfolder'
-                    },
-                    {
-                        'icon': 'fa-link',
-                        'title': oae.api.i18n.translate('__MSG__LINK__'),
-                        'closeNav': true,
-                        'class': 'oae-trigger-createlink'
-                    },
-                    {
-                        'icon': 'fa-pencil-square-o',
-                        'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
-                        'closeNav': true,
-                        'class': 'oae-trigger-createcollabdoc'
-                    },
-                    {
-                        'icon': 'fa-comments',
-                        'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
-                        'closeNav': true,
-                        'class': 'oae-trigger-creatediscussion'
-                    }
-                ]
-            });
+            lhNavActions.push(
+                {
+                    icon: 'fa-cloud-upload',
+                    title: oae.api.i18n.translate('__MSG__UPLOAD__'),
+                    closeNav: true,
+                    class: 'oae-trigger-upload',
+                },
+                {
+                    icon: 'fa-plus-circle',
+                    title: oae.api.i18n.translate('__MSG__CREATE__'),
+                    children: [
+                        {
+                            icon: 'fa-folder-open',
+                            title: oae.api.i18n.translate('__MSG__FOLDER__'),
+                            closeNav: true,
+                            class: 'oae-trigger-createfolder',
+                        },
+                        {
+                            icon: 'fa-link',
+                            title: oae.api.i18n.translate('__MSG__LINK__'),
+                            closeNav: true,
+                            class: 'oae-trigger-createlink',
+                        },
+                        {
+                            icon: 'fa-pencil-square-o',
+                            title: oae.api.i18n.translate('__MSG__DOCUMENT__'),
+                            closeNav: true,
+                            class: 'oae-trigger-createcollabdoc',
+                        },
+                        {
+                            icon: 'fa-comments',
+                            title: oae.api.i18n.translate(
+                                '__MSG__DISCUSSION__',
+                            ),
+                            closeNav: true,
+                            class: 'oae-trigger-creatediscussion',
+                        },
+                    ],
+                },
+            );
         }
 
         // Add the join option when a user can join the group
         if (groupProfile.canJoin) {
             lhNavActions.push({
-                'icon': 'fa-thumb-tack',
-                'title': oae.api.i18n.translate('__MSG__JOIN_GROUP__'),
-                'class': 'group-join'
+                icon: 'fa-thumb-tack',
+                title: oae.api.i18n.translate('__MSG__JOIN_GROUP__'),
+                class: 'group-join',
             });
         }
 
@@ -194,158 +215,172 @@ require(['jquery', 'oae.core'], function($, oae) {
 
         // Show the activity and about widgets on the main page
         lhNavPages.push({
-            'id': 'activity',
-            'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
-            'icon': 'fa-tachometer',
-            'closeNav': true,
-            'layout': [
+            id: 'activity',
+            title: oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
+            icon: 'fa-tachometer',
+            closeNav: true,
+            layout: [
                 {
-                    'width': 'col-md-8 col-lg-9',
-                    'widgets': [
+                    width: 'col-md-8 col-lg-9',
+                    widgets: [
                         {
-                            'name': 'activity',
-                            'settings': {
-                                'context': groupProfile,
-                                'canManage': groupProfile.isManager
-                            }
-                        }
-                    ]
+                            name: 'activity',
+                            settings: {
+                                context: groupProfile,
+                                canManage: groupProfile.isManager,
+                            },
+                        },
+                    ],
                 },
                 {
-                    'width': 'hidden-xs hidden-sm col-md-4 col-lg-3',
-                    'widgets': [
+                    width: 'hidden-xs hidden-sm col-md-4 col-lg-3',
+                    widgets: [
                         {
-                            'name': 'groupprofile',
-                            'settings': {
-                                'context': groupProfile,
-                                'canManage': groupProfile.isManager
-                            }
-                        }
-                    ]
-                }
-            ]
+                            name: 'groupprofile',
+                            settings: {
+                                context: groupProfile,
+                                canManage: groupProfile.isManager,
+                            },
+                        },
+                    ],
+                },
+            ],
         });
 
-        lhNavPages.push({
-            'id': 'library',
-            'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
-            'icon': 'fa-briefcase',
-            'closeNav': true,
-            'layout': [
-                {
-                    'width': 'col-md-12',
-                    'widgets': [
-                        {
-                            'name': 'contentlibrary',
-                            'settings': {
-                                'context': groupProfile,
-                                'canAdd': groupProfile.isMember,
-                                'canManage': groupProfile.isManager
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            'id': 'discussions',
-            'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
-            'icon': 'fa-comments',
-            'closeNav': true,
-            'layout': [
-                {
-                    'width': 'col-md-12',
-                    'widgets': [
-                        {
-                            'name': 'discussionslibrary',
-                            'settings': {
-                                'context': groupProfile,
-                                'canAdd': groupProfile.isMember,
-                                'canManage': groupProfile.isManager
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            'id': 'members',
-            'title': oae.api.i18n.translate('__MSG__MEMBERS__'),
-            'icon': 'fa-user',
-            'closeNav': true,
-            'layout': [
-                {
-                    'width': 'col-md-12',
-                    'widgets': [
-                        {
-                            'name': 'members',
-                            'settings': {
-                                'context': groupProfile,
-                                'canManage': groupProfile.isManager
-                            }
-                        }
-                    ]
-                }
-            ]
-        });
+        lhNavPages.push(
+            {
+                id: 'library',
+                title: oae.api.i18n.translate('__MSG__LIBRARY__'),
+                icon: 'fa-briefcase',
+                closeNav: true,
+                layout: [
+                    {
+                        width: 'col-md-12',
+                        widgets: [
+                            {
+                                name: 'contentlibrary',
+                                settings: {
+                                    context: groupProfile,
+                                    canAdd: groupProfile.isMember,
+                                    canManage: groupProfile.isManager,
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                id: 'discussions',
+                title: oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
+                icon: 'fa-comments',
+                closeNav: true,
+                layout: [
+                    {
+                        width: 'col-md-12',
+                        widgets: [
+                            {
+                                name: 'discussionslibrary',
+                                settings: {
+                                    context: groupProfile,
+                                    canAdd: groupProfile.isMember,
+                                    canManage: groupProfile.isManager,
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                id: 'members',
+                title: oae.api.i18n.translate('__MSG__MEMBERS__'),
+                icon: 'fa-user',
+                closeNav: true,
+                layout: [
+                    {
+                        width: 'col-md-12',
+                        widgets: [
+                            {
+                                name: 'members',
+                                settings: {
+                                    context: groupProfile,
+                                    canManage: groupProfile.isManager,
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+        );
 
         setUpJitsiMenu(lhNavPages, lhNavActions, function(err, lhNavPages) {
             setUpLtiToolsMenu(lhNavPages, function(err, lhNavPages) {
-                $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
+                $(window).trigger('oae.trigger.lhnavigation', [
+                    lhNavPages,
+                    lhNavActions,
+                    baseUrl,
+                    groupProfile.displayName,
+                ]);
                 $(window).on('oae.ready.lhnavigation', function() {
-                    $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
+                    $(window).trigger('oae.trigger.lhnavigation', [
+                        lhNavPages,
+                        lhNavActions,
+                        baseUrl,
+                        groupProfile.displayName,
+                    ]);
                 });
             });
         });
     };
 
-
     /**
      * Set up Jitsi menu
      */
     var setUpJitsiMenu = function(lhNavPages, lhNavActions, callback) {
-       // If Jitsi config value has a value, then display meetings on navigation and on the left hand navigation pages
-       var activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host');
-       if (activateMeeting) {
-           if (groupProfile.isMember) {
-               lhNavActions[1].children.push({
-                   'icon': 'fa-video-camera',
-                   'title': oae.api.i18n.translate('__MSG__MEETING__'),
-                   'closeNav': true,
-                   'class': 'oae-trigger-createmeeting-jitsi'
-               });
-           }
+        // If Jitsi config value has a value, then display meetings on navigation and on the left hand navigation pages
+        var activateMeeting = oae.api.config.getValue(
+            'oae-jitsi',
+            'server',
+            'host',
+        );
+        if (activateMeeting) {
+            if (groupProfile.isMember) {
+                lhNavActions[1].children.push({
+                    icon: 'fa-video-camera',
+                    title: oae.api.i18n.translate('__MSG__MEETING__'),
+                    closeNav: true,
+                    class: 'oae-trigger-createmeeting-jitsi',
+                });
+            }
 
-           lhNavPages.push({
-               'id': 'meetings-jitsi',
-               'title': oae.api.i18n.translate('__MSG__MEETINGS__'),
-               'icon': 'fa-video-camera',
-               'closeNav': true,
-               'layout': [
-                   {
-                       'width': 'col-md-12',
-                       'widgets': [
-                           {
-                               'name': 'meetings-jitsi-library',
-                               'settings': {
-                                   'context': groupProfile,
-                                   'canAdd': groupProfile.isMember,
-                                   'canManage': groupProfile.isManager
-                               }
-                           }
-                       ]
-                   }
-               ]
-           });
-       }
-       return callback(null, lhNavPages);
+            lhNavPages.push({
+                id: 'meetings-jitsi',
+                title: oae.api.i18n.translate('__MSG__MEETINGS__'),
+                icon: 'fa-video-camera',
+                closeNav: true,
+                layout: [
+                    {
+                        width: 'col-md-12',
+                        widgets: [
+                            {
+                                name: 'meetings-jitsi-library',
+                                settings: {
+                                    context: groupProfile,
+                                    canAdd: groupProfile.isMember,
+                                    canManage: groupProfile.isManager,
+                                },
+                            },
+                        ],
+                    },
+                ],
+            });
+        }
+        return callback(null, lhNavPages);
     };
-
 
     /**
      * Set up LTI tools menu item if the user is a member of the group and the group has tools available
      */
-     var setUpLtiToolsMenu = function(lhNavPages, callback) {
+    var setUpLtiToolsMenu = function(lhNavPages, callback) {
         // Don't show the LTI tools menu to non-members
         if (!groupProfile.isMember) {
             return callback(null, lhNavPages);
@@ -353,54 +388,71 @@ require(['jquery', 'oae.core'], function($, oae) {
         oae.api.lti.getLtiTools(groupProfile.id, function(err, tools) {
             if (tools && tools.results && tools.results.length > 0) {
                 lhNavPages.push({
-                    'id': 'listlti',
-                    'title': oae.api.i18n.translate('__MSG__LTI_TOOLS__'),
-                    'icon': 'fa-puzzle-piece',
-                    'closeNav': true,
-                    'layout': [
+                    id: 'listlti',
+                    title: oae.api.i18n.translate('__MSG__LTI_TOOLS__'),
+                    icon: 'fa-puzzle-piece',
+                    closeNav: true,
+                    layout: [
                         {
-                            'width': 'col-md-12',
-                            'widgets': [
+                            width: 'col-md-12',
+                            widgets: [
                                 {
-                                    'name': 'listlti',
-                                    'settings': {
-                                        'groupId': groupProfile.id,
-                                        'canManage': oae.data.me.isTenantAdmin || oae.data.me.isGlobalAdmin,
-                                    }
-                                }
-                            ]
-                        }
-                    ]
+                                    name: 'listlti',
+                                    settings: {
+                                        groupId: groupProfile.id,
+                                        canManage:
+                                            oae.data.me.isTenantAdmin ||
+                                            oae.data.me.isGlobalAdmin,
+                                    },
+                                },
+                            ],
+                        },
+                    ],
                 });
             }
             return callback(null, lhNavPages);
         });
     };
 
-
     /**
      * Subscribe to group activity push notifications, allowing for updating the group profile when changes to the group
      * are made by a different user after the initial page load
      */
     var setUpPushNotifications = function() {
-        oae.api.push.subscribe(groupId, 'activity', groupProfile.signature, 'internal', false, false, function(activities) {
-            // The `activity` stream pushes out activities on routing so it's always
-            // safe to just pick the first item from the `activities` array
-            var activity = activities[0];
+        oae.api.push.subscribe(
+            groupId,
+            'activity',
+            groupProfile.signature,
+            'internal',
+            false,
+            false,
+            function(activities) {
+                // The `activity` stream pushes out activities on routing so it's always
+                // safe to just pick the first item from the `activities` array
+                var activity = activities[0];
 
-            var supportedActivities = ['group-update', 'group-update-visibility'];
-            // Only respond to push notifications caused by other users
-            if (activity.actor.id !== oae.data.me.id && _.contains(supportedActivities, activity['oae:activityType'])) {
-                activity.object.canJoin = groupProfile.canJoin;
-                activity.object.isManager = groupProfile.isManager;
-                activity.object.isMember = groupProfile.isMember;
+                var supportedActivities = [
+                    'group-update',
+                    'group-update-visibility',
+                ];
+                // Only respond to push notifications caused by other users
+                if (
+                    activity.actor.id !== oae.data.me.id &&
+                    _.contains(
+                        supportedActivities,
+                        activity['oae:activityType'],
+                    )
+                ) {
+                    activity.object.canJoin = groupProfile.canJoin;
+                    activity.object.isManager = groupProfile.isManager;
+                    activity.object.isMember = groupProfile.isMember;
 
-                groupProfile = activity.object;
-                setUpClip();
-            }
-        });
+                    groupProfile = activity.object;
+                    setUpClip();
+                }
+            },
+        );
     };
-
 
     ///////////////////
     // MANAGE ACCESS //
@@ -415,32 +467,60 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     var getManageAccessData = function() {
         return {
-            'contextProfile': groupProfile,
-            'messages': {
-                'accessNotUpdatedBody': oae.api.i18n.translate('__MSG__GROUP_ACCESS_COULD_NOT_BE_UPDATED__'),
-                'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__GROUP_ACCESS_NOT_UPDATED__'),
-                'accessUpdatedBody': oae.api.i18n.translate('__MSG__GROUP_ACCESS_SUCCESSFULLY_UPDATED__'),
-                'accessUpdatedTitle': oae.api.i18n.translate('__MSG__GROUP_ACCESS_UPDATED__'),
-                'membersTitle': oae.api.i18n.translate('__MSG__GROUP_MEMBERS__'),
-                'private': oae.api.i18n.translate('__MSG__MEMBERS_ONLY__'),
-                'loggedin': oae.api.util.security().encodeForHTML(groupProfile.tenant.displayName),
-                'public': oae.api.i18n.translate('__MSG__PUBLIC__'),
-                'privateDescription': oae.api.i18n.translate('__MSG__GROUP_PRIVATE_DESCRIPTION_PRESENT__'),
-                'loggedinDescription': oae.api.i18n.translate('__MSG__GROUP_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(groupProfile.tenant.displayName)}),
-                'publicDescription': oae.api.i18n.translate('__MSG__GROUP_PUBLIC_DESCRIPTION_PRESENT__')
+            contextProfile: groupProfile,
+            messages: {
+                accessNotUpdatedBody: oae.api.i18n.translate(
+                    '__MSG__GROUP_ACCESS_COULD_NOT_BE_UPDATED__',
+                ),
+                accessNotUpdatedTitle: oae.api.i18n.translate(
+                    '__MSG__GROUP_ACCESS_NOT_UPDATED__',
+                ),
+                accessUpdatedBody: oae.api.i18n.translate(
+                    '__MSG__GROUP_ACCESS_SUCCESSFULLY_UPDATED__',
+                ),
+                accessUpdatedTitle: oae.api.i18n.translate(
+                    '__MSG__GROUP_ACCESS_UPDATED__',
+                ),
+                membersTitle: oae.api.i18n.translate('__MSG__GROUP_MEMBERS__'),
+                private: oae.api.i18n.translate('__MSG__MEMBERS_ONLY__'),
+                loggedin: oae.api.util
+                    .security()
+                    .encodeForHTML(groupProfile.tenant.displayName),
+                public: oae.api.i18n.translate('__MSG__PUBLIC__'),
+                privateDescription: oae.api.i18n.translate(
+                    '__MSG__GROUP_PRIVATE_DESCRIPTION_PRESENT__',
+                ),
+                loggedinDescription: oae.api.i18n.translate(
+                    '__MSG__GROUP_LOGGEDIN_DESCRIPTION__',
+                    null,
+                    {
+                        tenant: oae.api.util
+                            .security()
+                            .encodeForHTML(groupProfile.tenant.displayName),
+                    },
+                ),
+                publicDescription: oae.api.i18n.translate(
+                    '__MSG__GROUP_PUBLIC_DESCRIPTION_PRESENT__',
+                ),
             },
-            'defaultRole': 'member',
-            'roles': [
-                {'id': 'member', 'name': oae.api.i18n.translate('__MSG__MEMBER__')},
-                {'id': 'manager', 'name': oae.api.i18n.translate('__MSG__MANAGER__')}
+            defaultRole: 'member',
+            roles: [
+                {
+                    id: 'member',
+                    name: oae.api.i18n.translate('__MSG__MEMBER__'),
+                },
+                {
+                    id: 'manager',
+                    name: oae.api.i18n.translate('__MSG__MANAGER__'),
+                },
             ],
-            'api': {
-                'getMembersURL': '/api/group/' + groupProfile.id + '/members',
-                'getInvitations': oae.api.group.getInvitations,
-                'resendInvitation': oae.api.group.resendInvitation,
-                'setMembers': oae.api.group.updateMembers,
-                'setVisibility': oae.api.group.updateGroup
-            }
+            api: {
+                getMembersURL: '/api/group/' + groupProfile.id + '/members',
+                getInvitations: oae.api.group.getInvitations,
+                resendInvitation: oae.api.group.resendInvitation,
+                setMembers: oae.api.group.updateMembers,
+                setVisibility: oae.api.group.updateGroup,
+            },
         };
     };
 
@@ -455,7 +535,10 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Trigger the manageaccess widget in `add members` view and pass in context data
      */
     $(document).on('click', '.group-trigger-manageaccess-add', function() {
-        $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
+        $(document).trigger(
+            'oae.trigger.manageaccess-add',
+            getManageAccessData(),
+        );
     });
 
     /**
@@ -485,7 +568,6 @@ require(['jquery', 'oae.core'], function($, oae) {
         groupProfile.picture = data.picture;
     });
 
-
     ////////////////
     // JOIN GROUP //
     ////////////////
@@ -504,7 +586,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 // Show a success notification
                 oae.api.util.notification(
                     oae.api.i18n.translate('__MSG__GROUP_JOINED__'),
-                    oae.api.i18n.translate('__MSG__GROUP_JOIN_SUCCESS__')
+                    oae.api.i18n.translate('__MSG__GROUP_JOIN_SUCCESS__'),
                 );
 
                 // Reload the page after 2 seconds to re-render the group as a member
@@ -516,7 +598,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 oae.api.util.notification(
                     oae.api.i18n.translate('__MSG__GROUP_JOIN_FAILED__'),
                     oae.api.i18n.translate('__MSG__GROUP_NOT_JOINED__'),
-                    'error'
+                    'error',
                 );
 
                 // Re-enable the join buttons.
@@ -527,7 +609,6 @@ require(['jquery', 'oae.core'], function($, oae) {
 
     // Bind to the click on the join clip
     $(document).on('click', '.group-join', joinGroup);
-
 
     ////////////////
     // EDIT GROUP //
@@ -541,7 +622,5 @@ require(['jquery', 'oae.core'], function($, oae) {
         $(document).trigger('oae.context.update', groupProfile);
     });
 
-
     setUpGroupProfile();
-
 });

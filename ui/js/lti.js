@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-require(['jquery', 'oae.core'], function ($, oae) {
+require(['jquery', 'oae.core'], function($, oae) {
     // Get the group id and tool id from the URL. The expected URL is `/lti/<tenantId>/<resourceId>/<toolId>`.
     var url = oae.api.util.url();
     var groupId = 'g:' + url.segment(2) + ':' + url.segment(3);
@@ -22,24 +22,32 @@ require(['jquery', 'oae.core'], function ($, oae) {
     var toolProfile = null;
 
     // Variable used to cache the tool's base URL
-    var baseUrl = '/lti/' + url.segment(2) + '/' + url.segment(3) + '/' + url.segment(4);
+    var baseUrl =
+        '/lti/' + url.segment(2) + '/' + url.segment(3) + '/' + url.segment(4);
 
     /**
      * Render the LTI tool clip
      */
     var setUpClip = function() {
-        oae.api.util.template().render($('#lti-clip-template'), {
-            'lti': toolProfile.tool,
-            'displayOptions': {
-                'addLink': false
-            }
-        }, $('#lti-clip-container'));
+        oae.api.util.template().render(
+            $('#lti-clip-template'),
+            {
+                lti: toolProfile.tool,
+                displayOptions: {
+                    addLink: false,
+                },
+            },
+            $('#lti-clip-container'),
+        );
     };
 
     var setUpContext = function() {
         $(document).on('oae.context.get', function(ev, widgetId) {
             if (widgetId) {
-                $(document).trigger('oae.context.send.' + widgetId, toolProfile);
+                $(document).trigger(
+                    'oae.context.send.' + widgetId,
+                    toolProfile,
+                );
             } else {
                 $(document).trigger('oae.context.send', toolProfile);
             }
@@ -56,8 +64,8 @@ require(['jquery', 'oae.core'], function ($, oae) {
      * can't be found or is not available the appropriate error page will
      * be shown
      */
-    var getLtiLaunchProfile = function () {
-        oae.api.lti.launchLtiTool(groupId, toolId, function (err, data) {
+    var getLtiLaunchProfile = function() {
+        oae.api.lti.launchLtiTool(groupId, toolId, function(err, data) {
             if (err) {
                 if (err.code === 401) {
                     oae.api.util.redirect().accessdenied();
@@ -76,18 +84,20 @@ require(['jquery', 'oae.core'], function ($, oae) {
                 action: tool.launchUrl,
                 target: 'lti-name',
                 method: 'POST',
-                id: 'lti-form'
+                id: 'lti-form',
             });
             for (var param in launchParams) {
                 form.append(
                     $('<input>', {
                         type: 'hidden',
                         name: param,
-                        value: launchParams[param]
-                    })
+                        value: launchParams[param],
+                    }),
                 );
             }
-            $('#lti-container').empty().append(form);
+            $('#lti-container')
+                .empty()
+                .append(form);
             $('#lti-form').submit();
 
             setUpClip();

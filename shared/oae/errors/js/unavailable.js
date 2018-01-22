@@ -14,7 +14,6 @@
  */
 
 define(['jquery'], function($) {
-
     /**
      * Function that checks whether the server is available by checking a
      * valid response from the me feed. If it is responding, it redirects
@@ -24,17 +23,16 @@ define(['jquery'], function($) {
      * oae.api.user getMe function because requiring 'oae.core' results in an
      * infinite loop of redirects.
      */
-    var checkServerAvailable = function () {
+    var checkServerAvailable = function() {
         $.ajax({
-            'url': '/api/me',
-            'success': function() {
+            url: '/api/me',
+            success: function() {
                 oae.api.util.redirect().home();
-            }
+            },
         });
     };
 
     checkServerAvailable();
     // Re-check every minute to see if the server has come back online
     setInterval(checkServerAvailable, 60000);
-
 });

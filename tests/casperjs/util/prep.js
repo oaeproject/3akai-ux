@@ -14,12 +14,11 @@
  */
 
 casper.test.begin('Prepare environment for tests', function(test) {
-
     // Override default waitTimeout before test fails
     casper.options.waitTimeout = configUtil.waitTimeout;
 
     // Set the default size of the viewport
-    casper.options.viewportSize = {'width': 1200, 'height': 800};
+    casper.options.viewportSize = { width: 1200, height: 800 };
 
     /**
      * Log any JavaScript errors in the page
@@ -60,5 +59,4 @@ casper.test.begin('Prepare environment for tests', function(test) {
     };
 
     test.done();
-
 });

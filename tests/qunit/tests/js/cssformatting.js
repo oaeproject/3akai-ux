@@ -13,9 +13,12 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
-
-    module("CSS Formatting");
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function(
+    $,
+    oae,
+    util,
+) {
+    module('CSS Formatting');
 
     /**
      * Test a CSS file against a provided regular expression
@@ -26,7 +29,10 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
      */
     var doRegexTest = function(cssFile, regex, description) {
         // Remove comments from file to test
-        var testFile = cssFile.replace(/(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/gm, '');
+        var testFile = cssFile.replace(
+            /(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/gm,
+            '',
+        );
         var match = '';
         var errorString = '';
         var count = 0;
@@ -37,7 +43,13 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                 var beforeMatch = cssFile.substring(0, match.index);
                 var matchLine = beforeMatch.split(/\n/).length;
                 count++;
-                errorString = errorString + '\n\nLine: ' + matchLine + '\nString:\n' + match + '';
+                errorString =
+                    errorString +
+                    '\n\nLine: ' +
+                    matchLine +
+                    '\nString:\n' +
+                    match +
+                    '';
             }
         }
 

@@ -14,7 +14,6 @@
  */
 
 require(['jquery', 'oae.core'], function($, oae) {
-
     // Get the user id from the URL. The expected URL is `/user/<tenantId>/<resourceId>`.
     // The user id will then be `u:<tenantId>:<resourceId>`
     var url = oae.api.util.url();
@@ -66,7 +65,10 @@ require(['jquery', 'oae.core'], function($, oae) {
     var setUpContext = function() {
         $(document).on('oae.context.get', function(ev, widgetId) {
             if (widgetId) {
-                $(document).trigger('oae.context.send.' + widgetId, userProfile);
+                $(document).trigger(
+                    'oae.context.send.' + widgetId,
+                    userProfile,
+                );
             } else {
                 $(document).trigger('oae.context.send', userProfile);
             }
@@ -78,14 +80,24 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Render the user clip(s)
      */
     var setUpClip = function() {
-        oae.api.util.template().render($('#user-clip-left-template'), {
-            'user': userProfile,
-            'displayOptions': {
-                'addVisibilityIcon': false,
-                'addLink': false
-            }
-        }, $('#user-clip-left-container'));
-        oae.api.util.template().render($('#user-clip-right-template'), {'user': userProfile}, $('#user-clip-right-container'));
+        oae.api.util.template().render(
+            $('#user-clip-left-template'),
+            {
+                user: userProfile,
+                displayOptions: {
+                    addVisibilityIcon: false,
+                    addLink: false,
+                },
+            },
+            $('#user-clip-left-container'),
+        );
+        oae.api.util
+            .template()
+            .render(
+                $('#user-clip-right-template'),
+                { user: userProfile },
+                $('#user-clip-right-container'),
+            );
     };
 
     /**
@@ -97,98 +109,109 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Add the follow button if the user can be followed
         if (userProfile.following && userProfile.following.canFollow) {
             lhNavActions.push({
-                'icon': 'fa-bookmark',
-                'title': oae.api.i18n.translate('__MSG__FOLLOW__'),
-                'class': 'user-follow'
+                icon: 'fa-bookmark',
+                title: oae.api.i18n.translate('__MSG__FOLLOW__'),
+                class: 'user-follow',
             });
         }
 
         // Structure that will be used to construct the left hand navigation pages
         lhNavPages = [];
         // Add the rest of the navigation
-        lhNavPages.push({
-            'id': 'library',
-            'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
-            'icon': 'fa-briefcase',
-            'closeNav': true,
-            'layout': [
-                {
-                    'width': 'col-md-12',
-                    'widgets': [
-                        {
-                            'name': 'contentlibrary',
-                            'settings': {
-                                'context': userProfile
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            'id': 'discussions',
-            'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
-            'icon': 'fa-comments',
-            'closeNav': true,
-            'layout': [
-                {
-                    'width': 'col-md-12',
-                    'widgets': [
-                        {
-                            'name': 'discussionslibrary',
-                            'settings': {
-                                'context': userProfile
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            'id': 'groups',
-            'title': oae.api.i18n.translate('__MSG__GROUPS__'),
-            'icon': 'fa-group',
-            'closeNav': true,
-            'layout': [
-                {
-                    'width': 'col-md-12',
-                    'widgets': [
-                        {
-                            'name': 'memberships',
-                            'settings': {
-                                'context': userProfile
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            'id': 'network',
-            'title': oae.api.i18n.translate('__MSG__NETWORK__'),
-            'icon': 'fa-random',
-            'closeNav': true,
-            'layout': [
-                {
-                    'width': 'col-md-12',
-                    'widgets': [
-                        {
-                            'name': 'network',
-                            'settings': {
-                                'context': userProfile
-                            }
-                        }
-                    ]
-                }
-            ]
-        });
+        lhNavPages.push(
+            {
+                id: 'library',
+                title: oae.api.i18n.translate('__MSG__LIBRARY__'),
+                icon: 'fa-briefcase',
+                closeNav: true,
+                layout: [
+                    {
+                        width: 'col-md-12',
+                        widgets: [
+                            {
+                                name: 'contentlibrary',
+                                settings: {
+                                    context: userProfile,
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                id: 'discussions',
+                title: oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
+                icon: 'fa-comments',
+                closeNav: true,
+                layout: [
+                    {
+                        width: 'col-md-12',
+                        widgets: [
+                            {
+                                name: 'discussionslibrary',
+                                settings: {
+                                    context: userProfile,
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                id: 'groups',
+                title: oae.api.i18n.translate('__MSG__GROUPS__'),
+                icon: 'fa-group',
+                closeNav: true,
+                layout: [
+                    {
+                        width: 'col-md-12',
+                        widgets: [
+                            {
+                                name: 'memberships',
+                                settings: {
+                                    context: userProfile,
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                id: 'network',
+                title: oae.api.i18n.translate('__MSG__NETWORK__'),
+                icon: 'fa-random',
+                closeNav: true,
+                layout: [
+                    {
+                        width: 'col-md-12',
+                        widgets: [
+                            {
+                                name: 'network',
+                                settings: {
+                                    context: userProfile,
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+        );
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, userProfile.displayName]);
+        $(window).trigger('oae.trigger.lhnavigation', [
+            lhNavPages,
+            lhNavActions,
+            baseUrl,
+            userProfile.displayName,
+        ]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, userProfile.displayName]);
+            $(window).trigger('oae.trigger.lhnavigation', [
+                lhNavPages,
+                lhNavActions,
+                baseUrl,
+                userProfile.displayName,
+            ]);
         });
     };
-
 
     /////////////////
     // FOLLOW USER //
@@ -203,9 +226,15 @@ require(['jquery', 'oae.core'], function($, oae) {
                 // Show a success notification
                 oae.api.util.notification(
                     oae.api.i18n.translate('__MSG__FOLLOWING_SUCCEEDED__'),
-                    oae.api.i18n.translate('__MSG__FOLLOWING_YOU_ARE_NOW_FOLLOWING__', null, {
-                        'displayName': oae.api.util.security().encodeForHTML(userProfile.displayName)
-                    })
+                    oae.api.i18n.translate(
+                        '__MSG__FOLLOWING_YOU_ARE_NOW_FOLLOWING__',
+                        null,
+                        {
+                            displayName: oae.api.util
+                                .security()
+                                .encodeForHTML(userProfile.displayName),
+                        },
+                    ),
                 );
                 $('#user-follow-actions').detach();
                 $('li.user-follow').detach();
@@ -213,10 +242,16 @@ require(['jquery', 'oae.core'], function($, oae) {
                 // Show an error notification
                 oae.api.util.notification(
                     oae.api.i18n.translate('__MSG__FOLLOWING_FAILED__'),
-                    oae.api.i18n.translate('__MSG__FOLLOWING_COULD_NOT_FOLLOW__', null, {
-                        'displayName': oae.api.util.security().encodeForHTML(userProfile.displayName)
-                    }),
-                    'error'
+                    oae.api.i18n.translate(
+                        '__MSG__FOLLOWING_COULD_NOT_FOLLOW__',
+                        null,
+                        {
+                            displayName: oae.api.util
+                                .security()
+                                .encodeForHTML(userProfile.displayName),
+                        },
+                    ),
+                    'error',
                 );
             }
         });
@@ -226,5 +261,4 @@ require(['jquery', 'oae.core'], function($, oae) {
     $(document).on('click', '.user-follow', followUser);
 
     getUserProfile();
-
 });

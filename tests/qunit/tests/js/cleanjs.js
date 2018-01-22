@@ -14,8 +14,7 @@
  */
 
 require(['oae.core', '/tests/qunit/js/util.js', 'jquery'], function(oae, util) {
-
-    module("Clean JavaScript");
+    module('Clean JavaScript');
 
     // Regular expression that will be used to check for console.log, console.debug and console.trace statements
     var consoleregex = new RegExp(/console\.(?:log|debug|trace)/g);
@@ -60,7 +59,6 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery'], function(oae, util) {
      * @param  {Object}   testData    The test data containing all files to be tested (html, css, js, properties)
      */
     var cleanJSTest = function(testData) {
-
         /**
          * Test a JavaScript file for console and alert statements
          *

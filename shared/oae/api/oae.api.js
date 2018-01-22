@@ -21,36 +21,75 @@
  * This module is intended to be referenced as a *plugin*, not a regular module. Do not depend on this directly, instead depend
  * on `oae.core`, which invokes this plugin, and also efficiently pre-loads many third-party dependencies.
  */
-define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.comment', 'oae.api.discussion', 'oae.api.folder',
-        'oae.api.follow','oae.api.group', 'oae.api.i18n', 'oae.api.l10n', 'oae.api.lti', 'oae.api.meetingJitsi', 'oae.api.push', 'oae.api.user', 'oae.api.tenancysearch', 'oae.api.util', 'oae.api.widget'],
+define(
+    [
+        'underscore',
+        'oae.api.admin',
+        'oae.api.authentication',
+        'oae.api.config',
+        'oae.api.content',
+        'oae.api.comment',
+        'oae.api.discussion',
+        'oae.api.folder',
+        'oae.api.follow',
+        'oae.api.group',
+        'oae.api.i18n',
+        'oae.api.l10n',
+        'oae.api.lti',
+        'oae.api.meetingJitsi',
+        'oae.api.push',
+        'oae.api.user',
+        'oae.api.tenancysearch',
+        'oae.api.util',
+        'oae.api.widget',
+    ],
 
-    function(_, adminAPI, authenticationAPI, configAPI, contentAPI, commentAPI, discussionAPI, folderAPI, followAPI, groupAPI, i18nAPI, l10nAPI, ltiAPI, meetingJitsiAPI, pushAPI, userAPI, tenancySearchAPI, utilAPI, widgetAPI) {
-
+    function(
+        _,
+        adminAPI,
+        authenticationAPI,
+        configAPI,
+        contentAPI,
+        commentAPI,
+        discussionAPI,
+        folderAPI,
+        followAPI,
+        groupAPI,
+        i18nAPI,
+        l10nAPI,
+        ltiAPI,
+        meetingJitsiAPI,
+        pushAPI,
+        userAPI,
+        tenancySearchAPI,
+        utilAPI,
+        widgetAPI,
+    ) {
         /*!
          * Object containing all of the available OAE API modules and their functions, as well as some
          * cached data (e.g. me object) that will be passed in when a module adds `oae.api!` as a dependency.
          */
         var oae = {
-            'api': {
-                'admin': adminAPI,
-                'authentication': authenticationAPI,
-                'config': configAPI,
-                'content': contentAPI,
-                'comment': commentAPI,
-                'discussion': discussionAPI,
-                'folder': folderAPI,
-                'follow': followAPI,
-                'group': groupAPI,
-                'i18n': i18nAPI,
-                'l10n': l10nAPI,
-                'lti' : ltiAPI,
-                'push': pushAPI,
-                'meetingJitsi': meetingJitsiAPI,
-                'user': userAPI,
-                'util': utilAPI,
-                'widget': widgetAPI
+            api: {
+                admin: adminAPI,
+                authentication: authenticationAPI,
+                config: configAPI,
+                content: contentAPI,
+                comment: commentAPI,
+                discussion: discussionAPI,
+                folder: folderAPI,
+                follow: followAPI,
+                group: groupAPI,
+                i18n: i18nAPI,
+                l10n: l10nAPI,
+                lti: ltiAPI,
+                push: pushAPI,
+                meetingJitsi: meetingJitsiAPI,
+                user: userAPI,
+                util: utilAPI,
+                widget: widgetAPI,
             },
-            'data': {}
+            data: {},
         };
 
         /*!
@@ -72,7 +111,9 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                     } else if (err.code === 503) {
                         return utilAPI.redirect().maintenance();
                     }
-                    throw new Error('Could not load the me feed. Make sure that the server is running and properly configured');
+                    throw new Error(
+                        'Could not load the me feed. Make sure that the server is running and properly configured',
+                    );
                 }
                 // Add the me object onto the oae data object
                 oae.data.me = meObj;
@@ -87,22 +128,27 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                     var userLocale = oae.data.me.locale;
                     oae.api.l10n.init(userLocale, function(err) {
                         if (err) {
-                            throw new Error('Could not initialize the l10n API');
+                            throw new Error(
+                                'Could not initialize the l10n API',
+                            );
                         }
 
                         // Initialize i18n
                         oae.api.i18n.init(userLocale, function(err) {
                             if (err) {
-                                throw new Error('Could not initialize the i18n API');
+                                throw new Error(
+                                    'Could not initialize the i18n API',
+                                );
                             }
 
                             // Initialize utility API
                             oae.api.util.init(oae.data.me, function() {
-
                                 // Initialize widgets API
                                 oae.api.widget.init(userLocale, function(err) {
                                     if (err) {
-                                        throw new Error('Could not initialize the widgets API');
+                                        throw new Error(
+                                            'Could not initialize the widgets API',
+                                        );
                                     }
 
                                     // Add a `.ie-lt10` class to the html element that can be used for CSS fallbacks in IE9.
@@ -129,35 +175,47 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                                     callback(oae);
 
                                     // We now load the widgets in the core HTML
-                                    oae.api.widget.loadWidgets(null, null, null, function() {
+                                    oae.api.widget.loadWidgets(
+                                        null,
+                                        null,
+                                        null,
+                                        function() {
+                                            setupPreUseActions();
 
-                                        setupPreUseActions();
+                                            // We can show the body as internationalization and
+                                            // initial widget loading have finished
+                                            $('body').css(
+                                                'visibility',
+                                                'visible',
+                                            );
 
-                                        // We can show the body as internationalization and
-                                        // initial widget loading have finished
-                                        $('body').css('visibility', 'visible');
+                                            // Apply auto-focus after the core HTML widgets have loaded.
+                                            // The rendering will cause HTML5 autofocus to be lost, so
+                                            // we re-inforce it here
+                                            var $focus = $('[autofocus]:first');
+                                            if ($focus.is('input')) {
+                                                // Ensure that, when focussed, the
+                                                // cursor will be positioned at the
+                                                // end of the input content
+                                                var val = $focus.val();
+                                                $focus[0].selectionStart =
+                                                    val.length;
+                                                $focus[0].selectionEnd =
+                                                    val.length;
+                                            }
+                                            $focus.focus();
 
-                                        // Apply auto-focus after the core HTML widgets have loaded.
-                                        // The rendering will cause HTML5 autofocus to be lost, so
-                                        // we re-inforce it here
-                                        var $focus = $('[autofocus]:first');
-                                        if ($focus.is('input')) {
-                                            // Ensure that, when focussed, the
-                                            // cursor will be positioned at the
-                                            // end of the input content
-                                            var val = $focus.val();
-                                            $focus[0].selectionStart = val.length;
-                                            $focus[0].selectionEnd = val.length;
-                                        }
-                                        $focus.focus();
-
-                                        // Initialize websocket push API, unless we're on the
-                                        // global admin tenant
-                                        if (oae.data.me.tenant.alias !== 'admin') {
-                                            // Ensure the push API is initialized
-                                            oae.api.push.init();
-                                        }
-                                    });
+                                            // Initialize websocket push API, unless we're on the
+                                            // global admin tenant
+                                            if (
+                                                oae.data.me.tenant.alias !==
+                                                'admin'
+                                            ) {
+                                                // Ensure the push API is initialized
+                                                oae.api.push.init();
+                                            }
+                                        },
+                                    );
                                 });
                             });
                         });
@@ -165,7 +223,6 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                 });
             });
         };
-
 
         /////////////////////
         // Pre-use actions //
@@ -192,16 +249,23 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
 
                 // Perform any invitation accepting if instructed and if possible
                 acceptInvitation(function() {
-                    var needsToProvideDisplayName = !oae.api.util.validation().isValidDisplayName(oae.data.me.displayName);
+                    var needsToProvideDisplayName = !oae.api.util
+                        .validation()
+                        .isValidDisplayName(oae.data.me.displayName);
                     var needsToProvideEmail = !oae.data.me.email;
 
                     // Show the edit profile widget if a valid name or email address need to be provided
                     if (needsToProvideDisplayName || needsToProvideEmail) {
                         $(document).trigger('oae.trigger.editprofile');
 
-                    // Show the Terms and Conditions widget if the user needs to accept the Terms and Conditions
+                        // Show the Terms and Conditions widget if the user needs to accept the Terms and Conditions
                     } else if (oae.data.me.needsToAcceptTC) {
-                        oae.api.widget.insertWidget('termsandconditions', null, null, true);
+                        oae.api.widget.insertWidget(
+                            'termsandconditions',
+                            null,
+                            null,
+                            true,
+                        );
                     }
                 });
             });
@@ -225,14 +289,21 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
             // We need to ensure we can handle activities that happen as a result of accepting this
             // invitation, so set up the push API a bit earlier than we normally would have
             oae.api.push.init(function() {
-
                 // Accept the invitation
-                oae.api.user.acceptInvitation(invitationToken, function(err, result) {
+                oae.api.user.acceptInvitation(invitationToken, function(
+                    err,
+                    result,
+                ) {
                     if (err && err.code !== 404) {
                         oae.api.util.notification(
-                            oae.api.i18n.translate('__MSG__EMAIL_INVITATION_FAILED__'),
-                            oae.api.i18n.translate('__MSG__AN_ERROR_OCCURRED_WHILE_ACCEPTING_YOUR_INVITATION__'),
-                            'error');
+                            oae.api.i18n.translate(
+                                '__MSG__EMAIL_INVITATION_FAILED__',
+                            ),
+                            oae.api.i18n.translate(
+                                '__MSG__AN_ERROR_OCCURRED_WHILE_ACCEPTING_YOUR_INVITATION__',
+                            ),
+                            'error',
+                        );
                         return callback();
                     } else if (err) {
                         return callback();
@@ -261,37 +332,59 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
             }
 
             var previousEmail = oae.data.me.email;
-            oae.api.user.getEmailVerificationStatus(oae.data.me.id, function(err, unverifiedEmail) {
+            oae.api.user.getEmailVerificationStatus(oae.data.me.id, function(
+                err,
+                unverifiedEmail,
+            ) {
                 if (err) {
                     // Notify if we could not determine there was an email to be verified
                     oae.api.util.notification(
-                        oae.api.i18n.translate('__MSG__EMAIL_VERIFICATION_FAILED__'),
-                        oae.api.i18n.translate('__MSG__AN_ERROR_OCCURRED_VERIFYING_YOUR_EMAIL_ADDRESS__'),
-                        'error');
+                        oae.api.i18n.translate(
+                            '__MSG__EMAIL_VERIFICATION_FAILED__',
+                        ),
+                        oae.api.i18n.translate(
+                            '__MSG__AN_ERROR_OCCURRED_VERIFYING_YOUR_EMAIL_ADDRESS__',
+                        ),
+                        'error',
+                    );
 
                     return callback();
                 } else if (unverifiedEmail) {
-                    oae.api.user.verifyEmail(oae.data.me.id, emailToken, function(err) {
-                        if (err) {
-                            // Notify if we failed to perform the actual email verification
+                    oae.api.user.verifyEmail(
+                        oae.data.me.id,
+                        emailToken,
+                        function(err) {
+                            if (err) {
+                                // Notify if we failed to perform the actual email verification
+                                oae.api.util.notification(
+                                    oae.api.i18n.translate(
+                                        '__MSG__EMAIL_VERIFICATION_FAILED__',
+                                    ),
+                                    oae.api.i18n.translate(
+                                        '__MSG__AN_ERROR_OCCURRED_VERIFYING_YOUR_EMAIL_ADDRESS__',
+                                    ),
+                                    'error',
+                                );
+
+                                return callback();
+                            }
+
+                            // Update the me data appropriately
+                            oae.data.me.email = unverifiedEmail;
+
+                            // Notify that we successfully verified the email address
                             oae.api.util.notification(
-                                oae.api.i18n.translate('__MSG__EMAIL_VERIFICATION_FAILED__'),
-                                oae.api.i18n.translate('__MSG__AN_ERROR_OCCURRED_VERIFYING_YOUR_EMAIL_ADDRESS__'),
-                                'error');
+                                oae.api.i18n.translate(
+                                    '__MSG__EMAIL_VERIFIED__',
+                                ),
+                                oae.api.i18n.translate(
+                                    '__MSG__EMAIL_VERIFIED_THANK_YOU__',
+                                ),
+                            );
 
                             return callback();
-                        }
-
-                        // Update the me data appropriately
-                        oae.data.me.email = unverifiedEmail;
-
-                        // Notify that we successfully verified the email address
-                        oae.api.util.notification(
-                            oae.api.i18n.translate('__MSG__EMAIL_VERIFIED__'),
-                            oae.api.i18n.translate('__MSG__EMAIL_VERIFIED_THANK_YOU__'));
-
-                        return callback();
-                    });
+                        },
+                    );
                 } else {
                     return callback();
                 }
@@ -299,7 +392,6 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
         };
 
         return {
-
             /*!
              * This pluginBuilder property tells requirejs to use a different module file for the plugin ONLY when
              * this module is being evaluated at server-size build time. The string value 'pluginBuilder' is
@@ -308,14 +400,14 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
              * will not be attempted to be "executed" (eval'd) on the server-side. Dependencies such as jQuery cause
              * issues when that happens.
              */
-            'pluginBuilder': 'pluginBuilder',
+            pluginBuilder: 'pluginBuilder',
 
             /*!
              * Invoked when the module has been loaded, which can trigger initialization in a chained manner.
              */
-            'load': function(name, parentRequire, load, config) {
+            load: function(name, parentRequire, load, config) {
                 initOAE(load);
-            }
+            },
         };
-    }
+    },
 );

@@ -18,15 +18,15 @@
  */
 var configUtil = (function() {
     return {
-        'adminUI': 'http://admin.oae.com',
-        'adminPassword': 'administrator',
-        'adminUsername': 'administrator',
-        'modalWaitTime': 1000,
-        'searchWaitTime': 3000,
-        'tenantAlias': 'test',
-        'tenantDisplayname': 'CasperJS Tenant',
-        'tenantHost': 'test.oae.com',
-        'tenantUI': 'http://test.oae.com',
-        'waitTimeout': 30000
+        adminUI: 'http://admin.oae.com',
+        adminPassword: 'administrator',
+        adminUsername: 'administrator',
+        modalWaitTime: 1000,
+        searchWaitTime: 3000,
+        tenantAlias: 'test',
+        tenantDisplayname: 'CasperJS Tenant',
+        tenantHost: 'test.oae.com',
+        tenantUI: 'http://test.oae.com',
+        waitTimeout: 30000,
     };
 })();

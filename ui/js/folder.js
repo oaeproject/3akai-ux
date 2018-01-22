@@ -14,7 +14,6 @@
  */
 
 require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
-
     // Get the folder id from the URL. The expected URL is `/folder/<tenantId>/<resourceId>`.
     // The folder id will then be `f:<tenantId>:<resourceId>`
     var url = oae.api.util.url();
@@ -38,68 +37,79 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         var lhNavActions = [];
 
         if (folderProfile.canAddItem) {
-            lhNavActions.push({
-                'icon': 'fa-cloud-upload',
-                'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
-                'closeNav': true,
-                'class': 'oae-trigger-upload'
-            },
-            {
-                'icon': 'fa-plus-circle',
-                'title': oae.api.i18n.translate('__MSG__CREATE__'),
-                'children': [
-                    {
-                        'icon': 'fa-link',
-                        'title': oae.api.i18n.translate('__MSG__LINK__'),
-                        'closeNav': true,
-                        'class': 'oae-trigger-createlink'
-                    },
-                    {
-                        'icon': 'fa-pencil-square-o',
-                        'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
-                        'closeNav': true,
-                        'class': 'oae-trigger-createcollabdoc'
-                    }
-                ]
-            });
-        }
-
-        var lhNavPages = [{
-            'id': 'folder',
-            'title': folderProfile.displayName,
-            'icon': 'fa-folder-open',
-            'closeNav': true,
-            'class': 'hide',
-            'layout': [
+            lhNavActions.push(
                 {
-                    'width': 'col-md-12',
-                    'widgets': [
-                        {
-                            'name': 'folderlibrary',
-                            'settings': {
-                                'context': folderProfile,
-                                'canManage': folderProfile.canManage
-                            }
-                        }
-                    ]
+                    icon: 'fa-cloud-upload',
+                    title: oae.api.i18n.translate('__MSG__UPLOAD__'),
+                    closeNav: true,
+                    class: 'oae-trigger-upload',
                 },
                 {
-                    'width': 'col-md-12',
-                    'widgets': [
+                    icon: 'fa-plus-circle',
+                    title: oae.api.i18n.translate('__MSG__CREATE__'),
+                    children: [
                         {
-                            'name': 'comments'
-                        }
-                    ]
-                }
-            ]
-        }];
+                            icon: 'fa-link',
+                            title: oae.api.i18n.translate('__MSG__LINK__'),
+                            closeNav: true,
+                            class: 'oae-trigger-createlink',
+                        },
+                        {
+                            icon: 'fa-pencil-square-o',
+                            title: oae.api.i18n.translate('__MSG__DOCUMENT__'),
+                            closeNav: true,
+                            class: 'oae-trigger-createcollabdoc',
+                        },
+                    ],
+                },
+            );
+        }
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        var lhNavPages = [
+            {
+                id: 'folder',
+                title: folderProfile.displayName,
+                icon: 'fa-folder-open',
+                closeNav: true,
+                class: 'hide',
+                layout: [
+                    {
+                        width: 'col-md-12',
+                        widgets: [
+                            {
+                                name: 'folderlibrary',
+                                settings: {
+                                    context: folderProfile,
+                                    canManage: folderProfile.canManage,
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        width: 'col-md-12',
+                        widgets: [
+                            {
+                                name: 'comments',
+                            },
+                        ],
+                    },
+                ],
+            },
+        ];
+
+        $(window).trigger('oae.trigger.lhnavigation', [
+            lhNavPages,
+            lhNavActions,
+            baseUrl,
+        ]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+            $(window).trigger('oae.trigger.lhnavigation', [
+                lhNavPages,
+                lhNavActions,
+                baseUrl,
+            ]);
         });
     };
-
 
     ///////////////////////////////////
     // FOLDER PROFILE INITIALIZATION //
@@ -145,17 +155,21 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * Render the folder's clips
      */
     var setUpClips = function() {
-        oae.api.util.template().render($('#folder-clip-template'), {
-            'folder': folderProfile,
-            'displayOptions': {
-                'addLink': false
-            }
-        }, $('#folder-clip-container'));
+        oae.api.util.template().render(
+            $('#folder-clip-template'),
+            {
+                folder: folderProfile,
+                displayOptions: {
+                    addLink: false,
+                },
+            },
+            $('#folder-clip-container'),
+        );
         // Only show the upload and create clips to users that are able to add items to the folder
         if (folderProfile.canAddItem) {
             $('#folder-manager-actions').show();
-        // Hide the left hand navigation toggle from the folderlibrary widget when the user is not able
-        // to add items to the current folder
+            // Hide the left hand navigation toggle from the folderlibrary widget when the user is not able
+            // to add items to the current folder
         } else {
             $('html').addClass('folder-non-manager');
         }
@@ -172,7 +186,10 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     var setUpContext = function() {
         $(document).on('oae.context.get', function(ev, widgetId) {
             if (widgetId) {
-                $(document).trigger('oae.context.send.' + widgetId, folderProfile);
+                $(document).trigger(
+                    'oae.context.send.' + widgetId,
+                    folderProfile,
+                );
             } else {
                 $(document).trigger('oae.context.send', folderProfile);
             }
@@ -185,28 +202,44 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * are made by a different user after the initial page load
      */
     var setUpPushNotifications = function() {
-        oae.api.push.subscribe(folderId, 'activity', folderProfile.signature, 'internal', false, false, function(activities) {
-            // The `activity` stream pushes out activities on routing so it's always
-            // safe to just pick the first item from the `activities` array
-            var activity = activities[0];
+        oae.api.push.subscribe(
+            folderId,
+            'activity',
+            folderProfile.signature,
+            'internal',
+            false,
+            false,
+            function(activities) {
+                // The `activity` stream pushes out activities on routing so it's always
+                // safe to just pick the first item from the `activities` array
+                var activity = activities[0];
 
-            var supportedActivities = ['folder-update', 'folder-update-visibility'];
-            // Only respond to push notifications caused by other users
-            if (activity.actor.id !== oae.data.me.id && _.contains(supportedActivities, activity['oae:activityType'])) {
-                var folderObj = activity.object;
-                folderObj.canAddItem = folderProfile.canAddItem;
-                folderObj.canManage = folderProfile.canManage;
-                folderObj.canShare = folderProfile.canShare;
+                var supportedActivities = [
+                    'folder-update',
+                    'folder-update-visibility',
+                ];
+                // Only respond to push notifications caused by other users
+                if (
+                    activity.actor.id !== oae.data.me.id &&
+                    _.contains(
+                        supportedActivities,
+                        activity['oae:activityType'],
+                    )
+                ) {
+                    var folderObj = activity.object;
+                    folderObj.canAddItem = folderProfile.canAddItem;
+                    folderObj.canManage = folderProfile.canManage;
+                    folderObj.canShare = folderProfile.canShare;
 
-                // Cache the updated content profile
-                folderProfile = folderObj;
+                    // Cache the updated content profile
+                    folderProfile = folderObj;
 
-                // Re-render the clips
-                setUpClips();
-            }
-        });
+                    // Re-render the clips
+                    setUpClips();
+                }
+            },
+        );
     };
-
 
     ///////////////////
     // MANAGE ACCESS //
@@ -221,32 +254,60 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      */
     var getManageAccessData = function() {
         return {
-            'contextProfile': folderProfile,
-            'messages': {
-                'accessNotUpdatedBody': oae.api.i18n.translate('__MSG__FOLDER_ACCESS_COULD_NOT_BE_UPDATED__'),
-                'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__FOLDER_ACCESS_NOT_UPDATED__'),
-                'accessUpdatedBody': oae.api.i18n.translate('__MSG__FOLDER_ACCESS_SUCCESSFULLY_UPDATED__'),
-                'accessUpdatedTitle': oae.api.i18n.translate('__MSG__FOLDER_ACCESS_UPDATED__'),
-                'membersTitle': oae.api.i18n.translate('__MSG__SHARED_WITH__'),
-                'private': oae.api.i18n.translate('__MSG__PRIVATE__'),
-                'loggedin': oae.api.util.security().encodeForHTML(folderProfile.tenant.displayName),
-                'public': oae.api.i18n.translate('__MSG__PUBLIC__'),
-                'privateDescription': oae.api.i18n.translate('__MSG__FOLDER_PRIVATE_DESCRIPTION__'),
-                'loggedinDescription': oae.api.i18n.translate('__MSG__FOLDER_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(folderProfile.tenant.displayName)}),
-                'publicDescription': oae.api.i18n.translate('__MSG__FOLDER_PUBLIC_DESCRIPTION__')
+            contextProfile: folderProfile,
+            messages: {
+                accessNotUpdatedBody: oae.api.i18n.translate(
+                    '__MSG__FOLDER_ACCESS_COULD_NOT_BE_UPDATED__',
+                ),
+                accessNotUpdatedTitle: oae.api.i18n.translate(
+                    '__MSG__FOLDER_ACCESS_NOT_UPDATED__',
+                ),
+                accessUpdatedBody: oae.api.i18n.translate(
+                    '__MSG__FOLDER_ACCESS_SUCCESSFULLY_UPDATED__',
+                ),
+                accessUpdatedTitle: oae.api.i18n.translate(
+                    '__MSG__FOLDER_ACCESS_UPDATED__',
+                ),
+                membersTitle: oae.api.i18n.translate('__MSG__SHARED_WITH__'),
+                private: oae.api.i18n.translate('__MSG__PRIVATE__'),
+                loggedin: oae.api.util
+                    .security()
+                    .encodeForHTML(folderProfile.tenant.displayName),
+                public: oae.api.i18n.translate('__MSG__PUBLIC__'),
+                privateDescription: oae.api.i18n.translate(
+                    '__MSG__FOLDER_PRIVATE_DESCRIPTION__',
+                ),
+                loggedinDescription: oae.api.i18n.translate(
+                    '__MSG__FOLDER_LOGGEDIN_DESCRIPTION__',
+                    null,
+                    {
+                        tenant: oae.api.util
+                            .security()
+                            .encodeForHTML(folderProfile.tenant.displayName),
+                    },
+                ),
+                publicDescription: oae.api.i18n.translate(
+                    '__MSG__FOLDER_PUBLIC_DESCRIPTION__',
+                ),
             },
-            'defaultRole': 'viewer',
-            'roles': [
-                {'id': 'viewer', 'name': oae.api.i18n.translate('__MSG__CAN_VIEW__')},
-                {'id': 'manager', 'name': oae.api.i18n.translate('__MSG__CAN_MANAGE__')}
+            defaultRole: 'viewer',
+            roles: [
+                {
+                    id: 'viewer',
+                    name: oae.api.i18n.translate('__MSG__CAN_VIEW__'),
+                },
+                {
+                    id: 'manager',
+                    name: oae.api.i18n.translate('__MSG__CAN_MANAGE__'),
+                },
             ],
-            'api': {
-                'getMembersURL': '/api/folder/'+ folderProfile.id + '/members',
-                'getInvitations': oae.api.folder.getInvitations,
-                'resendInvitation': oae.api.folder.resendInvitation,
-                'setMembers': oae.api.folder.updateMembers,
-                'setVisibility': oae.api.folder.updateFolder
-            }
+            api: {
+                getMembersURL: '/api/folder/' + folderProfile.id + '/members',
+                getInvitations: oae.api.folder.getInvitations,
+                resendInvitation: oae.api.folder.resendInvitation,
+                setMembers: oae.api.folder.updateMembers,
+                setVisibility: oae.api.folder.updateFolder,
+            },
         };
     };
 
@@ -261,7 +322,10 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * Trigger the manageaccess widget in `add members` view and pass in context data
      */
     $(document).on('click', '.folder-trigger-manageaccess-add', function() {
-        $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
+        $(document).trigger(
+            'oae.trigger.manageaccess-add',
+            getManageAccessData(),
+        );
     });
 
     /**
@@ -269,14 +333,19 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * changed, offer an opportunity to update the visibility of the items in the folder as well
      */
     $(document).on('oae.manageaccess.done', function() {
-        if (visibility !== folderProfile.visibility && $('#folderlibrary-widget .oae-list li[data-id]').length > 0) {
-            $(document).trigger('oae.trigger.foldercontentvisibility', folderProfile);
+        if (
+            visibility !== folderProfile.visibility &&
+            $('#folderlibrary-widget .oae-list li[data-id]').length > 0
+        ) {
+            $(document).trigger(
+                'oae.trigger.foldercontentvisibility',
+                folderProfile,
+            );
             // Update the cached visibility
             visibility = folderProfile.visibility;
         }
         setUpClips();
     });
-
 
     //////////////////
     // EDIT DETAILS //
@@ -290,7 +359,5 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         setUpClips();
     });
 
-
     getFolderProfile();
-
 });

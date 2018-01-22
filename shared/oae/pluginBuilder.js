@@ -14,8 +14,8 @@
  */
 define([], function() {
     return {
-        'load': function(name, parentRequire, load, config) {
+        load: function(name, parentRequire, load, config) {
             load({});
-        }
+        },
     };
 });
