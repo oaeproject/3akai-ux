@@ -37,11 +37,16 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
             types = params.types.split(',');
         }
 
+        var createdBy = [];
+        if (params.createdBy) {
+            createdBy = params.createdBy.split(',');
+        }
+
         var data = {
             'q': params.q,
             'tenant': params.tenant,
             'types': types,
-            'createdBy': params.createdBy,
+            'createdBy': createdBy,
             'sortBy': params.sortBy
         };
         return data;
@@ -120,10 +125,10 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
             // Show the 'created by me' search options on the my-tab
             $('#search-refine-creator').show();
 
-            $('#search-refine-creator input[type="checkbox"]').removeAttr('checked');
-            if (queryData.createdBy) {
-                $('#search-refine-creator input[type="checkbox"][data-creator="' + queryData.createdBy + '"]').prop('checked', true);
-            }
+            $('#search-refine-creator input[type="checkbox"]').prop('checked', false);
+            $.each(queryData.createdBy, function(i, createdBy) {
+                $('#search-refine-creator input[type="checkbox"][data-creator="' + createdBy + '"]').prop('checked', true);
+            });
         }
 
         var searchParams = {
@@ -137,8 +142,8 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
             // "My" search never includes users, and will be harmful if only "user" is selected from
             // the "Everything" tab. Just always filter it out
             searchParams.resourceTypes = _.without(searchParams.resourceTypes, 'user');
-            // Select whether to show all results or only items created by the current user
-            if (queryData.createdBy === oae.data.me.id) {
+            // Select whether to show all results or only items created by the current user or other users
+            if (queryData.createdBy) {
                 searchParams.createdBy = queryData.createdBy;
             }
         } else if (searchParams.scope === '_all' && (queryData.tenant || isPrivate)) {
@@ -183,7 +188,11 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
 
         var sort = $(this).data('action');
         var tenant = $('#search-refine-tenant input[type="checkbox"]:checked').attr('data-tenant');
-        var createdBy = $('#search-refine-creator input[type="checkbox"]:checked').attr('data-creator');
+        var createdBy = [];
+
+        $('#search-refine-creator input[type="checkbox"]:checked').each(function() {
+            createdBy.push($(this).attr('data-creator'));
+        });
         var path = oae.api.util.url(History.getState().cleanUrl).attr('path');
 
         var params = {};
