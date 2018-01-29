@@ -15,14 +15,14 @@
 
 define(['jquery', 'oae.core', 'underscore', 'select2'], function($, oae, _, select2) {
 
-    let location = $.url(encodeURI(window.location.href));
-    let protocol = location.attr('protocol');
-    let query = location.attr('relative');
+    var location = $.url(encodeURI(window.location.href));
+    var protocol = location.attr('protocol');
+    var query = location.attr('relative');
 
     return (function () {
         'use strict';
 
-        let searchTenancyModule =  {
+        var searchTenancyModule =  {
             init: function() {
                 this.cacheModule();
                 this.bindEvents();
@@ -62,7 +62,7 @@ define(['jquery', 'oae.core', 'underscore', 'select2'], function($, oae, _, sele
                             // since we are using custom formatting functions we do not need to
                             // alter the remote JSON data, except to indicate that infinite
                             // scrolling can be used
-                            let tenancyResults = _.map(data.results, (eachResult) => {
+                            var tenancyResults = _.map(data.results, function(eachResult) {
                                 return {
                                     host: eachResult.host,
                                     displayName: eachResult.displayName,
@@ -96,7 +96,7 @@ define(['jquery', 'oae.core', 'underscore', 'select2'], function($, oae, _, sele
                 if (tenant.loading) {
                     return tenant.text;
                 }
-                return `<a value="${protocol}://${tenant.host}" class="select2-results__option" id="${tenant.id}" target="_blank">${tenant.displayName}, ${tenant.code}</a>`;
+                return '<a value="' + protocol + '://' +  tenant.host + '" class="select2-results__option" id="' + tenant.id + '" target="_blank">' + tenant.displayName + ', ' + tenant.code + '</a>';
             },
 
             formatRepoSelection: function(tenant) {
@@ -104,7 +104,7 @@ define(['jquery', 'oae.core', 'underscore', 'select2'], function($, oae, _, sele
             },
 
             tenancySelect: function (tenant) {
-                let redirectURL = `${protocol}://${tenant.params.data.host}${query}`;
+                var redirectURL = 'protocol' + '://' + 'tenant.params.data.host' + 'query';
                 this.submit(redirectURL);
             },
 
@@ -119,7 +119,7 @@ define(['jquery', 'oae.core', 'underscore', 'select2'], function($, oae, _, sele
                 .delay(500)
                 .slideUp();
 
-                setTimeout(() => {
+                setTimeout(function() {
                     window.location = redirectURL;
                 }, 500);
             }

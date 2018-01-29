@@ -69,8 +69,7 @@ module.exports = function(grunt) {
                 'quotmark': 'single',
                 'curly': true,
                 'white': false,
-                'strict': false,
-                'esversion': 6
+                'strict': false
             },
             'files': [
                 'admin/**/*.js',
