@@ -1808,9 +1808,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * Redirect the user to the same link but on another tenant
          */
         var logInThroughAnotherTenant = function(tenant) {
-            let relative = url().attr('query').slice(4);
-            let host = url().attr('base').replace(/(\w*)\./, tenant.alias + '.');
-            let newURL = host + relative;
+            var relative = url().attr('query').slice(4);
+            var host = url().attr('base').replace(/(\w*)\./, tenant.alias + '.');
+            var newURL = host + relative;
             window.location = newURL;
         };
 
