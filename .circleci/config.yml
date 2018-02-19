@@ -1,13 +1,30 @@
 version: 2
 jobs:
   build:
-    machine: true
+    docker:
+      - image: mhart/alpine-node:8.9.4
     working_directory: ~/3akai-ux
     steps:
+      - run:
+          name: Install dependencies
+          command: >
+            apk add --update --no-cache
+            git
+            openssh-client
       - checkout
-      - run: npm install -g npm@3.10.10 # default npm version is 5 and it doesn't work
-      # install dependencies
-      - run: npm install
-      # check grunt build
-      - run: grunt
-      - run: grunt jshint
+      - run:
+          name: Install NPM 4.6.1
+          # default npm version is 5 and it doesn't work
+          command: npm install --silent --global npm@4.6.1
+      - run:
+          name: Install Grunt
+          command: npm install --silent --global grunt grunt-cli
+      - run:
+          name: Install NPM dependencies
+          command: npm install --silent
+      - run:
+          name: Production build
+          command: grunt
+      - run:
+          name: Linting
+          command: grunt jshint
