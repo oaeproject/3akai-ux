@@ -459,6 +459,13 @@ require(['jquery', 'oae.core'], function($, oae) {
     });
 
     /**
+     * Trigger the manageaccess widget and pass in context data
+     */
+    $(document).on('click', '.group-trigger-joingroup', function() {
+        $(document).trigger('oae.trigger.joingroup', getManageAccessData());
+    });
+
+    /**
      * Re-render the group's clip when the permissions have been updated
      */
     $(document).on('oae.manageaccess.done', function(ev) {

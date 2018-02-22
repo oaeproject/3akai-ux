@@ -56,6 +56,9 @@
                                         {/if}
                                     {else}
                                         <li><button class="oae-trigger-aboutgroup"><i class="fa fa-info-circle"></i>__MSG__ABOUT__</button></li>
+                                        {if !group.isMember}
+                                            <li><button class="group-trigger-joingroup"><i class="fa fa-paper-plane"></i>__MSG__JOIN_GROUP__</button></li>
+                                        {/if}
                                     {/if}
                                 </ul>
                             </div>
