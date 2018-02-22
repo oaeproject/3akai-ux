@@ -360,4 +360,31 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
             }
         });
     };
+
+    /**
+     * Send a joint group request to managers
+     *
+     * @param  {String}     groupId             The id of the group 
+     * @param  {String}     text                The text written by the user who wants to join the group
+     * @param  {Function}   [callback]          Standard callback function
+     * @param  {Object}     [callback.err]      Error object containing the error code and error message
+     * @throws {Error}                          Error thrown when no group id has been provided
+     */
+    var sendRequestJoinGroup = exports.sendRequestJoinGroup = function(text, groupId, callback) {
+        
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/group/' + groupId + "/request-join",
+            'type': 'POST',
+            'data': {'text': text},
+            'success': function() {
+                callback();
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
 });
