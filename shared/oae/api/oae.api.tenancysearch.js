@@ -104,7 +104,7 @@ define(['jquery', 'oae.core', 'underscore', 'select2'], function($, oae, _, sele
             },
 
             tenancySelect: function (tenant) {
-                var redirectURL = 'protocol' + '://' + 'tenant.params.data.host' + 'query';
+                var redirectURL = protocol.concat('://').concat(tenant.params.data.host).concat(query);
                 this.submit(redirectURL);
             },
 
