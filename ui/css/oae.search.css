@@ -74,3 +74,9 @@
     display: inline-block;
     margin-left: 18px;
 }
+
+.oae-header-title {
+    margin: 8px 0 0;
+    font-size: 20px;
+    line-height: 1.2;
+}

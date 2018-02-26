@@ -32,19 +32,23 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
      */
     var getQueryData = function() {
         var params = oae.api.util.url(History.getState().cleanUrl).param();
-        var q = params.q;
-        var tenant = params.tenant;
         var types = [];
         if (params.types) {
             types = params.types.split(',');
         }
 
+        var createdBy = [];
+        if (params.createdBy) {
+            createdBy = params.createdBy.split(',');
+        }
+
         var data = {
             'q': params.q,
-            'tenant': tenant,
-            'types': types
+            'tenant': params.tenant,
+            'types': types,
+            'createdBy': createdBy,
+            'sortBy': params.sortBy
         };
-
         return data;
     };
 
@@ -104,16 +108,27 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
         // Hide the 'within tenant' checkbox for private tenants
         var isPrivate = oae.api.config.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate');
         if (!isPrivate && currSwitchtabId === 'all') {
+            // Hide the 'created by me' search options on the all-tab
+            $('#search-refine-creator').hide();
+
             // Ensure only the selected tenant is chosen, if at all
             $('#search-refine-tenant').show();
 
             $('#search-refine-tenant input[type="checkbox"]').removeAttr('checked');
             if (queryData.tenant) {
                 $('#search-refine-tenant input[type="checkbox"][data-tenant="' + queryData.tenant + '"]').prop('checked', true);
-            } 
+            }
         } else if (currSwitchtabId === 'my') {
             // Need to hide this again explicitly in case user switches back to 'my' tab
             $('#search-refine-tenant').hide();
+
+            // Show the 'created by me' search options on the my-tab
+            $('#search-refine-creator').show();
+
+            $('#search-refine-creator input[type="checkbox"]').prop('checked', false);
+            $.each(queryData.createdBy, function(i, createdBy) {
+                $('#search-refine-creator input[type="checkbox"][data-creator="' + createdBy + '"]').prop('checked', true);
+            });
         }
 
         var searchParams = {
@@ -127,12 +142,20 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
             // "My" search never includes users, and will be harmful if only "user" is selected from
             // the "Everything" tab. Just always filter it out
             searchParams.resourceTypes = _.without(searchParams.resourceTypes, 'user');
+            // Select whether to show all results or only items created by the current user or other users
+            if (queryData.createdBy) {
+                searchParams.createdBy = queryData.createdBy;
+            }
         } else if (searchParams.scope === '_all' && (queryData.tenant || isPrivate)) {
             // If a tenant is specified or the current tenant is private, we search by the tenant
             if (!queryData.tenant) {
                 queryData.tenant = oae.data.me.tenant.alias;
             }
             searchParams.scope = queryData.tenant;
+        }
+
+        if (queryData.sortBy) {
+            searchParams.sortBy = queryData.sortBy;
         }
 
         // Set up the infinite scroll for the list of search results
@@ -163,8 +186,15 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
             types.push($(this).attr('data-type'));
         });
 
+        var sort = $(this).data('action');
         var tenant = $('#search-refine-tenant input[type="checkbox"]:checked').attr('data-tenant');
+        var createdBy = [];
+
+        $('#search-refine-creator input[type="checkbox"]:checked').each(function() {
+            createdBy.push($(this).attr('data-creator'));
+        });
         var path = oae.api.util.url(History.getState().cleanUrl).attr('path');
+
         var params = {};
 
         if (query) {
@@ -177,6 +207,14 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
 
         if (tenant) {
             params.tenant = tenant;
+        }
+
+        if (sort) {
+            params.sortBy = sort;
+        }
+
+        if (createdBy) {
+            params.createdBy = createdBy;
         }
 
         // Append the query string, if any
@@ -192,7 +230,6 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
      * This will only be executed when the page is loaded.
      */
     var initSearch = function() {
-        oae.api.util.template().render($('#search-list-header-template'), null, $('#search-list-header'));
         oae.api.util.template().render($('#search-lhnavigation-template'), null, $('#search-lhnavigation'));
 
         // We should intelligently detect that if someone goes to /search/<search query>, we should
@@ -251,11 +288,40 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
         // Listen to changes to the checkboxes that refine by tenant
         $('#search-refine-tenant').on('change', 'input[type="checkbox"]', modifySearch);
 
+        // Listen to changes to the checkboxes that refine by creator
+        $('#search-refine-creator').on('change', 'input[type="checkbox"]', modifySearch);
+
+        // Listen to clicks on the buttons to change sorting
+        $('#sortby').on('click', 'button', modifySearch);
+
         // Listen to History.js state changes
         $(window).on('statechange', renderSearch);
     };
 
+    var setUpListHeader = function() {
+        var listHeaderActions = [];
+        listHeaderActions.push({
+            'icon': 'fa-sort-numeric-asc',
+            'label': oae.api.i18n.translate('__MSG__SORT_BY_RELEVANCE__'),
+            'id': 'sortby-score',
+            'data': '_score'
+        }, {
+            'icon': 'fa-sort-alpha-asc',
+            'label': oae.api.i18n.translate('__MSG__SORT_BY_NAME__'),
+            'id': 'sortby-name',
+            'data': 'displayName'
+        }, {
+            'icon': 'fa-clock-o',
+            'label': oae.api.i18n.translate('__MSG__SORT_BY_MODIFIED__'),
+            'id': 'sortby-modified',
+            'data': 'lastModified'
+        });
+
+        oae.api.util.template().render($('#search-list-header-template'), {'actions': listHeaderActions, 'actionsId': oae.api.util.generateId()}, $('#search-list-header'));
+    };
+
     initSearch();
+    setUpListHeader();
     addBinding();
     renderSearch();
 });
