@@ -66,8 +66,15 @@ require(['jquery', 'oae.core'], function($, oae) {
             setUpContext();
 
             // When the current user is not a member and the group is private and joinable, we show the join screen
-            if (!groupProfile.isMember && groupProfile.visibility === 'private' && groupProfile.canJoin) {
+            console.log("groupProfile.canRequest")
+            console.log(groupProfile)
+            console.log(groupProfile.canRequest)
+            if (!groupProfile.isMember && groupProfile.visibility === 'private' && groupProfile.canRequest) {
+                $('#request-group-join-view').show();
+                console.log("request")
+            } else if (!groupProfile.isMember && groupProfile.visibility === 'private' && groupProfile.canJoin) {
                 $('#group-join-view').show();
+                console.log("join")
             } else {
                 // Render the navigation
                 setUpNavigation();

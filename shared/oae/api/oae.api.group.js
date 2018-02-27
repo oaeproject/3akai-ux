@@ -362,23 +362,23 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
     };
 
     /**
-     * Send a joint group request to managers
+     * Create a request
      *
      * @param  {String}     groupId             The id of the group 
-     * @param  {String}     text                The text written by the user who wants to join the group
+     * @param  {String}     role                The role asked by the principal who wants to join the group
      * @param  {Function}   [callback]          Standard callback function
      * @param  {Object}     [callback.err]      Error object containing the error code and error message
      * @throws {Error}                          Error thrown when no group id has been provided
      */
-    var sendRequestJoinGroup = exports.sendRequestJoinGroup = function(text, groupId, callback) {
+    var createRequestJoinGroup = exports.createRequestJoinGroup = function(groupId, role, callback) {
         
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/group/' + groupId + "/request-join",
+            'url': '/api/group/' + groupId + '/request-join/create',
             'type': 'POST',
-            'data': {'text': text},
+            'data': {'role': role},
             'success': function() {
                 callback();
             },
@@ -387,4 +387,162 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
             }
         });
     };
+
+    /**
+     * Update a request
+     *
+     * @param  {String}     groupId             The id of the group 
+     * @param  {String}     role                The role asked by the principal who wants to join the group
+     * @param  {Function}   [callback]          Standard callback function
+     * @param  {Object}     [callback.err]      Error object containing the error code and error message
+     * @throws {Error}                          Error thrown when no group id has been provided
+     */
+    var updateRequestJoinGroup = exports.updateRequestJoinGroup = function(groupId, role, callback) {
+        
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/group/' + groupId + '/request-join/update',
+            'type': 'POST',
+            'data': {'role': role},
+            'success': function() {
+                callback();
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Remove request made by the user
+     *
+     * @param  {String}     groupId             The id of the group 
+     * @param  {Function}   [callback]          Standard callback function
+     * @param  {Object}     [callback.err]      Error object containing the error code and error message
+     * @throws {Error}                          Error thrown when no group id has been provided
+     */
+    var removeRequestJoinGroup = exports.removeRequestJoinGroup = function(groupId, callback) {
+        
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/group/' + groupId + '/request-join/remove',
+            'type': 'DELETE',
+            'success': function() {
+                callback();
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Accept a request
+     *
+     * @param  {String}     groupId             The id of the group 
+     * @param  {String}     principalId         The principal who wants to join the group
+     * @param  {String}     role                The role asked by the principal who wants to join the group
+     * @param  {Function}   [callback]          Standard callback function
+     * @param  {Object}     [callback.err]      Error object containing the error code and error message
+     * @throws {Error}                          Error thrown when no group id has been provided
+     */
+    var acceptJoinGroupByRequest = exports.acceptJoinGroupByRequest = function(groupId, principalId, role, callback) {
+        
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/group/' + groupId + '/request-join/accept',
+            'type': 'POST',
+            'data': {'principalId': principalId, 'role': role},
+            'success': function() {
+                callback();
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Reject a request
+     *
+     * @param  {String}     groupId             The id of the group 
+     * @param  {String}     principalId         The principal who wants to join the group
+     * @param  {Function}   [callback]          Standard callback function
+     * @param  {Object}     [callback.err]      Error object containing the error code and error message
+     * @throws {Error}                          Error thrown when no group id has been provided
+     */
+    var rejectJoinGroupByRequest = exports.rejectJoinGroupByRequest = function(groupId, principalId, callback) {
+        
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/group/' + groupId + '/request-join/reject',
+            'type': 'DELETE',
+            'data': {'principalId': principalId},
+            'success': function() {
+                callback();
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Get all requests for a group 
+     *
+     * @param  {String}     groupId             The id of the group 
+     * @param  {Function}   [callback]          Standard callback function
+     * @param  {Object}     [callback.err]      Error object containing the error code and error message
+     * @throws {Error}                          Error thrown when no group id has been provided
+     */
+    var getRequestsJoinGroup = exports.getRequestsJoinGroup = function(groupId, callback) {
+        
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/group/' + groupId + '/request-join/all',
+            'type': 'GET',
+            'success': function(requests) {
+                callback(null, requests.results);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Get the request done by a user on a group
+     *
+     * @param  {String}     groupId             The id of the group 
+     * @param  {Function}   [callback]          Standard callback function
+     * @param  {Object}     [callback.err]      Error object containing the error code and error message
+     * @throws {Error}                          Error thrown when no group id has been provided
+     */
+    var getRequestJoinGroup = exports.getRequestJoinGroup = function(groupId, callback) {
+        
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/group/' + groupId + '/request-join/',
+            'type': 'GET',
+            'success': function(request) {
+                callback(null, request);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
 });
