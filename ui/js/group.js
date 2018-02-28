@@ -65,16 +65,12 @@ require(['jquery', 'oae.core'], function($, oae) {
             // Set up the context event exchange
             setUpContext();
 
-            // When the current user is not a member and the group is private and joinable, we show the join screen
-            console.log("groupProfile.canRequest")
-            console.log(groupProfile)
-            console.log(groupProfile.canRequest)
+            // When the current user is not a member and the group is private and joinable by a request, we show the join request screen
             if (!groupProfile.isMember && groupProfile.visibility === 'private' && groupProfile.canRequest) {
                 $('#request-group-join-view').show();
-                console.log("request")
+            // When the current user is not a member and the group is private and joinable, we show the join screen
             } else if (!groupProfile.isMember && groupProfile.visibility === 'private' && groupProfile.canJoin) {
                 $('#group-join-view').show();
-                console.log("join")
             } else {
                 // Render the navigation
                 setUpNavigation();
@@ -122,6 +118,10 @@ require(['jquery', 'oae.core'], function($, oae) {
         if (groupProfile.isMember) {
             $('#group-member-actions').show();
             $('#group-join-actions').hide();
+        // Show the join request clip to non-members when the group is joinable by a request
+        } else if (!groupProfile.isMember && groupProfile.canRequest) {
+            $('#group-member-actions').hide();
+            $('#request-group-join-actions').show();
         // Show the join clip to non-members when the group is joinable
         } else if (!groupProfile.isMember && groupProfile.canJoin) {
             $('#group-member-actions').hide();

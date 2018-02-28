@@ -15,17 +15,20 @@
 
 /* Join group */
 
-#group-join-container {
+#group-join-container,
+#request-group-join-container {
     display: table;
     width: 100%;
 }
 
-#group-join-container #group-join {
+#group-join-container #group-join,
+#request-group-join-container #request-group-join {
     display: table-cell;
     height: 350px;
     vertical-align: middle;
 }
 
-#group-join-container #group-join > div {
+#group-join-container #group-join > div,
+#request-group-join-container #request-group-join > div {
     margin-bottom: 15px;
 }
