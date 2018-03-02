@@ -752,10 +752,38 @@ var _expose = function(exports) {
             return _generateMeetingJitsiUpdateMemberRoleSummary(me, activity, properties);
         } else if (activityType === 'meeting-jitsi-update-visibility') {
             return _generateMeetingJitsiUpdateVisibilitySummary(me, activity, properties);
+        } else if (activityType === 'request-to-join-group') {
+            return _generateRequestToJoinGroupSummary(me, activity, properties);
         // Fall back on the default activity summary if no specific template is found for the activity type
         } else {
             return _generateDefaultSummary(me, activity, properties);
         }
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a visibility update activity for a meeting.
+     *
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the meeting visibility update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
+     * @api private
+     */
+    var _generateRequestToJoinGroupSummary = function (me, activity, properties) {
+        var i18nKey = null;
+        if (properties.actorCount === 1) {
+            if (activity.actor['oae:id'] === me.id) {
+                i18nKey = '__MSG__ACTIVITY_REQUEST_TO_JOIN_GROUP_YOU__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_REQUEST_TO_JOIN_GROUP_1__';
+            }
+        } else if (properties.actorCount === 2) {
+            console.log("aff 2 ")
+            i18nKey = '__MSG__ACTIVITY_REQUEST_TO_JOIN_GROUP_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_REQUEST_TO_JOIN_GROUP_2+__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
     };
 
     /**
