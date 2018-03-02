@@ -761,10 +761,10 @@ var _expose = function(exports) {
     };
 
     /**
-     * Render the end-user friendly, internationalized summary of a visibility update activity for a meeting.
+     * Render the end-user friendly, internationalized summary of request activity to join a group.
      *
      * @param  {User}                   me              The currently loggedin user
-     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the meeting visibility update activity, for which to generate the activity summary
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the group update activity, for which to generate the activity summary
      * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                    A summary object
      * @api private
