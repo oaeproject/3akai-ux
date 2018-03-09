@@ -526,54 +526,27 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /////////////////
 
     /**
-     * Get log
+     * Get the users creation/last login date log depending of the variable `type`
      *
-     * @param  {Number}         num                   Number of months of last connection
+     * @param  {Number}         months                Number of months of last connection
+     * @param  {String}         tenantAlias           The alias of the tenant to download users date log
+     * @param  {String}         type                  Two values are possible :   `created` to get the users creation date log 
+     *                                                                            `auth` to get the last login date log
      * @param  {Function}       [callback]            Standard callback function
      * @param  {Object}         [callback.err]        Error object containing error code and error message
-     * @param  {Object}         [callback.data]       Log with csv format
+     * @param  {String}         [callback.data]       log in csv format
      * @throws {Error}                                Error thrown when not all of the required parameters have been provided
      */
-    var getLog = exports.getLog = function(num, tenantAlias, callback) {
+    var getUsersDateLog = exports.getUsersDateLog = function(months, tenantAlias, type, callback) {
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
-        var url = '/api/users/log';
+        var url = '/api/users/logs/' + tenantAlias + '/' + type;
         $.ajax({
             'url': url,
             'type': 'GET',
             'data': {
-                'num': num, 
-                'tenantAlias': tenantAlias
-            },
-            'success': function(data) {
-                callback(null, data);
-            },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
-        });
-    };
-
-    /**
-     * Get user creation date log
-     *
-     * @param  {Number}         num                   Number of months of last connection
-     * @param  {Function}       [callback]            Standard callback function
-     * @param  {Object}         [callback.err]        Error object containing error code and error message
-     * @param  {Object}         [callback.data]       Log with csv format
-     * @throws {Error}                                Error thrown when not all of the required parameters have been provided
-     */
-    var getLogCreation = exports.getLogCreation = function(tenantAlias, callback) {
-        // Set a default callback function in case no callback function has been provided
-        callback = callback || function() {};
-
-        var url = '/api/users/logCreation';
-        $.ajax({
-            'url': url,
-            'type': 'GET',
-            'data': { 
-                'tenantAlias': tenantAlias
+                'months': months
             },
             'success': function(data) {
                 callback(null, data);
