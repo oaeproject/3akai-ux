@@ -541,9 +541,8 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
-        var url = '/api/users/logs/' + tenantAlias + '/' + type;
         $.ajax({
-            'url': url,
+            'url': '/api/users/logs/' + tenantAlias + '/' + type,
             'type': 'GET',
             'data': {
                 'months': months
