@@ -34,6 +34,29 @@ module.exports = function(grunt) {
         'qunit': {
             'files': ['tests/qunit/tests/*.html']
         },
+        'uglify': {
+            'my_target': {
+              'options': {
+                'mangle': {
+                  'reserved': ['jquery']
+                }
+              },
+              'files': [{
+                'expand': true,
+                'src': [
+                    '<%= target %>/optimized/**/*.js',
+                    '!<%= target %>/optimized/**/*.min.js',
+                    '!<%= target %>/optimized/node_modules/**/*.js',
+                    '!<%= target %>/optimized/target/**/*.js',
+                ],
+                'dest': '<%= target %>/optimised',
+                'cwd': '.',
+                'rename': function (dst, src) {
+                    return src;
+                }
+              }]
+            }
+        },
         'lint': {
             'files': [
                 'grunt.js',
@@ -112,12 +135,8 @@ module.exports = function(grunt) {
                     'baseUrl': './shared',
                     'mainConfigFile': './shared/oae/api/oae.bootstrap.js',
                     'dir': '<%= target %>/optimized',
-                    'optimize': 'uglify',
-                    'uglify2': {
-                        'output': {
-                            'max_line_len': 500000
-                        }
-                    },
+                    'normalizeDirDefines': 'all',
+                    'optimize': 'none',
                     'preserveLicenseComments': false,
                     'optimizeCss': 'standard',
                     // TODO: Replace this with a saner value
@@ -132,7 +151,7 @@ module.exports = function(grunt) {
                         'name': 'oae.core',
                         'exclude': ['jquery']
                     }],
-                    'fileExclusionRegExp': /^(\.|<%= target %>|tests|tools|grunt|optimist|properties-parser|readdirp|underscore$|shelljs$|oae-release-tools|mkdirp|es6-promise|cssstyle|resolve|nwmatcher|strip-json-comments|glob$|har-validator|boom|cryptiles|debug|benchmark|hawk|hoek|sntp|json-schema-traverse|robots\.txt)/,
+                    'fileExclusionRegExp': /^(\.|<%= target %>|tests|tools|grunt|optimist|properties-parser|readdirp|underscore$|shelljs$|oae-release-tools|benchmark|robots\.txt)/,
                     'logLevel': 2
                 }
             }
@@ -467,6 +486,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-csslint');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-qunit');
+    grunt.loadNpmTasks('grunt-contrib-uglify-es');
     grunt.loadNpmTasks('grunt-git-describe');
     grunt.loadNpmTasks('grunt-ver');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
