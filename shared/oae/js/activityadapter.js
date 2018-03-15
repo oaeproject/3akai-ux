@@ -778,7 +778,6 @@ var _expose = function(exports) {
                 i18nKey = '__MSG__ACTIVITY_REQUEST_TO_JOIN_GROUP_1__';
             }
         } else if (properties.actorCount === 2) {
-            console.log("aff 2 ")
             i18nKey = '__MSG__ACTIVITY_REQUEST_TO_JOIN_GROUP_2__';
         } else {
             i18nKey = '__MSG__ACTIVITY_REQUEST_TO_JOIN_GROUP_2+__';
