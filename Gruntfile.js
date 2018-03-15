@@ -49,7 +49,7 @@ module.exports = function(grunt) {
                     '!<%= target %>/optimized/node_modules/**/*.js',
                     '!<%= target %>/optimized/target/**/*.js',
                 ],
-                'dest': '<%= target %>/optimised',
+                'dest': '<%= target %>/optimized',
                 'cwd': '.',
                 'rename': function (dst, src) {
                     return src;
