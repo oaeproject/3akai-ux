@@ -767,7 +767,7 @@ module.exports = function(grunt) {
     });
 
     // Default task for production build
-    grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'touchBootstrap', 'hashFiles', 'cdn', 'writeVersion', 'configNginx']);
+    grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'uglify', 'touchBootstrap', 'hashFiles', 'cdn', 'writeVersion', 'configNginx']);
 };
 
 /**
