@@ -365,47 +365,18 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * Create a request
      *
      * @param  {String}     groupId             The id of the group 
-     * @param  {String}     role                The role asked by the principal who wants to join the group
      * @param  {Function}   [callback]          Standard callback function
      * @param  {Object}     [callback.err]      Error object containing the error code and error message
      * @throws {Error}                          Error thrown when no group id has been provided
      */
-    var createRequestJoinGroup = exports.createRequestJoinGroup = function(groupId, role, callback) {
-        
+    var createRequestJoinGroup = exports.createRequestJoinGroup = function(groupId, callback) {
+
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
         $.ajax({
             'url': '/api/group/' + groupId + '/request-join/create',
             'type': 'POST',
-            'data': {'role': role},
-            'success': function() {
-                callback();
-            },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
-        });
-    };
-
-    /**
-     * Update a request
-     *
-     * @param  {String}     groupId             The id of the group 
-     * @param  {String}     role                The role asked by the principal who wants to join the group
-     * @param  {Function}   [callback]          Standard callback function
-     * @param  {Object}     [callback.err]      Error object containing the error code and error message
-     * @throws {Error}                          Error thrown when no group id has been provided
-     */
-    var updateRequestJoinGroup = exports.updateRequestJoinGroup = function(groupId, role, callback) {
-        
-        // Set a default callback function in case no callback function has been provided
-        callback = callback || function() {};
-
-        $.ajax({
-            'url': '/api/group/' + groupId + '/request-join/update',
-            'type': 'POST',
-            'data': {'role': role},
             'success': function() {
                 callback();
             },
@@ -424,7 +395,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @throws {Error}                          Error thrown when no group id has been provided
      */
     var removeRequestJoinGroup = exports.removeRequestJoinGroup = function(groupId, callback) {
-        
+
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
@@ -451,7 +422,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @throws {Error}                          Error thrown when no group id has been provided
      */
     var acceptJoinGroupByRequest = exports.acceptJoinGroupByRequest = function(groupId, principalId, role, callback) {
-        
+
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
@@ -478,7 +449,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @throws {Error}                          Error thrown when no group id has been provided
      */
     var rejectJoinGroupByRequest = exports.rejectJoinGroupByRequest = function(groupId, principalId, callback) {
-        
+
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
@@ -504,7 +475,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @throws {Error}                          Error thrown when no group id has been provided
      */
     var getRequestsJoinGroup = exports.getRequestsJoinGroup = function(groupId, callback) {
-        
+
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
@@ -529,7 +500,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @throws {Error}                          Error thrown when no group id has been provided
      */
     var getRequestJoinGroup = exports.getRequestJoinGroup = function(groupId, callback) {
-        
+
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
