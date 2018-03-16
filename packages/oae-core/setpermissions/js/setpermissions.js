@@ -85,6 +85,8 @@ define(['jquery', 'oae.core'], function($, oae) {
             // the list of context names to display
             if (pageContext.id !== oae.data.me.id) {
                 selectedContextNames.push(pageContext.displayName);
+                // Replace the name of the folder by descriptif text + the name of the folder
+                $('#as-selection-0001 > span').text(oae.api.i18n.translate('__MSG__MEMBERS_OF_FOLDER__') + ' ' + pageContext.displayName);
             }
 
             // Compile the list of users and groups the item is being shared with excluding

@@ -31,6 +31,9 @@ define(['jquery', 'oae.core', 'jquery.fileupload', 'jquery.iframe-transport', 'j
         // Variable that keeps track of the selected visibility for the files to upload
         var visibility = null;
 
+        // Variable that keeps track of the folder visibility
+        var folderVisibility = null;
+
         // Generate a widget ID for the new instance of the `setpermissions` widget. This widget ID
         // will be used in the event communication between this widget and the `setpermissions` widget.
         var setPermissionsId = oae.api.util.generateId();
@@ -327,6 +330,11 @@ define(['jquery', 'oae.core', 'jquery.fileupload', 'jquery.iframe-transport', 'j
                 // Update visibility for files
                 visibility = data.visibility;
 
+                // Update visibility folder
+                if (data.selectedFolderItems[0]) {
+                    folderVisibility = data.selectedFolderItems[0].visibility;
+                }
+
                 // Update the members of the selected files
                 $.each(selectedFiles, function(index, file) {
                     file.viewers = _.chain(data.selectedPrincipalItems)
@@ -504,6 +512,11 @@ define(['jquery', 'oae.core', 'jquery.fileupload', 'jquery.iframe-transport', 'j
                         // Show the uploading animation and add focus to it so the browser scrolls
                         $spinner.removeClass('hide').focus();
 
+                        // If the visibility collabdoc is 'inherit', the collabdoc will inherit the folder visibility
+                        if (visibility === 'inherit') {
+                            visibility = folderVisibility;
+                        }
+                        
                         oae.api.content.createFile(file.displayName, file.description, visibility, $('#upload-input', $rootel), file.file, [], file.viewers, file.folders, function(error, data) {
                             $spinner.addClass('hide');
                             if (!error) {

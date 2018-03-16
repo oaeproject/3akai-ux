@@ -24,6 +24,8 @@ define(['jquery', 'oae.core'], function ($, oae) {
         var managers = [];
         // Variable that keeps track of the folders to add this document to
         var folders = [];
+        // Variable that keeps track of the folder visibility
+        var folderVisibility = null;
 
         // Variable that keeps track of the selected visibility for the document to create
         var visibility = null;
@@ -110,6 +112,11 @@ define(['jquery', 'oae.core'], function ($, oae) {
                 // Update visibility for document
                 visibility = data.visibility;
 
+                // Update visibility folder
+                if (data.selectedFolderItems[0]) {
+                    folderVisibility = data.selectedFolderItems[0].visibility;
+                }
+
                 managers = _.pluck(data.selectedPrincipalItems, 'shareId');
                 folders = _.pluck(data.selectedFolderItems, 'id');
 
@@ -154,6 +161,11 @@ define(['jquery', 'oae.core'], function ($, oae) {
             $('#createcollabdoc-form *', $rootel).prop('disabled', true);
 
             var displayName = $.trim($('#createcollabdoc-name', $rootel).val());
+
+            // If the visibility collabdoc is 'inherit', the collabdoc will inherit the folder visibility
+            if (visibility === 'inherit') {
+                visibility = folderVisibility;
+            }
 
             oae.api.content.createCollabDoc(displayName, '', visibility, managers, [], [], folders, function (err, data) {
                 // If the creation succeeded, redirect to the document
