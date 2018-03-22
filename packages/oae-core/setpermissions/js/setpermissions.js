@@ -35,6 +35,9 @@ define(['jquery', 'oae.core'], function($, oae) {
         // user/group that the item will be shared with
         var pageContext = null;
 
+        // List of members of the current file
+        var folderMembers = [];
+
         /**
          * Translate and returns the i18n key associated to personal library that will be the target of the item being added
          *
@@ -58,10 +61,8 @@ define(['jquery', 'oae.core'], function($, oae) {
 
         /**
          * Trigger an event when changes have been made to the visibility settings
-         *
-         * @param  [Object]   folderMembers    The folder members
          */
-        var savePermissionsChange = function(folderMembers) {
+        var savePermissionsChange = function() {
             // Get the items in the share with list
             var selection = oae.api.util.autoSuggest().getSelection($rootel);
 
@@ -96,8 +97,6 @@ define(['jquery', 'oae.core'], function($, oae) {
             // the list of context names to display
             if (pageContext.id !== oae.data.me.id) {
                 selectedContextNames.push(pageContext.displayName);
-                // Replace the name of the folder by descriptif text + the name of the folder
-                $('#as-selection-0001 > span').text(oae.api.i18n.translate('__MSG__MEMBERS_OF_FOLDER__') + ' ' + pageContext.displayName);
             }
 
             // Get the selected visibility setting
@@ -137,17 +136,20 @@ define(['jquery', 'oae.core'], function($, oae) {
                 if (err) {
                     return callback(err);
                 };
-                return callback(null, _.map(members.results, function(member) { return member.profile; }));
+
+                var membersProfile = _.map(members.results, function(member) { return member.profile; });
+                folderMembers = _.reject(membersProfile, function(profile) { return profile.id === oae.data.me.id; });
+
+                return callback();
             });
         };
 
         /**
          * Initialize the autosuggest used for sharing with other users or groups
          *
-         * @param  [Object]         folderMembers       The folder members
          * @param  {Function}       callback            Standard callback function
          */
-        var setUpAutoSuggest = function(folderMembers, callback) {
+        var setUpAutoSuggest = function(callback) {
 
             widgetData.preFill = widgetData.preFill.concat(folderMembers);
 
@@ -173,13 +175,13 @@ define(['jquery', 'oae.core'], function($, oae) {
                 pageContext = data;
 
                 // If the resource is inside of a folder, get the folder members to add them to the resource
-                getFolderMembers(pageContext.id, function(err, folderMembers) {
+                getFolderMembers(pageContext.id, function(err) {
                     if (err) {
                         return err;
                     }
 
                     // Immediately pass the default permissions summary back to the widget caller
-                    setUpAutoSuggest(folderMembers, savePermissionsChange(folderMembers));
+                    setUpAutoSuggest(savePermissionsChange);
                 });
             });
             $(document).trigger('oae.context.get', 'setpermissions.' + uid);
