@@ -58,8 +58,10 @@ define(['jquery', 'oae.core'], function($, oae) {
 
         /**
          * Trigger an event when changes have been made to the visibility settings
+         *
+         * @param  [Object]   folderMembers    The folder members
          */
-        var savePermissionsChange = function() {
+        var savePermissionsChange = function(folderMembers) {
             // Get the items in the share with list
             var selection = oae.api.util.autoSuggest().getSelection($rootel);
 
@@ -81,6 +83,15 @@ define(['jquery', 'oae.core'], function($, oae) {
                 selectedContextNames.push(getLibraryi18n(widgetData.type));
             }
 
+            // Compile the list of users and groups the item is being shared with excluding
+            // the current user and the current page context, as those are being presented
+            // separately in the summary
+            var selectedOutsideContext = _.filter(selectedPrincipalItems, function(selectedPrincipalItem) {
+                return (selectedPrincipalItem.id !== oae.data.me.id && selectedPrincipalItem.id !== pageContext.id);
+            });
+
+            selectedOutsideContext.concat(folderMembers);
+
             // The item is always shared with the current context, so ensure it is high priority in
             // the list of context names to display
             if (pageContext.id !== oae.data.me.id) {
@@ -88,13 +99,6 @@ define(['jquery', 'oae.core'], function($, oae) {
                 // Replace the name of the folder by descriptif text + the name of the folder
                 $('#as-selection-0001 > span').text(oae.api.i18n.translate('__MSG__MEMBERS_OF_FOLDER__') + ' ' + pageContext.displayName);
             }
-
-            // Compile the list of users and groups the item is being shared with excluding
-            // the current user and the current page context, as those are being presented
-            // separately in the summary
-            var selectedOutsideContext = _.filter(selectedPrincipalItems, function(selectedPrincipalItem) {
-                return (selectedPrincipalItem.id !== oae.data.me.id && selectedPrincipalItem.id !== pageContext.id);
-            });
 
             // Get the selected visibility setting
             var visibility = $('#setpermissions-container input[type="radio"]:checked', $rootel).val();
@@ -118,11 +122,35 @@ define(['jquery', 'oae.core'], function($, oae) {
         };
 
         /**
+         * Get the members of the folder if the resource is inside of a folder
+         *
+         * @param  {String}         folderId                    The folder id
+         * @param  {Function}       callback                    Standard callback function
+         */
+        var getFolderMembers = function(folderId, callback) {
+
+            if (oae.data.me.id === folderId) {
+                return callback(null, []);
+            }
+
+            oae.api.folder.getMembers(folderId, null, null, function(err, members) {
+                if (err) {
+                    return callback(err);
+                };
+                return callback(null, _.map(members.results, function(member) { return member.profile; }));
+            });
+        };
+
+        /**
          * Initialize the autosuggest used for sharing with other users or groups
          *
+         * @param  [Object]         folderMembers       The folder members
          * @param  {Function}       callback            Standard callback function
          */
-        var setUpAutoSuggest = function(callback) {
+        var setUpAutoSuggest = function(folderMembers, callback) {
+
+            widgetData.preFill = widgetData.preFill.concat(folderMembers);
+
             oae.api.util.autoSuggest().setup($('#setpermissions-share', $rootel), {
                 'allowEmail': true,
                 'ghosts': widgetData.ghosts,
@@ -143,8 +171,16 @@ define(['jquery', 'oae.core'], function($, oae) {
             // Trigger and bind an event that will ask for the page context
             $(document).on('oae.context.send.setpermissions.' + uid, function(ev, data) {
                 pageContext = data;
-                // Immediately pass the default permissions summary back to the widget caller
-                setUpAutoSuggest(savePermissionsChange);
+
+                // If the resource is inside of a folder, get the folder members to add them to the resource
+                getFolderMembers(pageContext.id, function(err, folderMembers) {
+                    if (err) {
+                        return err;
+                    }
+
+                    // Immediately pass the default permissions summary back to the widget caller
+                    setUpAutoSuggest(folderMembers, savePermissionsChange(folderMembers));
+                });
             });
             $(document).trigger('oae.context.get', 'setpermissions.' + uid);
         };
