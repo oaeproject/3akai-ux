@@ -94,6 +94,7 @@ requirejs.config({
         'oae.api.lti' : 'oae/api/oae.api.lti',
         'oae.api.meetingJitsi': 'oae/api/oae.api.meetingJitsi',
         'oae.api.push': 'oae/api/oae.api.push',
+        'oae.api.transfer': 'oae/api/oae.api.transfer',
         'oae.api.user': 'oae/api/oae.api.user',
         'oae.api.tenancysearch': 'oae/api/oae.api.tenancysearch',
         'oae.api.util': 'oae/api/oae.api.util',
