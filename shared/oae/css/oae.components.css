@@ -172,13 +172,11 @@ div.oae-hr > span:after {
  * in the system. The available visibility privacy options are `private`, `loggedin` and
  * `public`.
  *   e.g. <i class="fa fa-oae-private"><span class="sr-only">__MSG__PRIVATE__</span></i>
- *        <i class="fa fa-oae-inherit"><span class="sr-only">__MSG__INHERIT__</span></i>
  *        <i class="fa fa-oae-loggedin"><span class="sr-only">__MSG__LOGGED_IN__</span></i>
  *        <i class="fa fa-oae-public"><span class="sr-only">__MSG__PUBLIC__</span></i>
  *
  * Large icons can be rendered by adding the `large` class to the icon.
  *   e.g. <i class="fa fa-oae-private large"><span class="sr-only">__MSG__PRIVATE__</span></i>
- *        <i class="fa fa-oae-inherit large"><span class="sr-only">__MSG____MSG__INHERIT____</span></i>
  *        <i class="fa fa-oae-loggedin large"><span class="sr-only">__MSG__LOGGED_IN__</span></i>
  *        <i class="fa fa-oae-public large"><span class="sr-only">__MSG__PUBLIC__</span></i>
  *
@@ -188,7 +186,6 @@ div.oae-hr > span:after {
  */
 
 i.fa-oae-private,
-i.fa-oae-inherit,
 i.fa-oae-loggedin,
 i.fa-oae-public {
     font-size: 18px;
@@ -197,7 +194,6 @@ i.fa-oae-public {
 }
 
 i.fa-oae-private:before,
-i.fa-oae-inherit:before,
 i.fa-oae-loggedin:before,
 i.fa-oae-public:before {
     border-radius: 500px;
@@ -214,12 +210,6 @@ i.fa-oae-public:before {
 i.fa-oae-private:before {
     background-color: #FFBC78;
     content: "\f023";
-}
-
-i.fa-oae-inherit:before {
-    background-color: #FFA3F4;
-    content: "\f07c";
-    padding-left: 2px;
 }
 
 i.fa-oae-loggedin:before {
@@ -247,9 +237,6 @@ i.fa.large:before {
     width: 60px;
 }
 
-i.fa.large.fa-oae-inherit:before {
-    padding-left: 6px;
-}
 
 
 /*******************
