@@ -1,0 +1,26 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="css/ethercalc.css" />
+
+<div id="ethercalc-container"><!-- --></div>
+
+
+<div id="ethercalc-template"><!--
+    <div id="ethercalc-edit-mode">
+        <iframe src="${url}" id="ethercalc-editor"></iframe>
+    </div>
+--></div>
+
+<div id="ethercalc-view-mode-template"><!--
+    <div id="ethercalc-view-mode">
+        {if !isBlank}
+            <div class="well">${ethercalcHTML}</div>
+        {else}
+            <div class="alert alert-warning">
+                <span>__MSG__NO_CONTENT_DESCRIPTION__</span>
+            </div>
+        {/if}
+    </div>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="js/ethercalc.js"></script>

@@ -51,6 +51,8 @@
         {if failedContent.length === 1}
             {if failedContent[0].resourceSubType === 'collabdoc'}
                 __MSG__THE_FOLLOWING_DOCUMENT_COULD_NOT_BE_DELETED__
+            {elseif failedContent[0].resourceSubType === 'collabsheet'}
+                __MSG__THE_FOLLOWING_DOCUMENT_COULD_NOT_BE_DELETED__
             {elseif failedContent[0].resourceSubType === 'file'}
                 __MSG__THE_FOLLOWING_FILE_COULD_NOT_BE_DELETED__
             {elseif failedContent[0].resourceSubType === 'link'}

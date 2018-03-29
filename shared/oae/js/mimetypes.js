@@ -48,6 +48,10 @@ var _expose = function(exports) {
             // The collabdoc type will be used for collaborative documents
             'description': '__MSG__DOCUMENT__'
         },
+        'collabsheet': {
+            // This type is used for ethercalc spreadsheets
+            'description': '__MSG__SPREADSHEET__'
+        },
         'css': {
             'description': '__MSG__CSS_FILE__',
             'regex': 'text/css'
