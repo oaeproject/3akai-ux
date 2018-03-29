@@ -24,6 +24,8 @@
         {if count === 1}
             {if resourceSubType === 'collabdoc'}
                 __MSG__SELECT_USERS_AND_GROUPS_TO_SHARE_DOCUMENT_WITH__
+            {elseif resourceSubType === 'collabsheet'}
+                __MSG__SELECT_USERS_AND_GROUPS_TO_SHARE_COLLABSHEET_WITH__
             {elseif resourceSubType === 'file'}
                 __MSG__SELECT_USERS_AND_GROUPS_TO_SHARE_FILE_WITH__
             {elseif resourceSubType === 'link'}
@@ -52,6 +54,8 @@
             {if mylibrary}
                 {if resourceSubType === 'collabdoc'}
                     __MSG__DOCUMENT_ADDED__
+                {elseif resourceSubType === 'collabsheet'}
+                    __MSG__COLLABSHEET_ADDED__
                 {elseif resourceSubType === 'file'}
                     __MSG__FILE_ADDED__
                 {elseif resourceSubType === 'link'}
@@ -64,6 +68,8 @@
             {else}
                 {if resourceSubType === 'collabdoc'}
                     __MSG__DOCUMENT_SHARED__
+                {elseif resourceSubType === 'collabsheet'}
+                    __MSG__COLLABSHEET_SHARED__
                 {elseif resourceSubType === 'file'}
                     __MSG__FILE_SHARED__
                 {elseif resourceSubType === 'link'}
@@ -88,6 +94,8 @@
             {if mylibrary}
                 {if resourceSubType === 'collabdoc'}
                     __MSG__DOCUMENT_NOT_ADDED__
+                {elseif resourceSubType === 'collabsheet'}
+                    __MSG__COLLABSHEET_NOT_ADDED__
                 {elseif resourceSubType === 'file'}
                     __MSG__FILE_NOT_ADDED__
                 {elseif resourceSubType === 'link'}
@@ -100,6 +108,8 @@
             {else}
                 {if resourceSubType === 'collabdoc'}
                     __MSG__DOCUMENT_NOT_SHARED__
+                {elseif resourceSubType === 'collabsheet'}
+                    __MSG__COLLABSHEET_NOT_SHARED__
                 {elseif resourceSubType === 'file'}
                     __MSG__FILE_NOT_SHARED__
                 {elseif resourceSubType === 'link'}
@@ -128,6 +138,8 @@
             {if mylibrary}
                 {if resourceSubType === 'collabdoc'}
                     __MSG__DOCUMENT_ADDED_SUCCESS__
+                {elseif resourceSubType === 'collabsheet'}
+                    __MSG__COLLABSHEET_ADDED_SUCCESS__
                 {elseif resourceSubType === 'file'}
                     __MSG__FILE_ADDED_SUCCESS__
                 {elseif resourceSubType === 'link'}
@@ -140,6 +152,8 @@
             {else}
                 {if resourceSubType === 'collabdoc'}
                     __MSG__DOCUMENT_SHARED_SUCCESS__
+                {elseif resourceSubType === 'collabsheet'}
+                    __MSG__COLLABSHEET_SHARED_SUCCESS__
                 {elseif resourceSubType === 'file'}
                     __MSG__FILE_SHARED_SUCCESS__
                 {elseif resourceSubType === 'link'}
@@ -164,6 +178,8 @@
             {if mylibrary}
                 {if resourceSubType === 'collabdoc'}
                     __MSG__DOCUMENT_ADDED_FAIL__
+                {elseif resourceSubType === 'collabsheet'}
+                    __MSG__COLLABSHEET_ADDED_FAIL__
                 {elseif resourceSubType === 'file'}
                     __MSG__FILE_ADDED_FAIL__
                 {elseif resourceSubType === 'link'}
@@ -176,6 +192,8 @@
             {else}
                 {if resourceSubType === 'collabdoc'}
                     __MSG__DOCUMENT_SHARED_FAIL__
+                {elseif resourceSubType === 'collabsheet'}
+                    __MSG__COLLABSHEET_SHARED_FAIL__
                 {elseif resourceSubType === 'file'}
                     __MSG__FILE_SHARED_FAIL__
                 {elseif resourceSubType === 'link'}

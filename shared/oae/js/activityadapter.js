@@ -972,6 +972,8 @@ var _expose = function(exports) {
         if (properties.objectCount === 1) {
             if (activity.object['oae:resourceSubType'] === 'collabdoc') {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_COLLABDOC__';
+            } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_COLLABSHEET__';
             } else if (activity.object['oae:resourceSubType'] === 'file') {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_FILE__';
             } else if (activity.object['oae:resourceSubType'] === 'link') {
@@ -1004,6 +1006,14 @@ var _expose = function(exports) {
             } else {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_COLLABDOC_2+__';
             }
+        } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+            if (properties.actorCount === 1) {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_COLLABSHEET_1__';
+            } else if (properties.actorCount === 2) {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_COLLABSHEET_2__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_COLLABSHEET_2+__';
+            }
         } else if (activity.target['oae:resourceSubType'] === 'file') {
             if (properties.actorCount === 1) {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_FILE_1__';
@@ -1021,7 +1031,7 @@ var _expose = function(exports) {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_LINK_2+__';
             }
         }
-        return new ActivityViewSummary(i18nKey, properties);
+            return new ActivityViewSummary(i18nKey, properties);
     };
 
     /**
@@ -1042,6 +1052,8 @@ var _expose = function(exports) {
                 if (properties.objectCount === 1) {
                     if (activity.object['oae:resourceSubType'] === 'collabdoc') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_YOU__';
+                    } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABSHEET_YOU__';
                     } else if (activity.object['oae:resourceSubType'] === 'file') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_YOU__';
                     } else if (activity.object['oae:resourceSubType'] === 'link') {
@@ -1056,6 +1068,8 @@ var _expose = function(exports) {
                 if (properties.objectCount === 1) {
                     if (activity.object['oae:resourceSubType'] === 'collabdoc') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_FOLDER__';
+                    } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABSHEET_FOLDER__';
                     } else if (activity.object['oae:resourceSubType'] === 'file') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_FOLDER__';
                     } else if (activity.object['oae:resourceSubType'] === 'link') {
@@ -1070,6 +1084,8 @@ var _expose = function(exports) {
                 if (properties.objectCount === 1) {
                     if (activity.object['oae:resourceSubType'] === 'collabdoc') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_GROUP__';
+                    } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABSHEET_GROUP__';
                     } else if (activity.object['oae:resourceSubType'] === 'file') {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_GROUP__';
                     } else if (activity.object['oae:resourceSubType'] === 'link') {
@@ -1085,6 +1101,8 @@ var _expose = function(exports) {
             if (properties.objectCount === 1) {
                 if (activity.object['oae:resourceSubType'] === 'collabdoc') {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC__';
+                } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABSHEET__';
                 } else if (activity.object['oae:resourceSubType'] === 'file') {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE__';
                 } else if (activity.object['oae:resourceSubType'] === 'link') {
@@ -1118,6 +1136,14 @@ var _expose = function(exports) {
             } else {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABDOC_2+__';
             }
+        } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+            if (properties.actorCount === 1) {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABSHEET_1__';
+            } else if (properties.actorCount === 2) {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABSHEET_2__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABSHEET_2+__';
+            }
         } else if (activity.object['oae:resourceSubType'] === 'file') {
             if (properties.actorCount === 1) {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_FILE_1__';
@@ -1148,6 +1174,14 @@ var _expose = function(exports) {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_COLLABDOC_2__';
             } else {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_COLLABDOC_2+__';
+            }
+        } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+            if (properties.actorCount === 1) {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_COLLABSHEET_1__';
+            } else if (properties.actorCount === 2) {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_COLLABSHEET_2__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_COLLABSHEET_2+__';
             }
         } else if (activity.object['oae:resourceSubType'] === 'file') {
             if (properties.actorCount === 1) {
@@ -1192,6 +1226,18 @@ var _expose = function(exports) {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_2__';
                 } else {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_2+__';
+                }
+            } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+                if (properties.targetCount === 1) {
+                   if (activity.target['oae:id'] === me.id) {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABSHEET_YOU__';
+                    } else {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABSHEET_1__';
+                    }
+                } else if (properties.targetCount === 2) {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABSHEET_2__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABSHEET_2+__';
                 }
             } else if (activity.object['oae:resourceSubType'] === 'file') {
                 if (properties.targetCount === 1) {
@@ -1259,6 +1305,18 @@ var _expose = function(exports) {
             } else {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_2+__';
             }
+        } else if (activity.target['oae:resourceSubType'] === 'collabsheet') {
+            if (properties.objectCount === 1) {
+               if (activity.object['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABSHEET_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABSHEET_1__';
+                }
+            } else if (properties.objectCount === 2) {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABSHEET_2__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABSHEET_2+__';
+            }
         } else if (activity.target['oae:resourceSubType'] === 'file') {
             if (properties.objectCount === 1) {
                if (activity.object['oae:id'] === me.id) {
@@ -1306,6 +1364,14 @@ var _expose = function(exports) {
             } else {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_COLLABDOC_2+__';
             }
+        } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+            if (properties.actorCount === 1) {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_COLLABSHEET_1__';
+            } else if (properties.actorCount === 2) {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_COLLABSHEET_2__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_COLLABSHEET_2+__';
+            }
         } else if (activity.object['oae:resourceSubType'] === 'file') {
             if (properties.actorCount === 1) {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_FILE_1__';
@@ -1344,6 +1410,14 @@ var _expose = function(exports) {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_LOGGEDIN__';
             } else {
                 i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_PRIVATE__';
+            }
+        } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+            if (activity.object['oae:visibility'] === 'public') {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABSHEET_PUBLIC__';
+            } else if (activity.object['oae:visibility'] === 'loggedin') {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABSHEET_LOGGEDIN__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABSHEET_PRIVATE__';
             }
         } else if (activity.object['oae:resourceSubType'] === 'file') {
             if (activity.object['oae:visibility'] === 'public') {
@@ -1550,6 +1624,8 @@ var _expose = function(exports) {
         if (properties.objectCount === 1) {
             if (activity.object['oae:resourceSubType'] === 'collabdoc') {
                 i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_COLLABDOC__';
+            } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+                i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_COLLABSHEET__';
             } else if (activity.object['oae:resourceSubType'] === 'file') {
                 i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_FILE__';
             } else if (activity.object['oae:resourceSubType'] === 'link') {
