@@ -18,6 +18,8 @@
                     {else}
                         {if contextProfile.resourceSubType === 'collabdoc'}
                             __MSG__DELETE_DOCUMENT__
+                        {elseif contextProfile.resourceSubType === 'collabsheet'}
+                            __MSG__DELETE_COLLABSHEET__
                         {elseif contextProfile.resourceSubType === 'file'}
                             __MSG__DELETE_FILE__
                         {elseif contextProfile.resourceSubType === 'link'}
@@ -37,6 +39,8 @@
                     {else}
                         {if contextProfile.resourceSubType === 'collabdoc'}
                             __MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_DOCUMENT__
+                        {elseif contextProfile.resourceSubType === 'collabsheet'}
+                            __MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_COLLABSHEET__
                         {elseif contextProfile.resourceSubType === 'file'}
                             __MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_FILE__
                         {elseif contextProfile.resourceSubType === 'link'}
@@ -60,6 +64,8 @@
                     {else}
                         {if contextProfile.resourceSubType === 'collabdoc'}
                             __MSG__DELETE_DOCUMENT__
+                        {elseif contextProfile.resourceSubType === 'collabsheet'}
+                            __MSG__DELETE_COLLABSHEET__
                         {elseif contextProfile.resourceSubType === 'file'}
                             __MSG__DELETE_FILE__
                         {elseif contextProfile.resourceSubType === 'link'}
@@ -83,6 +89,8 @@
         {else}
             {if contextProfile.resourceSubType === 'collabdoc'}
                 __MSG__DOCUMENT_NOT_DELETED__
+            {elseif contextProfile.resourceSubType === 'collabsheet'}
+                __MSG__COLLABSHEET_NOT_DELETED__
             {elseif contextProfile.resourceSubType === 'file'}
                 __MSG__FILE_NOT_DELETED__
             {elseif contextProfile.resourceSubType === 'link'}
@@ -99,6 +107,8 @@
         {else}
             {if contextProfile.resourceSubType === 'collabdoc'}
                 __MSG__DOCUMENT_DELETED__
+            {elseif contextProfile.resourceSubType === 'collabsheet'}
+                __MSG__COLLABSHEET_DELETED__
             {elseif contextProfile.resourceSubType === 'file'}
                 __MSG__FILE_DELETED__
             {elseif contextProfile.resourceSubType === 'link'}
@@ -119,6 +129,8 @@
         {else}
             {if contextProfile.resourceSubType === 'collabdoc'}
                 __MSG__DOCUMENT_DELETE_FAIL__
+            {elseif contextProfile.resourceSubType === 'collabsheet'}
+                __MSG__COLLABSHEET_DELETE_FAIL__
             {elseif contextProfile.resourceSubType === 'file'}
                 __MSG__FILE_DELETE_FAIL__
             {elseif contextProfile.resourceSubType === 'link'}
@@ -135,6 +147,8 @@
         {elseif contextProfile.resourceType === 'content'}
             {if contextProfile.resourceSubType === 'collabdoc'}
                 __MSG__DOCUMENT_DELETE_SUCCESS__
+            {elseif contextProfile.resourceSubType === 'collabsheet'}
+                __MSG__COLLABSHEET_DELETE_SUCCESS__
             {elseif contextProfile.resourceSubType === 'file'}
                 __MSG__FILE_DELETE_SUCCESS__
             {elseif contextProfile.resourceSubType === 'link'}

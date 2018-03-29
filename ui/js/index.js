@@ -154,6 +154,12 @@ require(['jquery','oae.core'], function($, oae) {
                     'class': 'oae-trigger-createcollabdoc'
                 },
                 {
+                    'icon': 'fa-table',
+                    'title': oae.api.i18n.translate('__MSG__SPREADSHEET__'),
+                    'closeNav': true,
+                    'class': 'oae-trigger-createcollabsheet'
+                },
+                {
                     'icon': 'fa-comments',
                     'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
                     'closeNav': true,

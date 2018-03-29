@@ -35,6 +35,8 @@
             {if resourceType === 'content'}
                 {if resourceSubType === 'collabdoc'}
                     __MSG__DELETE_DOCUMENT__
+                {elseif resourceSubType === 'collabsheet'}
+                    __MSG__DELETE_COLLABSHEET__
                 {elseif resourceSubType === 'file'}
                     __MSG__DELETE_FILE__
                 {elseif resourceSubType === 'link'}
@@ -97,6 +99,8 @@
                     {var resourceSubType = resources[0].resourceSubType}
                     {if resourceSubType === 'collabdoc'}
                         __MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_DOCUMENT__
+                    {elseif resourceSubType === 'collabsheet'}
+                        __MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_COLLABSHEET__
                     {elseif resourceSubType === 'file'}
                         __MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_FILE__
                     {elseif resourceSubType === 'link'}
@@ -188,6 +192,8 @@
             {if resourceType === 'content'}
                 {if resourceSubType === 'collabdoc'}
                     __MSG__DOCUMENT_DELETED__
+                {elseif resourceSubType === 'collabsheet'}
+                    __MSG__COLLABSHEET_DELETED__
                 {elseif resourceSubType === 'file'}
                     __MSG__FILE_DELETED__
                 {elseif resourceSubType === 'link'}
@@ -216,6 +222,8 @@
             {if resourceType === 'content'}
                 {if resourceSubType === 'collabdoc'}
                     __MSG__DOCUMENT_NOT_DELETED__
+                {elseif resourceSubType === 'collabsheet'}
+                    __MSG__COLLABSHEET_NOT_DELETED__
                 {elseif resourceSubType === 'file'}
                     __MSG__FILE_NOT_DELETED__
                 {elseif resourceSubType === 'link'}
@@ -248,6 +256,8 @@
             {if resourceType === 'content'}
                 {if resourceSubType === 'collabdoc'}
                     __MSG__DOCUMENT_DELETE_SUCCESS__
+                {elseif resourceSubType === 'collabsheet'}
+                    __MSG__COLLABSHEET_DELETE_SUCCESS__
                 {elseif resourceSubType === 'file'}
                     __MSG__FILE_DELETE_SUCCESS__
                 {elseif resourceSubType === 'link'}
@@ -276,7 +286,9 @@
             {if resourceType === 'content'}
                 {if resourceSubType === 'collabdoc'}
                     __MSG__DOCUMENT_DELETE_FAIL__
-                {elseif resourceSubType === 'file'}
+                {elseif resourceSubType === 'collabsheet'}
+                    __MSG__COLLABSHEET_DELETE_FAIL__
+                 {elseif resourceSubType === 'file'}
                     __MSG__FILE_DELETE_FAIL__
                 {elseif resourceSubType === 'link'}
                     __MSG__LINK_DELETE_FAIL__

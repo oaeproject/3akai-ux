@@ -23,7 +23,7 @@ define(['jquery', 'oae.core'], function($, oae) {
      * @param  {Bookean}    ghosts[i].selected  Whether or not the ghost item should be selected by default
      * @param  {Object[]}   preFill             Items that should be pre-filled into the autosuggest share field upon initialization
      * @param  {Bookean}    preFill[i].fixed    Whether or not the pre-filled item should be undeleteable from the share list
-     * @param  {String}     type                The type of item that will be added to the system (one of `file`, `link`, `collabdoc` or `folder`)
+     * @param  {String}     type                The type of item that will be added to the system (one of `file`, `link`, `collabdoc`, `collabsheet` or `folder`)
      * @param  {String}     visibility          The default visibility for the items that are being added to the system (one of `public`, `loggedin` or `private`)
      */
     return function(uid, showSettings, widgetData) {
@@ -38,7 +38,7 @@ define(['jquery', 'oae.core'], function($, oae) {
         /**
          * Translate and returns the i18n key associated to personal library that will be the target of the item being added
          *
-         * @param  {String}   type    The type of the items handled by the widget ('file', 'link', 'collabdoc' or 'discussion')
+         * @param  {String}   type    The type of the items handled by the widget ('file', 'link', 'collabdoc', 'collabsheet' or 'discussion')
          * @return {String}           Returns the translated string associated to personal library the item will be added to (e.g. `My Library`, `My Discussions`)
          */
         var getLibraryi18n = function(type) {

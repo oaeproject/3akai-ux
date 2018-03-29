@@ -278,6 +278,53 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
     };
 
     /**
+     * Create a new collaborative spreadsheet
+     *
+     * @param  {String}       displayName         Display title for the created collaborative spreadsheet
+     * @param  {String}       [description]       The collaborative spreadsheet's description
+     * @param  {String}       [visibility]        The collaborative spreadsheet's visibility. This can be public, loggedin or private
+     * @param  {String[]}     [managers]          Array of user/group ids that should be added as managers to the collaborative spreadsheet
+     * @param  {String[]}     [editors]           Array of user/group ids that should be added as editors to the collaborative spreadsheet
+     * @param  {String[]}     [viewers]           Array of user/group ids that should be added as viewers to the collaborative spreadsheet
+     * @param  {String[]}     [folders]           Array of folder ids to which the collaborative spreadsheet should be added
+     * @param  {Function}     [callback]          Standard callback function
+     * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @param  {Content}      [callback.content]  Content object representing the created collaborative spreadsheet
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     */
+    var createCollabSheet = exports.createCollabSheet = function(displayName, description, visibility, managers, editors, viewers, folders, callback) {
+        if (!displayName) {
+            throw new Error('A valid spreadsheet name should be provided');
+        }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        var data = {
+            'resourceSubType': 'collabsheet',
+            'displayName': displayName,
+            'description': description,
+            'visibility': visibility,
+            'managers': managers,
+            'editors': editors,
+            'viewers': viewers,
+            'folders': folders
+        };
+
+        $.ajax({
+            'url': '/api/content/create',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
      * Restore a revision. The restored revision will become the content item's current revision, and will have the same content as that revision.
      * Revisions can only be restored for documents and files.
      *
