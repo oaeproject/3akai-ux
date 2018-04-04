@@ -338,4 +338,29 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
             }
         });
     };
+
+    /**
+     * Get the data of a user
+     *
+     * @param  {String}     exportType          Export type can be 'personal-data', 'content' or 'shared'
+     * @param  {Function}   callback            Standard callback function
+     * @param  {Object}     callback.err        Error object containing error code and error message
+     */
+    var exportData = exports.exportData = function(exportType, callback) {
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        var userId = require('oae.core').data.me.id;
+
+        $.ajax({
+            'url': '/api/user/' + userId + '/export/' + exportType,
+            'type': 'GET',
+            'success': function(data) {
+                callback(data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
 });
