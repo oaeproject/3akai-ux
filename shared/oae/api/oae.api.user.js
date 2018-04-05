@@ -356,7 +356,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
             'url': '/api/user/' + userId + '/export/' + exportType,
             'type': 'GET',
             'success': function(data) {
-                callback(data);
+                callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
