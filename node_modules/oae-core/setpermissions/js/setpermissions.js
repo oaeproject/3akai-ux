@@ -137,8 +137,10 @@ define(['jquery', 'oae.core'], function($, oae) {
                     return callback(err);
                 };
 
-                var membersProfile = _.map(members.results, function(member) { return member.profile; });
-                folderMembers = _.reject(membersProfile, function(profile) { return profile.id === oae.data.me.id; });
+                folderMembers = _.chain(members.results)
+                    .map(function(member) { return member.profile; })
+                    .reject(function(member) { return member.id === oae.data.me.id; })
+                    .value();
 
                 return callback();
             });

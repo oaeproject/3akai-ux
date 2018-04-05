@@ -22,6 +22,7 @@ define(['jquery', 'oae.core'], function ($, oae) {
 
         // Variable that keeps track of the people and groups to share this document with
         var managers = [];
+        var editors = [];
         // Variable that keeps track of the folders to add this document to
         var folders = [];
 
@@ -110,7 +111,11 @@ define(['jquery', 'oae.core'], function ($, oae) {
                 // Update visibility for document
                 visibility = data.visibility;
 
-                managers = _.pluck(data.selectedPrincipalItems, 'shareId');
+                managers = [oae.data.me.id];
+                editors = _.chain(data.selectedPrincipalItems)
+                    .reject(function(member) { return member.id === oae.data.me.id; })
+                    .pluck('id')
+                    .value();
                 folders = _.pluck(data.selectedFolderItems, 'id');
 
                 // Add the permissions summary
@@ -155,7 +160,7 @@ define(['jquery', 'oae.core'], function ($, oae) {
 
             var displayName = $.trim($('#createcollabdoc-name', $rootel).val());
 
-            oae.api.content.createCollabDoc(displayName, '', visibility, managers, [], [], folders, function (err, data) {
+            oae.api.content.createCollabDoc(displayName, '', visibility, managers, editors, [], folders, function (err, data) {
                 // If the creation succeeded, redirect to the document
                 if (!err) {
                     window.location = data.profilePath;
