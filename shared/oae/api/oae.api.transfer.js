@@ -26,7 +26,7 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Transfer}          [callback.transfer]      A transfer object representing the created transfer
      * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
      */
-	var createTransfer = exports.createTransfer = function(originalEmail, targetEmail, originalUserId, callback) {
+	var initiateTransfer = exports.initiateTransfer = function(originalEmail, targetEmail, originalUserId, callback) {
         if (!originalEmail) {
             throw new Error('A valid originalEmail should be provided');
         }
@@ -47,7 +47,7 @@ define(['exports', 'jquery'], function(exports, $) {
         };
 
         $.ajax({
-            'url': '/api/transfer/create',
+            'url': '/api/transfer',
             'type': 'POST',
             'data': data,
             'success': function(data) {
@@ -87,7 +87,7 @@ define(['exports', 'jquery'], function(exports, $) {
     };
 
     /**
-     * Make the Transfer
+     * Complete the Transfer
      *
      * @param  {String}       originalEmail       The email origin
      * @param  {String}       code                The secured code
@@ -98,7 +98,7 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Transfer}     callback.transfer   The transfer object representing the requested transfer
      * @throws {Error}                            Error thrown when no transfer has been provided or when the code is wrong
      */
-    var makeTransfer = exports.makeTransfer = function(originalEmail, code, targetEmail, targetUserId, callback) {
+    var completeTransfer = exports.completeTransfer = function(originalEmail, code, targetEmail, targetUserId, callback) {
 		if (!originalEmail) {
             throw new Error('A valid originalEmail should be provided');
         }
@@ -118,13 +118,12 @@ define(['exports', 'jquery'], function(exports, $) {
         var data = {
             'originalEmail': originalEmail, 
             'code': code, 
-            'targetEmail': targetEmail,
-            'targetUserId': targetUserId
+            'targetEmail': targetEmail
         };
 
         $.ajax({
-            'url': '/api/transfer/makeTransfer',
-            'type': 'POST',
+            'url': '/api/transfer/' + targetUserId,
+            'type': 'PUT',
             'data': data,
             'success': function(data) {
                 callback(null, data);
@@ -137,15 +136,15 @@ define(['exports', 'jquery'], function(exports, $) {
     };
 
     /**
-     * Delete the Transfer
+     * Cancel the Transfer
      *
-     * @param  {String}       originalEmail         The email origine
+     * @param  {String}       originalEmail       The email origine
      * @param  {Function}     callback            Standard callback function
      * @param  {Object}       callback.err        Error object containing error code and error message
      * @param  {Transfer}     callback.transfer   The transfer object representing the requested transfer
      * @throws {Error}                            Error thrown when no transfer has been provided or when the code is wrong
      */
-    var deleteTransfer = exports.deleteTransfer = function(originalEmail, code, originalUserId, callback) {
+    var cancelTransfer = exports.cancelTransfer = function(originalEmail, code, originalUserId, callback) {
         if (!originalEmail) {
             throw new Error('A valid email should be provided');
         }
@@ -161,13 +160,12 @@ define(['exports', 'jquery'], function(exports, $) {
 
         var data = {
             'originalEmail': originalEmail,
-            'code': code, 
-            'originalUserId': originalUserId
+            'code': code
         };
 
         $.ajax({
-            'url': '/api/transfer/deleteTransfer',
-            'type': 'POST',
+            'url': '/api/transfer/' + originalUserId,
+            'type': 'DELETE',
             'data': data,
             'success': function(data) {
                 callback(null, data);
