@@ -75,7 +75,8 @@ define(['exports', 'jquery'], function(exports, $) {
         }
 
         $.ajax({
-            'url': '/api/transfer/getTransferById/' + originalUserId,
+            'url': '/api/transfer/' + originalUserId,
+            'type': 'GET',
             'success': function(data) {
                 callback(null, data);
             },
@@ -118,7 +119,8 @@ define(['exports', 'jquery'], function(exports, $) {
         var data = {
             'originalEmail': originalEmail, 
             'code': code, 
-            'targetEmail': targetEmail
+            'targetEmail': targetEmail,
+            'status': 'completed'
         };
 
         $.ajax({
@@ -160,12 +162,13 @@ define(['exports', 'jquery'], function(exports, $) {
 
         var data = {
             'originalEmail': originalEmail,
-            'code': code
+            'code': code,
+            'status': 'canceled'
         };
 
         $.ajax({
             'url': '/api/transfer/' + originalUserId,
-            'type': 'DELETE',
+            'type': 'PUT',
             'data': data,
             'success': function(data) {
                 callback(null, data);
