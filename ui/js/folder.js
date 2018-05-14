@@ -59,6 +59,12 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                         'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
                         'closeNav': true,
                         'class': 'oae-trigger-createcollabdoc'
+                    },
+                    {
+                        'icon': 'fa-table',
+                        'title': oae.api.i18n.translate('__MSG__SPREADSHEET__'),
+                        'closeNav': true,
+                        'class': 'oae-trigger-createcollabsheet'
                     }
                 ]
             });
