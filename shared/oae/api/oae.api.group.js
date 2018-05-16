@@ -370,12 +370,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @throws {Error}                          Error thrown when no group id has been provided
      */
     var createRequestJoinGroup = exports.createRequestJoinGroup = function(groupId, callback) {
+        if (!groupId) {
+            throw new Error('A valid group id should be provided');
+        }
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/group/' + groupId + '/request-join/create',
+            'url': '/api/group/' + groupId + '/join-request',
             'type': 'POST',
             'success': function() {
                 callback();
@@ -387,21 +390,25 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
     };
 
     /**
-     * Remove request made by the user
+     * Cancel request made by the user
      *
      * @param  {String}     groupId             The id of the group 
      * @param  {Function}   [callback]          Standard callback function
      * @param  {Object}     [callback.err]      Error object containing the error code and error message
      * @throws {Error}                          Error thrown when no group id has been provided
      */
-    var removeRequestJoinGroup = exports.removeRequestJoinGroup = function(groupId, callback) {
+    var cancelRequestJoinGroup = exports.cancelRequestJoinGroup = function(groupId, callback) {
+        if (!groupId) {
+            throw new Error('A valid group id should be provided');
+        }
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/group/' + groupId + '/request-join/remove',
-            'type': 'DELETE',
+            'url': '/api/group/' + groupId + '/join-request',
+            'data': {'status': 'cancel'},
+            'type': 'PUT',
             'success': function() {
                 callback();
             },
@@ -422,14 +429,27 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @throws {Error}                          Error thrown when no group id has been provided
      */
     var acceptJoinGroupByRequest = exports.acceptJoinGroupByRequest = function(groupId, principalId, role, callback) {
+        if (!groupId) {
+            throw new Error('A valid group id should be provided');
+        } if (!principalId) {
+            throw new Error('A valid principal id should be provided');
+        } if (!role) {
+            throw new Error('A valid role should be provided');
+        }
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
+        var data = {
+            'principalId': principalId,
+            'role': role,
+            'status': 'accept'
+        };
+
         $.ajax({
-            'url': '/api/group/' + groupId + '/request-join/accept',
-            'type': 'POST',
-            'data': {'principalId': principalId, 'role': role},
+            'url': '/api/group/' + groupId + '/join-request',
+            'type': 'PUT',
+            'data': data,
             'success': function() {
                 callback();
             },
@@ -449,14 +469,24 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @throws {Error}                          Error thrown when no group id has been provided
      */
     var rejectJoinGroupByRequest = exports.rejectJoinGroupByRequest = function(groupId, principalId, callback) {
+        if (!groupId) {
+            throw new Error('A valid group id should be provided');
+        } if (!principalId) {
+            throw new Error('A valid principal id should be provided');
+        }
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
+        var data = {
+            'principalId': principalId,
+            'status': 'reject'
+        };
+
         $.ajax({
-            'url': '/api/group/' + groupId + '/request-join/reject',
-            'type': 'DELETE',
-            'data': {'principalId': principalId},
+            'url': '/api/group/' + groupId + '/join-request',
+            'type': 'PUT',
+            'data': data,
             'success': function() {
                 callback();
             },
@@ -475,12 +505,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @throws {Error}                          Error thrown when no group id has been provided
      */
     var getRequestsJoinGroup = exports.getRequestsJoinGroup = function(groupId, callback) {
+        if (!groupId) {
+            throw new Error('A valid group id should be provided');
+        } 
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/group/' + groupId + '/request-join/all',
+            'url': '/api/group/' + groupId + '/join-request/all',
             'type': 'GET',
             'success': function(requests) {
                 callback(null, requests.results);
@@ -500,12 +533,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @throws {Error}                          Error thrown when no group id has been provided
      */
     var getRequestJoinGroup = exports.getRequestJoinGroup = function(groupId, callback) {
+        if (!groupId) {
+            throw new Error('A valid group id should be provided');
+        } 
 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/group/' + groupId + '/request-join/',
+            'url': '/api/group/' + groupId + '/join-request/',
             'type': 'GET',
             'success': function(request) {
                 callback(null, request);
