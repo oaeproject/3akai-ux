@@ -353,6 +353,6 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
         var userId = require('oae.core').data.me.id;
 
         window.location = '/api/user/' + userId + '/export/' + exportType;
-        callback(null);
+        callback();
     };
 });
