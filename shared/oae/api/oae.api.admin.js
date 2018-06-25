@@ -541,19 +541,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
-        $.ajax({
-            'url': '/api/users/logs/' + tenantAlias + '/' + type,
-            'type': 'GET',
-            'data': {
-                'months': months
-            },
-            'success': function(data) {
-                callback(null, data);
-            },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
-        });
+        window.location = '/api/users/logs/' + tenantAlias + '/' + type + '/' + months;
+        callback();
     };
-
 });
