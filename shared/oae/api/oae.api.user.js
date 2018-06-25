@@ -352,15 +352,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
 
         var userId = require('oae.core').data.me.id;
 
-        $.ajax({
-            'url': '/api/user/' + userId + '/export/' + exportType,
-            'type': 'GET',
-            'success': function(data) {
-                callback(null, data);
-            },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
-        });
+        window.location = '/api/user/' + userId + '/export/' + exportType;
+        callback(null);
     };
 });
