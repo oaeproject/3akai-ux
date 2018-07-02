@@ -120,12 +120,6 @@ require(['jquery','oae.core'], function($, oae) {
 
         // Structure that will be used to construct the left hand navigation actions
         var lhNavActions = [{
-            'icon': 'fa-cloud-download',
-            'title': oae.api.i18n.translate('__MSG__EXPORT__'),
-            'closeNav': true,
-            'class': 'oae-trigger-exportdata'
-        },
-        {
             'icon': 'fa-cloud-upload',
             'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
             'closeNav': true,
