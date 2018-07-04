@@ -349,10 +349,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
     var exportData = exports.exportData = function(exportType, callback) {
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
-
         var userId = require('oae.core').data.me.id;
-
-        window.location = '/api/user/' + userId + '/export/' + exportType;
+        window.location.href = '/api/user/' + userId + '/export/' + exportType;
+        
         callback();
     };
 });
