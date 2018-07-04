@@ -196,7 +196,7 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
                     var needsToProvideEmail = !oae.data.me.email;
 
                     // Show the edit profile widget if a valid name or email address need to be provided
-                    if (needsToProvideDisplayName || needsToProvideEmail) {
+                    if ((needsToProvideDisplayName || needsToProvideEmail) && !oae.data.me.isUserArchive) {
                         $(document).trigger('oae.trigger.editprofile');
 
                     // Show the Terms and Conditions widget if the user needs to accept the Terms and Conditions
