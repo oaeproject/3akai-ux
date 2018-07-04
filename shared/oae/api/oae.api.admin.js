@@ -541,7 +541,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
-        window.location = '/api/users/logs/' + tenantAlias + '/' + type + '/' + months;
+        window.location.href = '/api/users/logs/' + tenantAlias + '/' + type + '/' + months;
         callback();
     };
 });
