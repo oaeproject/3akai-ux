@@ -544,4 +544,10 @@ require(['jquery', 'oae.core'], function($, oae) {
 
     setUpGroupProfile();
 
+    getGroupProfile(function() {
+
+        // Reload the breadcrumb
+        $(document).trigger('oae.trigger.breadcrumb', {widgetData: groupProfile, tag: $('#breadcrumb')}); 
+    });
+
 });

@@ -334,6 +334,7 @@ require(['jquery','oae.core'], function($, oae) {
         // the page content
         setUpAnonNavigation();
 
+
     } else {
 
         // For logged in users, we have to handle various events
@@ -347,6 +348,9 @@ require(['jquery','oae.core'], function($, oae) {
 
         // Show user preferences if, e.g., it's deep-linked via the URL
         showPreferences();
+        
+        // Reload the breadcrumb
+        $(document).trigger('oae.trigger.breadcrumb', {widgetData: oae.data.me, tag: $('#breadcrumb')});
 
     }
 });

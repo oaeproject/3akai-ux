@@ -75,7 +75,7 @@ require(['jquery','oae.core'], function($, oae) {
      * can't be found or is private to the current user, the appropriate
      * error page will be shown
      */
-    var getDiscussionProfile = function() {
+    var getDiscussionProfile = function(callback) {
         oae.api.discussion.getDiscussion(discussionId, function(err, profile) {
             if (err) {
                 if (err.code === 401) {
@@ -98,6 +98,8 @@ require(['jquery','oae.core'], function($, oae) {
             oae.api.util.showPage();
             // Set up the discussion push notifications
             setUpPushNotifications();
+
+            return callback();
         });
     };
 
@@ -254,6 +256,10 @@ require(['jquery','oae.core'], function($, oae) {
         refreshDiscussionProfile(updatedDiscussion);
     });
 
-    getDiscussionProfile();
 
+    getDiscussionProfile(function() {
+
+        // Reload the breadcrumb
+        $(document).trigger('oae.trigger.breadcrumb', {widgetData: discussionProfile, tag: $('#breadcrumb')}); 
+    });
 });
