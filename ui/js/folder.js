@@ -296,6 +296,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     getFolderProfile(function() {
 
         // Reload the breadcrumb
-        $(document).trigger('oae.trigger.breadcrumb', {widgetData: folderProfile, tag: $('#breadcrumb')}); 
+        $(document).trigger('oae.trigger.breadcrumb', folderProfile);
     });
 });

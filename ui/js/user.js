@@ -231,7 +231,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     getUserProfile(function() {
 
         // Reload the breadcrumb
-        $(document).trigger('oae.trigger.breadcrumb', {widgetData: userProfile, tag: $('#breadcrumb')}); 
+        $(document).trigger('oae.trigger.breadcrumb', userProfile);
     });
 
 });

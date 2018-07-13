@@ -260,6 +260,6 @@ require(['jquery','oae.core'], function($, oae) {
     getDiscussionProfile(function() {
 
         // Reload the breadcrumb
-        $(document).trigger('oae.trigger.breadcrumb', {widgetData: discussionProfile, tag: $('#breadcrumb')}); 
+        $(document).trigger('oae.trigger.breadcrumb', discussionProfile); 
     });
 });

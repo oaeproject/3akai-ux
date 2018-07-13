@@ -326,5 +326,5 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
     renderSearch();
 
     // reset the breadcrumb
-    $(document).trigger('oae.trigger.breadcrumb', {widgetData: oae.data.me, tag: $('#breadcrumb')});
+    $(document).trigger('oae.trigger.breadcrumb', oae.data.me);
 });

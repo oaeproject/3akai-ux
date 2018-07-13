@@ -198,7 +198,7 @@ require(['jquery', 'oae.core'], function ($, oae) {
     getMeetingProfile(function() {
 
         // Reload the breadcrumb
-        $(document).trigger('oae.trigger.breadcrumb', {widgetData: meetingProfile, tag: $('#breadcrumb')}); 
+        $(document).trigger('oae.trigger.breadcrumb', meetingProfile);
     });
 
 });

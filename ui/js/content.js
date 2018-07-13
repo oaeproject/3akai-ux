@@ -370,6 +370,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     getContentProfile(function() {
 
         // Reload the breadcrumb
-        $(document).trigger('oae.trigger.breadcrumb', {widgetData: contentProfile, tag: $('#breadcrumb')}); 
+        $(document).trigger('oae.trigger.breadcrumb', contentProfile); 
     });
 });

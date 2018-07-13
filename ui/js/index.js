@@ -350,7 +350,7 @@ require(['jquery','oae.core'], function($, oae) {
         showPreferences();
         
         // Reload the breadcrumb
-        $(document).trigger('oae.trigger.breadcrumb', {widgetData: oae.data.me, tag: $('#breadcrumb')});
+        $(document).trigger('oae.trigger.breadcrumb', oae.data.me);
 
     }
 });
