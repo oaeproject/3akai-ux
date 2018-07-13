@@ -984,6 +984,15 @@ div.oae-thumbnail i.fa {
 
 /* Left-hand navigation collapsed view */
 @media (max-width: 991px) {
+    /* Hide from screen readers */
+    .oae-lhnavigation[aria-hidden=true] {
+        display: none;
+    }
+
+    .oae-lhnavigation.oae-lhnav-expanded {
+        display: block;
+    }
+
     .oae-page {
         margin-left: 0;
         padding-left: 25px;
