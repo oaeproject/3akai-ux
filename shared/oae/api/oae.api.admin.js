@@ -492,6 +492,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}      reprocessParameters                              Parameters that determine what content item previews need to be reprocessed
      * @param  {String[]}    [reprocessParameters.revision_mime]              An array of mimetypes to be reprocessed (e.g., `application/pdf`)
      * @param  {String[]}    [reprocessParameters.content_resourceSubType]    An array of content types to be reprocessed. Can contain `collabdoc`, `file` or `link`
+     * @param  {String[]}    [reprocessParameters.content_tenant]             An array of tenant aliases to be reprocessed.
      * @param  {String[]}    [reprocessParameters.revision_previewStatus]     An array of preview statuses that need to be reprocessed. Can contain `error` or `ignored`
      * @param  {Date}        [reprocessParameters.revision_createdAfter]      A date after which content previews need to be reprocessed
      * @param  {Date}        [reprocessParameters.revision_createdBefore]     A date before which content previews need to be reprocessed
@@ -521,4 +522,28 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         });
     };
 
+
+    /////////////
+    // TENANTS //
+    /////////////
+
+    /**
+     * Get the list of tenants
+     *
+     * @param  {Function}    callback             Standard callback function
+     * @param  {Object}      callback.err         Error object containing error code and error message
+     * @param  {Object}      callback.response    Object containing all available tenants in the system
+     */
+    var getTenants = exports.getTenants = function(callback) {
+        $.ajax({
+            'url': '/api/tenants',
+            'type': 'GET',
+            success: function(data) {
+                callback(null, data);
+            },
+            error: function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
 });
