@@ -324,4 +324,7 @@ require(['jquery', 'oae.core', 'underscore', 'jquery.history', 'jquery.switchtab
     setUpListHeader();
     addBinding();
     renderSearch();
+
+    // reset the breadcrumb
+    $(document).trigger('oae.trigger.breadcrumb', oae.data.me);
 });

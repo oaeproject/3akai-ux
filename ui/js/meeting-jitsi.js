@@ -106,7 +106,7 @@ require(['jquery', 'oae.core'], function ($, oae) {
         }, $('#meeting-jitsi-clip-container'));
     };
 
-    var getMeetingProfile = function () {
+    var getMeetingProfile = function (callback) {
 
         oae.api.meetingJitsi.getMeeting(meetingId, function (err, profile) {
 
@@ -133,6 +133,8 @@ require(['jquery', 'oae.core'], function ($, oae) {
 
             // We can now unhide the page
             oae.api.util.showPage();
+
+            return callback();
         });
     };
 
@@ -192,6 +194,11 @@ require(['jquery', 'oae.core'], function ($, oae) {
         refreshMeetingProfile(updatedMeeting);
     });
 
-    getMeetingProfile();
+
+    getMeetingProfile(function() {
+
+        // Reload the breadcrumb
+        $(document).trigger('oae.trigger.breadcrumb', meetingProfile);
+    });
 
 });

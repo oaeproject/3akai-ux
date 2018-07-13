@@ -76,7 +76,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * can't be found or is private to the current user, the appropriate
      * error page will be shown
      */
-    var getContentProfile = function() {
+    var getContentProfile = function(callback) {
         oae.api.content.getContent(contentId, function(err, profile) {
             if (err) {
                 if (err.code === 401) {
@@ -99,6 +99,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             oae.api.util.showPage();
             // Setup the push notifications to update this content profile on the fly
             setUpPushNotifications();
+
+            return callback();
         });
     };
 
@@ -365,6 +367,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     });
 
 
-    getContentProfile();
+    getContentProfile(function() {
 
+        // Reload the breadcrumb
+        $(document).trigger('oae.trigger.breadcrumb', contentProfile); 
+    });
 });

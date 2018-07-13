@@ -110,7 +110,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * can't be found or is private to the current user, the appropriate
      * error page will be shown
      */
-    var getFolderProfile = function() {
+    var getFolderProfile = function(callback) {
         oae.api.folder.getFolder(folderId, function(err, profile) {
             if (err) {
                 // 401 might have been because the user tried to access it through a different tenant, let's fix that
@@ -138,6 +138,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             oae.api.util.showPage();
             // Setup the push notifications to update the folder on the fly
             setUpPushNotifications();
+
+            return callback();
         });
     };
 
@@ -291,6 +293,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     });
 
 
-    getFolderProfile();
+    getFolderProfile(function() {
 
+        // Reload the breadcrumb
+        $(document).trigger('oae.trigger.breadcrumb', folderProfile);
+    });
 });

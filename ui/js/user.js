@@ -36,7 +36,7 @@ require(['jquery', 'oae.core'], function($, oae) {
      * can't be found or is private to the current user, the appropriate
      * error page will be shown
      */
-    var getUserProfile = function() {
+    var getUserProfile = function(callback) {
         oae.api.user.getUser(userId, function(err, profile) {
             if (err && err.code === 404) {
                 oae.api.util.redirect().notfound();
@@ -52,6 +52,8 @@ require(['jquery', 'oae.core'], function($, oae) {
             setUpNavigation();
             // Set up the context event exchange
             setUpContext();
+
+            return callback();
         });
     };
 
@@ -225,6 +227,11 @@ require(['jquery', 'oae.core'], function($, oae) {
     // Follow the user when the `follow` button is clicked
     $(document).on('click', '.user-follow', followUser);
 
-    getUserProfile();
+
+    getUserProfile(function() {
+
+        // Reload the breadcrumb
+        $(document).trigger('oae.trigger.breadcrumb', userProfile);
+    });
 
 });
