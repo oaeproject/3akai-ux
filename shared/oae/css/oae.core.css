@@ -32,6 +32,9 @@
 /* Import the JQuery AutoSuggest plugin CSS */
 @import url('../../vendor/css/jquery.autoSuggest.css');
 
+/* Import the Video.js CSS file */
+@import url('../../vendor/css/videojs/video-js.css');
+
 /* Import the OAE Core styles. These will be used for bootstrap overrides, as well
    as styles used in the main portal that are not expected to be re-used in widgets */
 @import url('../../oae/css/oae.base.css');

@@ -62,6 +62,7 @@ requirejs.config({
         'tinycon': 'vendor/js/tinycon',
         'trimpath': 'vendor/js/trimpath',
         'underscore': 'vendor/js/underscore',
+        'videojs': 'vendor/js/video',
 
         // OAE paths
         'activityadapter': 'oae/js/activityadapter',
