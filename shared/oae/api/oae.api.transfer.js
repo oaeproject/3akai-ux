@@ -88,7 +88,7 @@ define(['exports', 'jquery'], function(exports, $) {
     };
 
     /**
-     * Complete the Transfer
+     * Complete a transfer
      *
      * @param  {String}       originalEmail       The email origin
      * @param  {String}       code                The secured code
@@ -138,7 +138,7 @@ define(['exports', 'jquery'], function(exports, $) {
     };
 
     /**
-     * Cancel the Transfer
+     * Cancel a transfer
      *
      * @param  {String}       originalEmail       The email origine
      * @param  {Function}     callback            Standard callback function
