@@ -521,4 +521,27 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         });
     };
 
+    /////////////////
+    //     LOG     //
+    /////////////////
+
+    /**
+     * Get the users creation/last login date log depending of the variable `type`
+     *
+     * @param  {Number}         months                Number of months of last connection
+     * @param  {String}         tenantAlias           The alias of the tenant to download users date log
+     * @param  {String}         type                  Two values are possible :   `created` to get the users creation date log 
+     *                                                                            `auth` to get the last login date log
+     * @param  {Function}       [callback]            Standard callback function
+     * @param  {Object}         [callback.err]        Error object containing error code and error message
+     * @param  {String}         [callback.data]       log in csv format
+     * @throws {Error}                                Error thrown when not all of the required parameters have been provided
+     */
+    var getUsersDateLog = exports.getUsersDateLog = function(months, tenantAlias, type, callback) {
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        window.location.href = '/api/users/logs/' + tenantAlias + '/' + type + '/' + months;
+        callback();
+    };
 });
