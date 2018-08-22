@@ -192,11 +192,12 @@ define(['underscore', 'oae.api.admin', 'oae.api.authentication', 'oae.api.config
 
                 // Perform any invitation accepting if instructed and if possible
                 acceptInvitation(function() {
-                    var needsToProvideDisplayName = !oae.api.util.validation().isValidDisplayName(oae.data.me.displayName);
-                    var needsToProvideEmail = !oae.data.me.email;
+                    let needsToProvideDisplayName = !oae.api.util.validation().isValidDisplayName(oae.data.me.displayName);
+                    let needsToProvideEmail = !oae.data.me.email;
+                    let userIsntArchived = !oae.data.me.isUserArchive;
 
                     // Show the edit profile widget if a valid name or email address need to be provided
-                    if ((needsToProvideDisplayName || needsToProvideEmail) && !oae.data.me.isUserArchive) {
+                    if ((needsToProvideDisplayName || needsToProvideEmail) && userIsntArchived) {
                         $(document).trigger('oae.trigger.editprofile');
 
                     // Show the Terms and Conditions widget if the user needs to accept the Terms and Conditions
