@@ -29,11 +29,9 @@ define(['exports', 'jquery'], function(exports, $) {
 	var initiateTransfer = exports.initiateTransfer = function(originalEmail, targetEmail, originalUserId, callback) {
         if (!originalEmail) {
             throw new Error('A valid originalEmail should be provided');
-        }
-        if (!targetEmail) {
+        } else if (!targetEmail) {
             throw new Error('A valid targetEmail should be provided');
-        }
-        if (!originalUserId) {
+        } else if (!originalUserId) {
             throw new Error('A valid user id should be provided');
         }
 
@@ -102,14 +100,11 @@ define(['exports', 'jquery'], function(exports, $) {
     var completeTransfer = exports.completeTransfer = function(originalEmail, code, targetEmail, targetUserId, callback) {
 		if (!originalEmail) {
             throw new Error('A valid originalEmail should be provided');
-        }
-        if (!targetEmail) {
+        } else if (!targetEmail) {
             throw new Error('A valid targetEmail should be provided');
-        }
-        if (!code) {
+        } else if (!code) {
             throw new Error('A valid code should be provided');
-        }
-        if (!targetUserId) {
+        } else if (!targetUserId) {
             throw new Error('A valid user id should be provided');
         }
 
@@ -149,11 +144,9 @@ define(['exports', 'jquery'], function(exports, $) {
     var cancelTransfer = exports.cancelTransfer = function(originalEmail, code, originalUserId, callback) {
         if (!originalEmail) {
             throw new Error('A valid email should be provided');
-        }
-        if (!code) {
+        } else if (!code) {
             throw new Error('A valid code should be provided');
-        }
-        if (!originalUserId) {
+        } else if (!originalUserId) {
             throw new Error('A valid user id should be provided');
         }
 
