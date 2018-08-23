@@ -431,9 +431,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
     var acceptJoinGroupByRequest = exports.acceptJoinGroupByRequest = function(groupId, principalId, role, callback) {
         if (!groupId) {
             throw new Error('A valid group id should be provided');
-        } if (!principalId) {
+        } else if (!principalId) {
             throw new Error('A valid principal id should be provided');
-        } if (!role) {
+        } else if (!role) {
             throw new Error('A valid role should be provided');
         }
 
