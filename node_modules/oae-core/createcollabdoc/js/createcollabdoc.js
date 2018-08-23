@@ -127,7 +127,7 @@ define(['jquery', 'oae.core'], function ($, oae) {
                         } else if (role === 'editor') {
                             editors.push(id);
                         } else {
-                            viewers.push(id)
+                            viewers.push(id);
                         }
                     });
 

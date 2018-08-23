@@ -318,7 +318,7 @@ define(['jquery', 'oae.core', 'jquery.jeditable'], function($, oae) {
                         if (role === 'manager') {
                             link.managers.push(id);
                         } else {
-                            link.viewers.push(id)
+                            link.viewers.push(id);
                         }
                     });
 

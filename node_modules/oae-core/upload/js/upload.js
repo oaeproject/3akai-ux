@@ -338,7 +338,7 @@ define(['jquery', 'oae.core', 'jquery.fileupload', 'jquery.iframe-transport', 'j
                         if (role === 'manager') {
                             file.managers.push(id);
                         } else {
-                            file.viewers.push(id)
+                            file.viewers.push(id);
                         }
                     });
 

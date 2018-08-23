@@ -143,7 +143,7 @@ define(['jquery', 'oae.core'], function ($, oae) {
                         if (role === 'manager') {
                             managers.push(id);
                         } else {
-                            members.push(id)
+                            members.push(id);
                         }
                     });
                      _.each(data.invitations, function(invitation, id) {
