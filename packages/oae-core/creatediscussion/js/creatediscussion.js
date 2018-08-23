@@ -22,6 +22,7 @@ define(['jquery', 'oae.core'], function ($, oae) {
 
         // Variable that keeps track of the people and groups to share this discussion with
         var members = [];
+        var managers = [];
 
         // Variable that keeps track of the selected visibility for the discussion to create
         var visibility = null;
@@ -115,7 +116,7 @@ define(['jquery', 'oae.core'], function ($, oae) {
                         if (role === 'manager') {
                             managers.push(id);
                         } else {
-                            members.push(id)
+                            members.push(id);
                         }
                     });
 

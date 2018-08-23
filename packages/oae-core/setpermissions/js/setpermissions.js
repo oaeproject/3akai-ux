@@ -83,7 +83,6 @@ define(['jquery', 'oae.core'], function($, oae) {
          * Trigger an event when changes have been made to the members settings
          */
         var saveMembersChange = function() {
-            var selectedPrincipalItems = {};
 
             // Get members from the autosuggest selection
             var membersPartition = _.partition(getAutosuggestSelection(), function(member) {
