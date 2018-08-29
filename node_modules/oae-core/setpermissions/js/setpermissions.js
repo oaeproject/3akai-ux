@@ -522,6 +522,8 @@ define(['jquery', 'oae.core'], function($, oae) {
          * Initialize the manage setpermissions widget
          */
         var setUpManageModal = function() {
+            widgetData.tenantName = 'tenant';
+
             // Render the setpermissions template
             oae.api.util.template().render($('#setpermissions-manage-template', $rootel), widgetData, $('#setpermissions-manage', $rootel));
             
@@ -541,6 +543,11 @@ define(['jquery', 'oae.core'], function($, oae) {
             $(document).on('oae.context.send.setpermissions.' + uid, function(ev, data) {
                 pageContext = data;
 
+                widgetData.tenantName = pageContext.tenant.displayName;
+
+                // Render the setpermissions template
+                oae.api.util.template().render($('#setpermissions-manage-template', $rootel), widgetData, $('#setpermissions-manage', $rootel));
+            
                 // If the resource is inside of a folder, get the folder members to add them to the resource
                 getFolderMembers(pageContext.id, function(err, folderMembers) {
                     if (err) {
