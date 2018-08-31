@@ -104,9 +104,7 @@ define(['jquery', 'oae.core'], function ($, oae) {
             // Event that will be triggered when permission changes have been made in the `setpermissions` widget
             $(document).on('oae.setpermissions.changed.' + setPermissionsId, function(ev, data) {
                 // Update visibility for folder
-                if (data.visibility) {
-                    visibility = data.visibility;
-                }
+                visibility = data.visibility || visibility;
 
                 if (data.members) {
                     managers = [];
