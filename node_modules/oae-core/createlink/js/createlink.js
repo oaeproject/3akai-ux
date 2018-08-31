@@ -305,9 +305,7 @@ define(['jquery', 'oae.core', 'jquery.jeditable'], function($, oae) {
             // Event that will be triggered when permission changes have been made in the `setpermissions` widget
             $(document).on('oae.setpermissions.changed.' + setPermissionsId, function(ev, data) {
                 // Update visibility for links
-                if (data.visibility) {
-                    visibility = data.visibility;
-                }
+                visibility = data.visibility || visibility;
 
                 // Update the members of the added links
                 $.each(addedLinks, function(index, link) {
@@ -330,9 +328,7 @@ define(['jquery', 'oae.core', 'jquery.jeditable'], function($, oae) {
                         }
                     });
 
-                    if (data.selectedFolderItems) {
-                        link.folders = data.selectedFolderItems;
-                    }
+                    link.folders = data.selectedFolderItems || link.folders;
                 });
 
                 // Add the permissions summary

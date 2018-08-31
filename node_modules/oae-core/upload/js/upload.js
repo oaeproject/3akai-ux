@@ -325,9 +325,7 @@ define(['jquery', 'oae.core', 'jquery.fileupload', 'jquery.iframe-transport', 'j
             // Event that will be triggered when permission changes have been made in the `setpermissions` widget
             $(document).on('oae.setpermissions.changed.' + setPermissionsId, function(ev, data) {
                 // Update visibility for files
-                if (data.visibility) {
-                    visibility = data.visibility;
-                }
+                visibility = data.visibility || visibility;
 
                 // Update the members of the selected files
                 $.each(selectedFiles, function(index, file) {
@@ -350,11 +348,7 @@ define(['jquery', 'oae.core', 'jquery.fileupload', 'jquery.iframe-transport', 'j
                         }
                     });
 
-                    if (data.selectedFolderItems) {
-                        file.folders = [data.selectedFolderItems];
-                    } else {
-                        file.folders = [];
-                    }
+                    file.folders = [data.selectedFolderItems] || [];
                 });
 
                 // Add the permissions summary

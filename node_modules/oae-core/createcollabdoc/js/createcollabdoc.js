@@ -111,9 +111,7 @@ define(['jquery', 'oae.core'], function ($, oae) {
             $(document).on('oae.setpermissions.changed.' + setPermissionsId, function(ev, data) {
 
                 // Update visibility for document
-                if (data.visibility) {
-                    visibility = data.visibility;
-                }
+                visibility = data.visibility || visibility;
 
                 // Update members of the document
                 if (data.members) {

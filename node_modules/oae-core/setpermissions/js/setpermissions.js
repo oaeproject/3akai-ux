@@ -108,15 +108,11 @@ define(['jquery', 'oae.core'], function($, oae) {
                 updateInvitations(invitationsUpdates);
             }
 
-            // Update the members infinite scroll 
+            // Update the members infinite scroll && add members to the permissions modal list
             var newMembers = _.map(newMembers, function(member) { 
                 member.profile.role = member.role;
+                infinityScroll.prependItems(member.profile);
                 return member.profile; 
-            });
-
-            // Add members to the permissions modal list
-            _.each(newMembers, function(newMember) {
-                infinityScroll.prependItems(newMember);
             });
 
             // Inform the widget caller that the member/invitation list have changed
@@ -150,13 +146,16 @@ define(['jquery', 'oae.core'], function($, oae) {
             $('#setpermissions-overview-visibility-container i').attr('class', 'fa fa-oae-' + visibility + ' pull-left');
 
             // Change text visibility on the permission modal
+            var htmlVisibility = null;
             if (visibility === 'private') {
-                $('#setpermissions-overview-visibility-container span').html(oae.api.i18n.translate('__MSG__PRIVATE__'));
+                htmlVisibility = oae.api.i18n.translate('__MSG__PRIVATE__');
             } else if (visibility === 'loggedin') {
-                $('#setpermissions-overview-visibility-container span').html(widgetData.oae.data.me.tenant.displayName);
+                htmlVisibility = oae.api.i18n.translate(widgetData.oae.data.me.tenant.displayName);
             } else {
-                $('#setpermissions-overview-visibility-container span').html(oae.api.i18n.translate('__MSG__PUBLIC__'));
+                htmlVisibility = oae.api.i18n.translate('__MSG__PUBLIC__');
+
             }
+            $('#setpermissions-overview-visibility-container span').html(htmlVisibility);
 
             // Inform the widget caller that visibility have changed
             $(document).trigger('oae.setpermissions.changed.' + uid, {
@@ -195,11 +194,7 @@ define(['jquery', 'oae.core'], function($, oae) {
                     .reject(function(member) { return member.id === widgetData.oae.data.me.id; })
                     .value();
 
-                if (_.isEmpty(folderMembers)) {
-                    return callback(null, []);
-                } else {
-                    return callback(null, folderMembers);
-                }
+                return callback(null, folderMembers || []);
             });
         };
 
