@@ -18,6 +18,8 @@ node_modules/*
 !node_modules/oae-core/*
 !node_modules/oae-jitsi-widgets
 !node_modules/oae-jitsi-widgets/*
+!node_modules/oae-transfer
+!node_modules/oae-transfer/*
 
 target/
 

@@ -47,6 +47,7 @@ define([
         'oae.api.lti',
         'oae.api.meetingJitsi',
         'oae.api.push',
+        'oae.api.transfer',
         'oae.api.user',
         'oae.api.tenancysearch',
         'oae.api.util',
