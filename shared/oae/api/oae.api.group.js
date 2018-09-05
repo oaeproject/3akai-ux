@@ -541,7 +541,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
         callback = callback || function() {};
 
         $.ajax({
-            'url': '/api/group/' + groupId + '/join-request/',
+            'url': '/api/group/' + groupId + '/join-request/mine',
             'type': 'GET',
             'success': function(request) {
                 callback(null, request);
