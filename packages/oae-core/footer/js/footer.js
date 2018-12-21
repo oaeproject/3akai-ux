@@ -20,6 +20,11 @@ define(['jquery', 'oae.core'], function($, oae) {
         // The widget container
         $rootel = $('#' + uid);
 
+        /**
+         * Obsolete for now
+         * var feedbackEnabled = oae.api.config.getValue('oae-uservoice', 'general', 'enabled');
+         */
+
         // Render the footer
         oae.api.util.template().render($('#footer-template', $rootel), {
             'instance': {
@@ -30,7 +35,7 @@ define(['jquery', 'oae.core'], function($, oae) {
                 'name': oae.api.config.getValue('oae-tenants', 'instance', 'hostingOrganization'),
                 'URL': oae.api.config.getValue('oae-tenants', 'instance', 'hostingOrganizationURL')
             },
-            'feedbackEnabled': oae.api.config.getValue('oae-uservoice', 'general', 'enabled'),
+            'feedbackEnabled': false,
             'termsAndConditionsEnabled': oae.api.config.getValue('oae-principals', 'termsAndConditions', 'enabled')
         }, $('#footer-container', $rootel));
 
