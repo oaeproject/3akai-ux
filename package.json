@@ -35,7 +35,6 @@
     "grunt-git-describe": "2.3.2",
     "grunt-text-replace": "0.4.0",
     "grunt-ver": "git://github.com/oaeproject/grunt-ver.git#v0.2.3-hilary-0.2",
-    "oae-release-tools": "git://github.com/oaeproject/oae-release-tools",
     "optimist": "latest",
     "properties-parser": "latest",
     "readdirp": "latest",
@@ -44,12 +43,12 @@
     "uglify-es": "^3.3.9",
     "underscore": "latest"
   },
-  "bundleDependencies": [
-    "oae-core",
-    "oae-admin",
-    "oae-jitsi-widgets"
-  ],
+  "dependencies": {
+    "oae-core": "file:packages/oae-core",
+    "oae-admin": "file:packages/oae-admin",
+    "oae-jitsi-widgets": "file:packages/oae-jitsi-widgets"
+  },
   "engines": {
-    "node": ">=6.11.1"
+    "node": ">=10.13.0"
   }
 }

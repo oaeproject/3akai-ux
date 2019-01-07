@@ -11,13 +11,7 @@ dump.rdb
 nginx/nginx.*
 !nginx/nginx.conf
 
-node_modules/*
-!node_modules/oae-admin
-!node_modules/oae-admin/*
-!node_modules/oae-core
-!node_modules/oae-core/*
-!node_modules/oae-jitsi-widgets
-!node_modules/oae-jitsi-widgets/*
+node_modules
 
 target/
 
