@@ -110,12 +110,14 @@ define(['jquery', 'underscore', 'oae.core', 'lazyload'], function($, _, oae) {
 
             // Request the page content
             $.ajax({
-                'url': constructDocumentPreviewURL('page.' + page.pageNumber + '.html'),
+                'url': constructDocumentPreviewURL('page.' + page.pageNumber + '.svg'),
                 'crossDomain': true,
                 'dataType': 'text',
                 'success': function(response) {
                     // Replace the loading indicator with the page content
-                    page.$el.html(response);
+                    var xml = jQuery.parseXML(response);
+                    page.$el.html(xml.documentElement);
+                    page.$el.children().css('display', 'block');
 
                     // Update the height now that we have real content
                     page.height = page.$el.height();
