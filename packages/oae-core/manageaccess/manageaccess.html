@@ -30,9 +30,20 @@
                             <h5 class="manageaccess-overview-header">__MSG__PENDING_INVITATIONS__</h5>
                             <ul id="manageaccess-overview-selected-invitations-container" class="oae-list oae-list-compact manageaccess-overview-selected"><!-- --></ul>
                         </div>
+                        <div id="manageaccess-overview-requests" class="hide">
+                            <h4>
+                                <a id="manageaccess-see-requests" class="pointer"> <span id="manageaccess-see-requests-title">__MSG__REQUESTS_JOIN_GROUP__</span> </a>
+                            </h4>
+                        </div>
                     </div>
                     <div id="manageaccess-visibility" class="hide"><!-- --></div>
                     <div id="manageaccess-share" class="hide"><!-- --></div>
+                    <div id="manageaccess-requests" class="hide">
+                        <h4>__MSG__PENDING_REQUESTS__</h4>
+                        <div id="manageaccess-requests-well" class="well">
+                            <ul id="manageaccess-requests-container" class="oae-list oae-list-compact manageaccess-requests-selected"><!-- --></ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <div id="manageaccess-overview-footer">
@@ -46,6 +57,9 @@
                     <div id="manageaccess-share-footer" class="hide">
                         <button type="button" class="manageaccess-cancel btn btn-link">__MSG__CANCEL__</button>
                         <button type="button" id="manageaccess-share-update" class="btn btn-primary" disabled="true">__MSG__ADD__</button>
+                    </div>
+                    <div id="manageaccess-requests-footer" class="hide">
+                        <button type="button" class="manageaccess-back btn btn-link">__MSG__BACK__</button>
                     </div>
                 </div>
             </form>
@@ -147,6 +161,32 @@
             <label for="manageaccess-share-role" class="pull-right">__MSG__ADD_THESE_AS__</label>
         </h4>
     </div>
+--></div>
+
+<div id="manageaccess-requests-selected-template"><!--
+    <span style="display:none;" id="no-more-requests-span">__MSG__NO_MORE_REQUESTS__</span>
+    {macro manageaccessListItemActions()}
+        <div class="form-group">
+            <label for="manageaccess-${member.id}-role" class="sr-only">__MSG__SELECT_ROLE_FOR_USER__</label>
+            <select id="manageaccess-${member.id}-role" class="form-control" data-id="${member.id}">
+                {for role in roles}
+                    <option value="${role.id}" {if member.role === role.id}selected="true"{/if}>${role.name}</option>
+                {/for}
+            </select>
+        </div>
+        <button type="button" title="__MSG__REJECT_REQUEST__" class="btn btn-link oae-listitem-reject" data-id="${member.id}">
+            <i class="fa fa-times"><span class="sr-only">__MSG__REJECT_REQUEST__</span></i>
+        </button>
+        <button type="button" title="__MSG__ACCEPT_REQUEST__" class="btn btn-link oae-listitem-accept" data-id="${member.id}">
+            <i class="fa fa-check"><span class="sr-only">__MSG__ACCEPT_REQUEST__</span></i>
+        </button>
+    {/macro}
+
+    {for member in results}
+        {var memberName = oae.api.util.security().encodeForHTMLAttribute(member.displayName)}
+        ${displayOptions.listItemActions = manageaccessListItemActions|eat}
+        ${listItem(member, displayOptions)}
+    {/for}
 --></div>
 
 <!-- JAVASCRIPT -->

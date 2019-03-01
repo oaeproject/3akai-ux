@@ -22,7 +22,7 @@
  * @param  {Object}     exports     Properties that are added on this object are exported
  * @api private
  */
-var _expose = function(exports) {
+var _expose = function (exports) {
 
     // Variable that keeps track of the different activity types that are used for comment activities
     var COMMENT_ACTIVITY_TYPES = ['content-comment', 'folder-comment', 'discussion-message', 'meeting-jitsi-message'];
@@ -44,8 +44,8 @@ var _expose = function(exports) {
      * @param  {String}                 [opts.resourceHrefOverride]             When specified, any `<a href="...">` tag in the generated HTML content will have its `href` attribute rewritten to this value. This can be used to control outbound links in different contexts (e.g., email invitation)
      * @return {ActivityViewModel[]}                                            The adapted activities
      */
-    var adapt = exports.adapt = function(context, me, activities, sanitization, opts) {
-        return activities.map(function(activity) {
+    var adapt = exports.adapt = function (context, me, activities, sanitization, opts) {
+        return activities.map(function (activity) {
             return _adaptActivity(context, me, activity, sanitization, opts);
         });
     };
@@ -65,7 +65,7 @@ var _expose = function(exports) {
      * @return {ActivityViewModel}                                              The adapted activity
      * @api private
      */
-    var _adaptActivity = function(context, me, activity, sanitization, opts) {
+    var _adaptActivity = function (context, me, activity, sanitization, opts) {
         // Move the relevant items (comments, previews, ..) to the top
         _prepareActivity(me, activity);
 
@@ -95,7 +95,7 @@ var _expose = function(exports) {
      * @param {ActivityViewItem}        primaryActor    The object that identifies the primary actor
      * @param {ActivityViewItem[]}      activityItems   The activity view items that are included in this activity
      */
-    var ActivityViewModel = function(activity, summary, primaryActor, activityItems) {
+    var ActivityViewModel = function (activity, summary, primaryActor, activityItems) {
         var that = {
             'activityItems': activityItems,
             'id': activity['oae:activityId'],
@@ -118,7 +118,7 @@ var _expose = function(exports) {
      * @param  {String}     i18nKey         The i18n key that should be used to generate the plain-text summary
      * @param  {Object}     properties      Any properties that can be used in the i18n value
      */
-    var ActivityViewSummary = function(i18nKey, properties) {
+    var ActivityViewSummary = function (i18nKey, properties) {
         var that = {
             'i18nArguments': properties,
             'i18nKey': i18nKey
@@ -132,7 +132,7 @@ var _expose = function(exports) {
      * @param  {User}               [me]        The currently loggedin user
      * @param  {ActivityEntity}     entity      The entity that should be used to generate the view
      */
-    var ActivityViewItem = function(me, entity) {
+    var ActivityViewItem = function (me, entity) {
         var that = {
             'oae:id': entity['oae:id'],
             'id': entity.id,
@@ -179,7 +179,7 @@ var _expose = function(exports) {
      * @param  {Activity}   activity    The activity to prepare
      * @api private
      */
-    var _prepareActivity = function(me, activity) {
+    var _prepareActivity = function (me, activity) {
         // Sort the entity collections based on whether or not they have a thumbnail
         if (activity.actor['oae:collection']) {
             // Reverse the items so the item that was changed last is shown first
@@ -230,7 +230,7 @@ var _expose = function(exports) {
      * @see Array#sort
      * @api private
      */
-    var _sortEntityCollection = function(a, b) {
+    var _sortEntityCollection = function (a, b) {
         if (a.image && !b.image) {
             return -1;
         } else if (!a.image && b.image) {
@@ -246,7 +246,7 @@ var _expose = function(exports) {
      * @see Array#sort
      * @api private
      */
-    var _sortComments = function(a, b) {
+    var _sortComments = function (a, b) {
         // Threadkeys will have the following format, primarily to allow for proper thread ordering:
         //  - Top level comments: <createdTimeStamp>|
         //  - Reply: <parentCreatedTimeStamp>#<createdTimeStamp>|
@@ -265,7 +265,7 @@ var _expose = function(exports) {
      * @return {Comment[]}              A tree of comments for the last two comments (and potentially their parents)
      * @api private
      */
-    var _constructLatestCommentTree = function(comments) {
+    var _constructLatestCommentTree = function (comments) {
         // This set will hold the last 2 comments (and their parents)
         var latestComments = [];
 
@@ -290,10 +290,10 @@ var _expose = function(exports) {
                     latestComments.push(_findComment(comments, comments[1].inReplyTo));
                 }
 
-            // If the next comment was in the tree already, it means that it is
-            // the parent of the first comment. It might still have a parent that
-            // could be relevant to display in the activity stream though. If that
-            // is the case, we will end up with a tree that is 3 levels deep
+                // If the next comment was in the tree already, it means that it is
+                // the parent of the first comment. It might still have a parent that
+                // could be relevant to display in the activity stream though. If that
+                // is the case, we will end up with a tree that is 3 levels deep
             } else if (comments[1].inReplyTo && !_find(latestComments, comments[1].inReplyTo['oae:id'])) {
                 latestComments.push(_findComment(comments, comments[1].inReplyTo));
             }
@@ -311,18 +311,18 @@ var _expose = function(exports) {
      * @return {Comment[]}              The ordered tree of comments with an `oae:level` property for each comment, representing the level at which they should be rendered
      * @api private
      */
-    var _constructCommentTree = function(comments) {
+    var _constructCommentTree = function (comments) {
         // Because this method gets called multiple times and there's no good way to deep clone
         // an array of objects in native JS, we ensure that any in-place edits to comment objects
         // in a previous run don't have an impact now
-        comments.forEach(function(comment) {
+        comments.forEach(function (comment) {
             comment.replies = [];
         });
 
         // Construct a proper graph wherein each object in the top level array is a comment
         // If a comment has replies they will be made available on the `replies` property
         var commentTree = [];
-        comments.forEach(function(comment) {
+        comments.forEach(function (comment) {
             // If this comment was a reply to another comment, we try to find that parent comment
             // and add the current comment as a reply to the parent. If the parent could not be found,
             // we add the comment as a top level comment. This can happen when we're rendering a tree
@@ -335,7 +335,7 @@ var _expose = function(exports) {
                     commentTree.push(comment);
                 }
 
-            // If this comment was not a reply, it's considered a top-level comment
+                // If this comment was not a reply, it's considered a top-level comment
             } else {
                 commentTree.push(comment);
             }
@@ -358,14 +358,14 @@ var _expose = function(exports) {
      * @param  {Comment[]}  commentTree                 The (nested) graph to walk through
      * @api private
      */
-    var _flattenCommentTree = function(flatCommentTree, commentTree, _level) {
+    var _flattenCommentTree = function (flatCommentTree, commentTree, _level) {
         _level = _level || 0;
 
         // Sort the comments on this level so newest comments are at the top
         commentTree.sort(_sortComments);
 
         // Visit each comment
-        commentTree.forEach(function(comment) {
+        commentTree.forEach(function (comment) {
 
             // Ensure that the `published` timestamp is a number
             comment.published = parseInt(comment.published, 10);
@@ -391,7 +391,7 @@ var _expose = function(exports) {
      * @return {Comment}                The comment if it was found, `undefined` otherwise
      * @api private
      */
-    var _find = function(comments, id) {
+    var _find = function (comments, id) {
         for (var i = 0; i < comments.length; i++) {
             if (comments[i]['oae:id'] === id) {
                 return comments[i];
@@ -435,7 +435,7 @@ var _expose = function(exports) {
      * @return {Comment}                The "original" comment
      * @api private
      */
-    var _findComment = function(comments, comment) {
+    var _findComment = function (comments, comment) {
         // Find the "original" parent comment object
         var originalComment = _find(comments, comment['oae:id']);
 
@@ -443,8 +443,8 @@ var _expose = function(exports) {
         if (originalComment) {
             return originalComment;
 
-        // It's possible that we can't find the "original" comment object because
-        // it expired out of the aggregation cache. In that case we return the comment as is
+            // It's possible that we can't find the "original" comment object because
+            // it expired out of the aggregation cache. In that case we return the comment as is
         } else {
             return comment;
         }
@@ -464,7 +464,7 @@ var _expose = function(exports) {
      * @return {ActivityViewItem}               The object that identifies the primary actor
      * @api private
      */
-    var _generatePrimaryActor = function(me, activity) {
+    var _generatePrimaryActor = function (me, activity) {
         var actor = activity.actor;
         if (actor['oae:collection']) {
             actor = actor['oae:collection'][0];
@@ -482,7 +482,7 @@ var _expose = function(exports) {
      * @return {Boolean}                                    Whether or not the context is involved in the provided activity entity
      * @api private
      */
-    var _isContextInActivityEntities = function(context, activityEntity) {
+    var _isContextInActivityEntities = function (context, activityEntity) {
         var entities = activityEntity['oae:collection'] || [activityEntity];
         for (var entityIndex = 0; entityIndex < entities.length; entityIndex++) {
             if (entities[entityIndex]['oae:id'] === context) {
@@ -502,16 +502,16 @@ var _expose = function(exports) {
      * @return {ActivityViewItem[]}                 The activity preview items
      * @api private
      */
-    var _generateActivityPreviewItems = function(context, activity) {
+    var _generateActivityPreviewItems = function (context, activity) {
         var activityType = activity['oae:activityType'];
 
         // Comment activities should always show the target as the activity preview
         var previewObj = null;
         if (COMMENT_ACTIVITY_TYPES.indexOf(activityType) !== -1) {
             previewObj = activity.target;
-        // Share activities are considered to be a special social activity, where the
-        // users and groups the item is shared with are preferred as a preview over
-        // the object that is being shared
+            // Share activities are considered to be a special social activity, where the
+            // users and groups the item is shared with are preferred as a preview over
+            // the object that is being shared
         } else if (SHARE_ACTIVITY_TYPES.indexOf(activityType) !== -1) {
             previewObj = activity.target;
             // When the current context is part of the target entities, we prefer
@@ -520,15 +520,15 @@ var _expose = function(exports) {
             if (_isContextInActivityEntities(context, previewObj)) {
                 previewObj = activity.object;
             }
-        // When a user is accepting an invitation to join target(s), we show the targets, unless the
-        // target is the context, in which case we show the user who is accepting the invitation
+            // When a user is accepting an invitation to join target(s), we show the targets, unless the
+            // target is the context, in which case we show the user who is accepting the invitation
         } else if (activityType === 'invitation-accept') {
             previewObj = activity.target;
 
             if (_isContextInActivityEntities(context, previewObj)) {
                 previewObj = activity.actor;
             }
-        // Otherwise, we always want to show the activity object as the activity preview
+            // Otherwise, we always want to show the activity object as the activity preview
         } else if (activity.object) {
             previewObj = activity.object;
             // When the current context is part of the object entities, we prefer
@@ -542,7 +542,7 @@ var _expose = function(exports) {
         }
 
         var previewItems = previewObj['oae:collection'] || [previewObj];
-        previewItems = previewItems.map(function(previewItem) {
+        previewItems = previewItems.map(function (previewItem) {
             return new ActivityViewItem(null, previewItem);
         });
 
@@ -568,7 +568,7 @@ var _expose = function(exports) {
      * @param  {String}     [opts.resourceHrefOverride]             When specified, this value will replace any URL specified for an entity. This can be used to control outbound links in different contexts (e.g., email invitation)
      * @api private
      */
-    var _setSummaryPropertiesForEntity = function(properties, propertyKey, entity, sanitization, opts) {
+    var _setSummaryPropertiesForEntity = function (properties, propertyKey, entity, sanitization, opts) {
         opts = opts || {};
 
         var displayNameKey = propertyKey;
@@ -607,7 +607,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                                            The summary for the given activity
      * @api private
      */
-    var _generateSummary = function(me, activity, sanitization, opts) {
+    var _generateSummary = function (me, activity, sanitization, opts) {
         // The dictionary that can be used to translate the dynamic values in the i18n keys
         var properties = {};
 
@@ -752,10 +752,44 @@ var _expose = function(exports) {
             return _generateMeetingJitsiUpdateMemberRoleSummary(me, activity, properties);
         } else if (activityType === 'meeting-jitsi-update-visibility') {
             return _generateMeetingJitsiUpdateVisibilitySummary(me, activity, properties);
-        // Fall back on the default activity summary if no specific template is found for the activity type
+        } else if (activityType === 'request-to-join-group') {
+            return _generateRequestToJoinGroupSummary(me, activity, properties);
+            // Fall back on the default activity summary if no specific template is found for the activity type
+        } else if (activityType === 'request-to-join-group-rejected') {
+            return _generateRejectedRequestToJoinGroup(me, activity, properties);
+        
         } else {
             return _generateDefaultSummary(me, activity, properties);
         }
+    };
+
+    var _generateRejectedRequestToJoinGroup = function(me, activity, properties) {
+        var i18nKey = '__MSG__ACTIVITY_REQUEST_TO_JOIN_GROUP_REJECTED__';
+        return new ActivityViewSummary(i18nKey, properties);
+    }
+    /**
+     * Render the end-user friendly, internationalized summary of request activity to join a group.
+     *
+     * @param  {User}                   me              The currently loggedin user
+     * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the group update activity, for which to generate the activity summary
+     * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                    A summary object
+     * @api private
+     */
+    var _generateRequestToJoinGroupSummary = function (me, activity, properties) {
+        var i18nKey = null;
+        if (properties.actorCount === 1) {
+            if (activity.actor['oae:id'] === me.id) {
+                i18nKey = '__MSG__ACTIVITY_REQUEST_TO_JOIN_GROUP_YOU__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_REQUEST_TO_JOIN_GROUP_1__';
+            }
+        } else if (properties.actorCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_REQUEST_TO_JOIN_GROUP_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_REQUEST_TO_JOIN_GROUP_2+__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
     };
 
     /**
@@ -813,7 +847,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateMeetingJitsiUpdateSummary = function(me, activity, properties) {
+    var _generateMeetingJitsiUpdateSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.actorCount === 1) {
             i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_1__';
@@ -902,7 +936,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateMeetingJitsiShareSummary = function(me, activity, properties) {
+    var _generateMeetingJitsiShareSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             if (properties.targetCount === 1) {
@@ -944,7 +978,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateDefaultSummary = function(me, activity, properties) {
+    var _generateDefaultSummary = function (me, activity, properties) {
         var i18nKey = null;
         properties.verb = activity.verb;
         if (properties.actorCount === 1) {
@@ -967,7 +1001,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateContentAddToLibrarySummary = function(me, activity, properties) {
+    var _generateContentAddToLibrarySummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             if (activity.object['oae:resourceSubType'] === 'collabdoc') {
@@ -994,7 +1028,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateContentCommentSummary = function(me, activity, properties) {
+    var _generateContentCommentSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (activity.target['oae:resourceSubType'] === 'collabdoc') {
             if (properties.actorCount === 1) {
@@ -1033,7 +1067,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateContentCreateSummary = function(me, activity, properties) {
+    var _generateContentCreateSummary = function (me, activity, properties) {
         var i18nKey = null;
         // Add the target to the activity summary when a target is present on the
         // activity and the target is not a user different from the current user
@@ -1108,7 +1142,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateContentRestoredRevision = function(activity, properties) {
+    var _generateContentRestoredRevision = function (activity, properties) {
         var i18nKey = null;
         if (activity.object['oae:resourceSubType'] === 'collabdoc') {
             if (properties.actorCount === 1) {
@@ -1139,7 +1173,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateContentRevisionSummary = function(me, activity, properties) {
+    var _generateContentRevisionSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (activity.object['oae:resourceSubType'] === 'collabdoc') {
             if (properties.actorCount === 1) {
@@ -1178,7 +1212,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateContentShareSummary = function(me, activity, properties) {
+    var _generateContentShareSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             if (activity.object['oae:resourceSubType'] === 'collabdoc') {
@@ -1195,7 +1229,7 @@ var _expose = function(exports) {
                 }
             } else if (activity.object['oae:resourceSubType'] === 'file') {
                 if (properties.targetCount === 1) {
-                   if (activity.target['oae:id'] === me.id) {
+                    if (activity.target['oae:id'] === me.id) {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_FILE_YOU__';
                     } else {
                         i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_FILE_1__';
@@ -1245,7 +1279,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateContentUpdateMemberRoleSummary = function(me, activity, properties) {
+    var _generateContentUpdateMemberRoleSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (activity.target['oae:resourceSubType'] === 'collabdoc') {
             if (properties.objectCount === 1) {
@@ -1261,7 +1295,7 @@ var _expose = function(exports) {
             }
         } else if (activity.target['oae:resourceSubType'] === 'file') {
             if (properties.objectCount === 1) {
-               if (activity.object['oae:id'] === me.id) {
+                if (activity.object['oae:id'] === me.id) {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_YOU__';
                 } else {
                     i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_1__';
@@ -1296,7 +1330,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateContentUpdateSummary = function(me, activity, properties) {
+    var _generateContentUpdateSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (activity.object['oae:resourceSubType'] === 'collabdoc') {
             if (properties.actorCount === 1) {
@@ -1335,7 +1369,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateContentUpdateVisibilitySummary = function(me, activity, properties) {
+    var _generateContentUpdateVisibilitySummary = function (me, activity, properties) {
         var i18nKey = null;
         if (activity.object['oae:resourceSubType'] === 'collabdoc') {
             if (activity.object['oae:visibility'] === 'public') {
@@ -1374,7 +1408,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateDiscussionAddToLibrarySummary = function(me, activity, properties) {
+    var _generateDiscussionAddToLibrarySummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             i18nKey = '__MSG__ACTIVITY_DISCUSSION_ADD_LIBRARY__';
@@ -1395,7 +1429,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateDiscussionCreateSummary = function(me, activity, properties) {
+    var _generateDiscussionCreateSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             i18nKey = '__MSG__ACTIVITY_DISCUSSION_CREATE_1__';
@@ -1416,7 +1450,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateDiscussionMessageSummary = function(me, activity, properties) {
+    var _generateDiscussionMessageSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.actorCount === 1) {
             i18nKey = '__MSG__ACTIVITY_DISCUSSION_MESSAGE_1__';
@@ -1437,7 +1471,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateDiscussionShareSummary = function(me, activity, properties) {
+    var _generateDiscussionShareSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             if (properties.targetCount === 1) {
@@ -1478,7 +1512,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateDiscussionUpdateMemberRoleSummary = function(me, activity, properties) {
+    var _generateDiscussionUpdateMemberRoleSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             if (activity.object['oae:id'] === me.id) {
@@ -1503,7 +1537,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateDiscussionUpdateSummary = function(me, activity, properties) {
+    var _generateDiscussionUpdateSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.actorCount === 1) {
             i18nKey = '__MSG__ACTIVITY_DISCUSSION_UPDATE_1__';
@@ -1524,7 +1558,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateDiscussionUpdateVisibilitySummary = function(me, activity, properties) {
+    var _generateDiscussionUpdateVisibilitySummary = function (me, activity, properties) {
         var i18nKey = null;
         if (activity.object['oae:visibility'] === 'public') {
             i18nKey = '__MSG__ACTIVITY_DISCUSSION_VISIBILITY_PUBLIC__';
@@ -1545,7 +1579,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateFolderAddToFolderSummary = function(me, activity, properties) {
+    var _generateFolderAddToFolderSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             if (activity.object['oae:resourceSubType'] === 'collabdoc') {
@@ -1572,7 +1606,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateFolderAddToLibrarySummary = function(me, activity, properties) {
+    var _generateFolderAddToLibrarySummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_LIBRARY__';
@@ -1593,7 +1627,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateFolderCommentSummary = function(me, activity, properties) {
+    var _generateFolderCommentSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.actorCount === 1) {
             i18nKey = '__MSG__ACTIVITY_FOLDER_COMMENT_1__';
@@ -1614,7 +1648,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateFolderCreateSummary = function(me, activity, properties) {
+    var _generateFolderCreateSummary = function (me, activity, properties) {
         var i18nKey = null;
         // Add the target to the activity summary when a target is present on the
         // activity and the target is not a user different from the current user
@@ -1657,7 +1691,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateFolderShareSummary = function(me, activity, properties) {
+    var _generateFolderShareSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             if (properties.targetCount === 1) {
@@ -1698,7 +1732,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateFolderUpdateSummary = function(me, activity, properties) {
+    var _generateFolderUpdateSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.actorCount === 1) {
             i18nKey = '__MSG__ACTIVITY_FOLDER_UPDATE_1__';
@@ -1719,7 +1753,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateFolderUpdateMemberRoleSummary = function(me, activity, properties) {
+    var _generateFolderUpdateMemberRoleSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             if (activity.object['oae:id'] === me.id) {
@@ -1744,7 +1778,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateFolderUpdateVisibilitySummary = function(me, activity, properties) {
+    var _generateFolderUpdateVisibilitySummary = function (me, activity, properties) {
         var i18nKey = null;
         if (activity.object['oae:visibility'] === 'public') {
             i18nKey = '__MSG__ACTIVITY_FOLDER_VISIBILITY_PUBLIC__';
@@ -1765,7 +1799,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateFollowingSummary = function(me, activity, properties) {
+    var _generateFollowingSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.actorCount > 1) {
             if (properties.actorCount === 2) {
@@ -1806,7 +1840,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateGroupAddMemberSummary = function(me, activity, properties) {
+    var _generateGroupAddMemberSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             if (activity.object['oae:id'] === me.id) {
@@ -1831,7 +1865,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateGroupUpdateMemberRoleSummary = function(me, activity, properties) {
+    var _generateGroupUpdateMemberRoleSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             if (activity.object['oae:id'] === me.id) {
@@ -1856,7 +1890,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateGroupCreateSummary = function(me, activity, properties) {
+    var _generateGroupCreateSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.objectCount === 1) {
             i18nKey = '__MSG__ACTIVITY_GROUP_CREATE_1__';
@@ -1877,7 +1911,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateGroupJoinSummary = function(me, activity, properties) {
+    var _generateGroupJoinSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.actorCount === 1) {
             i18nKey = '__MSG__ACTIVITY_GROUP_JOIN_1__';
@@ -1898,7 +1932,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateGroupUpdateSummary = function(me, activity, properties) {
+    var _generateGroupUpdateSummary = function (me, activity, properties) {
         var i18nKey = null;
         if (properties.actorCount === 1) {
             i18nKey = '__MSG__ACTIVITY_GROUP_UPDATE_1__';
@@ -1919,7 +1953,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateGroupUpdateVisibilitySummary = function(me, activity, properties) {
+    var _generateGroupUpdateVisibilitySummary = function (me, activity, properties) {
         var i18nKey = null;
         if (activity.object['oae:visibility'] === 'public') {
             i18nKey = '__MSG__ACTIVITY_GROUP_VISIBILITY_PUBLIC__';
@@ -2010,7 +2044,7 @@ var _expose = function(exports) {
      * @return {ActivityViewSummary}                    A summary object
      * @api private
      */
-    var _generateInvitationSummary = function(me, activity, properties) {
+    var _generateInvitationSummary = function (me, activity, properties) {
         var labels = ['ACTIVITY'];
         var activityType = activity['oae:activityType'];
         var actorId = activity.actor['oae:id'];
@@ -2068,7 +2102,7 @@ var _expose = function(exports) {
     };
 };
 
-(function() {
+(function () {
     if (typeof define !== 'function') {
         // This gets executed in the backend
         _expose(module.exports);

@@ -512,8 +512,114 @@ define(['jquery', 'underscore', 'oae.core', 'jquery.autosuggest'], function($, _
                 'visibility': visibility,
                 'messages': widgetData.messages
             }, $('#manageaccess-overview-visibility-container', $rootel));
+
+            renderSeeRequestsButton();
         };
 
+        //////////////////////
+        //     REQUESTS     //
+        //////////////////////
+
+        /**
+         * Renders the requests panel.
+         */
+        var renderRequests = function () {
+            // Disable the previous infinite scroll
+            if (infinityScroll) {
+                infinityScroll.kill();
+            }
+
+            var url = '/api/group/' + widgetData.contextProfile.id + '/join-request/all';
+            // Set up the infinite scroll instance
+            infinityScroll = $('#manageaccess-requests-well .oae-list', $rootel).infiniteScroll(url, {
+                'limit': 8
+            }, '#manageaccess-requests-selected-template', {
+                    'scrollContainer': $('#manageaccess-requests-well', $rootel),
+                    'postProcessor': function (data) {
+                        data.roles = widgetData.roles;
+                        data.displayOptions = {
+                            'metadata': false
+                        };
+                        return data;
+                    }
+                });
+        };
+
+        //////////////////////////////
+        // REQUESTS INFINITE SCROLL //
+        //////////////////////////////
+
+        /**
+         * Render see requests button
+         */
+        var renderSeeRequestsButton = function () {
+            oae.api.group.getRequestsJoinGroup(widgetData.contextProfile.id, function (err, requests) {
+                if (!_.isEmpty(requests)) {
+                    $('#manageaccess-overview-requests').show();
+                    $('#manageaccess-overview-requests').css('display', 'block');
+                }
+                if (err || _.isEmpty(requests)) {
+                    $('#manageaccess-overview-requests').hide();
+                    $('#manageaccess-overview-requests').css('display', 'none');
+                }
+            });
+        };
+
+        /**
+         * Reject a request
+         */
+        var rejectRequest = function () {
+            var memberId = $(this).attr('data-id');
+            var sizeListRequest = $('#manageaccess-requests-container').find('li').size();
+
+            oae.api.group.rejectJoinGroupByRequest(widgetData.contextProfile.id, memberId, function (err, requests) {
+                if (err) {
+                    oae.api.util.notification(
+                        oae.api.i18n.translate('__MSG__REJECT_REQUEST_FAIL__', 'manageaccess'),
+                        oae.api.i18n.translate('__MSG__FAILED_TO_REJECT_REQUEST__', 'manageaccess'),
+                        'error');
+                } else {
+                    oae.api.util.notification(
+                        oae.api.i18n.translate('__MSG__REJECT_REQUEST_SUCCESS__', 'manageaccess'),
+                        oae.api.i18n.translate('__MSG__REQUEST_HAS_BEEN_SUCCESSFULLY_REJECTED__', 'manageaccess'));
+
+                    infinityScroll.removeItems(memberId);
+                    backIfNoMoreRequest(sizeListRequest);
+                }
+            });
+        };
+
+        /**
+         * Accept a request
+         */
+        var acceptRequest = function () {
+            var memberId = $(this).attr('data-id');
+            var role = $(this).siblings('[class=form-group]').find('select').val();
+            var sizeListRequest = $('#manageaccess-requests-container').find('li').size();
+
+            oae.api.group.acceptJoinGroupByRequest(widgetData.contextProfile.id, memberId, role, function (err, requests) {
+                if (err) {
+                    oae.api.util.notification(
+                        oae.api.i18n.translate('__MSG__ACCEPT_REQUEST_FAIL__', 'manageaccess'),
+                        oae.api.i18n.translate('__MSG__FAILED_TO_ACCEPT_REQUEST__', 'manageaccess'),
+                        'error');
+                } else {
+                    oae.api.util.notification(
+                        oae.api.i18n.translate('__MSG__ACCEPT_REQUEST_SUCCESS__', 'manageaccess'),
+                        oae.api.i18n.translate('__MSG__REQUEST_HAS_BEEN_SUCCESSFULLY_ACCEPTED__', 'manageaccess'));
+
+                    infinityScroll.removeItems(memberId);
+                    backIfNoMoreRequest(sizeListRequest);
+                }
+            });
+        };
+
+        var backIfNoMoreRequest = function (sizeListRequest) {
+            // Display message if there is no more requests
+            if (sizeListRequest - 1 === 0) {
+                $('#no-more-requests-span').css('display', 'block');
+            }
+        };
 
         //////////////////////
         // DEINITIALIZATION //
@@ -670,8 +776,28 @@ define(['jquery', 'underscore', 'oae.core', 'jquery.autosuggest'], function($, _
                 showPanel('overview');
             });
 
+            // Back to the editing of visibility or members and go back to the overview
+            $rootel.on('click', '.manageaccess-back', function () {
+                showPanel('overview');
+                getMembers();
+                renderSeeRequestsButton();
+            });
+
             // Save the visibility and members
             $rootel.on('click', '#manageaccess-overview-save', saveManageAccess);
+
+            // Cancel the editing of visibility or members and go back to the overview
+            $rootel.on('click', '#manageaccess-see-requests', function () {
+                showPanel('requests');
+                renderRequests();
+                $('#no-more-requests-span').css('display', 'none');
+            });
+
+            // Reject a request
+            $rootel.on('click', '.oae-listitem-actions .oae-listitem-reject', rejectRequest);
+
+            // Accept a request
+            $rootel.on('click', '.oae-listitem-actions .oae-listitem-accept', acceptRequest);
         };
 
         setUpManageAccessModal();

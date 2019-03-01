@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core'], function($, oae) {
+require(['jquery', 'oae.core'], ($, oae) => {
 
     // Get the group id from the URL. The expected URL is `/group/<tenantId>/<resourceId>`.
     // The group id will then be `g:<tenantId>:<resourceId>`
@@ -65,8 +65,17 @@ require(['jquery', 'oae.core'], function($, oae) {
             // Set up the context event exchange
             setUpContext();
 
+
+            var userIsNotMember = !groupProfile.isMember;
+            var groupIsPrivate = groupProfile.visibility === 'private';
+            var groupIsJoinable = groupProfile.canJoin;
+            var groupIsRequestable = groupProfile.canRequest;
+
+            // When the current user is not a member and the group is private and joinable by a request, we show the join request screen
+            if (userIsNotMember && groupIsPrivate && groupIsRequestable) {
+                $('#request-group-join-view').show();
             // When the current user is not a member and the group is private and joinable, we show the join screen
-            if (!groupProfile.isMember && groupProfile.visibility === 'private' && groupProfile.canJoin) {
+            } else if (userIsNotMember && groupIsPrivate && groupIsJoinable) {
                 $('#group-join-view').show();
             } else {
                 // Render the navigation
@@ -103,6 +112,10 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     var setUpClip = function() {
         var isAdmin = oae.data.me.isTenantAdmin || oae.data.me.isGlobalAdmin;
+        var userIsMember = groupProfile.isMember;
+        var groupIsJoinable = groupProfile.canJoin;
+        var groupIsRequestable = groupProfile.canRequest;
+        
         oae.api.util.template().render($('#group-clip-template'), {
             'group': groupProfile,
             'isAdmin': isAdmin,
@@ -112,11 +125,15 @@ require(['jquery', 'oae.core'], function($, oae) {
         }, $('#group-clip-container'));
 
         // Only show the create and upload clips to group members
-        if (groupProfile.isMember) {
+        if (userIsMember) {
             $('#group-member-actions').show();
             $('#group-join-actions').hide();
+            // Show the join request clip to non-members when the group is joinable by a request
+        } else if (!userIsMember && groupIsRequestable) {
+            $('#group-member-actions').hide();
+            $('#request-group-join-actions').show();
         // Show the join clip to non-members when the group is joinable
-        } else if (!groupProfile.isMember && groupProfile.canJoin) {
+        } else if (!userIsMember && groupIsJoinable) {
             $('#group-member-actions').hide();
             $('#group-join-actions').show();
         }
@@ -456,6 +473,13 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     $(document).on('click', '.group-trigger-manageaccess-add', function() {
         $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
+    });
+
+    /**
+     * Trigger the manageaccess widget and pass in context data
+     */
+    $(document).on('click', '.group-trigger-joingroup', function () {
+        $(document).trigger('oae.trigger.joingroup', getManageAccessData());
     });
 
     /**

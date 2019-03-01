@@ -1,0 +1,48 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="css/joingroup.css" />
+
+<!-- MODAL -->
+<div id="joingroup-modal" class="modal fade" tabindex="-1" aria-labelledby="joingroup-modal-title" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="__MSG__CLOSE__">
+                    <span aria-hidden="true">&#215;</span>
+                </button>
+                <h3 id="joingroup-modal-title">__MSG__JOIN_GROUP__</h3>
+            </div>
+            <form id="joingroup-form" role="form">
+                <div class="modal-body">
+                    </br>
+                    <div id="joingroup-request-message" class="hide"><!-- --></div>
+                    <div id="joingroup-already-sent-request" class="hide"><!-- --></div>
+                    </br>
+                </div>
+                <div id="joingroup-action" class="modal-footer"><!-- --></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="joingroup-already-sent-request-template"><!--
+    <div class="alert alert-info text-center">
+        <h4>__MSG__ALREADY_SENT_REQUEST_JOIN_GROUP__</h4>
+    <div>
+--></div>
+
+<div id="joingroup-request-message-template"><!--
+    <h4>__MSG__REQUEST_JOIN_GROUP__</h4>
+--></div>
+
+<div id="joingroup-action-template"><!--
+    <button type="button" class="btn btn-link" data-dismiss="modal">__MSG__CANCEL__</button>
+    
+    {if requestAlreadyExist === true} 
+       <button id="joingroup-save" type="button" class="btn btn-primary">__MSG__SEND_REQUEST__</button>
+    {else}
+        <button id="joingroup-remove" type="button" class="btn btn-primary">__MSG__CANCEL_REQUEST__</button>
+    {/if}
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="js/joingroup.js"></script>
