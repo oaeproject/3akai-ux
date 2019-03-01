@@ -28,7 +28,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {Group}             [callback.group]         A Group object representing the created group
    * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
    */
-  var createGroup = (exports.createGroup = function(
+  const createGroup = (exports.createGroup = function(
     displayName,
     description,
     visibility,
@@ -44,23 +44,23 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
     // Set a default callback function in case no callback function has been provided
     callback = callback || function() {};
 
-    let data = {
-      displayName: displayName,
-      description: description,
-      visibility: visibility,
-      joinable: joinable,
-      managers: managers,
-      members: members
+    const data = {
+      displayName,
+      description,
+      visibility,
+      joinable,
+      managers,
+      members
     };
 
     $.ajax({
       url: '/api/group/create',
       type: 'POST',
-      data: data,
-      success: function(data) {
+      data,
+      success(data) {
         callback(null, data);
       },
-      error: function(jqXHR, textStatus) {
+      error(jqXHR, textStatus) {
         callback({ code: jqXHR.status, msg: jqXHR.responseText });
       }
     });
@@ -75,17 +75,17 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {Group}        callback.group      The group object representing the requested group
    * @throws {Error}                            Error thrown when no group id has been provided
    */
-  var getGroup = (exports.getGroup = function(groupId, callback) {
+  const getGroup = (exports.getGroup = function(groupId, callback) {
     if (!groupId) {
       throw new Error('A valid group id should be provided');
     }
 
     $.ajax({
       url: '/api/group/' + groupId,
-      success: function(data) {
+      success(data) {
         callback(null, data);
       },
-      error: function(jqXHR, textStatus) {
+      error(jqXHR, textStatus) {
         callback({ code: jqXHR.status, msg: jqXHR.responseText });
       }
     });
@@ -105,7 +105,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {Group}        [callback.group]                The group object representing the updated group
    * @throws {Error}                                        Error thrown when not all of the required parameters have been provided
    */
-  var updateGroup = (exports.updateGroup = function(groupId, profileFields, callback) {
+  const updateGroup = (exports.updateGroup = function(groupId, profileFields, callback) {
     if (!groupId) {
       throw new Error('A valid group id should be provided');
     } else if (!profileFields || _.keys(profileFields).length === 0) {
@@ -116,16 +116,16 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
     callback = callback || function() {};
 
     // Only send those things that are truly supported.
-    let data = _.pick(profileFields, 'displayName', 'description', 'visibility', 'joinable');
+    const data = _.pick(profileFields, 'displayName', 'description', 'visibility', 'joinable');
 
     $.ajax({
       url: '/api/group/' + groupId,
       type: 'POST',
-      data: data,
-      success: function(data) {
+      data,
+      success(data) {
         callback(null, data);
       },
-      error: function(jqXHR, textStatus) {
+      error(jqXHR, textStatus) {
         callback({ code: jqXHR.status, msg: jqXHR.responseText });
       }
     });
@@ -141,17 +141,17 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {Invitation[]}   callback.invitations.results    Every invitation associated to the group
    * @throws {Error}                                          Error thrown when no group id has been provided
    */
-  var getInvitations = (exports.getInvitations = function(groupId, callback) {
+  const getInvitations = (exports.getInvitations = function(groupId, callback) {
     if (!groupId) {
       throw new Error('A valid group id should be provided');
     }
 
     $.ajax({
       url: '/api/group/' + groupId + '/invitations',
-      success: function(data) {
+      success(data) {
         callback(null, data);
       },
-      error: function(jqXHR, textStatus) {
+      error(jqXHR, textStatus) {
         callback({ code: jqXHR.status, msg: jqXHR.responseText });
       }
     });
@@ -166,7 +166,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {Object}     callback.err    Error object containing error code and error message
    * @throws {Error}                      Error thrown when no group id has been provided
    */
-  var resendInvitation = (exports.resendInvitation = function(groupId, email, callback) {
+  const resendInvitation = (exports.resendInvitation = function(groupId, email, callback) {
     if (!groupId) {
       throw new Error('A valid group id should be provided');
     }
@@ -174,10 +174,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
     $.ajax({
       url: '/api/group/' + groupId + '/invitations/' + email + '/resend',
       type: 'POST',
-      success: function() {
+      success() {
         callback();
       },
-      error: function(jqXHR, textStatus) {
+      error(jqXHR, textStatus) {
         callback({ code: jqXHR.status, msg: jqXHR.responseText });
       }
     });
@@ -196,23 +196,23 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {String}             callback.members.nextToken     The value to provide in the `start` parameter to get the next set of results
    * @throws {Error}                                             Error thrown when no group id has been provided
    */
-  var getMembers = (exports.getMembers = function(groupId, start, limit, callback) {
+  const getMembers = (exports.getMembers = function(groupId, start, limit, callback) {
     if (!groupId) {
       throw new Error('A valid group id should be provided');
     }
 
-    let data = {
-      start: start,
-      limit: limit
+    const data = {
+      start,
+      limit
     };
 
     $.ajax({
       url: '/api/group/' + groupId + '/members',
-      data: data,
-      success: function(data) {
+      data,
+      success(data) {
         callback(null, data);
       },
-      error: function(jqXHR, textStatus) {
+      error(jqXHR, textStatus) {
         callback({ code: jqXHR.status, msg: jqXHR.responseText });
       }
     });
@@ -227,7 +227,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {Object}       [callback.err]      Error object containing error code and error message
    * @throws {Error}                            Error thrown when not all of the required parameters have been provided
    */
-  var updateMembers = (exports.updateMembers = function(groupId, members, callback) {
+  const updateMembers = (exports.updateMembers = function(groupId, members, callback) {
     if (!groupId) {
       throw new Error('A valid group id should be provided');
     } else if (!members || _.keys(members).length === 0) {
@@ -241,10 +241,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
       url: '/api/group/' + groupId + '/members',
       type: 'POST',
       data: members,
-      success: function() {
+      success() {
         callback(null);
       },
-      error: function(jqXHR, textStatus) {
+      error(jqXHR, textStatus) {
         callback({ code: jqXHR.status, msg: jqXHR.responseText });
       }
     });
@@ -263,7 +263,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {String}       callback.memberships.nextToken     The value to provide in the `start` parameter to get the next set of results
    * @throws {Error}                                           Error thrown when not all of the required parameters have been provided
    */
-  var memberOf = (exports.memberOf = function(userId, start, limit, callback) {
+  const memberOf = (exports.memberOf = function(userId, start, limit, callback) {
     // Default values
     userId = userId || require('oae.core').data.me.id;
     limit = limit || 10;
@@ -275,10 +275,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
 
     $.ajax({
       url: '/api/user/' + userId + '/memberships',
-      success: function(data) {
+      success(data) {
         callback(null, data);
       },
-      error: function(jqXHR, textStatus) {
+      error(jqXHR, textStatus) {
         callback({ code: jqXHR.status, msg: jqXHR.responseText });
       }
     });
@@ -292,7 +292,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {Object}       [callback.err]      Error object containing error code and error message
    * @throws {Error}                            Error thrown when no groupid has been provided
    */
-  var joinGroup = (exports.joinGroup = function(groupId, callback) {
+  const joinGroup = (exports.joinGroup = function(groupId, callback) {
     if (!groupId) {
       throw new Error('A valid group id should be provided');
     }
@@ -303,10 +303,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
     $.ajax({
       url: '/api/group/' + groupId + '/join',
       type: 'POST',
-      success: function(data) {
+      success(data) {
         callback(null, data);
       },
-      error: function(jqXHR, textStatus) {
+      error(jqXHR, textStatus) {
         callback({ code: jqXHR.status, msg: jqXHR.responseText });
       }
     });
@@ -320,7 +320,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {Object}       [callback.err]      Error object containing error code and error message
    * @throws {Error}                            Error thrown when no group id has been provided
    */
-  var leaveGroup = (exports.leaveGroup = function(groupId, callback) {
+  const leaveGroup = (exports.leaveGroup = function(groupId, callback) {
     if (!groupId) {
       throw new Error('A valid group id should be provided');
     }
@@ -331,10 +331,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
     $.ajax({
       url: '/api/group/' + groupId + '/leave',
       type: 'POST',
-      success: function(data) {
+      success(data) {
         callback(null, data);
       },
-      error: function(jqXHR, textStatus) {
+      error(jqXHR, textStatus) {
         callback({ code: jqXHR.status, msg: jqXHR.responseText });
       }
     });
@@ -348,7 +348,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {Object}     [callback.err]      Error object containing the error code and error message
    * @throws {Error}                          Error thrown when no group id has been provided
    */
-  var deleteGroup = (exports.deleteGroup = function(groupId, callback) {
+  const deleteGroup = (exports.deleteGroup = function(groupId, callback) {
     if (!groupId) {
       throw new Error('A valid group id should be provided');
     }
@@ -359,10 +359,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
     $.ajax({
       url: '/api/group/' + groupId,
       type: 'DELETE',
-      success: function(data) {
+      success(data) {
         callback();
       },
-      error: function(jqXHR, textStatus) {
+      error(jqXHR, textStatus) {
         callback({ code: jqXHR.status, msg: jqXHR.responseText });
       }
     });
@@ -376,7 +376,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {Object}     [callback.err]      Error object containing the error code and error message
    * @throws {Error}                          Error thrown when no group id has been provided
    */
-  let createRequestJoinGroup = (exports.createRequestJoinGroup = function(groupId, callback) {
+  const createRequestJoinGroup = (exports.createRequestJoinGroup = function(groupId, callback) {
     if (!groupId) {
       throw new Error('A valid group id should be provided');
     }
@@ -388,11 +388,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
       url: '/api/group/' + groupId + '/join-request',
       type: 'POST',
       success() {
-      callback();
-    },
+        callback();
+      },
       error(jqXHR, textStatus) {
-      callback({ code: jqXHR.status, msg: jqXHR.responseText });
-    }
+        callback({ code: jqXHR.status, msg: jqXHR.responseText });
+      }
     });
   });
 
@@ -404,7 +404,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {Object}     [callback.err]      Error object containing the error code and error message
    * @throws {Error}                          Error thrown when no group id has been provided
    */
-  let cancelRequestJoinGroup = (exports.cancelRequestJoinGroup = function(groupId, callback) {
+  const cancelRequestJoinGroup = (exports.cancelRequestJoinGroup = function(groupId, callback) {
     if (!groupId) {
       throw new Error('A valid group id should be provided');
     }
@@ -417,11 +417,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
       data: { status: 'cancel' },
       type: 'PUT',
       success() {
-      callback();
-    },
+        callback();
+      },
       error(jqXHR, textStatus) {
-      callback({ code: jqXHR.status, msg: jqXHR.responseText });
-    }
+        callback({ code: jqXHR.status, msg: jqXHR.responseText });
+      }
     });
   });
 
@@ -435,7 +435,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {Object}     [callback.err]      Error object containing the error code and error message
    * @throws {Error}                          Error thrown when no group id has been provided
    */
-  let acceptJoinGroupByRequest = (exports.acceptJoinGroupByRequest = function(
+  const acceptJoinGroupByRequest = (exports.acceptJoinGroupByRequest = function(
     groupId,
     principalId,
     role,
@@ -463,11 +463,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
       type: 'PUT',
       data,
       success() {
-      callback();
-    },
+        callback();
+      },
       error(jqXHR, textStatus) {
-      callback({ code: jqXHR.status, msg: jqXHR.responseText });
-    }
+        callback({ code: jqXHR.status, msg: jqXHR.responseText });
+      }
     });
   });
 
@@ -480,7 +480,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {Object}     [callback.err]      Error object containing the error code and error message
    * @throws {Error}                          Error thrown when no group id has been provided
    */
-  let rejectJoinGroupByRequest = (exports.rejectJoinGroupByRequest = function(
+  const rejectJoinGroupByRequest = (exports.rejectJoinGroupByRequest = function(
     groupId,
     principalId,
     callback
@@ -505,11 +505,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
       type: 'PUT',
       data,
       success() {
-      callback();
-    },
+        callback();
+      },
       error(jqXHR, textStatus) {
-      callback({ code: jqXHR.status, msg: jqXHR.responseText });
-    }
+        callback({ code: jqXHR.status, msg: jqXHR.responseText });
+      }
     });
   });
 
@@ -521,7 +521,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {Object}     [callback.err]      Error object containing the error code and error message
    * @throws {Error}                          Error thrown when no group id has been provided
    */
-  let getRequestsJoinGroup = (exports.getRequestsJoinGroup = function(groupId, callback) {
+  const getRequestsJoinGroup = (exports.getRequestsJoinGroup = function(groupId, callback) {
     if (!groupId) {
       throw new Error('A valid group id should be provided');
     }
@@ -533,11 +533,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
       url: '/api/group/' + groupId + '/join-request/all',
       type: 'GET',
       success(requests) {
-      callback(null, requests.results);
-    },
+        callback(null, requests.results);
+      },
       error(jqXHR, textStatus) {
-      callback({ code: jqXHR.status, msg: jqXHR.responseText });
-    }
+        callback({ code: jqXHR.status, msg: jqXHR.responseText });
+      }
     });
   });
 
@@ -549,7 +549,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
    * @param  {Object}     [callback.err]      Error object containing the error code and error message
    * @throws {Error}                          Error thrown when no group id has been provided
    */
-  let getRequestJoinGroup = (exports.getRequestJoinGroup = function(groupId, callback) {
+  const getRequestJoinGroup = (exports.getRequestJoinGroup = function(groupId, callback) {
     if (!groupId) {
       throw new Error('A valid group id should be provided');
     }
@@ -561,11 +561,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], (exports, $, _, util
       url: '/api/group/' + groupId + '/join-request/mine',
       type: 'GET',
       success(request) {
-      callback(null, request);
-    },
+        callback(null, request);
+      },
       error(jqXHR, textStatus) {
-      callback({ code: jqXHR.status, msg: jqXHR.responseText });
-    }
+        callback({ code: jqXHR.status, msg: jqXHR.responseText });
+      }
     });
   });
 });
