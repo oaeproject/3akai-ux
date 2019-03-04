@@ -18,7 +18,7 @@ const vm = require('vm');
 const _ = require('underscore');
 const shell = require('shelljs');
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: '<json:package.json>',
@@ -94,7 +94,8 @@ module.exports = function(grunt) {
         quotmark: 'single',
         curly: true,
         white: false,
-        strict: false
+        strict: false,
+        esversion: 6
       },
       files: [
         'admin/**/*.js',
@@ -515,7 +516,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-text-replace');
 
   // Task to write the version to a file
-  grunt.registerTask('writeVersion', function() {
+  grunt.registerTask('writeVersion', function () {
     this.requires('git-describe');
     const json = grunt.template.process('{"oae:ux-version":"<%= meta.version %>"}');
     grunt.file.write(grunt.config('target') + '/optimized/ui/version.json', json);
@@ -550,7 +551,7 @@ module.exports = function(grunt) {
   });
 
   // Task to hash files
-  grunt.registerTask('hashFiles', function() {
+  grunt.registerTask('hashFiles', function () {
     this.requires('requirejs');
     this.requires('touchBootstrap');
 
@@ -655,7 +656,7 @@ module.exports = function(grunt) {
   });
 
   // Task to update the paths in oae.bootstrap to the hashed versions
-  grunt.registerTask('updateBootstrapPaths', function() {
+  grunt.registerTask('updateBootstrapPaths', function () {
     this.requires('ver:oae');
 
     const basedir = grunt.config('target') + '/optimized/';
@@ -822,7 +823,7 @@ module.exports = function(grunt) {
  * @return {String[]}                           The full derived list of all resources that replacement should be performed
  * @api private
  */
-var _replacementReferences = function(options) {
+var _replacementReferences = function (options) {
   options.includeExts = options.includeExts || [];
   options.extra = options.extra || [];
 
@@ -848,7 +849,7 @@ var _replacementReferences = function(options) {
  * @return {String[]}                           An array of glob expressions that match the files to hash in the directories
  * @api private
  */
-var _hashFiles = function(options) {
+var _hashFiles = function (options) {
   options.excludeExts = options.excludeExts || [];
   options.extra = options.extra || [];
 
@@ -877,7 +878,7 @@ var _hashFiles = function(options) {
  * @return {String}                             The string that will replace `matchedWord`
  * @api private
  */
-var _cdnifyStaticAsset = function(cdn, matchedWord, index, fullText, regexMatches) {
+var _cdnifyStaticAsset = function (cdn, matchedWord, index, fullText, regexMatches) {
   // Get the name of the attribute (e.g., `src`, `data-main`, ...)
   const attr = regexMatches[0];
 
