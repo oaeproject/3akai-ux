@@ -32,7 +32,7 @@
 
 #manageaccess-modal #manageaccess-overview-shared,
 #manageaccess-modal #manageaccess-overview-invitations {
-    margin-bottom: 10px;
+    margin-bottom: 25px;
     padding: 0;
     overflow: auto;
 }
@@ -214,4 +214,52 @@
 #manageaccess-modal label[for="manageaccess-share-role"] {
     font-weight: 200;
     margin: 17px 10px 0 0;
+}
+
+/* Requests panel */
+
+#manageaccess-overview-requests > h4 > button {
+    float: right;
+    margin-top: -3px;
+}
+
+#manageaccess-see-requests .fa-envelope {
+    font-size: 15px;
+    margin-right: 5px; 
+}
+
+#manageaccess-modal .manageaccess-requests-selected > li .oae-listitem-actions > .form-group > select {
+    height: 31px;
+    padding: 4px;
+    width: 150px;
+}
+
+#manageaccess-modal .manageaccess-requests-selected {
+    font-size: 16px;
+    padding: 10px;
+}
+
+#manageaccess-modal #manageaccess-requests #manageaccess-requests-well {
+    padding: 0;
+}
+
+#manageaccess-requests-container button.btn.btn-link.oae-listitem-accept,
+#manageaccess-requests-container button.btn.btn-link.oae-listitem-reject {
+    padding: 0 0 0 4px;
+}
+
+a #manageaccess-see-requests-title { 
+    cursor: pointer; 
+}
+
+#no-more-requests-span {
+    padding: 10px;
+}
+
+#manageaccess-requests-container > li .oae-listitem {
+    margin-top: 0;
+}
+
+#manageaccess-requests-container > li > div.oae-list-compact-item > div > div > div.oae-listitem-actions > div {
+    margin-top: -10px;
 }
