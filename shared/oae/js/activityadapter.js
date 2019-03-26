@@ -22,7 +22,7 @@
  * @param  {Object}     exports     Properties that are added on this object are exported
  * @api private
  */
-_expose = function (exports) {
+var _expose = function (exports) {
   // Variable that keeps track of the different activity types that are used for comment activities
   const COMMENT_ACTIVITY_TYPES = [
     'content-comment',
