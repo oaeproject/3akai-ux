@@ -22,7 +22,7 @@
  * @param  {Object}     exports     Properties that are added on this object are exported
  * @api private
  */
-const _expose = function(exports) {
+var _expose = function(exports) {
   // Variable that keeps track of the different activity types that are used for comment activities
   const COMMENT_ACTIVITY_TYPES = ['content-comment', 'folder-comment', 'discussion-message', 'meeting-jitsi-message'];
 
@@ -670,178 +670,122 @@ const _expose = function(exports) {
             sanitization,
             opts
           );
-        } else {
-          target1Obj = activity.target;
         }
-
-        // Apply the target1 information to the summary properties
-        _setSummaryPropertiesForEntity(properties, 'target1', target1Obj, sanitization, opts);
+      } else {
+        target1Obj = activity.target;
       }
 
-      // Depending on the activity type, we render a different template that is specific to that activity,
-      // to make sure that the summary is as accurate and descriptive as possible
-      const activityType = activity['oae:activityType'];
-      if (activityType === 'content-add-to-library') {
-        return _generateContentAddToLibrarySummary(me, activity, properties);
-      }
+      // Apply the target1 information to the summary properties
+      _setSummaryPropertiesForEntity(properties, 'target1', target1Obj, sanitization, opts);
+    }
 
-      if (activityType === 'content-comment') {
-        return _generateContentCommentSummary(me, activity, properties);
-      }
+    // Depending on the activity type, we render a different template that is specific to that activity,
+    // to make sure that the summary is as accurate and descriptive as possible
+    const activityType = activity['oae:activityType'];
+    if (activityType === 'content-add-to-library') {
+      return _generateContentAddToLibrarySummary(me, activity, properties);
+    }
 
-      if (activityType === 'content-create') {
-        return _generateContentCreateSummary(me, activity, properties);
-      }
+    if (activityType === 'content-comment') {
+      return _generateContentCommentSummary(me, activity, properties);
+    }
 
-      if (activityType === 'content-restored-revision') {
-        return _generateContentRestoredRevision(activity, properties);
-      }
+    if (activityType === 'content-create') {
+      return _generateContentCreateSummary(me, activity, properties);
+    }
 
-      if (activityType === 'content-revision') {
-        return _generateContentRevisionSummary(me, activity, properties);
-      }
+    if (activityType === 'content-restored-revision') {
+      return _generateContentRestoredRevision(activity, properties);
+    }
 
-      if (activityType === 'content-share') {
-        return _generateContentShareSummary(me, activity, properties);
-      }
+    if (activityType === 'content-revision') {
+      return _generateContentRevisionSummary(me, activity, properties);
+    }
 
-      if (activityType === 'content-update') {
-        return _generateContentUpdateSummary(me, activity, properties);
-      }
+    if (activityType === 'content-share') {
+      return _generateContentShareSummary(me, activity, properties);
+    }
 
-      if (activityType === 'content-update-member-role') {
-        return _generateContentUpdateMemberRoleSummary(me, activity, properties);
-      }
+    if (activityType === 'content-update') {
+      return _generateContentUpdateSummary(me, activity, properties);
+    }
 
-      if (activityType === 'content-update-visibility') {
-        return _generateContentUpdateVisibilitySummary(me, activity, properties);
-      }
+    if (activityType === 'content-update-member-role') {
+      return _generateContentUpdateMemberRoleSummary(me, activity, properties);
+    }
 
-      if (activityType === 'discussion-add-to-library') {
-        return _generateDiscussionAddToLibrarySummary(me, activity, properties);
-      }
+    if (activityType === 'content-update-visibility') {
+      return _generateContentUpdateVisibilitySummary(me, activity, properties);
+    }
 
-      if (activityType === 'discussion-create') {
-        return _generateDiscussionCreateSummary(me, activity, properties);
-      }
+    if (activityType === 'discussion-add-to-library') {
+      return _generateDiscussionAddToLibrarySummary(me, activity, properties);
+    }
 
-      if (activityType === 'discussion-message') {
-        return _generateDiscussionMessageSummary(me, activity, properties);
-      }
+    if (activityType === 'discussion-create') {
+      return _generateDiscussionCreateSummary(me, activity, properties);
+    }
 
-      if (activityType === 'discussion-share') {
-        return _generateDiscussionShareSummary(me, activity, properties);
-      }
-
-      if (activityType === 'discussion-update') {
-        return _generateDiscussionUpdateSummary(me, activity, properties);
-      }
-
-      if (activityType === 'discussion-update-member-role') {
-        return _generateDiscussionUpdateMemberRoleSummary(me, activity, properties);
-      }
-
-      if (activityType === 'discussion-update-visibility') {
-        return _generateDiscussionUpdateVisibilitySummary(me, activity, properties);
-      }
-
-      if (activityType === 'folder-add-to-folder') {
-        return _generateFolderAddToFolderSummary(me, activity, properties);
-      }
-
-      if (activityType === 'folder-add-to-library') {
-        return _generateFolderAddToLibrarySummary(me, activity, properties);
-      }
-
-      if (activityType === 'folder-comment') {
-        return _generateFolderCommentSummary(me, activity, properties);
-      }
-
-      if (activityType === 'folder-create') {
-        return _generateFolderCreateSummary(me, activity, properties);
-      }
-
-      if (activityType === 'folder-share') {
-        return _generateFolderShareSummary(me, activity, properties);
-      }
-
-      if (activityType === 'folder-update') {
-        return _generateFolderUpdateSummary(me, activity, properties);
-      }
-
-      if (activityType === 'folder-update-member-role') {
-        return _generateFolderUpdateMemberRoleSummary(me, activity, properties);
-      }
-
-      if (activityType === 'folder-update-visibility') {
-        return _generateFolderUpdateVisibilitySummary(me, activity, properties);
-      }
-
-      if (activityType === 'following-follow') {
-        return _generateFollowingSummary(me, activity, properties);
-      }
-
-      if (activityType === 'group-add-member') {
-        return _generateGroupAddMemberSummary(me, activity, properties);
-      }
-
-      if (activityType === 'group-create') {
-        return _generateGroupCreateSummary(me, activity, properties);
-      }
-
-      if (activityType === 'group-join') {
-        return _generateGroupJoinSummary(me, activity, properties);
-      }
-
-      if (activityType === 'group-update') {
-        return _generateGroupUpdateSummary(me, activity, properties);
-      }
-
-      if (activityType === 'group-update-member-role') {
-        return _generateGroupUpdateMemberRoleSummary(me, activity, properties);
-      }
-
-      if (activityType === 'group-update-visibility') {
-        return _generateGroupUpdateVisibilitySummary(me, activity, properties);
-      }
-
-      if (activityType === 'invite' || activityType === 'invitation-accept') {
-        return _generateInvitationSummary(me, activity, properties);
-      }
-
-      if (activityType === 'meeting-jitsi-create') {
-        return _generateMeetingJitsiCreateSummary(me, activity, properties);
-      }
-
-      if (activityType === 'meeting-jitsi-message') {
-        return _generateMeetingJitsiMessageSummary(me, activity, properties);
-      }
-
-      if (activityType === 'meeting-jitsi-share') {
-        return _generateMeetingJitsiShareSummary(me, activity, properties);
-      }
-
-      if (activityType === 'meeting-jitsi-update') {
-        return _generateMeetingJitsiUpdateSummary(me, activity, properties);
-      }
-
-      if (activityType === 'meeting-jitsi-update-member-role') {
-        return _generateMeetingJitsiUpdateMemberRoleSummary(me, activity, properties);
-      }
-
-      if (activityType === 'meeting-jitsi-update-visibility') {
-        return _generateMeetingJitsiUpdateVisibilitySummary(me, activity, properties);
-      }
-
-      if (activityType === 'request-to-join-group') {
-        return _generateRequestToJoinGroupSummary(me, activity, properties);
-        // Fall back on the default activity summary if no specific template is found for the activity type
-      }
-
-      if (activityType === 'request-to-join-group-rejected') {
-        return _generateRejectedRequestToJoinGroup(me, activity, properties);
-      }
-
+    if (activityType === 'discussion-message') {
+      return _generateDiscussionMessageSummary(me, activity, properties);
+    } else if (activityType === 'discussion-share') {
+      return _generateDiscussionShareSummary(me, activity, properties);
+    } else if (activityType === 'discussion-update') {
+      return _generateDiscussionUpdateSummary(me, activity, properties);
+    } else if (activityType === 'discussion-update-member-role') {
+      return _generateDiscussionUpdateMemberRoleSummary(me, activity, properties);
+    } else if (activityType === 'discussion-update-visibility') {
+      return _generateDiscussionUpdateVisibilitySummary(me, activity, properties);
+    } else if (activityType === 'folder-add-to-folder') {
+      return _generateFolderAddToFolderSummary(me, activity, properties);
+    } else if (activityType === 'folder-add-to-library') {
+      return _generateFolderAddToLibrarySummary(me, activity, properties);
+    } else if (activityType === 'folder-comment') {
+      return _generateFolderCommentSummary(me, activity, properties);
+    } else if (activityType === 'folder-create') {
+      return _generateFolderCreateSummary(me, activity, properties);
+    } else if (activityType === 'folder-share') {
+      return _generateFolderShareSummary(me, activity, properties);
+    } else if (activityType === 'folder-update') {
+      return _generateFolderUpdateSummary(me, activity, properties);
+    } else if (activityType === 'folder-update-member-role') {
+      return _generateFolderUpdateMemberRoleSummary(me, activity, properties);
+    } else if (activityType === 'folder-update-visibility') {
+      return _generateFolderUpdateVisibilitySummary(me, activity, properties);
+    } else if (activityType === 'following-follow') {
+      return _generateFollowingSummary(me, activity, properties);
+    } else if (activityType === 'group-add-member') {
+      return _generateGroupAddMemberSummary(me, activity, properties);
+    } else if (activityType === 'group-create') {
+      return _generateGroupCreateSummary(me, activity, properties);
+    } else if (activityType === 'group-join') {
+      return _generateGroupJoinSummary(me, activity, properties);
+    } else if (activityType === 'group-update') {
+      return _generateGroupUpdateSummary(me, activity, properties);
+    } else if (activityType === 'group-update-member-role') {
+      return _generateGroupUpdateMemberRoleSummary(me, activity, properties);
+    } else if (activityType === 'group-update-visibility') {
+      return _generateGroupUpdateVisibilitySummary(me, activity, properties);
+    } else if (activityType === 'invite' || activityType === 'invitation-accept') {
+      return _generateInvitationSummary(me, activity, properties);
+    } else if (activityType === 'meeting-jitsi-create') {
+      return _generateMeetingJitsiCreateSummary(me, activity, properties);
+    } else if (activityType === 'meeting-jitsi-message') {
+      return _generateMeetingJitsiMessageSummary(me, activity, properties);
+    } else if (activityType === 'meeting-jitsi-share') {
+      return _generateMeetingJitsiShareSummary(me, activity, properties);
+    } else if (activityType === 'meeting-jitsi-update') {
+      return _generateMeetingJitsiUpdateSummary(me, activity, properties);
+    } else if (activityType === 'meeting-jitsi-update-member-role') {
+      return _generateMeetingJitsiUpdateMemberRoleSummary(me, activity, properties);
+    } else if (activityType === 'meeting-jitsi-update-visibility') {
+      return _generateMeetingJitsiUpdateVisibilitySummary(me, activity, properties);
+    } else if (activityType === 'request-to-join-group') {
+      return _generateRequestToJoinGroupSummary(me, activity, properties);
+      // Fall back on the default activity summary if no specific template is found for the activity type
+    } else if (activityType === 'request-to-join-group-rejected') {
+      return _generateRejectedRequestToJoinGroup(me, activity, properties);
+    } else {
       return _generateDefaultSummary(me, activity, properties);
     }
   };
@@ -2279,11 +2223,13 @@ const _expose = function(exports) {
 };
 
 (function() {
-  if (typeof define !== 'function') {
+  // eslint-disable-next-line no-undef
+  if (typeof define === 'function') {
+    // This gets executed in the browser
+    // eslint-disable-next-line no-undef
+    define(['exports'], _expose);
+  } else {
     // This gets executed in the backend
     _expose(module.exports);
-  } else {
-    // This gets executed in the browser
-    define(['exports'], _expose);
   }
 })();
