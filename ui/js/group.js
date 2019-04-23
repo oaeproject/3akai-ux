@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core'], ($, oae) => {
+require(['jquery', 'oae.core', 'underscore'], ($, oae, _) => {
   // Get the group id from the URL. The expected URL is `/group/<tenantId>/<resourceId>`.
   // The group id will then be `g:<tenantId>:<resourceId>`
   const url = oae.api.util.url();
@@ -41,6 +41,7 @@ require(['jquery', 'oae.core'], ($, oae) => {
       if (err && err.code === 404) {
         return oae.api.util.redirect().notfound();
       }
+
       if (err && err.code === 401) {
         return oae.api.util.redirect().accessdenied();
       }
@@ -146,9 +147,7 @@ require(['jquery', 'oae.core'], ($, oae) => {
   const setUpMeeting = function() {
     activateMeeting = oae.api.config.getValue('oae-jitsi', 'server', 'host');
     if (activateMeeting) {
-      oae.api.util
-        .template()
-        .render($('#activate-meeting-template'), {}, $('#activate-meeting-container'));
+      oae.api.util.template().render($('#activate-meeting-template'), {}, $('#activate-meeting-container'));
     }
   };
 
@@ -189,6 +188,12 @@ require(['jquery', 'oae.core'], ($, oae) => {
               title: oae.api.i18n.translate('__MSG__DOCUMENT__'),
               closeNav: true,
               class: 'oae-trigger-createcollabdoc'
+            },
+            {
+              icon: 'fa-table',
+              title: oae.api.i18n.translate('__MSG__SPREADSHEET__'),
+              closeNav: true,
+              class: 'oae-trigger-createcollabsheet'
             },
             {
               icon: 'fa-comments',
@@ -314,19 +319,9 @@ require(['jquery', 'oae.core'], ($, oae) => {
 
     setUpJitsiMenu(lhNavPages, lhNavActions, (err, lhNavPages) => {
       setUpLtiToolsMenu(lhNavPages, (err, lhNavPages) => {
-        $(window).trigger('oae.trigger.lhnavigation', [
-          lhNavPages,
-          lhNavActions,
-          baseUrl,
-          groupProfile.displayName
-        ]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
         $(window).on('oae.ready.lhnavigation', () => {
-          $(window).trigger('oae.trigger.lhnavigation', [
-            lhNavPages,
-            lhNavActions,
-            baseUrl,
-            groupProfile.displayName
-          ]);
+          $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
         });
       });
     });
@@ -370,6 +365,7 @@ require(['jquery', 'oae.core'], ($, oae) => {
         ]
       });
     }
+
     return callback(null, lhNavPages);
   };
 
@@ -381,6 +377,7 @@ require(['jquery', 'oae.core'], ($, oae) => {
     if (!groupProfile.isMember) {
       return callback(null, lhNavPages);
     }
+
     oae.api.lti.getLtiTools(groupProfile.id, (err, tools) => {
       if (tools && tools.results && tools.results.length > 0) {
         lhNavPages.push({
@@ -404,6 +401,7 @@ require(['jquery', 'oae.core'], ($, oae) => {
           ]
         });
       }
+
       return callback(null, lhNavPages);
     });
   };
@@ -413,33 +411,22 @@ require(['jquery', 'oae.core'], ($, oae) => {
    * are made by a different user after the initial page load
    */
   const setUpPushNotifications = function() {
-    oae.api.push.subscribe(
-      groupId,
-      'activity',
-      groupProfile.signature,
-      'internal',
-      false,
-      false,
-      activities => {
-        // The `activity` stream pushes out activities on routing so it's always
-        // safe to just pick the first item from the `activities` array
-        const { 0: activity } = activities;
+    oae.api.push.subscribe(groupId, 'activity', groupProfile.signature, 'internal', false, false, activities => {
+      // The `activity` stream pushes out activities on routing so it's always
+      // safe to just pick the first item from the `activities` array
+      const { 0: activity } = activities;
 
-        const supportedActivities = ['group-update', 'group-update-visibility'];
-        // Only respond to push notifications caused by other users
-        if (
-          activity.actor.id !== oae.data.me.id &&
-          _.contains(supportedActivities, activity['oae:activityType'])
-        ) {
-          activity.object.canJoin = groupProfile.canJoin;
-          activity.object.isManager = groupProfile.isManager;
-          activity.object.isMember = groupProfile.isMember;
+      const supportedActivities = ['group-update', 'group-update-visibility'];
+      // Only respond to push notifications caused by other users
+      if (activity.actor.id !== oae.data.me.id && _.contains(supportedActivities, activity['oae:activityType'])) {
+        activity.object.canJoin = groupProfile.canJoin;
+        activity.object.isManager = groupProfile.isManager;
+        activity.object.isMember = groupProfile.isMember;
 
-          groupProfile = activity.object;
-          setUpClip();
-        }
+        groupProfile = activity.object;
+        setUpClip();
       }
-    );
+    });
   };
 
   /// ////////////////

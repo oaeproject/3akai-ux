@@ -17,4 +17,4 @@ target/
 
 tools/crowdin/*.jar
 tools/crowdin/*.yaml
-.vscode/
+.vscode/*

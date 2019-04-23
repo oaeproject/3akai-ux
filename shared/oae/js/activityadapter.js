@@ -22,22 +22,12 @@
  * @param  {Object}     exports     Properties that are added on this object are exported
  * @api private
  */
-var _expose = function (exports) {
+var _expose = function(exports) {
   // Variable that keeps track of the different activity types that are used for comment activities
-  const COMMENT_ACTIVITY_TYPES = [
-    'content-comment',
-    'folder-comment',
-    'discussion-message',
-    'meeting-jitsi-message'
-  ];
+  const COMMENT_ACTIVITY_TYPES = ['content-comment', 'folder-comment', 'discussion-message', 'meeting-jitsi-message'];
 
   // Variable that keeps track of the different activity types that are used for sharing activities
-  const SHARE_ACTIVITY_TYPES = [
-    'content-share',
-    'discussion-share',
-    'folder-share',
-    'meeting-jitsi-share'
-  ];
+  const SHARE_ACTIVITY_TYPES = ['content-share', 'discussion-share', 'folder-share', 'meeting-jitsi-share'];
 
   /**
    * Adapt a set of activities in activitystrea.ms format to a simpler view model
@@ -53,11 +43,11 @@ var _expose = function (exports) {
    * @param  {String}                 [opts.resourceHrefOverride]             When specified, any `<a href="...">` tag in the generated HTML content will have its `href` attribute rewritten to this value. This can be used to control outbound links in different contexts (e.g., email invitation)
    * @return {ActivityViewModel[]}                                            The adapted activities
    */
-  const adapt = (exports.adapt = function (context, me, activities, sanitization, opts) {
+  exports.adapt = function(context, me, activities, sanitization, opts) {
     return activities.map(activity => {
       return _adaptActivity(context, me, activity, sanitization, opts);
     });
-  });
+  };
 
   /**
    * Adapt a single activity in activitystrea.ms format to a simpler view model
@@ -74,7 +64,7 @@ var _expose = function (exports) {
    * @return {ActivityViewModel}                                              The adapted activity
    * @api private
    */
-  const _adaptActivity = function (context, me, activity, sanitization, opts) {
+  const _adaptActivity = function(context, me, activity, sanitization, opts) {
     // Move the relevant items (comments, previews, ..) to the top
     _prepareActivity(me, activity);
 
@@ -103,7 +93,7 @@ var _expose = function (exports) {
    * @param {ActivityViewItem}        primaryActor    The object that identifies the primary actor
    * @param {ActivityViewItem[]}      activityItems   The activity view items that are included in this activity
    */
-  const ActivityViewModel = function (activity, summary, primaryActor, activityItems) {
+  const ActivityViewModel = function(activity, summary, primaryActor, activityItems) {
     const that = {
       activityItems,
       id: activity['oae:activityId'],
@@ -126,7 +116,7 @@ var _expose = function (exports) {
    * @param  {String}     i18nKey         The i18n key that should be used to generate the plain-text summary
    * @param  {Object}     properties      Any properties that can be used in the i18n value
    */
-  const ActivityViewSummary = function (i18nKey, properties) {
+  const ActivityViewSummary = function(i18nKey, properties) {
     const that = {
       i18nArguments: properties,
       i18nKey
@@ -140,7 +130,7 @@ var _expose = function (exports) {
    * @param  {User}               [me]        The currently loggedin user
    * @param  {ActivityEntity}     entity      The entity that should be used to generate the view
    */
-  const ActivityViewItem = function (me, entity) {
+  const ActivityViewItem = function(me, entity) {
     const that = {
       'oae:id': entity['oae:id'],
       id: entity.id,
@@ -159,9 +149,11 @@ var _expose = function (exports) {
       if (entity.image && entity.image.url) {
         that.thumbnailUrl = entity.image.url;
       }
+
       if (entity['oae:wideImage'] && entity['oae:wideImage'].url) {
         that.wideImageUrl = entity['oae:wideImage'].url;
       }
+
       if (entity['oae:mimeType']) {
         that.mime = entity['oae:mimeType'];
       }
@@ -186,7 +178,7 @@ var _expose = function (exports) {
    * @param  {Activity}   activity    The activity to prepare
    * @api private
    */
-  const _prepareActivity = function (me, activity) {
+  const _prepareActivity = function(me, activity) {
     // Sort the entity collections based on whether or not they have a thumbnail
     if (activity.actor['oae:collection']) {
       // Reverse the items so the item that was changed last is shown first
@@ -237,13 +229,15 @@ var _expose = function (exports) {
    * @see Array#sort
    * @api private
    */
-  const _sortEntityCollection = function (a, b) {
+  const _sortEntityCollection = function(a, b) {
     if (a.image && !b.image) {
       return -1;
     }
+
     if (!a.image && b.image) {
       return 1;
     }
+
     return 0;
   };
 
@@ -254,13 +248,14 @@ var _expose = function (exports) {
    * @see Array#sort
    * @api private
    */
-  const _sortComments = function (a, b) {
+  const _sortComments = function(a, b) {
     // Threadkeys will have the following format, primarily to allow for proper thread ordering:
     //  - Top level comments: <createdTimeStamp>|
     //  - Reply: <parentCreatedTimeStamp>#<createdTimeStamp>|
     if (a['oae:threadKey'].split('#').pop() < b['oae:threadKey'].split('#').pop()) {
       return 1;
     }
+
     return -1;
   };
 
@@ -272,7 +267,7 @@ var _expose = function (exports) {
    * @return {Comment[]}              A tree of comments for the last two comments (and potentially their parents)
    * @api private
    */
-  const _constructLatestCommentTree = function (comments) {
+  const _constructLatestCommentTree = function(comments) {
     // This set will hold the last 2 comments (and their parents)
     const latestComments = [];
 
@@ -318,7 +313,7 @@ var _expose = function (exports) {
    * @return {Comment[]}              The ordered tree of comments with an `oae:level` property for each comment, representing the level at which they should be rendered
    * @api private
    */
-  const _constructCommentTree = function (comments) {
+  const _constructCommentTree = function(comments) {
     // Because this method gets called multiple times and there's no good way to deep clone
     // an array of objects in native JS, we ensure that any in-place edits to comment objects
     // in a previous run don't have an impact now
@@ -365,7 +360,7 @@ var _expose = function (exports) {
    * @param  {Comment[]}  commentTree                 The (nested) graph to walk through
    * @api private
    */
-  const _flattenCommentTree = function (flatCommentTree, commentTree, _level) {
+  const _flattenCommentTree = function(flatCommentTree, commentTree, _level) {
     _level = _level || 0;
 
     // Sort the comments on this level so newest comments are at the top
@@ -397,7 +392,7 @@ var _expose = function (exports) {
    * @return {Comment}                The comment if it was found, `undefined` otherwise
    * @api private
    */
-  const _find = function (comments, id) {
+  const _find = function(comments, id) {
     for (let i = 0; i < comments.length; i++) {
       if (comments[i]['oae:id'] === id) {
         return comments[i];
@@ -441,7 +436,7 @@ var _expose = function (exports) {
    * @return {Comment}                The "original" comment
    * @api private
    */
-  const _findComment = function (comments, comment) {
+  const _findComment = function(comments, comment) {
     // Find the "original" parent comment object
     const originalComment = _find(comments, comment['oae:id']);
 
@@ -452,6 +447,7 @@ var _expose = function (exports) {
       // It's possible that we can't find the "original" comment object because
       // it expired out of the aggregation cache. In that case we return the comment as is
     }
+
     return comment;
   };
 
@@ -468,8 +464,8 @@ var _expose = function (exports) {
    * @return {ActivityViewItem}               The object that identifies the primary actor
    * @api private
    */
-  const _generatePrimaryActor = function (me, activity) {
-    let actor = activity.actor;
+  const _generatePrimaryActor = function(me, activity) {
+    let { actor } = activity;
     if (actor['oae:collection']) {
       actor = actor['oae:collection'][0];
     }
@@ -486,7 +482,7 @@ var _expose = function (exports) {
    * @return {Boolean}                                    Whether or not the context is involved in the provided activity entity
    * @api private
    */
-  const _isContextInActivityEntities = function (context, activityEntity) {
+  const _isContextInActivityEntities = function(context, activityEntity) {
     const entities = activityEntity['oae:collection'] || [activityEntity];
     for (let entityIndex = 0; entityIndex < entities.length; entityIndex++) {
       if (entities[entityIndex]['oae:id'] === context) {
@@ -506,7 +502,7 @@ var _expose = function (exports) {
    * @return {ActivityViewItem[]}                 The activity preview items
    * @api private
    */
-  const _generateActivityPreviewItems = function (context, activity) {
+  const _generateActivityPreviewItems = function(context, activity) {
     const activityType = activity['oae:activityType'];
 
     // Comment activities should always show the target as the activity preview
@@ -571,13 +567,7 @@ var _expose = function (exports) {
    * @param  {String}     [opts.resourceHrefOverride]             When specified, this value will replace any URL specified for an entity. This can be used to control outbound links in different contexts (e.g., email invitation)
    * @api private
    */
-  const _setSummaryPropertiesForEntity = function (
-    properties,
-    propertyKey,
-    entity,
-    sanitization,
-    opts
-  ) {
+  const _setSummaryPropertiesForEntity = function(properties, propertyKey, entity, sanitization, opts) {
     opts = opts || {};
 
     const displayNameKey = propertyKey;
@@ -599,9 +589,7 @@ var _expose = function (exports) {
     }
 
     if (entity['oae:tenant']) {
-      properties[tenantDisplayNameKey] = sanitization.encodeForHTML(
-        entity['oae:tenant'].displayName
-      );
+      properties[tenantDisplayNameKey] = sanitization.encodeForHTML(entity['oae:tenant'].displayName);
     }
   };
 
@@ -619,7 +607,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                                            The summary for the given activity
    * @api private
    */
-  const _generateSummary = function (me, activity, sanitization, opts) {
+  const _generateSummary = function(me, activity, sanitization, opts) {
     // The dictionary that can be used to translate the dynamic values in the i18n keys
     const properties = {};
 
@@ -634,13 +622,7 @@ var _expose = function (exports) {
         properties.actorCountMinusOne = properties.actorCount - 1;
 
         // Apply additional actor information
-        _setSummaryPropertiesForEntity(
-          properties,
-          'actor2',
-          activity.actor['oae:collection'][1],
-          sanitization,
-          opts
-        );
+        _setSummaryPropertiesForEntity(properties, 'actor2', activity.actor['oae:collection'][1], sanitization, opts);
       }
     } else {
       actor1Obj = activity.actor;
@@ -660,13 +642,7 @@ var _expose = function (exports) {
         properties.objectCountMinusOne = properties.objectCount - 1;
 
         // Apply additional object information
-        _setSummaryPropertiesForEntity(
-          properties,
-          'object2',
-          activity.object['oae:collection'][1],
-          sanitization,
-          opts
-        );
+        _setSummaryPropertiesForEntity(properties, 'object2', activity.object['oae:collection'][1], sanitization, opts);
       }
     } else {
       object1Obj = activity.object;
@@ -705,30 +681,52 @@ var _expose = function (exports) {
 
     // Depending on the activity type, we render a different template that is specific to that activity,
     // to make sure that the summary is as accurate and descriptive as possible
-    let activityType = activity['oae:activityType'];
+    const activityType = activity['oae:activityType'];
     if (activityType === 'content-add-to-library') {
       return _generateContentAddToLibrarySummary(me, activity, properties);
-    } if (activityType === 'content-comment') {
+    }
+
+    if (activityType === 'content-comment') {
       return _generateContentCommentSummary(me, activity, properties);
-    } if (activityType === 'content-create') {
+    }
+
+    if (activityType === 'content-create') {
       return _generateContentCreateSummary(me, activity, properties);
-    } if (activityType === 'content-restored-revision') {
+    }
+
+    if (activityType === 'content-restored-revision') {
       return _generateContentRestoredRevision(activity, properties);
-    } if (activityType === 'content-revision') {
+    }
+
+    if (activityType === 'content-revision') {
       return _generateContentRevisionSummary(me, activity, properties);
-    } if (activityType === 'content-share') {
+    }
+
+    if (activityType === 'content-share') {
       return _generateContentShareSummary(me, activity, properties);
-    } if (activityType === 'content-update') {
+    }
+
+    if (activityType === 'content-update') {
       return _generateContentUpdateSummary(me, activity, properties);
-    } if (activityType === 'content-update-member-role') {
+    }
+
+    if (activityType === 'content-update-member-role') {
       return _generateContentUpdateMemberRoleSummary(me, activity, properties);
-    } if (activityType === 'content-update-visibility') {
+    }
+
+    if (activityType === 'content-update-visibility') {
       return _generateContentUpdateVisibilitySummary(me, activity, properties);
-    } if (activityType === 'discussion-add-to-library') {
+    }
+
+    if (activityType === 'discussion-add-to-library') {
       return _generateDiscussionAddToLibrarySummary(me, activity, properties);
-    } if (activityType === 'discussion-create') {
+    }
+
+    if (activityType === 'discussion-create') {
       return _generateDiscussionCreateSummary(me, activity, properties);
-    } if (activityType === 'discussion-message') {
+    }
+
+    if (activityType === 'discussion-message') {
       return _generateDiscussionMessageSummary(me, activity, properties);
     } else if (activityType === 'discussion-share') {
       return _generateDiscussionShareSummary(me, activity, properties);
@@ -792,10 +790,401 @@ var _expose = function (exports) {
     }
   };
 
-  var _generateRejectedRequestToJoinGroup = function (me, activity, properties) {
+  /**
+   * Render the end-user friendly, internationalized summary of an add to content library activity.
+   *
+   * @param  {User}                   me              The currently loggedin user
+   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+   * @return {ActivityViewSummary}                    A summary object
+   * @api private
+   */
+  const _generateContentAddToLibrarySummary = function(me, activity, properties) {
+    let i18nKey = null;
+    if (properties.objectCount === 1) {
+      if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_COLLABDOC__';
+      } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_COLLABSHEET__';
+      } else if (activity.object['oae:resourceSubType'] === 'file') {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_FILE__';
+      } else if (activity.object['oae:resourceSubType'] === 'link') {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_LINK__';
+      }
+    } else if (properties.objectCount === 2) {
+      i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_2__';
+    } else {
+      i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_2+__';
+    }
+
+    return new ActivityViewSummary(i18nKey, properties);
+  };
+
+  /**
+   * Render the end-user friendly, internationalized summary of a content comment activity.
+   *
+   * @param  {User}                   me              The currently loggedin user
+   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content comment activity, for which to generate the activity summary
+   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+   * @return {ActivityViewSummary}                    A summary object
+   * @api private
+   */
+  const _generateContentCommentSummary = function(me, activity, properties) {
+    let i18nKey = null;
+    if (activity.target['oae:resourceSubType'] === 'collabdoc') {
+      if (properties.actorCount === 1) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_COLLABDOC_1__';
+      } else if (properties.actorCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_COLLABDOC_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_COLLABDOC_2+__';
+      }
+    } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+      if (properties.actorCount === 1) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_COLLABSHEET_1__';
+      } else if (properties.actorCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_COLLABSHEET_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_COLLABSHEET_2+__';
+      }
+    } else if (activity.target['oae:resourceSubType'] === 'file') {
+      if (properties.actorCount === 1) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_FILE_1__';
+      } else if (properties.actorCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_FILE_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_FILE_2+__';
+      }
+    } else if (activity.target['oae:resourceSubType'] === 'link') {
+      if (properties.actorCount === 1) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_LINK_1__';
+      } else if (properties.actorCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_LINK_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_LINK_2+__';
+      }
+    }
+
+    return new ActivityViewSummary(i18nKey, properties);
+  };
+
+  /**
+   * Render the end-user friendly, internationalized summary of a content creation activity.
+   *
+   * @param  {User}                   me              The currently loggedin user
+   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content creation activity, for which to generate the activity summary
+   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+   * @return {ActivityViewSummary}                    A summary object
+   * @api private
+   */
+  const _generateContentCreateSummary = function(me, activity, properties) {
+    let i18nKey = null;
+    // Add the target to the activity summary when a target is present on the
+    // activity and the target is not a user different from the current user
+    if (
+      properties.targetCount === 1 &&
+      !(activity.target.objectType === 'user' && activity.target['oae:id'] !== me.id)
+    ) {
+      if (activity.target['oae:id'] === me.id) {
+        if (properties.objectCount === 1) {
+          if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_YOU__';
+          } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABSHEET_YOU__';
+          } else if (activity.object['oae:resourceSubType'] === 'file') {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_YOU__';
+          } else if (activity.object['oae:resourceSubType'] === 'link') {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_YOU__';
+          }
+        } else if (properties.objectCount === 2) {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_YOU__';
+        } else {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+_YOU__';
+        }
+      } else if (activity.target.objectType === 'folder') {
+        if (properties.objectCount === 1) {
+          if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_FOLDER__';
+          } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABSHEET_FOLDER__';
+          } else if (activity.object['oae:resourceSubType'] === 'file') {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_FOLDER__';
+          } else if (activity.object['oae:resourceSubType'] === 'link') {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_FOLDER__';
+          }
+        } else if (properties.objectCount === 2) {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_FOLDER__';
+        } else {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+_FOLDER__';
+        }
+      } else if (activity.target.objectType === 'group') {
+        if (properties.objectCount === 1) {
+          if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_GROUP__';
+          } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABSHEET_GROUP__';
+          } else if (activity.object['oae:resourceSubType'] === 'file') {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_GROUP__';
+          } else if (activity.object['oae:resourceSubType'] === 'link') {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_GROUP__';
+          }
+        } else if (properties.objectCount === 2) {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_GROUP__';
+        } else {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+_GROUP__';
+        }
+      }
+    } else if (properties.objectCount === 1) {
+      if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC__';
+      } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABSHEET__';
+      } else if (activity.object['oae:resourceSubType'] === 'file') {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE__';
+      } else if (activity.object['oae:resourceSubType'] === 'link') {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK__';
+      }
+    } else if (properties.objectCount === 2) {
+      i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2__';
+    } else {
+      i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+__';
+    }
+
+    return new ActivityViewSummary(i18nKey, properties);
+  };
+
+  /**
+   * Render the end-user friendly, internationalized summary of a restored content revision activity.
+   *
+   * @param  {User}                   me              The currently loggedin user
+   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the restore content revision activity, for which to generate the activity summary
+   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+   * @return {ActivityViewSummary}                    A summary object
+   * @api private
+   */
+  const _generateContentRestoredRevision = function(activity, properties) {
+    let i18nKey = null;
+    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+      if (properties.actorCount === 1) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABDOC_1__';
+      } else if (properties.actorCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABDOC_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABDOC_2+__';
+      }
+    } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+      if (properties.actorCount === 1) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABSHEET_1__';
+      } else if (properties.actorCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABSHEET_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABSHEET_2+__';
+      }
+    } else if (activity.object['oae:resourceSubType'] === 'file') {
+      if (properties.actorCount === 1) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_FILE_1__';
+      } else if (properties.actorCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_FILE_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_FILE_2+__';
+      }
+    }
+
+    return new ActivityViewSummary(i18nKey, properties);
+  };
+
+  /**
+   * Render the end-user friendly, internationalized summary of a new content version activity.
+   *
+   * @param  {User}                   me              The currently loggedin user
+   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content revision creation activity, for which to generate the activity summary
+   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+   * @return {ActivityViewSummary}                    A summary object
+   * @api private
+   */
+  const _generateContentRevisionSummary = function(me, activity, properties) {
+    let i18nKey = null;
+    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+      if (properties.actorCount === 1) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_COLLABDOC_1__';
+      } else if (properties.actorCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_COLLABDOC_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_COLLABDOC_2+__';
+      }
+    } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+      if (properties.actorCount === 1) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_COLLABSHEET_1__';
+      } else if (properties.actorCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_COLLABSHEET_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_COLLABSHEET_2+__';
+      }
+    } else if (activity.object['oae:resourceSubType'] === 'file') {
+      if (properties.actorCount === 1) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_FILE_1__';
+      } else if (properties.actorCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_FILE_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_FILE_2+__';
+      }
+    } else if (activity.object['oae:resourceSubType'] === 'link') {
+      if (properties.actorCount === 1) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_LINK_1__';
+      } else if (properties.actorCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_LINK_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_LINK_2+__';
+      }
+    }
+
+    return new ActivityViewSummary(i18nKey, properties);
+  };
+
+  /**
+   * Render the end-user friendly, internationalized summary of a content share activity.
+   *
+   * @param  {User}                   me              The currently loggedin user
+   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content share activity, for which to generate the activity summary
+   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+   * @return {ActivityViewSummary}                    A summary object
+   * @api private
+   */
+  const _generateContentShareSummary = function(me, activity, properties) {
+    let i18nKey = null;
+    if (properties.objectCount === 1) {
+      if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+        if (properties.targetCount === 1) {
+          if (activity.target['oae:id'] === me.id) {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_YOU__';
+          } else {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_1__';
+          }
+        } else if (properties.targetCount === 2) {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_2__';
+        } else {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_2+__';
+        }
+      } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+        if (properties.targetCount === 1) {
+          if (activity.target['oae:id'] === me.id) {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABSHEET_YOU__';
+          } else {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABSHEET_1__';
+          }
+        } else if (properties.targetCount === 2) {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABSHEET_2__';
+        } else {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABSHEET_2+__';
+        }
+      } else if (activity.object['oae:resourceSubType'] === 'file') {
+        if (properties.targetCount === 1) {
+          if (activity.target['oae:id'] === me.id) {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_FILE_YOU__';
+          } else {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_FILE_1__';
+          }
+        } else if (properties.targetCount === 2) {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_FILE_2__';
+        } else {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_FILE_2+__';
+        }
+      } else if (activity.object['oae:resourceSubType'] === 'link') {
+        if (properties.targetCount === 1) {
+          if (activity.target['oae:id'] === me.id) {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LINK_YOU__';
+          } else {
+            i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LINK_1__';
+          }
+        } else if (properties.targetCount === 2) {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LINK_2__';
+        } else {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LINK_2+__';
+        }
+      }
+    } else if (properties.objectCount === 2) {
+      if (activity.target['oae:id'] === me.id) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_YOU_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_2__';
+      }
+    } else if (activity.target['oae:id'] === me.id) {
+      i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_YOU_2+__';
+    } else {
+      i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_2+__';
+    }
+
+    return new ActivityViewSummary(i18nKey, properties);
+  };
+
+  /**
+   * Render the end-user friendly, internationalized summary of a content member role update activity.
+   *
+   * @param  {User}                   me              The currently loggedin user
+   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content members update activity, for which to generate the activity summary
+   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+   * @return {ActivityViewSummary}                    A summary object
+   * @api private
+   */
+  const _generateContentUpdateMemberRoleSummary = function(me, activity, properties) {
+    // eslint-disable-next-line no-unused-vars
+    let i18nKey = null;
+    if (activity.target['oae:resourceSubType'] === 'collabdoc') {
+      if (properties.objectCount === 1) {
+        if (activity.object['oae:id'] === me.id) {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_YOU__';
+        } else {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_1__';
+        }
+      } else if (properties.objectCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_2+__';
+      }
+    } else if (activity.target['oae:resourceSubType'] === 'collabsheet') {
+      if (properties.objectCount === 1) {
+        if (activity.object['oae:id'] === me.id) {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABSHEET_YOU__';
+        } else {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABSHEET_1__';
+        }
+      } else if (properties.objectCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABSHEET_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABSHEET_2+__';
+      }
+    } else if (activity.target['oae:resourceSubType'] === 'file') {
+      if (properties.objectCount === 1) {
+        if (activity.object['oae:id'] === me.id) {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_YOU__';
+        } else {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_1__';
+        }
+      } else if (properties.objectCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_2+__';
+      }
+    } else if (activity.target['oae:resourceSubType'] === 'link') {
+      if (properties.objectCount === 1) {
+        if (activity.object['oae:id'] === me.id) {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_YOU__';
+        } else {
+          i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_1__';
+        }
+      } else if (properties.objectCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_2+__';
+      }
+    }
+  };
+
+  const _generateRejectedRequestToJoinGroup = function(me, activity, properties) {
     const i18nKey = '__MSG__ACTIVITY_REQUEST_TO_JOIN_GROUP_REJECTED__';
     return new ActivityViewSummary(i18nKey, properties);
   };
+
   /**
    * Render the end-user friendly, internationalized summary of request activity to join a group.
    *
@@ -805,7 +1194,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateRequestToJoinGroupSummary = function (me, activity, properties) {
+  const _generateRequestToJoinGroupSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.actorCount === 1) {
       if (activity.actor['oae:id'] === me.id) {
@@ -818,6 +1207,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_REQUEST_TO_JOIN_GROUP_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -830,7 +1220,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateMeetingJitsiUpdateVisibilitySummary = function (me, activity, properties) {
+  const _generateMeetingJitsiUpdateVisibilitySummary = function(me, activity, properties) {
     let i18nKey = null;
     if (activity.object['oae:visibility'] === 'public') {
       i18nKey = '__MSG__ACTIVITY_MEETING_VISIBILITY_PUBLIC__';
@@ -839,6 +1229,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_MEETING_VISIBILITY_PRIVATE__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -851,7 +1242,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateMeetingJitsiUpdateMemberRoleSummary = function (me, activity, properties) {
+  const _generateMeetingJitsiUpdateMemberRoleSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.objectCount === 1) {
       if (activity.object['oae:id'] === me.id) {
@@ -864,6 +1255,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_MEMBER_ROLE_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -876,7 +1268,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateMeetingJitsiUpdateSummary = function (me, activity, properties) {
+  const _generateMeetingJitsiUpdateSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.actorCount === 1) {
       i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_1__';
@@ -885,6 +1277,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_MEETING_UPDATE_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -897,7 +1290,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateMeetingJitsiMessageSummary = function (me, activity, properties) {
+  const _generateMeetingJitsiMessageSummary = function(me, activity, properties) {
     let i18nKey = null;
 
     if (properties.actorCount === 1) {
@@ -912,6 +1305,102 @@ var _expose = function (exports) {
   };
 
   /**
+   * Render the end-user friendly, internationalized summary of a content update activity.
+   *
+   * @param  {User}                   me              The currently loggedin user
+   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content update activity, for which to generate the activity summary
+   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+   * @return {ActivityViewSummary}                    A summary object
+   * @api private
+   */
+  const _generateContentUpdateSummary = function(me, activity, properties) {
+    let i18nKey = null;
+    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+      if (properties.actorCount === 1) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_COLLABDOC_1__';
+      } else if (properties.actorCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_COLLABDOC_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_COLLABDOC_2+__';
+      }
+    } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+      if (properties.actorCount === 1) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_COLLABSHEET_1__';
+      } else if (properties.actorCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_COLLABSHEET_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_COLLABSHEET_2+__';
+      }
+    } else if (activity.object['oae:resourceSubType'] === 'file') {
+      if (properties.actorCount === 1) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_FILE_1__';
+      } else if (properties.actorCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_FILE_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_FILE_2+__';
+      }
+    } else if (activity.object['oae:resourceSubType'] === 'link') {
+      if (properties.actorCount === 1) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_LINK_1__';
+      } else if (properties.actorCount === 2) {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_LINK_2__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_LINK_2+__';
+      }
+    }
+
+    return new ActivityViewSummary(i18nKey, properties);
+  };
+
+  /**
+   * Render the end-user friendly, internationalized summary of a visibility update activity for content.
+   *
+   * @param  {User}                   me              The currently loggedin user
+   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content visibility update activity, for which to generate the activity summary
+   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
+   * @return {ActivityViewSummary}                    A summary object
+   * @api private
+   */
+  const _generateContentUpdateVisibilitySummary = function(me, activity, properties) {
+    let i18nKey = null;
+    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+      if (activity.object['oae:visibility'] === 'public') {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_PUBLIC__';
+      } else if (activity.object['oae:visibility'] === 'loggedin') {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_LOGGEDIN__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_PRIVATE__';
+      }
+    } else if (activity.object['oae:resourceSubType'] === 'collabsheet') {
+      if (activity.object['oae:visibility'] === 'public') {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABSHEET_PUBLIC__';
+      } else if (activity.object['oae:visibility'] === 'loggedin') {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABSHEET_LOGGEDIN__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABSHEET_PRIVATE__';
+      }
+    } else if (activity.object['oae:resourceSubType'] === 'file') {
+      if (activity.object['oae:visibility'] === 'public') {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_FILE_PUBLIC__';
+      } else if (activity.object['oae:visibility'] === 'loggedin') {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_FILE_LOGGEDIN__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_FILE_PRIVATE__';
+      }
+    } else if (activity.object['oae:resourceSubType'] === 'link') {
+      if (activity.object['oae:visibility'] === 'public') {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_LINK_PUBLIC__';
+      } else if (activity.object['oae:visibility'] === 'loggedin') {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_LINK_LOGGEDIN__';
+      } else {
+        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_LINK_PRIVATE__';
+      }
+    }
+
+    return new ActivityViewSummary(i18nKey, properties);
+  };
+
+  /**
    * Render the end-user friendly, internationalized summary of a meeting creation activity.
    *
    * @param  {User}                   me              The currently loggedin user
@@ -920,7 +1409,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateMeetingJitsiCreateSummary = function (me, activity, properties) {
+  const _generateMeetingJitsiCreateSummary = function(me, activity, properties) {
     let i18nKey = null;
 
     // Add the target to the activity summary when a targer is present on the
@@ -966,7 +1455,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateMeetingJitsiShareSummary = function (me, activity, properties) {
+  const _generateMeetingJitsiShareSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.objectCount === 1) {
       if (properties.targetCount === 1) {
@@ -991,6 +1480,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_MEETINGS_SHARE_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1004,7 +1494,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateDefaultSummary = function (me, activity, properties) {
+  const _generateDefaultSummary = function(me, activity, properties) {
     let i18nKey = null;
     properties.verb = activity.verb;
     if (properties.actorCount === 1) {
@@ -1019,410 +1509,6 @@ var _expose = function (exports) {
   };
 
   /**
-   * Render the end-user friendly, internationalized summary of an add to content library activity.
-   *
-   * @param  {User}                   me              The currently loggedin user
-   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
-   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
-   * @return {ActivityViewSummary}                    A summary object
-   * @api private
-   */
-  var _generateContentAddToLibrarySummary = function (me, activity, properties) {
-    let i18nKey = null;
-    if (properties.objectCount === 1) {
-      if (activity.object['oae:resourceSubType'] === 'collabdoc') {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_COLLABDOC__';
-      } else if (activity.object['oae:resourceSubType'] === 'file') {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_FILE__';
-      } else if (activity.object['oae:resourceSubType'] === 'link') {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_LINK__';
-      }
-    } else if (properties.objectCount === 2) {
-      i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_2__';
-    } else {
-      i18nKey = '__MSG__ACTIVITY_CONTENT_ADD_LIBRARY_2+__';
-    }
-    return new ActivityViewSummary(i18nKey, properties);
-  };
-
-  /**
-   * Render the end-user friendly, internationalized summary of a content comment activity.
-   *
-   * @param  {User}                   me              The currently loggedin user
-   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content comment activity, for which to generate the activity summary
-   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
-   * @return {ActivityViewSummary}                    A summary object
-   * @api private
-   */
-  var _generateContentCommentSummary = function (me, activity, properties) {
-    let i18nKey = null;
-    if (activity.target['oae:resourceSubType'] === 'collabdoc') {
-      if (properties.actorCount === 1) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_COLLABDOC_1__';
-      } else if (properties.actorCount === 2) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_COLLABDOC_2__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_COLLABDOC_2+__';
-      }
-    } else if (activity.target['oae:resourceSubType'] === 'file') {
-      if (properties.actorCount === 1) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_FILE_1__';
-      } else if (properties.actorCount === 2) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_FILE_2__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_FILE_2+__';
-      }
-    } else if (activity.target['oae:resourceSubType'] === 'link') {
-      if (properties.actorCount === 1) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_LINK_1__';
-      } else if (properties.actorCount === 2) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_LINK_2__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_COMMENT_LINK_2+__';
-      }
-    }
-    return new ActivityViewSummary(i18nKey, properties);
-  };
-
-  /**
-   * Render the end-user friendly, internationalized summary of a content creation activity.
-   *
-   * @param  {User}                   me              The currently loggedin user
-   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content creation activity, for which to generate the activity summary
-   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
-   * @return {ActivityViewSummary}                    A summary object
-   * @api private
-   */
-  var _generateContentCreateSummary = function (me, activity, properties) {
-    let i18nKey = null;
-    // Add the target to the activity summary when a target is present on the
-    // activity and the target is not a user different from the current user
-    if (
-      properties.targetCount === 1 &&
-      !(activity.target.objectType === 'user' && activity.target['oae:id'] !== me.id)
-    ) {
-      if (activity.target['oae:id'] === me.id) {
-        if (properties.objectCount === 1) {
-          if (activity.object['oae:resourceSubType'] === 'collabdoc') {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_YOU__';
-          } else if (activity.object['oae:resourceSubType'] === 'file') {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_YOU__';
-          } else if (activity.object['oae:resourceSubType'] === 'link') {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_YOU__';
-          }
-        } else if (properties.objectCount === 2) {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_YOU__';
-        } else {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+_YOU__';
-        }
-      } else if (activity.target.objectType === 'folder') {
-        if (properties.objectCount === 1) {
-          if (activity.object['oae:resourceSubType'] === 'collabdoc') {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_FOLDER__';
-          } else if (activity.object['oae:resourceSubType'] === 'file') {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_FOLDER__';
-          } else if (activity.object['oae:resourceSubType'] === 'link') {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_FOLDER__';
-          }
-        } else if (properties.objectCount === 2) {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_FOLDER__';
-        } else {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+_FOLDER__';
-        }
-      } else if (activity.target.objectType === 'group') {
-        if (properties.objectCount === 1) {
-          if (activity.object['oae:resourceSubType'] === 'collabdoc') {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_GROUP__';
-          } else if (activity.object['oae:resourceSubType'] === 'file') {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_GROUP__';
-          } else if (activity.object['oae:resourceSubType'] === 'link') {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_GROUP__';
-          }
-        } else if (properties.objectCount === 2) {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_GROUP__';
-        } else {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+_GROUP__';
-        }
-      }
-    } else if (properties.objectCount === 1) {
-      if (activity.object['oae:resourceSubType'] === 'collabdoc') {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC__';
-      } else if (activity.object['oae:resourceSubType'] === 'file') {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE__';
-      } else if (activity.object['oae:resourceSubType'] === 'link') {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK__';
-      }
-    } else if (properties.objectCount === 2) {
-      i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2__';
-    } else {
-      i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+__';
-    }
-    return new ActivityViewSummary(i18nKey, properties);
-  };
-
-  /**
-   * Render the end-user friendly, internationalized summary of a restored content revision activity.
-   *
-   * @param  {User}                   me              The currently loggedin user
-   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the restore content revision activity, for which to generate the activity summary
-   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
-   * @return {ActivityViewSummary}                    A summary object
-   * @api private
-   */
-  var _generateContentRestoredRevision = function (activity, properties) {
-    let i18nKey = null;
-    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
-      if (properties.actorCount === 1) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABDOC_1__';
-      } else if (properties.actorCount === 2) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABDOC_2__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABDOC_2+__';
-      }
-    } else if (activity.object['oae:resourceSubType'] === 'file') {
-      if (properties.actorCount === 1) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_FILE_1__';
-      } else if (properties.actorCount === 2) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_FILE_2__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_FILE_2+__';
-      }
-    }
-    return new ActivityViewSummary(i18nKey, properties);
-  };
-
-  /**
-   * Render the end-user friendly, internationalized summary of a new content version activity.
-   *
-   * @param  {User}                   me              The currently loggedin user
-   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content revision creation activity, for which to generate the activity summary
-   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
-   * @return {ActivityViewSummary}                    A summary object
-   * @api private
-   */
-  var _generateContentRevisionSummary = function (me, activity, properties) {
-    let i18nKey = null;
-    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
-      if (properties.actorCount === 1) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_COLLABDOC_1__';
-      } else if (properties.actorCount === 2) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_COLLABDOC_2__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_COLLABDOC_2+__';
-      }
-    } else if (activity.object['oae:resourceSubType'] === 'file') {
-      if (properties.actorCount === 1) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_FILE_1__';
-      } else if (properties.actorCount === 2) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_FILE_2__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_FILE_2+__';
-      }
-    } else if (activity.object['oae:resourceSubType'] === 'link') {
-      if (properties.actorCount === 1) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_LINK_1__';
-      } else if (properties.actorCount === 2) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_LINK_2__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_REVISION_LINK_2+__';
-      }
-    }
-    return new ActivityViewSummary(i18nKey, properties);
-  };
-
-  /**
-   * Render the end-user friendly, internationalized summary of a content share activity.
-   *
-   * @param  {User}                   me              The currently loggedin user
-   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content share activity, for which to generate the activity summary
-   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
-   * @return {ActivityViewSummary}                    A summary object
-   * @api private
-   */
-  var _generateContentShareSummary = function (me, activity, properties) {
-    let i18nKey = null;
-    if (properties.objectCount === 1) {
-      if (activity.object['oae:resourceSubType'] === 'collabdoc') {
-        if (properties.targetCount === 1) {
-          if (activity.target['oae:id'] === me.id) {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_YOU__';
-          } else {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_1__';
-          }
-        } else if (properties.targetCount === 2) {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_2__';
-        } else {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_2+__';
-        }
-      } else if (activity.object['oae:resourceSubType'] === 'file') {
-        if (properties.targetCount === 1) {
-          if (activity.target['oae:id'] === me.id) {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_FILE_YOU__';
-          } else {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_FILE_1__';
-          }
-        } else if (properties.targetCount === 2) {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_FILE_2__';
-        } else {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_FILE_2+__';
-        }
-      } else if (activity.object['oae:resourceSubType'] === 'link') {
-        if (properties.targetCount === 1) {
-          if (activity.target['oae:id'] === me.id) {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LINK_YOU__';
-          } else {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LINK_1__';
-          }
-        } else if (properties.targetCount === 2) {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LINK_2__';
-        } else {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_LINK_2+__';
-        }
-      }
-    } else if (properties.objectCount === 2) {
-      if (activity.target['oae:id'] === me.id) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_YOU_2__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_2__';
-      }
-    } else if (activity.target['oae:id'] === me.id) {
-      i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_YOU_2+__';
-    } else {
-      i18nKey = '__MSG__ACTIVITY_CONTENT_SHARE_2+__';
-    }
-    return new ActivityViewSummary(i18nKey, properties);
-  };
-
-  /**
-   * Render the end-user friendly, internationalized summary of a content member role update activity.
-   *
-   * @param  {User}                   me              The currently loggedin user
-   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content members update activity, for which to generate the activity summary
-   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
-   * @return {ActivityViewSummary}                    A summary object
-   * @api private
-   */
-  var _generateContentUpdateMemberRoleSummary = function (me, activity, properties) {
-    let i18nKey = null;
-    if (activity.target['oae:resourceSubType'] === 'collabdoc') {
-      if (properties.objectCount === 1) {
-        if (activity.object['oae:id'] === me.id) {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_YOU__';
-        } else {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_1__';
-        }
-      } else if (properties.objectCount === 2) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_2__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_2+__';
-      }
-    } else if (activity.target['oae:resourceSubType'] === 'file') {
-      if (properties.objectCount === 1) {
-        if (activity.object['oae:id'] === me.id) {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_YOU__';
-        } else {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_1__';
-        }
-      } else if (properties.objectCount === 2) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_2__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_2+__';
-      }
-    } else if (activity.target['oae:resourceSubType'] === 'link') {
-      if (properties.objectCount === 1) {
-        if (activity.object['oae:id'] === me.id) {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_YOU__';
-        } else {
-          i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_1__';
-        }
-      } else if (properties.objectCount === 2) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_2__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_2+__';
-      }
-    }
-    return new ActivityViewSummary(i18nKey, properties);
-  };
-
-  /**
-   * Render the end-user friendly, internationalized summary of a content update activity.
-   *
-   * @param  {User}                   me              The currently loggedin user
-   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content update activity, for which to generate the activity summary
-   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
-   * @return {ActivityViewSummary}                    A summary object
-   * @api private
-   */
-  var _generateContentUpdateSummary = function (me, activity, properties) {
-    let i18nKey = null;
-    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
-      if (properties.actorCount === 1) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_COLLABDOC_1__';
-      } else if (properties.actorCount === 2) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_COLLABDOC_2__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_COLLABDOC_2+__';
-      }
-    } else if (activity.object['oae:resourceSubType'] === 'file') {
-      if (properties.actorCount === 1) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_FILE_1__';
-      } else if (properties.actorCount === 2) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_FILE_2__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_FILE_2+__';
-      }
-    } else if (activity.object['oae:resourceSubType'] === 'link') {
-      if (properties.actorCount === 1) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_LINK_1__';
-      } else if (properties.actorCount === 2) {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_LINK_2__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_LINK_2+__';
-      }
-    }
-    return new ActivityViewSummary(i18nKey, properties);
-  };
-
-  /**
-   * Render the end-user friendly, internationalized summary of a visibility update activity for content.
-   *
-   * @param  {User}                   me              The currently loggedin user
-   * @param  {Activity}               activity        Standard activity object as specified by the activitystrea.ms specification, representing the content visibility update activity, for which to generate the activity summary
-   * @param  {Object}                 properties      A set of properties that can be used to determine the correct summary
-   * @return {ActivityViewSummary}                    A summary object
-   * @api private
-   */
-  var _generateContentUpdateVisibilitySummary = function (me, activity, properties) {
-    let i18nKey = null;
-    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
-      if (activity.object['oae:visibility'] === 'public') {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_PUBLIC__';
-      } else if (activity.object['oae:visibility'] === 'loggedin') {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_LOGGEDIN__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_PRIVATE__';
-      }
-    } else if (activity.object['oae:resourceSubType'] === 'file') {
-      if (activity.object['oae:visibility'] === 'public') {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_FILE_PUBLIC__';
-      } else if (activity.object['oae:visibility'] === 'loggedin') {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_FILE_LOGGEDIN__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_FILE_PRIVATE__';
-      }
-    } else if (activity.object['oae:resourceSubType'] === 'link') {
-      if (activity.object['oae:visibility'] === 'public') {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_LINK_PUBLIC__';
-      } else if (activity.object['oae:visibility'] === 'loggedin') {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_LINK_LOGGEDIN__';
-      } else {
-        i18nKey = '__MSG__ACTIVITY_CONTENT_VISIBILITY_LINK_PRIVATE__';
-      }
-    }
-    return new ActivityViewSummary(i18nKey, properties);
-  };
-
-  /**
    * Render the end-user friendly, internationalized summary of an add to library activity for a discussion.
    *
    * @param  {User}                   me              The currently loggedin user
@@ -1431,7 +1517,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateDiscussionAddToLibrarySummary = function (me, activity, properties) {
+  const _generateDiscussionAddToLibrarySummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.objectCount === 1) {
       i18nKey = '__MSG__ACTIVITY_DISCUSSION_ADD_LIBRARY__';
@@ -1440,6 +1526,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_DISCUSSION_ADD_LIBRARY_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1452,7 +1539,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateDiscussionCreateSummary = function (me, activity, properties) {
+  const _generateDiscussionCreateSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.objectCount === 1) {
       i18nKey = '__MSG__ACTIVITY_DISCUSSION_CREATE_1__';
@@ -1461,6 +1548,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_DISCUSSION_CREATE_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1473,7 +1561,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateDiscussionMessageSummary = function (me, activity, properties) {
+  const _generateDiscussionMessageSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.actorCount === 1) {
       i18nKey = '__MSG__ACTIVITY_DISCUSSION_MESSAGE_1__';
@@ -1482,6 +1570,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_DISCUSSION_MESSAGE_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1494,7 +1583,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateDiscussionShareSummary = function (me, activity, properties) {
+  const _generateDiscussionShareSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.objectCount === 1) {
       if (properties.targetCount === 1) {
@@ -1519,6 +1608,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_DISCUSSIONS_SHARE_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1531,7 +1621,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateDiscussionUpdateMemberRoleSummary = function (me, activity, properties) {
+  const _generateDiscussionUpdateMemberRoleSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.objectCount === 1) {
       if (activity.object['oae:id'] === me.id) {
@@ -1544,6 +1634,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_DISCUSSION_UPDATE_MEMBER_ROLE_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1556,7 +1647,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateDiscussionUpdateSummary = function (me, activity, properties) {
+  const _generateDiscussionUpdateSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.actorCount === 1) {
       i18nKey = '__MSG__ACTIVITY_DISCUSSION_UPDATE_1__';
@@ -1565,6 +1656,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_DISCUSSION_UPDATE_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1577,7 +1669,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateDiscussionUpdateVisibilitySummary = function (me, activity, properties) {
+  const _generateDiscussionUpdateVisibilitySummary = function(me, activity, properties) {
     let i18nKey = null;
     if (activity.object['oae:visibility'] === 'public') {
       i18nKey = '__MSG__ACTIVITY_DISCUSSION_VISIBILITY_PUBLIC__';
@@ -1586,6 +1678,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_DISCUSSION_VISIBILITY_PRIVATE__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1598,7 +1691,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateFolderAddToFolderSummary = function (me, activity, properties) {
+  const _generateFolderAddToFolderSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.objectCount === 1) {
       if (activity.object['oae:resourceSubType'] === 'collabdoc') {
@@ -1613,6 +1706,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1625,7 +1719,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateFolderAddToLibrarySummary = function (me, activity, properties) {
+  const _generateFolderAddToLibrarySummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.objectCount === 1) {
       i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_LIBRARY__';
@@ -1634,6 +1728,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_LIBRARY_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1646,7 +1741,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateFolderCommentSummary = function (me, activity, properties) {
+  const _generateFolderCommentSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.actorCount === 1) {
       i18nKey = '__MSG__ACTIVITY_FOLDER_COMMENT_1__';
@@ -1655,6 +1750,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_FOLDER_COMMENT_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1667,7 +1763,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateFolderCreateSummary = function (me, activity, properties) {
+  const _generateFolderCreateSummary = function(me, activity, properties) {
     let i18nKey = null;
     // Add the target to the activity summary when a target is present on the
     // activity and the target is not a user different from the current user
@@ -1699,6 +1795,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1711,7 +1808,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateFolderShareSummary = function (me, activity, properties) {
+  const _generateFolderShareSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.objectCount === 1) {
       if (properties.targetCount === 1) {
@@ -1736,6 +1833,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_FOLDERS_SHARE_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1748,7 +1846,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateFolderUpdateSummary = function (me, activity, properties) {
+  const _generateFolderUpdateSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.actorCount === 1) {
       i18nKey = '__MSG__ACTIVITY_FOLDER_UPDATE_1__';
@@ -1757,6 +1855,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_FOLDER_UPDATE_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1769,7 +1868,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateFolderUpdateMemberRoleSummary = function (me, activity, properties) {
+  const _generateFolderUpdateMemberRoleSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.objectCount === 1) {
       if (activity.object['oae:id'] === me.id) {
@@ -1782,6 +1881,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_FOLDER_UPDATE_MEMBER_ROLE_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1794,7 +1894,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateFolderUpdateVisibilitySummary = function (me, activity, properties) {
+  const _generateFolderUpdateVisibilitySummary = function(me, activity, properties) {
     let i18nKey = null;
     if (activity.object['oae:visibility'] === 'public') {
       i18nKey = '__MSG__ACTIVITY_FOLDER_VISIBILITY_PUBLIC__';
@@ -1803,6 +1903,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_FOLDER_VISIBILITY_PRIVATE__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1815,7 +1916,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateFollowingSummary = function (me, activity, properties) {
+  const _generateFollowingSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.actorCount > 1) {
       if (properties.actorCount === 2) {
@@ -1840,6 +1941,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_FOLLOWING_1_1__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1852,7 +1954,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateGroupAddMemberSummary = function (me, activity, properties) {
+  const _generateGroupAddMemberSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.objectCount === 1) {
       if (activity.object['oae:id'] === me.id) {
@@ -1865,6 +1967,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_GROUP_ADD_MEMBER_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1877,7 +1980,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateGroupUpdateMemberRoleSummary = function (me, activity, properties) {
+  const _generateGroupUpdateMemberRoleSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.objectCount === 1) {
       if (activity.object['oae:id'] === me.id) {
@@ -1890,6 +1993,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_GROUP_UPDATE_MEMBER_ROLE_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1902,7 +2006,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateGroupCreateSummary = function (me, activity, properties) {
+  const _generateGroupCreateSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.objectCount === 1) {
       i18nKey = '__MSG__ACTIVITY_GROUP_CREATE_1__';
@@ -1911,6 +2015,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_GROUP_CREATE_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1923,7 +2028,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateGroupJoinSummary = function (me, activity, properties) {
+  const _generateGroupJoinSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.actorCount === 1) {
       i18nKey = '__MSG__ACTIVITY_GROUP_JOIN_1__';
@@ -1932,6 +2037,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_GROUP_JOIN_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1944,7 +2050,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateGroupUpdateSummary = function (me, activity, properties) {
+  const _generateGroupUpdateSummary = function(me, activity, properties) {
     let i18nKey = null;
     if (properties.actorCount === 1) {
       i18nKey = '__MSG__ACTIVITY_GROUP_UPDATE_1__';
@@ -1953,6 +2059,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_GROUP_UPDATE_2+__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -1965,7 +2072,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateGroupUpdateVisibilitySummary = function (me, activity, properties) {
+  const _generateGroupUpdateVisibilitySummary = function(me, activity, properties) {
     let i18nKey = null;
     if (activity.object['oae:visibility'] === 'public') {
       i18nKey = '__MSG__ACTIVITY_GROUP_VISIBILITY_PUBLIC__';
@@ -1974,6 +2081,7 @@ var _expose = function (exports) {
     } else {
       i18nKey = '__MSG__ACTIVITY_GROUP_VISIBILITY_PRIVATE__';
     }
+
     return new ActivityViewSummary(i18nKey, properties);
   };
 
@@ -2056,7 +2164,7 @@ var _expose = function (exports) {
    * @return {ActivityViewSummary}                    A summary object
    * @api private
    */
-  var _generateInvitationSummary = function (me, activity, properties) {
+  const _generateInvitationSummary = function(me, activity, properties) {
     const labels = ['ACTIVITY'];
     const activityType = activity['oae:activityType'];
     const actorId = activity.actor['oae:id'];
@@ -2114,12 +2222,14 @@ var _expose = function (exports) {
   };
 };
 
-(function () {
-  if (typeof define !== 'function') {
+(function() {
+  // eslint-disable-next-line no-undef
+  if (typeof define === 'function') {
+    // This gets executed in the browser
+    // eslint-disable-next-line no-undef
+    define(['exports'], _expose);
+  } else {
     // This gets executed in the backend
     _expose(module.exports);
-  } else {
-    // This gets executed in the browser
-    define(['exports'], _expose);
   }
 })();

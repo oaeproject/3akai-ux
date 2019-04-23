@@ -134,6 +134,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             return 'linkpreview';
         } else if (contentProfile.resourceSubType === 'collabdoc') {
             return 'etherpad';
+        } else if (contentProfile.resourceSubType === 'collabsheet') {
+            return 'ethercalc';
         }
     };
 
@@ -282,6 +284,16 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                     'loggedinDescription': oae.api.i18n.translate('__MSG__DOCUMENT_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName)}),
                     'publicDescription': oae.api.i18n.translate('__MSG__DOCUMENT_PUBLIC_DESCRIPTION__')
                 });
+            case 'collabsheet':
+                return _.extend(messages, {
+                    'accessNotUpdatedBody': oae.api.i18n.translate('__MSG__COLLABSHEET_ACCESS_COULD_NOT_BE_UPDATED__'),
+                    'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__COLLABSHEET_ACCESS_NOT_UPDATED__'),
+                    'accessUpdatedBody': oae.api.i18n.translate('__MSG__COLLABSHEET_ACCESS_SUCCESSFULLY_UPDATED__'),
+                    'accessUpdatedTitle': oae.api.i18n.translate('__MSG__COLLABSHEET_ACCESS_UPDATED__'),
+                    'privateDescription': oae.api.i18n.translate('__MSG__COLLABSHEET_PRIVATE_DESCRIPTION__'),
+                    'loggedinDescription': oae.api.i18n.translate('__MSG__COLLABSHEET_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName)}),
+                    'publicDescription': oae.api.i18n.translate('__MSG__COLLABSHEET_PUBLIC_DESCRIPTION__')
+                });
         }
     };
 
@@ -309,8 +321,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 'setVisibility': oae.api.content.updateContent
             }
         };
-        // Collabdocs have a special editor role
-        if (contentProfile.resourceSubType === 'collabdoc') {
+        // Collabdocs and collabsheets have a special editor role
+        if (contentProfile.resourceSubType === 'collabdoc' || contentProfile.resourceSubType === 'collabsheet') {
             widgetData.roles.splice(1, 0, {'id': 'editor', 'name': oae.api.i18n.translate('__MSG__CAN_EDIT__')});
             widgetData.defaultRole = 'manager';
         }

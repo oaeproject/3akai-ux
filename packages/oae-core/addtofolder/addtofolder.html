@@ -134,6 +134,8 @@
         {if selectedItems.length === 1}
             {if selectedItems[0].resourceSubType === 'collabdoc'}
                 __MSG__DOCUMENT_ADDED__
+            {elseif selectedItems[0].resourceSubType === 'collabsheet'}
+                __MSG__COLLABSHEET_ADDED__
             {elseif selectedItems[0].resourceSubType === 'file'}
                 __MSG__FILE_ADDED__
             {elseif selectedItems[0].resourceSubType === 'link'}
@@ -146,7 +148,9 @@
         {if selectedItems.length === 1}
             {if selectedItems[0].resourceSubType === 'collabdoc'}
                 __MSG__DOCUMENT_NOT_ADDED__
-            {elseif selectedItems[0].resourceSubType === 'file'}
+            {elseif selectedItems[0].resourceSubType === 'collabsheet'}
+                __MSG__COLLABSHEET_NOT_ADDED__
+             {elseif selectedItems[0].resourceSubType === 'file'}
                 __MSG__FILE_NOT_ADDED__
             {elseif selectedItems[0].resourceSubType === 'link'}
                 __MSG__LINK_NOT_ADDED__
@@ -163,6 +167,8 @@
         {if selectedItems.length === 1}
             {if selectedItems[0].resourceSubType === 'collabdoc'}
                 __MSG__DOCUMENT_ADDED_FOLDER_SUCCESS__
+            {elseif selectedItems[0].resourceSubType === 'collabsheet'}
+                __MSG__COLLABSHEET_ADDED_FOLDER_SUCCESS__
             {elseif selectedItems[0].resourceSubType === 'file'}
                 __MSG__FILE_ADDED_FOLDER_SUCCESS__
             {elseif selectedItems[0].resourceSubType === 'link'}
@@ -175,6 +181,8 @@
         {if selectedItems.length === 1}
             {if selectedItems[0].resourceSubType === 'collabdoc'}
                 __MSG__DOCUMENT_ADDED_FOLDER_FAIL__
+            {elseif selectedItems[0].resourceSubType === 'collabsheet'}
+                __MSG__COLLABSHEET_ADDED_FOLDER_FAIL__
             {elseif selectedItems[0].resourceSubType === 'file'}
                 __MSG__FILE_ADDED_FOLDER_FAIL__
             {elseif selectedItems[0].resourceSubType === 'link'}

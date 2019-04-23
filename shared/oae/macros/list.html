@@ -208,7 +208,7 @@
 <!--
  * Render an entity thumbnail.
  *
- * @param  {User|Group|Content|Folder|Discussion|LtiTool|String}    entityData                          Standard object representing an OAE entity or a search result for an OAE entity. Alternatively, a string representing the resourceType or resourceSubType (i.e., 'user', 'group', 'content', `folder`, 'file', 'link', 'collabdoc', 'discussions', 'ltitool') can be passed in for an empty/anonymous entity thumbnail
+ * @param  {User|Group|Content|Folder|Discussion|LtiTool|String}    entityData                          Standard object representing an OAE entity or a search result for an OAE entity. Alternatively, a string representing the resourceType or resourceSubType (i.e., 'user', 'group', 'content', `folder`, 'file', 'link', 'collabdoc', 'collabsheet', 'discussions', 'ltitool') can be passed in for an empty/anonymous entity thumbnail
  * @param  {Object}                                                 [displayOptions]                    Display options for the thumbnail
  * @param  {Boolean}                                                [displayOptions.addLink]            Whether or not a link to the entity profile should be placed on the image. By default, a link will be set
  * @param  {Boolean}                                                [displayOptions.addVisibilityIcon]  Whether or not the visibility icon should be shown, this does not apply to users who never have a visibility icon. By default, a visibility icon is shown for all resources other than users
@@ -424,6 +424,14 @@
                         __MSG__DOCUMENT_LOGGEDIN_DESCRIPTION__
                     {elseif visibility === "private"}
                         __MSG__DOCUMENT_PRIVATE_DESCRIPTION__
+                    {/if}
+                {elseif resourceSubType === "collabsheet"}
+                    {if visibility === "public"}
+                        __MSG__COLLABSHEET_PUBLIC_DESCRIPTION__
+                    {elseif visibility === "loggedin"}
+                        __MSG__COLLABSHEET_LOGGEDIN_DESCRIPTION__
+                    {elseif visibility === "private"}
+                        __MSG__COLLABSHEET_PRIVATE_DESCRIPTION__
                     {/if}
                 {elseif resourceSubType === "file"}
                     {if visibility === "public"}

@@ -1,0 +1,11 @@
+{
+  "i18n": {
+    "default": "bundles/default.properties"
+  },
+  "src": "createcollabsheet.html",
+  "trigger": {
+    "selectors": [
+      ".oae-trigger-createcollabsheet"
+    ]
+  }
+}

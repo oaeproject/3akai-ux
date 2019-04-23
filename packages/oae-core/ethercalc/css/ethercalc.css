@@ -1,0 +1,83 @@
+/*!
+ * Copyright 2018 Apereo Foundation (AF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://opensource.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+#ethercalc-container #ethercalc-view-mode {
+    margin: 30px 0;
+}
+
+#ethercalc-container #ethercalc-view-mode ul.indent li {
+    list-style: none;
+}
+
+
+#ethercalc-container #ethercalc-view-mode {
+    margin: 20px 0;
+    white-space: pre-wrap;
+}
+
+#ethercalc-container #ethercalc-view-mode table {
+    border-bottom: 1px solid #999;
+    margin: 20px 0;
+}
+
+#ethercalc-container #ethercalc-view-mode table th {
+    background-color: #FFF;
+    border-bottom: 1px solid #999;
+    border-top: 1px solid #999;
+    font-weight: 500;
+    padding: 10px;
+}
+
+#ethercalc-container #ethercalc-view-mode table td {
+    font-weight: normal;
+    height: 22px;
+    padding: 6px 10px;
+}
+
+#ethercalc-container #ethercalc-view-mode table tr:nth-child(even) {
+    background-color: #FFF;
+}
+
+#ethercalc-container #ethercalc-view-mode table tr:nth-child(odd) {
+    background-color: #ECECEC;
+}
+
+#ethercalc-container #ethercalc-view-mode ul {
+    white-space: normal;
+}
+
+
+#ethercalc-container #ethercalc-edit-mode {
+    height: 700px;
+    padding: 5px 0 20px;
+}
+
+#ethercalc-container #ethercalc-edit-mode #ethercalc-editor {
+    border: 0;
+    height: 100%;
+    width: 100%;
+}
+
+@media (max-width: 767px) {
+    #ethercalc-container #ethercalc-edit-mode {
+        height: 550px;
+    }
+}
+
+@media (max-width: 400px) {
+    #ethercalc-container #ethercalc-edit-mode {
+        height: 350px;
+    }
+}
