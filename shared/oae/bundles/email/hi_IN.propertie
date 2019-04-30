@@ -1,0 +1,10 @@
+ACTIVITY_EMAIL_CHANGE_PREFRENCES = आप किसी भी समय अपना <a href\="${url}"> ईमेल प्राथमिकताएँ</a> बदल सकते हैं।
+ACTIVITY_EMAIL_GREETING = नमस्ते ${displayName}
+ACTIVITY_EMAIL_SUBJECT_DAILY = आज की गतिविधि सारांश
+ACTIVITY_EMAIL_SUBJECT_MULTIPLE = नई गतिविधि आप के लिए प्रतीक्षा कर रहा है
+ACTIVITY_EMAIL_SUBJECT_WEEKLY = पिछले हफ्ते की गतिविधि सारांश
+ACTIVITY_EMAIL_SUMMARY_DAILY = अंतिम दिन में जो हुआ
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_MULTIPLE_ACTORS = नई गतिविधि आप के लिए प्रतीक्षा कर रहा है
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_SINGLE_ACTOR_MULTIPLE_ACTIVITIES = ${actorLink} हाल ही में बहुत सक्रिय है
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_SINGLE_ACTOR_SINGLE_ACTIVITY = ${actorLink} हाल ही में सक्रिय है
+ACTIVITY_EMAIL_SUMMARY_WEEKLY = पिछले हफ्ते में जो हुआ
