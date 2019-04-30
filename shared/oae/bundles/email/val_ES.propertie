@@ -1,0 +1,2 @@
+ACTIVITY_EMAIL_CHANGE_PREFRENCES = Pots cambiar el teu <a href\="${url}">preferencies del email</a> en qualsevol moment.
+ACTIVITY_EMAIL_GREETING = Hola ${displayName}
