@@ -1,0 +1,18 @@
+ACCEPT_THIS_INVITATION = Diese Einladung annehmen
+ACTIVITY_EMAIL_CHANGE_PREFRENCES = Sie können Ihre <a href\="${url}">e-Mail-Einstellungen</a> jederzeit ändern.
+ACTIVITY_EMAIL_GREETING = Hallo ${displayName}
+ACTIVITY_EMAIL_SUBJECT_DAILY = Zusammenfassung der heutigen Aktivitäten
+ACTIVITY_EMAIL_SUBJECT_INVITE_ACTOR_1 = ${actor1DisplayName} hat Sie zur Zusammenarbeit eingeladen
+ACTIVITY_EMAIL_SUBJECT_INVITE_ACTOR_2 = ${actor1DisplayName} und ${actor2DisplayName} haben Sie zur Zusammenarbeit eingeladen
+ACTIVITY_EMAIL_SUBJECT_INVITE_ACTOR_3+ = ${actor1DisplayName} und ${numActorsMinus1} Andere haben Sie zur Zusammenarbeit eingeladen
+ACTIVITY_EMAIL_SUBJECT_MULTIPLE = Eine neue Meldungen wartet auf Sie
+ACTIVITY_EMAIL_SUBJECT_WEEKLY = Zusammenfassung der Aktivitäten von letzter Woche
+ACTIVITY_EMAIL_SUMMARY_DAILY = Hier die Aktivitäten der letzten Tagen
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_MULTIPLE_ACTORS = Eine neue Meldungen wartet auf Sie
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_SINGLE_ACTOR_MULTIPLE_ACTIVITIES = ${actorLink} war vor kurzem sehr aktiv
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_SINGLE_ACTOR_SINGLE_ACTIVITY = ${actorLink} war vor kurzem aktiv
+ACTIVITY_EMAIL_SUMMARY_WEEKLY = Hier sind die Ereignisse der letzten Woche
+EMAIL_VERIFY_ADMIN_BODY_EXPLANATION = Wir haben eine Anfrage von einem Administrator erhalten, um die Email-Adresse Ihres Benutzerkontos zu ändern. Bitte klicken Sie auf den Knopf um Ihre Email-Adresse zu bestätigen. Bitte ignorieren Sie diese Meldung, falls Sie diese Änderungsanfrage nicht erwartet hatten.
+EMAIL_VERIFY_BODY_EXPLANATION = Wir haben eine Anfrage erhalten, um die Email-Adresse Ihres Benutzerkontos zu ändern. Bitte klicken Sie auf den Knopf um Ihre Email-Adresse zu bestätigen. Bitte ignorieren Sie diese Meldung, falls Sie diese Änderung nicht angefragt hatten.
+EMAIL_VERIFY_SUBJECT = Bitte überprüfen Sie Ihre Email-Adresse
+EMAIL_VERIFY_VERIFY_MY_EMAIL = Überprüfen Sie meine Email-Adresse
