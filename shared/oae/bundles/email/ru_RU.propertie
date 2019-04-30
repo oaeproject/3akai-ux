@@ -1,0 +1,18 @@
+ACCEPT_THIS_INVITATION = Принять это приглашение
+ACTIVITY_EMAIL_CHANGE_PREFRENCES = Вы можете изменить ваши <a href\="${url}"> настройки электронной почты</a> в любое время.
+ACTIVITY_EMAIL_GREETING = Привет ${displayName}
+ACTIVITY_EMAIL_SUBJECT_DAILY = Суммирования сегодняшней деятельности
+ACTIVITY_EMAIL_SUBJECT_INVITE_ACTOR_1 = ${actor1DisplayName} приглашает вас к сотрудничеству
+ACTIVITY_EMAIL_SUBJECT_INVITE_ACTOR_2 = ${actor1DisplayName} и ${actor2DisplayName} пригласил вас к сотрудничеству
+ACTIVITY_EMAIL_SUBJECT_INVITE_ACTOR_3+ = ${actor1DisplayName} и ${numActorsMinus1} другие пригласили вас к сотрудничеству
+ACTIVITY_EMAIL_SUBJECT_MULTIPLE = Вас ждет новый вид деятельности
+ACTIVITY_EMAIL_SUBJECT_WEEKLY = Итог деятельности за неделю
+ACTIVITY_EMAIL_SUMMARY_DAILY = Вот что произошло в последний день
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_MULTIPLE_ACTORS = Вас ждет новый вид деятельности
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_SINGLE_ACTOR_MULTIPLE_ACTIVITIES = ${actorLink} был очень активным недавно
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_SINGLE_ACTOR_SINGLE_ACTIVITY = ${actorLink}был активным недавно
+ACTIVITY_EMAIL_SUMMARY_WEEKLY = Вот что произошло в последнюю неделю
+EMAIL_VERIFY_ADMIN_BODY_EXPLANATION = Мы получили просьбу администратора изменить адрес електронной почты вашего аккаунта. Пожалуйста, нажмите на кнопку чтобы подтвердить ваш адрес электронной почты. Если вы не ожидали этого изменения пожалуйста проигнорируйте это сообщение.
+EMAIL_VERIFY_BODY_EXPLANATION = Мы получили просьбу администратора изменить адрес электронной почты вашего аккаунта. Пожалуйста, нажмите на кнопку чтобы подтвердить ваш адрес электронной почты. Если вы не делали запрос по этой изменения пожалуйста проигнорируйте это сообщение.
+EMAIL_VERIFY_SUBJECT = Пожалуйста, подтвердите ваш адрес электронной почты
+EMAIL_VERIFY_VERIFY_MY_EMAIL = Подтвердить мою электронную почту
