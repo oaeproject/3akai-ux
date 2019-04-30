@@ -1,0 +1,10 @@
+ACTIVITY_EMAIL_CHANGE_PREFRENCES = Możesz zmienić swoje <a href\="${url}">ustawienia poczty email</a> w każdej chwili.
+ACTIVITY_EMAIL_GREETING = Cześć ${displayName}
+ACTIVITY_EMAIL_SUBJECT_DAILY = Podsumowanie dzisiejszej aktywności
+ACTIVITY_EMAIL_SUBJECT_MULTIPLE = Czeka na Ciebie nowe zadanie
+ACTIVITY_EMAIL_SUBJECT_WEEKLY = Podsumowanie aktywności w zeszłym tygodniu
+ACTIVITY_EMAIL_SUMMARY_DAILY = To wydarzyło się ostatniego dnia
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_MULTIPLE_ACTORS = Czeka na Ciebie nowe zadanie
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_SINGLE_ACTOR_MULTIPLE_ACTIVITIES = ${actorLink} był ostatnio bardzo aktywny
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_SINGLE_ACTOR_SINGLE_ACTIVITY = ${actorLink} był ostatnio aktywny
+ACTIVITY_EMAIL_SUMMARY_WEEKLY = To wydarzyło się w zeszłym tygodniu
