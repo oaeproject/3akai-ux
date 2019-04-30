@@ -1,0 +1,7 @@
+files:
+  - source: /shared/oae/bundles/email/default.properties
+    translation: //shared/oae/bundles/email/%locale_with_underscore%.propertie
+  - source: /shared/oae/bundles/ui/default.properties
+    translation: /shared/oae/bundles/ui/%locale_with_underscore%.properties
+  - source: /packages/oae-*/**/bundles/default.properties
+    translation: /%original_path%/%locale_with_underscore%.properties
