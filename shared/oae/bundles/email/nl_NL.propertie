@@ -1,0 +1,10 @@
+ACTIVITY_EMAIL_CHANGE_PREFRENCES = U kan uw <a href\="${url}">email voorkeur</a> op ieder moment wijzigen.
+ACTIVITY_EMAIL_GREETING = Hallo ${displayName}
+ACTIVITY_EMAIL_SUBJECT_DAILY = Een overzicht van de laatste dag
+ACTIVITY_EMAIL_SUBJECT_MULTIPLE = Er wachten nieuwe activiteiten op jou
+ACTIVITY_EMAIL_SUBJECT_WEEKLY = Een overzicht van de afgelopen week
+ACTIVITY_EMAIL_SUMMARY_DAILY = Een overzicht van de laatste dag
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_MULTIPLE_ACTORS = Er wachten nieuwe activiteiten op jou
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_SINGLE_ACTOR_MULTIPLE_ACTIVITIES = ${actorLink} was heel actief
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_SINGLE_ACTOR_SINGLE_ACTIVITY = ${actorLink} was actief
+ACTIVITY_EMAIL_SUMMARY_WEEKLY = Een overzicht van de afgelopen week
