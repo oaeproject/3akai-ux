@@ -1,0 +1,18 @@
+ACCEPT_THIS_INVITATION = Daveti kabul et
+ACTIVITY_EMAIL_CHANGE_PREFRENCES = <a href\="${url}"> e-posta tercihlerinizi </a> istediğiniz zaman değiştirebilirsiniz.
+ACTIVITY_EMAIL_GREETING = Merhaba ${displayName}
+ACTIVITY_EMAIL_SUBJECT_DAILY = Bugünkü etkinlik özeti
+ACTIVITY_EMAIL_SUBJECT_INVITE_ACTOR_1 = ${actor1DisplayName} birlikte çalışmaya davet etti
+ACTIVITY_EMAIL_SUBJECT_INVITE_ACTOR_2 = ${actor1DisplayName} ve ${actor2DisplayName} sizi ortak çalışmaya davet etti
+ACTIVITY_EMAIL_SUBJECT_INVITE_ACTOR_3+ = ${actor1DisplayName} ve ${numActorsMinus1} ve diğerleri sizi beraber çalışmaya davet etti
+ACTIVITY_EMAIL_SUBJECT_MULTIPLE = Yeni etkinlik sizi bekliyor
+ACTIVITY_EMAIL_SUBJECT_WEEKLY = Geçen hafta etkinlik özeti
+ACTIVITY_EMAIL_SUMMARY_DAILY = İşte son günlerde olanlar
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_MULTIPLE_ACTORS = Yeni etkinlik sizi bekliyor
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_SINGLE_ACTOR_MULTIPLE_ACTIVITIES = ${actorLink}''i son zamanlarda çok aktif oldu
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_SINGLE_ACTOR_SINGLE_ACTIVITY = ${actorLink}''i son zamanlarda aktif oldu
+ACTIVITY_EMAIL_SUMMARY_WEEKLY = İşte geçen hafta içinde olan olaylar
+EMAIL_VERIFY_ADMIN_BODY_EXPLANATION = Yönetici hesabınızın e-posta adresini değiştirilmesini talep ettik. E-posta adresinizi doğrulamak için lütfen düğmeyi tıklayın. Eğer değişikliği beklemiyorduysanız, lütfen bu mesajı yoksayın.
+EMAIL_VERIFY_BODY_EXPLANATION = Hesabınızın e-posta adresini değiştirmek için bir istek aldık. E-posta adresinizi doğrulamak için lütfen düğmeyi tıklayın.Eğer değişikliği istemediyseniz, lütfen bu mesajı yoksayın.
+EMAIL_VERIFY_SUBJECT = Lütfen email adresini doğrula
+EMAIL_VERIFY_VERIFY_MY_EMAIL = E-postamı doğrula
