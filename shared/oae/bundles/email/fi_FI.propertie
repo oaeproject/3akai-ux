@@ -1,0 +1,18 @@
+ACCEPT_THIS_INVITATION = Hyväksy tämä kutsu
+ACTIVITY_EMAIL_CHANGE_PREFRENCES = Voit muuttaa <a href\="${url}"> sähköpostiasetuksiasi</a> milloin tahansa.
+ACTIVITY_EMAIL_GREETING = Hei ${displayName}
+ACTIVITY_EMAIL_SUBJECT_DAILY = Tämänpäiväinen yhteenveto
+ACTIVITY_EMAIL_SUBJECT_INVITE_ACTOR_1 = ${actor1DisplayName} on kutsunut sinut yhteistyöhön
+ACTIVITY_EMAIL_SUBJECT_INVITE_ACTOR_2 = ${actor1DisplayName} ja ${actor2DisplayName} ovat kutsuneet sinut yhteistyöhön
+ACTIVITY_EMAIL_SUBJECT_INVITE_ACTOR_3+ = ${actor1DisplayName} ja ${numActorsMinus1} muuta ovat kutsuneet sinut yhteistyöhön
+ACTIVITY_EMAIL_SUBJECT_MULTIPLE = Uudet tapahtumat odottavat sinua
+ACTIVITY_EMAIL_SUBJECT_WEEKLY = Viime viikon yhteenveto
+ACTIVITY_EMAIL_SUMMARY_DAILY = Tässä ovat edellisen päivän tapahtumat
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_MULTIPLE_ACTORS = Uusi tapahtuma odottaa sinua
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_SINGLE_ACTOR_MULTIPLE_ACTIVITIES = ${actorLink} on ollut hyvin aktiivinen viime aikoina
+ACTIVITY_EMAIL_SUMMARY_IMMEDIATE_SINGLE_ACTOR_SINGLE_ACTIVITY = ${actorLink} on ollut aktiivinen viime aikoina
+ACTIVITY_EMAIL_SUMMARY_WEEKLY = Tässä ovat edellisen viikon tapahtumat
+EMAIL_VERIFY_ADMIN_BODY_EXPLANATION = Olemme saaneet järjestelmänvalvojalta pyynnön muuttaa tilisi sähköpostiosoitetta. Klikkaa painiketta vahvistaaksesi sähköpostiosoitteesi. Jos et odottanut tätä muutosta, voit sivuuttaa tämän viestin.
+EMAIL_VERIFY_BODY_EXPLANATION = Olemme saaneet pyynnön muuttaa tilisi sähköpostiosoite. Klikkaa painiketta vahvistaaksesi sähköpostiosoitteesi. Jos et pyytänyt tämän muutoksen, voit sivuuttaa tämän viestin.
+EMAIL_VERIFY_SUBJECT = Ole hyvä ja vahvista sähköpostiosoitteesi
+EMAIL_VERIFY_VERIFY_MY_EMAIL = Vahvista sähköpostiosoitteeni
