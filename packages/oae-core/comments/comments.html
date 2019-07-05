@@ -3,10 +3,13 @@
 
 <!-- CONTENT -->
 <div class="comments-widget">
-    <ul id="comments-container" class="media-list" role="list"><!-- --></ul>
+    <ul id="comments-container" class="media-list" role="list">
+        <!-- -->
+    </ul>
 </div>
 
-<div id="comments-new-comment-template"><!--
+<div id="comments-new-comment-template">
+    <!--
     <li class="media oae-hide-when-anonymous">
         <div class="comments-thumbnail">
             ${renderThumbnail(oae.data.me)}
@@ -21,13 +24,17 @@
             </form>
         </div>
     </li>
---></div>
+-->
+</div>
 
-<div id="comments-new-comment-notifications-template"><!--
+<div id="comments-new-comment-notifications-template">
+    <!--
     __MSG__POSTED_A_COMMENT_JUST_NOW__
---></div>
+-->
+</div>
 
-<div id="comments-comment-template"><!--
+<div id="comments-comment-template">
+    <!--
     {for comment in results}
         {var commentLevel = comment.level > 2 ? 2 : comment.level}
         <li id="${comment.threadKey}" class="media comments-level-${commentLevel} {if !comment.body} deleted{/if}" data-id="${comment.created}" role="listitem" aria-level="${commentLevel+1}">
@@ -56,7 +63,7 @@
                                 ${comment.createdBy.displayName|encodeForHTML}
                             </a>
                         {else}
-                            ${comment.createdBy.displayName|encodeForHTML}
+                            __MSG__UNKNOWN_USER__
                         {/if}
                         <small class="muted"><time datetime="${comment.created}"></time></small>
                     </h4>
@@ -80,23 +87,28 @@
             </div>
         </li>
     {/for}
---></div>
+-->
+</div>
 
-<div id="comment-notification-title-template"><!--
+<div id="comment-notification-title-template">
+    <!--
     {if !isReply}
         __MSG__COMMENT_NOT_ADDED__
     {else}
         __MSG__REPLY_NOT_ADDED__
     {/if}
---></div>
+-->
+</div>
 
-<div id="comment-notification-body-template"><!--
+<div id="comment-notification-body-template">
+    <!--
     {if !isReply}
         __MSG__COMMENT_ADDED_FAIL__
     {else}
         __MSG__REPLY_ADDED_FAIL__
     {/if}
---></div>
+-->
+</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="js/comments.js"></script>
