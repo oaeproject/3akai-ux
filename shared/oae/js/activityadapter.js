@@ -1178,6 +1178,7 @@ var _expose = function(exports) {
         i18nKey = '__MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_2+__';
       }
     }
+    return new ActivityViewSummary(i18nKey, properties);
   };
 
   const _generateRejectedRequestToJoinGroup = function(me, activity, properties) {
