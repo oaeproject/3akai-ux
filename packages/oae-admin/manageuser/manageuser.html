@@ -10,9 +10,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="__MSG__CLOSE__">
                     <span aria-hidden="true">&#215;</span>
                 </button>
-                <h3 id="manageuser-editprofile-header-container">
-                    <!-- -->
-                </h3>
+                <h3 id="manageuser-editprofile-header-container"><!-- --></h3>
             </div>
 
             <div id="manageuser-panel-main">
@@ -35,9 +33,7 @@
 
                 <div class="tab-content">
                     <form id="manageuser-editprofile-form" class="active tab-pane form-horizontal" role="form">
-                        <div id="manageuser-editprofile-container" class="modal-body">
-                            <!-- -->
-                        </div>
+                        <div id="manageuser-editprofile-container" class="modal-body"><!-- --></div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-link" data-dismiss="modal">__MSG__CANCEL__</button>
                             <button type="submit" class="btn btn-primary">__MSG__SAVE__</button>
@@ -45,9 +41,7 @@
                     </form>
 
                     <form id="manageuser-email-form" class="tab-pane form-horizontal" role="form">
-                        <div id="manageuser-email-container" class="modal-body">
-                            <!-- -->
-                        </div>
+                        <div id="manageuser-email-container" class="modal-body"><!-- --></div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-link" data-dismiss="modal">__MSG__CANCEL__</button>
                             <button type="submit" class="btn btn-primary">__MSG__SAVE__</button>
@@ -55,9 +49,7 @@
                     </form>
 
                     <form id="manageuser-actions-form" class="tab-pane form-horizontal" role="form">
-                        <div id="manageuser-actions-container" class="modal-body">
-                            <!-- -->
-                        </div>
+                        <div id="manageuser-actions-container" class="modal-body"><!-- --></div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-link" data-dismiss="modal">__MSG__CANCEL__</button>
                             <button type="submit" class="btn btn-primary">__MSG__SAVE__</button>
@@ -65,9 +57,7 @@
                     </form>
 
                     <form id="manageuser-authentication-form" class="tab-pane form-horizontal" role="form">
-                        <div id="manageuser-authentication-container" class="modal-body">
-                            <!-- -->
-                        </div>
+                        <div id="manageuser-authentication-container" class="modal-body"><!-- --></div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-link" data-dismiss="modal">__MSG__CANCEL__</button>
                             <button type="submit" class="btn btn-primary">__MSG__SAVE__</button>
@@ -95,8 +85,7 @@
     </div>
 </div>
 
-<div id="manageuser-authentication-template">
-    <!--
+<div id="manageuser-authentication-template"><!--
     <div class="well">
         {for loginId in loginIds}
             {if loginId_index !== 'local'}
@@ -129,20 +118,16 @@
             </div>
         {/if}
     </div>
--->
-</div>
+--></div>
 
-<div id="manageuser-editprofile-header-template">
-    <!--
+<div id="manageuser-editprofile-header-template"><!--
     ${userProfile.displayName|encodeForHTML}
     {if userProfile.isTenantAdmin || userProfile.isGlobalAdmin}
         <span class="badge">__MSG__ADMINISTRATOR__</span>
     {/if}
--->
-</div>
+--></div>
 
-<div id="manageuser-editprofile-template">
-    <!--
+<div id="manageuser-editprofile-template"><!--
     <div id="manageuser-basic-profile-container" class="clearfix">
         <div class="col-xs-4">
             ${renderThumbnail(userProfile, displayOptions)}
@@ -196,11 +181,9 @@
             </div>
         </div>
     {/if}
--->
-</div>
+--></div>
 
-<div id="manageuser-email-template">
-    <!--
+<div id="manageuser-email-template"><!--
     {if !userProfile.isUserArchive}
         <h4>__MSG__EMAIL_NOTIFICATIONS__</h4>
         <div id="manageuser-email-options-container">
@@ -250,11 +233,9 @@
             </div>
         </div>
     {/if}
--->
-</div>
+--></div>
 
-<div id="manageuser-actions-template">
-    <!--
+<div id="manageuser-actions-template"><!--
     {var displayName = oae.api.util.security().encodeForHTML(userProfile.displayName)}
     {if !context.isGlobalAdminServer}
         <h4>__MSG__BECOME_USER__</h4>
@@ -278,22 +259,17 @@
             </label>
         </div>
     {/if}
--->
-</div>
+--></div>
 
-<div id="manageuser-become-user-form-container">
-    <!-- -->
-</div>
+<div id="manageuser-become-user-form-container"><!-- --></div>
 
-<div id="manageuser-become-user-form-template">
-    <!--
+<div id="manageuser-become-user-form-template"><!--
     <form id="manageuser-become-user-form" class="hide" action="${url|encodeForHTMLAttribute}" method="POST">
         {for attr in body}
             <input type="hidden" name="${attr_index|encodeForHTMLAttribute}" value="${attr|encodeForHTMLAttribute}" />
         {/for}
     </form>
--->
-</div>
+--></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="js/manageuser.js"></script>
