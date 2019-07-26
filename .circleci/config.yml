@@ -14,7 +14,7 @@ jobs:
       - checkout
       - run:
           name: Install Grunt
-          command: yarn install --silent grunt grunt-cli
+          command: yarn add -W grunt grunt-cli
       - run:
           name: Install NPM dependencies
           command: npx lerna bootstrap
