@@ -16,9 +16,8 @@
 const util = require('util');
 const vm = require('vm');
 const _ = require('underscore');
-const shell = require('shelljs');
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: '<json:package.json>',
@@ -320,49 +319,25 @@ module.exports = function (grunt) {
           {
             from: /(src)="\/(.+?)"/gi,
             to(matchedWord, index, fullText, regexMatches) {
-              return _cdnifyStaticAsset(
-                grunt.config('replace').url,
-                matchedWord,
-                index,
-                fullText,
-                regexMatches
-              );
+              return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
             }
           },
           {
             from: /(data-loadmodule)="\/(.+?)"/gi,
             to(matchedWord, index, fullText, regexMatches) {
-              return _cdnifyStaticAsset(
-                grunt.config('replace').url,
-                matchedWord,
-                index,
-                fullText,
-                regexMatches
-              );
+              return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
             }
           },
           {
             from: /(data-main)="\/(.+?)"/gi,
             to(matchedWord, index, fullText, regexMatches) {
-              return _cdnifyStaticAsset(
-                grunt.config('replace').url,
-                matchedWord,
-                index,
-                fullText,
-                regexMatches
-              );
+              return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
             }
           },
           {
             from: /(<link.*?href)="\/(.+?)"/gi,
             to(matchedWord, index, fullText, regexMatches) {
-              return _cdnifyStaticAsset(
-                grunt.config('replace').url,
-                matchedWord,
-                index,
-                fullText,
-                regexMatches
-              );
+              return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
             }
           },
           {
@@ -461,40 +436,7 @@ module.exports = function (grunt) {
     'git-describe': {
       oae: {}
     },
-    ghost: {
-      dist: {
-        filesSrc: ['node_modules/oae-*/*/tests/*.js', 'shared/oae/**/tests/*.js', 'ui/tests/*.js'],
-        // CasperJS test command options
-        options: {
-          // Specify the files to be included in each test
-          includes: [
-            'tests/casperjs/util/include/admin.js',
-            'tests/casperjs/util/include/config.js',
-            'tests/casperjs/util/include/content.js',
-            'tests/casperjs/util/include/discussions.js',
-            'tests/casperjs/util/include/folders.js',
-            'tests/casperjs/util/include/follow.js',
-            'tests/casperjs/util/include/groups.js',
-            'tests/casperjs/util/include/ui.js',
-            'tests/casperjs/util/include/users.js',
-            'tests/casperjs/util/include/util.js'
-          ],
-          // Prepare te testing environment before starting the tests
-          pre: ['tests/casperjs/util/prep.js'],
-          // Don't stop casperjs after first test failure
-          failFast: false
-        }
-      }
-    },
     exec: {
-      runCasperTest: {
-        cmd(path) {
-          const includes = grunt.config('ghost').dist.options.includes;
-          const pre = grunt.config('ghost').dist.options.pre;
-
-          return 'casperjs test --includes=' + includes + ' --pre=' + pre + ' ' + path;
-        }
-      },
       startDependencies: {
         cmd: 'node tests/casperjs/startDependencies.js'
       }
@@ -511,12 +453,11 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-git-describe');
   grunt.loadNpmTasks('grunt-ver');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
-  grunt.loadNpmTasks('grunt-ghost');
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-text-replace');
 
   // Task to write the version to a file
-  grunt.registerTask('writeVersion', function () {
+  grunt.registerTask('writeVersion', function() {
     this.requires('git-describe');
     const json = grunt.template.process('{"oae:ux-version":"<%= meta.version %>"}');
     grunt.file.write(grunt.config('target') + '/optimized/ui/version.json', json);
@@ -551,7 +492,7 @@ module.exports = function (grunt) {
   });
 
   // Task to hash files
-  grunt.registerTask('hashFiles', function () {
+  grunt.registerTask('hashFiles', function() {
     this.requires('requirejs');
     this.requires('touchBootstrap');
 
@@ -656,7 +597,7 @@ module.exports = function (grunt) {
   });
 
   // Task to update the paths in oae.bootstrap to the hashed versions
-  grunt.registerTask('updateBootstrapPaths', function () {
+  grunt.registerTask('updateBootstrapPaths', function() {
     this.requires('ver:oae');
 
     const basedir = grunt.config('target') + '/optimized/';
@@ -666,7 +607,7 @@ module.exports = function (grunt) {
     const regex = /("|')?paths("|')?: ?\{[^}]*\}/;
     const scriptPaths = 'paths = {' + bootstrap.match(regex)[0] + '}';
 
-    const paths = vm.runInThisContext(scriptPaths).paths;
+    const { paths } = vm.runInThisContext(scriptPaths);
 
     // Update the bootstrap file with the hashed paths
     Object.keys(paths).forEach(key => {
@@ -708,21 +649,14 @@ module.exports = function (grunt) {
   // A task that will copy the release files to a directory of your choosing
   grunt.registerTask('copyReleaseArtifacts', outputDir => {
     if (!outputDir) {
-      return grunt.log.writeln(
-        'Please provide a path where the release files should be copied to'.red
-      );
+      return grunt.log.writeln('Please provide a path where the release files should be copied to'.red);
     }
 
     const config = {
       files: [
         {
           expand: true,
-          src: [
-            './<%= grunt.config("target") %>/*',
-            './README.md',
-            './LICENSE',
-            './COMMITTERS.txt'
-          ],
+          src: ['./<%= grunt.config("target") %>/*', './README.md', './LICENSE', './COMMITTERS.txt'],
           dest: outputDir
         }
       ]
@@ -742,9 +676,7 @@ module.exports = function (grunt) {
   //    /tmp/release/original   -  contains the original UI files
   grunt.registerTask('release', outputDir => {
     if (!outputDir) {
-      return grunt.log.writeln(
-        'Please provide a path where the release files should be copied to'.red
-      );
+      return grunt.log.writeln('Please provide a path where the release files should be copied to'.red);
     }
 
     // Run the default task that will minify and hash all the UI files.
@@ -823,7 +755,7 @@ module.exports = function (grunt) {
  * @return {String[]}                           The full derived list of all resources that replacement should be performed
  * @api private
  */
-var _replacementReferences = function (options) {
+var _replacementReferences = function(options) {
   options.includeExts = options.includeExts || [];
   options.extra = options.extra || [];
 
@@ -849,7 +781,7 @@ var _replacementReferences = function (options) {
  * @return {String[]}                           An array of glob expressions that match the files to hash in the directories
  * @api private
  */
-var _hashFiles = function (options) {
+var _hashFiles = function(options) {
   options.excludeExts = options.excludeExts || [];
   options.extra = options.extra || [];
 
@@ -878,7 +810,7 @@ var _hashFiles = function (options) {
  * @return {String}                             The string that will replace `matchedWord`
  * @api private
  */
-var _cdnifyStaticAsset = function (cdn, matchedWord, index, fullText, regexMatches) {
+var _cdnifyStaticAsset = function(cdn, matchedWord, index, fullText, regexMatches) {
   // Get the name of the attribute (e.g., `src`, `data-main`, ...)
   const attr = regexMatches[0];
 
