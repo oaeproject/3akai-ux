@@ -437,6 +437,7 @@ define(['jquery', 'oae.core'], function($, oae) {
 
                 // Retrieve user information
                 oae.api.user.getUser(widgetData.userId, function(err, userProfile) {
+                    userProfile.isUserArchive = (userProfile.isUserArchive === 'true');
                     widgetData.userProfile = userProfile;
 
                     // Retrieve the user login ids
@@ -457,6 +458,11 @@ define(['jquery', 'oae.core'], function($, oae) {
                         setUpEditProfileForm();
                         setUpActionsForm();
                         setUpEmailForm();
+
+                        if (userProfile.isUserArchive) {
+                            $('#manageuser-authentication-tab', $rootel).hide();
+                            $('#manageuser-email-tab', $rootel).hide();
+                        }
                     });
                 });
             });

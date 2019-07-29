@@ -10,6 +10,7 @@ dump.rdb
 
 nginx/nginx.*
 !nginx/nginx.conf
+!nginx/nginx.docker.conf
 
 node_modules
 
