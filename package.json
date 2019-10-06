@@ -47,9 +47,15 @@
     "underscore": "latest"
   },
   "dependencies": {
-    "lerna": "^3.16.2"
+    "lerna": "^3.16.2",
+    "snyk": "^1.231.0"
   },
   "engines": {
     "node": ">=10.16.0"
-  }
+  },
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
