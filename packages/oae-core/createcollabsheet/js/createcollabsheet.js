@@ -19,9 +19,11 @@ define(['jquery', 'oae.core'], function($, oae) {
     const $rootel = $('#' + uid);
 
     // Variable that keeps track of the people and groups to share this spreadsheet with
-    let managers = [];
+    let extraManagers = [];
+    let extraEditors = [];
+    let extraViewers = [];
     // Variable that keeps track of the folders to add this spreadsheet to
-    let folders = [];
+    let foldersToAddTo = [];
 
     // Variable that keeps track of the selected visibility for the spreadsheet to create
     let visibility = null;
@@ -32,6 +34,15 @@ define(['jquery', 'oae.core'], function($, oae) {
 
     // Variable that keeps track of the current context
     let contextData = null;
+
+    const MANAGER = 'manager';
+    const EDITOR = 'editor';
+    const VIEWER = 'viewer';
+
+    const isRole = (role, someRole) => role === someRole;
+    const isManager = someRole => isRole(MANAGER, someRole);
+    const isEditor = someRole => isRole(EDITOR, someRole);
+    const isViewer = someRole => isRole(VIEWER, someRole);
 
     /**
      * Reset the widget to its original state when the modal dialog is closed
@@ -76,7 +87,7 @@ define(['jquery', 'oae.core'], function($, oae) {
     /**
      * Show the main panel of the widget
      */
-    var showOverview = function() {
+    const showOverview = function() {
       // Hide all containers
       $('.modal-body > div:visible', $rootel).hide();
       // Show the overview container
@@ -105,13 +116,43 @@ define(['jquery', 'oae.core'], function($, oae) {
       // Event that will be triggered when permission changes have been made in the `setpermissions` widget
       $(document).on('oae.setpermissions.changed.' + setPermissionsId, function(ev, data) {
         // Update visibility for spreadsheet
-        visibility = data.visibility;
+        visibility = data.visibility || visibility;
 
-        managers = _.pluck(data.selectedPrincipalItems, 'shareId');
-        folders = _.pluck(data.selectedFolderItems, 'id');
+        // Update members of the document
+        if (data.members) {
+          extraManagers = [];
+          extraEditors = [];
+          extraViewers = [];
+
+          _.each(data.members, function(role, principalId) {
+            if (isManager(role)) {
+              extraManagers.push(principalId);
+            } else if (isEditor(role)) {
+              extraEditors.push(principalId);
+            } else if (isViewer(role)) {
+              extraViewers.push(principalId);
+            }
+          });
+
+          _.each(data.invitations, function(invitation, principalId) {
+            if (isManager(invitation.role)) {
+              extraManagers.push(principalId);
+            } else if (isEditor(invitation.role)) {
+              extraEditors.push(principalId);
+            } else if (isViewer(invitation.role)) {
+              extraViewers.push(principalId);
+            }
+          });
+        }
+
+        if (data.selectedFolderItems) {
+          foldersToAddTo = data.selectedFolderItems;
+        }
 
         // Add the permissions summary
-        $('#createcollabsheet-permissions', $rootel).html(data.summary);
+        if (data.summary) {
+          $('#createcollabsheet-permissions', $rootel).html(data.summary);
+        }
 
         // Switch back to the overview
         showOverview();
@@ -121,7 +162,7 @@ define(['jquery', 'oae.core'], function($, oae) {
       $(document).on('oae.setpermissions.cancel.' + setPermissionsId, showOverview);
 
       // Always add the created spreadsheet to the current user's library
-      let preFill = [
+      const preFill = [
         {
           displayName: oae.api.i18n.translate('__MSG__MY_LIBRARY__'),
           id: oae.data.me.id,
@@ -148,27 +189,36 @@ define(['jquery', 'oae.core'], function($, oae) {
      * Create the collaborative spreadsheet. When the collaborative spreadsheet has been created successfully, the user will be
      * redirected to the created collaborative spreadsheet
      */
-    var createCollabSheet = function() {
+    const createCollabSheet = function() {
       // Disable the form
       $('#createcollabsheet-form *', $rootel).prop('disabled', true);
 
       const displayName = $.trim($('#createcollabsheet-name', $rootel).val());
 
-      oae.api.content.createCollabSheet(displayName, '', visibility, managers, [], [], folders, function(err, data) {
-        // If the creation succeeded, redirect to the spreadsheet
-        if (!err) {
-          window.location = data.profilePath;
-        } else {
-          // Re-enable the form
-          $('#createcollabsheet-form *', $rootel).prop('disabled', false);
+      oae.api.content.createCollabSheet(
+        displayName,
+        '',
+        visibility,
+        extraManagers,
+        extraEditors,
+        extraViewers,
+        foldersToAddTo,
+        function(err, data) {
+          // If the creation succeeded, redirect to the spreadsheet
+          if (!err) {
+            window.location = data.profilePath;
+          } else {
+            // Re-enable the form
+            $('#createcollabsheet-form *', $rootel).prop('disabled', false);
 
-          oae.api.util.notification(
-            oae.api.i18n.translate('__MSG__COLLABSHEET_NOT_CREATED__', 'createcollabsheet'),
-            oae.api.i18n.translate('__MSG__COLLABSHEET_COULD_NOT_BE_CREATED__', 'createcollabsheet'),
-            'error'
-          );
+            oae.api.util.notification(
+              oae.api.i18n.translate('__MSG__COLLABSHEET_NOT_CREATED__', 'createcollabsheet'),
+              oae.api.i18n.translate('__MSG__COLLABSHEET_COULD_NOT_BE_CREATED__', 'createcollabsheet'),
+              'error'
+            );
+          }
         }
-      });
+      );
 
       // Avoid default form submit behavior
       return false;

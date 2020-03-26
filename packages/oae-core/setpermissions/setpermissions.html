@@ -1,19 +1,11 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="css/setpermissions.css" />
 
-<div id="setpermissions-visibility">
-    <!-- -->
-</div>
-<div id="setpermissions-share">
-    <!-- -->
-</div>
+<div id="setpermissions-visibility"><!-- --></div>
+<div id="setpermissions-share"><!-- --></div>
+<div id="setpermissions-manage"><!-- --></div>
 
-<div id="setpermissions-manage">
-    <!-- -->
-</div>
-
-<div id="setpermissions-manage-template">
-    <!--
+<div id="setpermissions-manage-template"><!--
     <h4>__MSG__VISIBILITY__</h4>
     <div id="setpermissions-overview-visibility" class="well">
         <button type="button" id="setpermissions-change-visibility" class="btn btn-sm pull-right">__MSG__CHANGE__</button>
@@ -41,11 +33,9 @@
         <h5 class="setpermissions-overview-header">__MSG__PENDING_INVITATIONS__</h5>
         <ul id="setpermissions-overview-selected-invitations-container" class="oae-list oae-list-compact setpermissions-overview-selected"></ul>
     </div>
--->
-</div>
+--></div>
 
-<div id="setpermissions-overview-selected-template">
-    <!--
+<div id="setpermissions-overview-selected-template"><!--
     {macro setpermissionsListItemActions()}
         {if member.id !== creator}
             <div class="form-group">
@@ -67,11 +57,9 @@
         ${displayOptions.listItemActions = setpermissionsListItemActions|eat}
         ${listItem(member, displayOptions)}
     {/for}
--->
-</div>
+--></div>
 
-<div id="setpermissions-visibility-template">
-    <!--
+<div id="setpermissions-visibility-template"><!--
     <h4>__MSG__VISIBILITY__</h4>
     <div class="oae-large-options-container row">
         <div class="col-sm-4 text-center">
@@ -84,6 +72,8 @@
                 </div>
                 <small>
                     {if resourceType=== 'collabdoc'}
+                        __MSG__DOCUMENT_PRIVATE_DESCRIPTION__
+                    {elseif resourceType === 'collabsheet'}
                         __MSG__DOCUMENT_PRIVATE_DESCRIPTION__
                     {elseif resourceType === 'discussion'}
                         __MSG__DISCUSSION_PRIVATE_DESCRIPTION__
@@ -108,6 +98,8 @@
                 <small>
                     {if resourceType=== 'collabdoc'}
                         __MSG__DOCUMENT_LOGGEDIN_DESCRIPTION__
+                    {elseif resourceType=== 'collabsheet'}
+                        __MSG__DOCUMENT_LOGGEDIN_DESCRIPTION__
                     {elseif resourceType === 'discussion'}
                         __MSG__DISCUSSION_LOGGEDIN_DESCRIPTION__
                     {elseif resourceType === 'file'}
@@ -131,6 +123,8 @@
                 <small>
                     {if resourceType=== 'collabdoc'}
                         __MSG__DOCUMENT_PUBLIC_DESCRIPTION__
+                    {elseif resourceType=== 'collabsheet'}
+                        __MSG__DOCUMENT_PUBLIC_DESCRIPTION__
                     {elseif resourceType === 'discussion'}
                         __MSG__DISCUSSION_PUBLIC_DESCRIPTION__
                     {elseif resourceType === 'file'}
@@ -149,11 +143,9 @@
         <button type="button" id="setpermissions-cancelpermissions" class="btn btn-link">__MSG__CANCEL__</button>
         <button type="button" id="setpermissions-savepermissions" class="btn btn-primary">__MSG__UPDATE__</button>
     </div>
--->
-</div>
+--></div>
 
-<div id="setpermissions-share-template">
-    <!--
+<div id="setpermissions-share-template"><!--
     <h4>__MSG__SELECT_USERS_AND_GROUPS_TO_ADD__</h4>
     <div>
         <input type="text" id="setpermissions-share-autosuggest" placeholder="__MSG__ENTER_PEOPLE_GROUPS_AND_EMAIL_ADDRESSES__"/>
@@ -172,8 +164,7 @@
         <button type="button" id="setpermissions-cancelpermissions-share" class="btn btn-link">__MSG__CANCEL__</button>
         <button type="button" id="setpermissions-savepermissions-share" class="btn btn-primary">__MSG__ADD__</button>
     </div>
--->
-</div>
+--></div>
 
 <!-- JAVASCRIPT -->
 <script type="application/javascript" src="js/setpermissions.js"></script>
