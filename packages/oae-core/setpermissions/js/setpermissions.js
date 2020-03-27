@@ -99,7 +99,7 @@ define(['jquery', 'oae.core'], function($, oae) {
       });
 
       const newInvitations = membersPartition[0];
-      var newMembers = membersPartition[1];
+      let newMembers = membersPartition[1];
       const invitationsUpdates = {};
 
       // Keep track of all members updates
@@ -118,7 +118,7 @@ define(['jquery', 'oae.core'], function($, oae) {
       }
 
       // Update the members infinite scroll && add members to the permissions modal list
-      var newMembers = _.map(newMembers, function(member) {
+      newMembers = _.map(newMembers, function(member) {
         member.profile.role = member.role;
         infinityScroll.prependItems(member.profile);
         return member.profile;
