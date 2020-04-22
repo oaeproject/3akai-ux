@@ -35,6 +35,16 @@
                 </div>
             {/if}
         </div>
+    {elseif revision.resourceSubType === 'collabsheet'}
+        <div class="revisions-etherpad-container">
+            {if revision.ethercalcHtml}
+                ${revision.ethercalcHtml}
+            {else}
+                <div class="alert alert-warning">
+                    <span>__MSG__NO_CONTENT_DESCRIPTION__</span>
+                </div>
+            {/if}
+        </div>
     {elseif revision.mediumUrl}
         <div class="text-center revisions-image-container">
             <img src="${revision.mediumUrl}" alt="__MSG__REVISION_PREVIEW__"/>
