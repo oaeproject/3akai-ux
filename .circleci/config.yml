@@ -14,10 +14,10 @@ jobs:
       - checkout
       - run:
           name: Install Grunt
-          command: yarn add -W grunt grunt-cli
+          command: npm i -W grunt grunt-cli
       - run:
           name: Install NPM dependencies
-          command: npx lerna bootstrap
+          command: npm i
       - run:
           name: Production build
           command: npx grunt
