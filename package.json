@@ -47,7 +47,7 @@
     "underscore": "latest"
   },
   "dependencies": {
-    "lerna": "^3.16.2"
+    "lerna": "^3.18.0"
   },
   "engines": {
     "node": ">=10.16.0"
