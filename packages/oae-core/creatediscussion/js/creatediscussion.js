@@ -22,6 +22,7 @@ define(['jquery', 'oae.core'], function ($, oae) {
 
         // Variable that keeps track of the people and groups to share this discussion with
         var members = [];
+        var managers = [];
 
         // Variable that keeps track of the selected visibility for the discussion to create
         var visibility = null;
@@ -102,14 +103,29 @@ define(['jquery', 'oae.core'], function ($, oae) {
             // Event that will be triggered when permission changes have been made in the `setpermissions` widget
             $(document).on('oae.setpermissions.changed.' + setPermissionsId, function(ev, data) {
                 // Update visibility for discussion
-                visibility = data.visibility;
+                visibility = data.visibility || visibility;
 
-                members = _.chain(data.selectedPrincipalItems)
-                    .filter(function(selectedPrincipalItem) {
-                        return (selectedPrincipalItem.id !== oae.data.me.id);
-                    })
-                    .pluck('shareId')
-                    .value();
+                // Update members of the document
+                if (data.members) {
+                    managers = [];
+                    members = [];
+                    
+                    _.each(data.members, function(role, id) {
+                        if (role === 'manager') {
+                            managers.push(id);
+                        } else {
+                            members.push(id);
+                        }
+                    });
+
+                    _.each(data.invitations, function(invitation, id) {
+                        if (invitation.role === 'manager') {
+                            managers.push(id);
+                        } else {
+                            members.push(id);
+                        }
+                    });
+                }
 
                 // Add the permissions summary
                 $('#creatediscussion-permissions', $rootel).html(data.summary);
@@ -154,7 +170,7 @@ define(['jquery', 'oae.core'], function ($, oae) {
             var displayName = $.trim($('#creatediscussion-name', $rootel).val());
             var discussionTopic = $.trim($('#creatediscussion-topic', $rootel).val());
 
-            oae.api.discussion.createDiscussion(displayName, discussionTopic, visibility, [], members, function (err, data) {
+            oae.api.discussion.createDiscussion(displayName, discussionTopic, visibility, managers, members, function (err, data) {
                 // If the creation succeeded, redirect to the discussion profile
                 if (!err) {
                     window.location = data.profilePath;

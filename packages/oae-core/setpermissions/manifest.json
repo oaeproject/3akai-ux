@@ -1,23 +1,11 @@
 {
-    "i18n": {
-        "af_ZA": "bundles/af_ZA.properties",
-        "ca_ES": "bundles/ca_ES.properties",
-        "cy_GB": "bundles/cy_GB.properties",
-        "de_DE": "bundles/de_DE.properties",
-        "default": "bundles/default.properties",
-        "es_ES": "bundles/es_ES.properties",
-        "fi_FI": "bundles/fi_FI.properties",
-        "fr_FR": "bundles/fr_FR.properties",
-        "hi_IN": "bundles/hi_IN.properties",
-        "nl_NL": "bundles/nl_NL.properties",
-        "pl_PL": "bundles/pl_PL.properties",
-        "pt_BR": "bundles/pt_BR.properties",
-        "ru_RU": "bundles/ru_RU.properties",
-        "sv_SE": "bundles/sv_SE.properties",
-        "tr_TR": "bundles/tr_TR.properties",
-        "uk_UA": "bundles/uk_UA.properties",
-        "val_ES": "bundles/val_ES.properties",
-        "zh_CN": "bundles/zh_CN.properties"
-    },
-    "src": "setpermissions.html"
+  "i18n": {
+    "ca_ES": "bundles/ca_ES.properties",
+    "de_DE": "bundles/de_DE.properties",
+    "default": "bundles/default.properties",
+    "es_ES": "bundles/es_ES.properties",
+    "fr_FR": "bundles/fr_FR.properties",
+    "pt_BR": "bundles/pt_BR.properties"
+  },
+  "src": "setpermissions.html"
 }

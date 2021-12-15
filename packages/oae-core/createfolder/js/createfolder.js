@@ -104,25 +104,28 @@ define(['jquery', 'oae.core'], function ($, oae) {
             // Event that will be triggered when permission changes have been made in the `setpermissions` widget
             $(document).on('oae.setpermissions.changed.' + setPermissionsId, function(ev, data) {
                 // Update visibility for folder
-                visibility = data.visibility;
+                visibility = data.visibility || visibility;
 
-                managers = [contextData.id];
-                members = [];
-
-                _.each(data.selectedPrincipalItems, function(selectedPrincipalItem) {
-                    // Since we've already added the current context as a manager, ignore it as
-                    // a selected item. We only consider other items (the current user, if
-                    // applicable, or any other added principal)
-                    if (selectedPrincipalItem.id !== contextData.id) {
-                        if (selectedPrincipalItem.id === oae.data.me.id) {
-                            // Add the current user as a manager if selected
-                            managers.push(oae.data.me.id);
+                if (data.members) {
+                    managers = [];
+                    members = [];
+                    
+                    _.each(data.members, function(role, id) {
+                        if (role === 'manager') {
+                            managers.push(id);
                         } else {
-                            // Add all other items as members
-                            members.push(selectedPrincipalItem.shareId);
+                            members.push(id);
                         }
-                    }
-                });
+                    });
+
+                    _.each(data.invitations, function(invitation, id) {
+                        if (invitation.role === 'manager') {
+                            managers.push(id);
+                        } else {
+                            members.push(id);
+                        }
+                    });
+                }
 
                 // Add the permissions summary
                 $('#createfolder-permissions', $rootel).html(data.summary);

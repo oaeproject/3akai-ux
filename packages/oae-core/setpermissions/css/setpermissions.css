@@ -59,3 +59,67 @@
         float: none;
     }
 }
+
+/* Share panel */
+
+#setpermissions-overview-visibility {
+    padding: 10px;
+    margin-bottom: 25px;
+}
+
+#setpermissions-share-add-more i {
+    font-size: 13px;
+    margin-right: 2px;
+}
+
+#setpermissions-share-role {
+    height: auto;
+    margin: 12px 0 0;
+    width: 150px;
+}
+
+#setpermissions-share-role-label {
+    font-weight: 200;
+    margin: 17px 10px 0 0;
+}
+
+#setpermissions-change-visibility {
+    margin-top: -4px;
+}
+
+#setpermissions-share-footer,
+#setpermissions-visibility-footer {
+    padding: 0px;
+    margin-bottom: 8px;
+    margin-top: 20px;
+    margin-left: -13px;
+}
+
+#setpermissions-overview-shared, 
+#setpermissions-overview-invitations {
+    padding: 10px;
+}
+
+#setpermissions-overview-invitations > .setpermissions-overview-header {
+    margin-top: 0px;
+    margin-left: 5px;
+}
+
+#setpermissions-overview-selected-shared-container > li > div.oae-list-compact-item > div > div > div.oae-listitem-actions > div > select, 
+#setpermissions-overview-selected-invitations-container > li > div.oae-list-compact-item > div > div > div.oae-listitem-actions > div > select {
+    height: 31px;
+    padding: 4px;
+    width: 150px;
+}
+
+#setpermissions-overview-selected-shared-container > li > div.oae-list-compact-item > div > div > div.oae-listitem-actions,
+#setpermissions-overview-selected-invitations-container > li > div.oae-list-compact-item > div > div > div.oae-listitem-actions {
+    margin-top: -4px;
+}
+
+/* Align buttons in the title of the well titles with the title text */
+#setpermissions-share-add-more {
+    float: right;
+    margin-top: -3px;
+    padding: 4px 12px;
+}

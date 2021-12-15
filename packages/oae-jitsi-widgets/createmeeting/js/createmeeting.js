@@ -7,6 +7,7 @@ define(['jquery', 'oae.core'], function ($, oae) {
 
         // Variable that keeps track of the people and groups to share this meeting with
         var members = [];
+        var managers = [];
 
         // Variable that keeps track of the selected visibility for the meeting to create
         var visibility = null;
@@ -34,7 +35,7 @@ define(['jquery', 'oae.core'], function ($, oae) {
             var meetingContactList = $('#createmeeting-jitsi-contact-list').is(':checked').toString();
 
             // Create the meeting
-            oae.api.meetingJitsi.createMeeting(meetingName, meetingDescription, meetingChat, meetingContactList, visibility, [], members, function (err, data) {
+            oae.api.meetingJitsi.createMeeting(meetingName, meetingDescription, meetingChat, meetingContactList, visibility, managers, members, function (err, data) {
 
                 // If the creation succeeded, redirect to the meeting profile
                 if (!err) {
@@ -129,9 +130,28 @@ define(['jquery', 'oae.core'], function ($, oae) {
             $(document).on('oae.setpermissions.changed.' + setPermissionsId, function (ev, data) {
 
                 // Update visibility for the meeting
-                visibility = data.visibility;
+                visibility = data.visibility || visibility;
 
-                members = _.pluck(data.selectedPrincipalItems, 'shareId');
+                // Update members of the document
+                if (data.members) {
+                    managers = [];
+                    members = [];
+                    
+                    _.each(data.members, function(role, id) {
+                        if (role === 'manager') {
+                            managers.push(id);
+                        } else {
+                            members.push(id);
+                        }
+                    });
+                     _.each(data.invitations, function(invitation, id) {
+                        if (invitation.role === 'manager') {
+                            managers.push(id);
+                        } else {
+                            members.push(id);
+                        }
+                    });
+                }
 
                 // Add the permissions summary
                 $('#createmeeting-jitsi-permissions', $rootel).html(data.summary);
@@ -159,7 +179,7 @@ define(['jquery', 'oae.core'], function ($, oae) {
             oae.api.widget.insertWidget('setpermissions', setPermissionsId, $setPermissionsContainer, false, {
                 'count': 1,
                 'preFill': preFill,
-                'type': 'collabdoc',
+                'type': 'meeting-jitsi',
                 'visibility': visibility
             });
 

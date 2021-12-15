@@ -1,475 +1,168 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="css/setpermissions.css" />
 
-<div id="setpermissions-container"><!-- --></div>
+<div id="setpermissions-visibility"><!-- --></div>
+<div id="setpermissions-share"><!-- --></div>
+<div id="setpermissions-manage"><!-- --></div>
 
-<div id="setpermissions-template"><!--
-    <div id="setpermissions-form" role="form">
-        <h4>__MSG__VISIBILITY__</h4>
-        <div class="radio">
-            <label>
-                <input type="radio" value="private" name="setpermissions-visibility" class="pull-left" {if visibility === 'private'} checked="checked"{/if}/>
-                <i class="fa fa-oae-private pull-left"></i>
-                <span>__MSG__PRIVATE__</span>
-            </label>
+<div id="setpermissions-manage-template"><!--
+    <h4>__MSG__VISIBILITY__</h4>
+    <div id="setpermissions-overview-visibility" class="well">
+        <button type="button" id="setpermissions-change-visibility" class="btn btn-sm pull-right">__MSG__CHANGE__</button>
+        <div id="setpermissions-overview-visibility-container">
+            <i class="fa fa-oae-${visibility} pull-left"></i>
+            <span>
+                {if visibility === 'private'}
+                    __MSG__PRIVATE__
+                {elseif visibility === 'loggedin'}
+                    ${tenantName}
+                {else}
+                    __MSG__PUBLIC__
+                {/if}
+            </span>
         </div>
-        <div class="radio">
-            <label>
-                <input type="radio" value="loggedin" name="setpermissions-visibility" class="pull-left" {if visibility === 'loggedin'} checked="checked"{/if}/>
-                <i class="fa fa-oae-loggedin pull-left"></i>
-                <span>${oae.data.me.tenant.displayName|encodeForHTML}</span>
-            </label>
-        </div>
-        <div class="radio">
-            <label>
-                <input type="radio" value="public" name="setpermissions-visibility" class="pull-left" {if visibility === 'public'} checked="checked"{/if}/>
-                <i class="fa fa-oae-public pull-left"></i>
-                <span>__MSG__PUBLIC__</span>
-            </label>
-        </div>
-
-        <h4>__MSG__SHARE_WITH__</h4>
-        <input type="text" id="setpermissions-share" placeholder="__MSG__ENTER_PEOPLE_GROUPS_AND_EMAIL_ADDRESSES__"/>
-
-        <div id="setpermissions-footer" class="modal-footer">
-            <button type="button" id="setpermissions-cancelpermissions" class="btn btn-link">__MSG__CANCEL__</button>
-            <button type="button" id="setpermissions-savepermissions" class="btn btn-primary">__MSG__UPDATE__</button>
-        </div>
+    </div>
+    <h4>
+        <button type="button" id="setpermissions-share-add-more" class="btn btn-sm"><i class="fa fa-plus-circle"></i> __MSG__ADD_MORE__</button>
+        <span id="setpermissions-overview-shared-title">__MSG__SHARED_WITH__</span>
+    </h4>
+    <div id="setpermissions-overview-shared" class="well">
+        <ul id="setpermissions-overview-selected-shared-container" class="oae-list oae-list-compact setpermissions-overview-selected"></ul>
+    </div>
+    <div id="setpermissions-overview-invitations" class="well">
+        <h5 class="setpermissions-overview-header">__MSG__PENDING_INVITATIONS__</h5>
+        <ul id="setpermissions-overview-selected-invitations-container" class="oae-list oae-list-compact setpermissions-overview-selected"></ul>
     </div>
 --></div>
 
-<div id="setpermissions-summary-template"><!--
-    {var context1 = selectedContextNames[0]}
-    {var context2 = selectedContextNames[1]}
+<div id="setpermissions-overview-selected-template"><!--
+    {macro setpermissionsListItemActions()}
+        {if member.id !== creator}
+            <div class="form-group">
+                <label for="setpermissions-${member.id}-role" class="sr-only">__MSG__SELECT_ROLE_FOR_USER__</label>
+                <select id="setpermissions-${member.id}-role" class="form-control" data-id="${member.id}">
+                    {for role in roles}
+                        <option value="${role.id}" {if member.role === role.id}selected="true"{/if}>${role.name}</option>
+                    {/for}
+                </select>
+            </div>
+            <button type="button" title="__MSG__REMOVE_MEMBER__" class="btn btn-link oae-listitem-remove" data-id="${member.id}">
+                <i class="fa fa-times"><span class="sr-only">__MSG__REMOVE_MEMBER__</span></i>
+            </button>
+        {/if}
+    {/macro}
 
-    <div class="setpermissions-summary clearfix">
-        <div class="col-sm-2">
-            <i class="fa fa-oae-${visibility} large"></i>
-        </div>
-        <div class="col-sm-8 setpermissions-summary-text">
-            {if selectedOutsideContext.length === 0}
-                {if count === 1}
-                    {if selectedContextNames.length === 1}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_SINGULAR__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_SINGULAR__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_SINGULAR__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_SINGULAR__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_SINGULAR__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_SINGULAR__
-                        {/if}
-                    {else}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_CONTEXT2_SINGULAR__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_CONTEXT2_SINGULAR__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_CONTEXT2_SINGULAR__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_CONTEXT2_SINGULAR__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_CONTEXT2_SINGULAR__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_CONTEXT2_SINGULAR__
-                        {/if}
-                    {/if}
-                {else}
-                    {if selectedContextNames.length === 1}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_PLURAL__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_PLURAL__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_PLURAL__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_PLURAL__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_PLURAL__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_PLURAL__
-                        {/if}
-                    {else}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_CONTEXT2_PLURAL__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_CONTEXT2_PLURAL__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_CONTEXT2_PLURAL__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_CONTEXT2_PLURAL__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_CONTEXT2_PLURAL__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_CONTEXT2_PLURAL__
-                        {/if}
-                    {/if}
-                {/if}
-            {elseif selectedOutsideContext.length === 1}
-                {var share1 = selectedOutsideContext[0].displayName}
-                {if count === 1}
-                    {if selectedContextNames.length === 1}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_SHARE_1_SINGULAR__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_SHARE_1_SINGULAR__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_SHARE_1_SINGULAR__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_SHARE_1_SINGULAR__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_SHARE_1_SINGULAR__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_SHARE_1_SINGULAR__
-                        {/if}
-                    {else}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_CONTEXT2_SHARE_1_SINGULAR__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_CONTEXT2_SHARE_1_SINGULAR__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_CONTEXT2_SHARE_1_SINGULAR__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_CONTEXT2_SHARE_1_SINGULAR__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_CONTEXT2_SHARE_1_SINGULAR__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_CONTEXT2_SHARE_1_SINGULAR__
-                        {/if}
-                    {/if}
-                {else}
-                    {if selectedContextNames.length === 1}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_SHARE_1_PLURAL__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_SHARE_1_PLURAL__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_SHARE_1_PLURAL__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_SHARE_1_PLURAL__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_SHARE_1_PLURAL__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_SHARE_1_PLURAL__
-                        {/if}
-                    {else}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_CONTEXT2_SHARE_1_PLURAL__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_CONTEXT2_SHARE_1_PLURAL__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_CONTEXT2_SHARE_1_PLURAL__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_CONTEXT2_SHARE_1_PLURAL__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_CONTEXT2_SHARE_1_PLURAL__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_CONTEXT2_SHARE_1_PLURAL__
-                        {/if}
-                    {/if}
-                {/if}
-            {elseif selectedOutsideContext.length === 2}
-                {var share1 = selectedOutsideContext[0].displayName}
-                {var share2 = selectedOutsideContext[1].displayName}
-                {if count === 1}
-                    {if selectedContextNames.length === 1}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_SHARE_2_SINGULAR__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_SHARE_2_SINGULAR__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_SHARE_2_SINGULAR__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_SHARE_2_SINGULAR__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_SHARE_2_SINGULAR__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_SHARE_2_SINGULAR__
-                        {/if}
-                    {else}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_CONTEXT2_SHARE_2_SINGULAR__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_CONTEXT2_SHARE_2_SINGULAR__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_CONTEXT2_SHARE_2_SINGULAR__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_CONTEXT2_SHARE_2_SINGULAR__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_CONTEXT2_SHARE_2_SINGULAR__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_CONTEXT2_SHARE_2_SINGULAR__
-                        {/if}
-                    {/if}
-                {else}
-                    {if selectedContextNames.length === 1}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_SHARE_2_PLURAL__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_SHARE_2_PLURAL__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_SHARE_2_PLURAL__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_SHARE_2_PLURAL__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_SHARE_2_PLURAL__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_SHARE_2_PLURAL__
-                        {/if}
-                    {else}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_CONTEXT2_SHARE_2_PLURAL__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_CONTEXT2_SHARE_2_PLURAL__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_CONTEXT2_SHARE_2_PLURAL__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_CONTEXT2_SHARE_2_PLURAL__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_CONTEXT2_SHARE_2_PLURAL__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_CONTEXT2_SHARE_2_PLURAL__
-                        {/if}
-                    {/if}
-                {/if}
-            {elseif selectedOutsideContext.length === 3}
-                {var share1 = selectedOutsideContext[0].displayName}
-                {var share2 = selectedOutsideContext[1].displayName}
-                {var share3 = selectedOutsideContext[2].displayName}
-                {if count === 1}
-                    {if selectedContextNames.length === 1}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_SHARE_3_SINGULAR__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_SHARE_3_SINGULAR__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_SHARE_3_SINGULAR__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_SHARE_3_SINGULAR__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_SHARE_3_SINGULAR__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_SHARE_3_SINGULAR__
-                        {/if}
-                    {else}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_CONTEXT2_SHARE_3_SINGULAR__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_CONTEXT2_SHARE_3_SINGULAR__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_CONTEXT2_SHARE_3_SINGULAR__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_CONTEXT2_SHARE_3_SINGULAR__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_CONTEXT2_SHARE_3_SINGULAR__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_CONTEXT2_SHARE_3_SINGULAR__
-                        {/if}
-                    {/if}
-                {else}
-                    {if selectedContextNames.length === 1}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_SHARE_3_PLURAL__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_SHARE_3_PLURAL__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_SHARE_3_PLURAL__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_SHARE_3_PLURAL__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_SHARE_3_PLURAL__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_SHARE_3_PLURAL__
-                        {/if}
-                    {else}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_CONTEXT2_SHARE_3_PLURAL__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_CONTEXT2_SHARE_3_PLURAL__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_CONTEXT2_SHARE_3_PLURAL__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_CONTEXT2_SHARE_3_PLURAL__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_CONTEXT2_SHARE_3_PLURAL__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_CONTEXT2_SHARE_3_PLURAL__
-                        {/if}
-                    {/if}
-                {/if}
-            {elseif selectedOutsideContext.length === 4}
-                {var share1 = selectedOutsideContext[0].displayName}
-                {var share2 = selectedOutsideContext[1].displayName}
-                {var share3 = selectedOutsideContext[2].displayName}
-                {if count === 1}
-                    {if selectedContextNames.length === 1}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_SHARE_4_SINGULAR__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_SHARE_4_SINGULAR__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_SHARE_4_SINGULAR__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_SHARE_4_SINGULAR__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_SHARE_4_SINGULAR__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_SHARE_4_SINGULAR__
-                        {/if}
-                    {else}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_CONTEXT2_SHARE_4_SINGULAR__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_CONTEXT2_SHARE_4_SINGULAR__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_CONTEXT2_SHARE_4_SINGULAR__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_CONTEXT2_SHARE_4_SINGULAR__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_CONTEXT2_SHARE_4_SINGULAR__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_CONTEXT2_SHARE_4_SINGULAR__
-                        {/if}
-                    {/if}
-                {else}
-                    {if selectedContextNames.length === 1}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_SHARE_4_PLURAL__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_SHARE_4_PLURAL__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_SHARE_4_PLURAL__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_SHARE_4_PLURAL__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_SHARE_4_PLURAL__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_SHARE_4_PLURAL__
-                        {/if}
-                    {else}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_CONTEXT2_SHARE_4_PLURAL__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_CONTEXT2_SHARE_4_PLURAL__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_CONTEXT2_SHARE_4_PLURAL__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_CONTEXT2_SHARE_4_PLURAL__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_CONTEXT2_SHARE_4_PLURAL__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_CONTEXT2_SHARE_4_PLURAL__
-                        {/if}
-                    {/if}
-                {/if}
-            {elseif selectedOutsideContext.length > 4}
-                {var share1 = selectedOutsideContext[0].displayName}
-                {var share2 = selectedOutsideContext[1].displayName}
-                {var share3 = selectedOutsideContext[2].displayName}
-                {var shareOther = selectedOutsideContext.length - 3}
-                {if count === 1}
-                    {if selectedContextNames.length === 1}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_SHARE_5+_SINGULAR__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_SHARE_5+_SINGULAR__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_SHARE_5+_SINGULAR__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_SHARE_5+_SINGULAR__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_SHARE_5+_SINGULAR__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_SHARE_5+_SINGULAR__
-                        {/if}
-                    {else}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_CONTEXT2_SHARE_5+_SINGULAR__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_CONTEXT2_SHARE_5+_SINGULAR__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_CONTEXT2_SHARE_5+_SINGULAR__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_CONTEXT2_SHARE_5+_SINGULAR__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_CONTEXT2_SHARE_5+_SINGULAR__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_CONTEXT2_SHARE_5+_SINGULAR__
-                        {/if}
-                    {/if}
-                {else}
-                    {if selectedContextNames.length === 1}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_SHARE_5+_PLURAL__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_SHARE_5+_PLURAL__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_SHARE_5+_PLURAL__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_SHARE_5+_PLURAL__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_SHARE_5+_PLURAL__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_SHARE_5+_PLURAL__
-                        {/if}
-                    {else}
-                        {if resourceType=== 'collabdoc'}
-                            __MSG__PERMISSIONS_DOCUMENT_CONTEXT1_CONTEXT2_SHARE_5+_PLURAL__
-                        {elseif resourceType === 'collabsheet'}
-                            __MSG__PERMISSIONS_COLLABSHEET_CONTEXT1_CONTEXT2_SHARE_5+_PLURAL__
-                        {elseif resourceType === 'discussion'}
-                            __MSG__PERMISSIONS_DISCUSSION_CONTEXT1_CONTEXT2_SHARE_5+_PLURAL__
-                        {elseif resourceType === 'file'}
-                            __MSG__PERMISSIONS_FILE_CONTEXT1_CONTEXT2_SHARE_5+_PLURAL__
-                        {elseif resourceType === 'folder'}
-                            __MSG__PERMISSIONS_FOLDER_CONTEXT1_CONTEXT2_SHARE_5+_PLURAL__
-                        {elseif resourceType === 'link'}
-                            __MSG__PERMISSIONS_LINK_CONTEXT1_CONTEXT2_SHARE_5+_PLURAL__
-                        {/if}
-                    {/if}
-                {/if}
-            {/if}
+    {for member in results}
+        {var memberName = oae.api.util.security().encodeForHTMLAttribute(member.displayName)}
+        ${displayOptions.listItemActions = setpermissionsListItemActions|eat}
+        ${listItem(member, displayOptions)}
+    {/for}
+--></div>
 
-            {if visibility === 'private'}
-                {if resourceType === 'discussion'}
-                    <span>__MSG__VISIBILITY_DISCUSSION_PRIVATE_SINGULAR__</span>
-                {else}
-                    {if count === 1}
-                        <span>__MSG__VISIBILITY_CONTENT_PRIVATE_SINGULAR__</span>
-                    {else}
-                        <span>__MSG__VISIBILITY_CONTENT_PRIVATE_PLURAL__</span>
+<div id="setpermissions-visibility-template"><!--
+    <h4>__MSG__VISIBILITY__</h4>
+    <div class="oae-large-options-container row">
+        <div class="col-sm-4 text-center">
+            <label for="oae-visibility-private" class="{if visibility === 'private'} checked{/if}">
+                <i class="fa fa-check hide"></i>
+                <div class="oae-large-options well">
+                    <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility" class="pull-left" {if visibility === 'private'} checked="checked"{/if} tabindex="0"/>
+                    <i class="fa fa-oae-private large text-center"></i>
+                    <span class="oae-threedots">__MSG__PRIVATE__</span>
+                </div>
+                <small>
+                    {if resourceType=== 'collabdoc'}
+                        __MSG__DOCUMENT_PRIVATE_DESCRIPTION__
+                    {elseif resourceType === 'collabsheet'}
+                        __MSG__DOCUMENT_PRIVATE_DESCRIPTION__
+                    {elseif resourceType === 'discussion'}
+                        __MSG__DISCUSSION_PRIVATE_DESCRIPTION__
+                    {elseif resourceType === 'file'}
+                        __MSG__FILE_PRIVATE_DESCRIPTION__
+                    {elseif resourceType === 'folder'}
+                        __MSG__FOLDER_PRIVATE_DESCRIPTION__
+                    {elseif resourceType === 'link'}
+                        __MSG__LINK_PRIVATE_DESCRIPTION__
                     {/if}
-                {/if}
-            {elseif visibility === 'loggedin'}
-                {var tenant = oae.api.util.security().encodeForHTML(oae.data.me.tenant.displayName)}
-                {if resourceType === 'discussion'}
-                    <span>__MSG__VISIBILITY_DISCUSSION_LOGGEDIN_SINGULAR__</span>
-                {else}
-                    {if count === 1}
-                        <span>__MSG__VISIBILITY_CONTENT_LOGGEDIN_SINGULAR__</span>
-                    {else}
-                        <span>__MSG__VISIBILITY_CONTENT_LOGGEDIN_PLURAL__</span>
-                    {/if}
-                {/if}
-            {elseif visibility === 'public'}
-                {if resourceType === 'discussion'}
-                    <span>__MSG__VISIBILITY_DISCUSSION_PUBLIC_SINGULAR__</span>
-                {else}
-                    {if count === 1}
-                        <span>__MSG__VISIBILITY_CONTENT_PUBLIC_SINGULAR__</span>
-                    {else}
-                        <span>__MSG__VISIBILITY_CONTENT_PUBLIC_PLURAL__</span>
-                    {/if}
-                {/if}
-            {/if}
+                </small>
+            </label>
         </div>
-        <div class="col-sm-2">
-            <button type="button" class="setpermissions-change-permissions btn">__MSG__CHANGE__</button>
+        <div class="col-sm-4 text-center">
+            <label for="oae-visibility-loggedin" class="{if visibility === 'loggedin'} checked{/if}">
+                <i class="fa fa-check hide"></i>
+                <div class="oae-large-options well">
+                    <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility" class="pull-left" {if visibility === 'loggedin'} checked="checked"{/if} tabindex="0"/>
+                    <i class="fa fa-oae-loggedin large text-center"></i>
+                    <span class="oae-threedots">${tenant}</span>
+                </div>
+                <small>
+                    {if resourceType=== 'collabdoc'}
+                        __MSG__DOCUMENT_LOGGEDIN_DESCRIPTION__
+                    {elseif resourceType=== 'collabsheet'}
+                        __MSG__DOCUMENT_LOGGEDIN_DESCRIPTION__
+                    {elseif resourceType === 'discussion'}
+                        __MSG__DISCUSSION_LOGGEDIN_DESCRIPTION__
+                    {elseif resourceType === 'file'}
+                        __MSG__FILE_LOGGEDIN_DESCRIPTION__
+                    {elseif resourceType === 'folder'}
+                        __MSG__FOLDER_LOGGEDIN_DESCRIPTION__
+                    {elseif resourceType === 'link'}
+                        __MSG__LINK_LOGGEDIN_DESCRIPTION__
+                    {/if}
+                </small>
+            </label>
         </div>
+        <div class="col-sm-4 text-center">
+            <label for="oae-visibility-public" class="{if visibility === 'public'} checked{/if}">
+                <i class="fa fa-check hide"></i>
+                <div class="oae-large-options well">
+                    <input type="radio" id="oae-visibility-public" value="public" name="oae-visibility" class="pull-left" {if visibility === 'public'} checked="checked"{/if} tabindex="0"/>
+                    <i class="fa fa-oae-public large text-center"></i>
+                    <span class="oae-threedots">__MSG__PUBLIC__</span>
+                </div>
+                <small>
+                    {if resourceType=== 'collabdoc'}
+                        __MSG__DOCUMENT_PUBLIC_DESCRIPTION__
+                    {elseif resourceType=== 'collabsheet'}
+                        __MSG__DOCUMENT_PUBLIC_DESCRIPTION__
+                    {elseif resourceType === 'discussion'}
+                        __MSG__DISCUSSION_PUBLIC_DESCRIPTION__
+                    {elseif resourceType === 'file'}
+                        __MSG__FILE_PUBLIC_DESCRIPTION__
+                    {elseif resourceType === 'folder'}
+                        __MSG__FOLDER_PUBLIC_DESCRIPTION__
+                    {elseif resourceType === 'link'}
+                        __MSG__LINK_PUBLIC_DESCRIPTION__
+                    {/if}
+                </small>
+            </label>
+        </div>
+    </div>
+    </br>
+    <div id="setpermissions-visibility-footer" class="modal-footer">
+        <button type="button" id="setpermissions-cancelpermissions" class="btn btn-link">__MSG__CANCEL__</button>
+        <button type="button" id="setpermissions-savepermissions" class="btn btn-primary">__MSG__UPDATE__</button>
+    </div>
+--></div>
+
+<div id="setpermissions-share-template"><!--
+    <h4>__MSG__SELECT_USERS_AND_GROUPS_TO_ADD__</h4>
+    <div>
+        <input type="text" id="setpermissions-share-autosuggest" placeholder="__MSG__ENTER_PEOPLE_GROUPS_AND_EMAIL_ADDRESSES__"/>
+    </div>
+    <div class="form-group clearfix">
+        <select id="setpermissions-share-role" class="pull-right form-control">
+            {for role in roles}
+                <option value="${role.id}" {if defaultRole === role.id} selected="true"{/if}>${role.name}</option>
+            {/for}
+        </select>
+        <h4>
+            <label id="setpermissions-share-role-label" for="setpermissions-share-role" class="pull-right">__MSG__ADD_THESE_AS__</label>
+        </h4>
+    </div>
+    <div id="setpermissions-share-footer" class="modal-footer">
+        <button type="button" id="setpermissions-cancelpermissions-share" class="btn btn-link">__MSG__CANCEL__</button>
+        <button type="button" id="setpermissions-savepermissions-share" class="btn btn-primary">__MSG__ADD__</button>
     </div>
 --></div>
 

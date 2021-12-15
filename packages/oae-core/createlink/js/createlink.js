@@ -305,17 +305,30 @@ define(['jquery', 'oae.core', 'jquery.jeditable'], function($, oae) {
             // Event that will be triggered when permission changes have been made in the `setpermissions` widget
             $(document).on('oae.setpermissions.changed.' + setPermissionsId, function(ev, data) {
                 // Update visibility for links
-                visibility = data.visibility;
+                visibility = data.visibility || visibility;
 
                 // Update the members of the added links
                 $.each(addedLinks, function(index, link) {
-                    link.viewers = _.chain(data.selectedPrincipalItems)
-                        .filter(function(selectedPrincipalItem){
-                            return (selectedPrincipalItem.id !== oae.data.me.id);
-                        })
-                        .pluck('shareId')
-                        .value();
-                    link.folders = _.pluck(data.selectedFolderItems, 'id');
+                    link.managers = [];
+                    link.viewers = [];
+
+                    _.each(data.members, function(role, id) {
+                        if (role === 'manager') {
+                            link.managers.push(id);
+                        } else {
+                            link.viewers.push(id);
+                        }
+                    });
+
+                    _.each(data.invitations, function(invitation, id) {
+                        if (invitation.role === 'manager') {
+                            link.managers.push(id);
+                        } else {
+                            link.viewers.push(id);
+                        }
+                    });
+
+                    link.folders = data.selectedFolderItems || link.folders;
                 });
 
                 // Add the permissions summary
@@ -405,7 +418,7 @@ define(['jquery', 'oae.core', 'jquery.jeditable'], function($, oae) {
                         // Show the creating animation and add focus to it so the browser scrolls
                         $spinner.removeClass('hide').focus();
 
-                        oae.api.content.createLink(link.displayName, link.description, visibility, link.link, [], link.viewers, link.folders, function(error, data) {
+                        oae.api.content.createLink(link.displayName, link.description, visibility, link.link, link.managers, link.viewers, link.folders, function(error, data) {
                             $spinner.addClass('hide');
                             if (!error) {
                                 $ok.show();
