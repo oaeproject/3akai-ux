@@ -16,6 +16,7 @@
  * OAE Edit - Fix notifications/share popover re-opening when icon is clicked
  * @see https://github.com/oaeproject/3akai-ux/pull/3525
  * @see https://github.com/lecar-red/bootstrapx-clickover/pull/47
+ * OAE Edit - Add focus handling for screen readers
  */
 
 !function($) {
@@ -34,6 +35,10 @@
     , cinit: function( type, element, options ) {
       this.attr = {};
 
+      // variables to track focus state for screen readers
+      this.targetFocus = false;
+      this.tipFocus = false;
+
       // choose random attrs instead of timestamp ones
       this.attr.me = ((Math.random() * 10) + "").replace(/\D/g, '');
       this.attr.click_event_ns = "click." + this.attr.me + " touchstart." + this.attr.me;
@@ -48,33 +53,60 @@
       // setup our own handlers
       this.$element.on( 'click touchstart', this.options.selector, $.proxy(this.clickery, this) );
 
+      // handle focus events for screen readers
+      this.$element.on('focusin', $.proxy(function() {
+          // keep track of whether the click target has focus
+          this.targetFocus = true;
+      }, this)).on('focusout', $.proxy(function() {
+          this.targetFocus = false;
+          // if the click target loses focus, schedule a check to see if the entire
+          // clickover has lost focus
+          setTimeout(this.checkFocus, 0);
+      }, this));
+
+      this.tipFocusIn = $.proxy(function() {
+          // keep track of whether the clickover content has focus
+          this.tipFocus = true;
+      }, this);
+      this.tipFocusOut = $.proxy(function() {
+          // if the clickover content loses focus, schedule a check to see if the entire
+          // clickover has lost focus
+          this.tipFocus = false;
+          setTimeout(this.checkFocus, 0);
+      }, this);
+      this.checkFocus = $.proxy(function() {
+          // if neither the target nor the content has focus, close the clickover
+          if (!this.targetFocus && !this.tipFocus) {
+              this.hide()
+              this.clickoverHide();
+          }
+      }, this);
+
       // soon add click hanlder to body to close this element
       // will need custom handler inside here
     }
-    , clickery: function(e) {
-      // clickery isn't only run by event handlers can be called by timeout or manually
-      // only run our click handler and
-      // need to stop progration or body click handler would fire right away
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
+    , clickoverHide: function() {
+        // remove focus tracking for screen readers
+        this.tip()
+            .off('focusin', this.tipFocusIn)
+            .off('focusout', this.tipFocusOut);
 
-      // set popover's dim's
-      this.options.width  && this.tip().width(  this.options.width  );
-      this.options.height && this.tip().height( this.options.height );
+        this.$element.removeAttr('data-clickover-open');
 
-      // set popover's tip 'id' for greater control of rendering or css rules
-      this.options.tip_id     && this.tip().attr('id', this.options.tip_id );
+        this.options.esc_close && $(document).unbind('keyup.clickery');
 
-      // add a custom class
-      this.options.class_name && this.tip().addClass(this.options.class_name);
+        $('body').off( this.attr.click_event_ns );
 
-      // we could override this to provide show and hide hooks
-      this[ this.isShown() ? 'hide' : 'show' ]();
+        if ( typeof this.attr.tid == "number" ) {
+            clearTimeout(this.attr.tid);
+            delete this.attr.tid;
+        }
 
-      // if shown add global click closer
-      if ( this.isShown() ) {
+        // provide some callback hooks
+        typeof this.options.onHidden == 'function' && this.options.onHidden.call(this);
+        this.$element.trigger('hidden');
+    }
+    , clickoverShow: function() {
         var that = this;
 
         // close on global request, exclude clicks inside clickover
@@ -111,22 +143,40 @@
         // provide callback hooks for post shown event
         typeof this.options.onShown == 'function' && this.options.onShown.call(this);
         this.$element.trigger('shown');
+
+        // track focus for screen readers
+        this.tip()
+            .on('focusin', this.tipFocusIn)
+            .on('focusout', this.tipFocusOut);
+    }
+    , clickery: function(e) {
+      // clickery isn't only run by event handlers can be called by timeout or manually
+      // only run our click handler and
+      // need to stop progration or body click handler would fire right away
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      // set popover's dim's
+      this.options.width  && this.tip().width(  this.options.width  );
+      this.options.height && this.tip().height( this.options.height );
+
+      // set popover's tip 'id' for greater control of rendering or css rules
+      this.options.tip_id     && this.tip().attr('id', this.options.tip_id );
+
+      // add a custom class
+      this.options.class_name && this.tip().addClass(this.options.class_name);
+
+      // we could override this to provide show and hide hooks
+      this[ this.isShown() ? 'hide' : 'show' ]();
+
+      // if shown add global click closer
+      if ( this.isShown() ) {
+          this.clickoverShow();
       }
       else {
-        this.$element.removeAttr('data-clickover-open');
-
-        this.options.esc_close && $(document).unbind('keyup.clickery');
-
-        $('body').off( this.attr.click_event_ns );
-
-        if ( typeof this.attr.tid == "number" ) {
-          clearTimeout(this.attr.tid);
-          delete this.attr.tid;
-        }
-
-        // provide some callback hooks
-        typeof this.options.onHidden == 'function' && this.options.onHidden.call(this);
-        this.$element.trigger('hidden');
+          this.clickoverHide();
       }
     }
     , isShown: function() {
