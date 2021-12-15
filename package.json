@@ -44,7 +44,7 @@
     "requirejs": "latest",
     "shelljs": "latest",
     "uglify-es": "^3.3.9",
-    "underscore": "latest"
+    "underscore": "1.12.1"
   },
   "dependencies": {
     "lerna": "^3.16.2"
