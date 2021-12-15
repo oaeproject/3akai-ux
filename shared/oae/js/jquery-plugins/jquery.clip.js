@@ -65,5 +65,26 @@ define(['jquery'], function (jQuery) {
                 toggleClip($(this));
             });
         });
+
+        // Hook focusout events to close clips as appropriate
+        $(document).on('focusout', '.oae-clip-content', function(ev) {
+
+            // Get element that has current focus
+            var $activeElement = $(ev.relatedTarget);
+            
+            // No change to clip(s) if active element is a modal
+            if ($('.modal.in').length || $activeElement.parents('.modal').length) {
+                return;
+            }
+
+            // Get clip that is target of event
+            var $clip = $(ev.target).parents('.oae-clip-content');
+
+            // If active element is outside of clip and clip is open, close it
+            if (!$.contains($clip.get(0), $activeElement.get(0)) && $('i.fa-caret-up', $clip).length > 0) {
+                toggleClip($clip);
+            }
+        });
+        
     })(jQuery);
 });
