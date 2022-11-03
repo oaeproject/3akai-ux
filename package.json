@@ -25,7 +25,7 @@
     }
   ],
   "devDependencies": {
-    "grunt": "~0.4.0",
+    "grunt": "~1.5.3",
     "grunt-cli": "1.2.0",
     "grunt-contrib-clean": "1.0.0",
     "grunt-contrib-copy": "1.0.0",
@@ -34,8 +34,8 @@
     "grunt-contrib-qunit": "1.2.0",
     "grunt-contrib-requirejs": "1.0.0",
     "grunt-contrib-uglify-es": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
-    "grunt-exec": "0.4.6",
-    "grunt-git-describe": "2.3.2",
+    "grunt-exec": "0.4.7",
+    "grunt-git-describe": "2.4.4",
     "grunt-text-replace": "0.4.0",
     "grunt-ver": "git://github.com/oaeproject/grunt-ver.git#v0.2.3-hilary-0.2",
     "optimist": "latest",
